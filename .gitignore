@@ -1,0 +1,16 @@
+.metadata/*
+
+#Visual Studio files
+/bin
+/obj
+/Updater/bin
+/Updater/obj
+*.suo
+*.user
+*.[Cc]ache
+*.bak
+
+#OS garbage
+[Tt]humbs.db
+*.DS_STORE
+*.lnk
