@@ -18,7 +18,7 @@
 using System.Threading;
 namespace MCForge.Commands
 {
-    public sealed class CmdRide : Command
+    public class CmdRide : Command
     {
         public override string name { get { return "ride"; } }
         public override string shortcut { get { return ""; } }

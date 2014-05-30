@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdHeartbeat : Command
+    public class CmdHeartbeat : Command
     {
         public override string name { get { return "heartbeat"; } }
         public override string shortcut { get { return "beat"; } }
@@ -31,11 +31,11 @@ namespace MCForge.Commands
         {
             try
             {
-                Heart.Pump(new MCForgeBeat());
+                Heart.Pump(new ClassiCubeBeat());
             }
             catch (Exception e)
             {
-                Server.s.Log("Error with MCForge pump.");
+                Server.s.Log("Error with ClassiCube pump.");
                 Server.ErrorLog(e);
             }
             Player.SendMessage(p, "Heartbeat pump sent.");
@@ -43,7 +43,7 @@ namespace MCForge.Commands
 
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/heartbeat - Forces a pump for the MCForge heartbeat.  DEBUG PURPOSES ONLY.");
+            Player.SendMessage(p, "/heartbeat - Forces a pump for the ClassiCube heartbeat.  DEBUG PURPOSES ONLY.");
         }
     }
 }

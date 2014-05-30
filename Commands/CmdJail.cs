@@ -19,7 +19,7 @@ using System.IO;
 
 namespace MCForge
 {
-    public sealed class CmdJail : Command
+    public class CmdJail : Command
     {
         public override string name { get { return "jail"; } }
         public override string shortcut { get { return ""; } }

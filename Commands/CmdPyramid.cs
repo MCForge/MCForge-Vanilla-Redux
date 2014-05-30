@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 namespace MCForge.Commands
 {
-    public sealed class CmdPyramid : Command
+    public class CmdPyramid : Command
     {
         public override string name { get { return "pyramid"; } }
         public override string shortcut { get { return "pd"; } }

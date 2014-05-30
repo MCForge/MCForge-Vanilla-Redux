@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdDelete : Command
+    public class CmdDelete : Command
     {
         public override string name { get { return "delete"; } }
         public override string shortcut { get { return "d"; } }

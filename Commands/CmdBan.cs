@@ -17,7 +17,7 @@
 */
 using System;
 namespace MCForge.Commands {
-    public sealed class CmdBan : Command {
+    public class CmdBan : Command {
         public override string name { get { return "ban"; } }
         public override string shortcut { get { return ""; } }
         public override string type { get { return "mod"; } }

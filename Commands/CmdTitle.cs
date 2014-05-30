@@ -19,7 +19,7 @@ using System.Text.RegularExpressions;
 using MCForge.SQL;
 namespace MCForge.Commands
 {
-    public sealed class CmdTitle : Command
+    public class CmdTitle : Command
     {
         public override string name { get { return "title"; } }
         public override string shortcut { get { return ""; } }

@@ -20,7 +20,7 @@ using System.Linq;
 using System.Threading;
 namespace MCForge.Commands
 {
-	public sealed class CmdTntWars : Command
+	public class CmdTntWars : Command
 	{
 		public override string name { get { return "tntwars"; } }
 		public override string shortcut { get { return "tw"; } }

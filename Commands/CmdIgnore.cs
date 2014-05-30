@@ -20,7 +20,7 @@
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdIgnore : Command
+    public class CmdIgnore : Command
     {
         public override string name { get { return "ignore"; } }
         public override string shortcut { get { return ""; } }

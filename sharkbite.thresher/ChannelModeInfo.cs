@@ -30,7 +30,7 @@ namespace Sharkbite.Irc
 	/// A simple struct designed to hold al the attributes that 
 	/// are contain in a Channel mode. 
 	/// </summary>
-	public sealed class ChannelModeInfo
+	public class ChannelModeInfo
 	{
 		
 		private ModeAction action;
@@ -91,7 +91,7 @@ namespace Sharkbite.Irc
 
 		internal static ChannelModeInfo[] ParseModes( string[] tokens, int start)
 		{	
-			//This nice piece of code was contributed by Klemen Šavs.
+			//This nice piece of code was contributed by Klemen ï¿½avs.
 			//25 October 2003
 			ArrayList modeInfoArray = new ArrayList();
 			int i = start;

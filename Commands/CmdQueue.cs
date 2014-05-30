@@ -18,7 +18,7 @@
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdQueue : Command
+    public class CmdQueue : Command
     {
         public override string name { get { return "queue"; } }
         public override string shortcut { get { return "qz"; } }

@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace MCForge.Commands
 {
-    public sealed class CmdReplace : Command
+    public class CmdReplace : Command
     {
         public override string name { get { return "replace"; } }
         public override string shortcut { get { return "r"; } }

@@ -18,7 +18,7 @@
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdReload : Command
+    public class CmdReload : Command
     {
         public override string name { get { return "reload"; } }
         public override string shortcut { get { return "rd"; } }

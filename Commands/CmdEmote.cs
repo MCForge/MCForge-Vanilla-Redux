@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdEmote : Command
+    public class CmdEmote : Command
     {
         public override string name { get { return "emote"; } }
         public override string shortcut { get { return "<3"; } }

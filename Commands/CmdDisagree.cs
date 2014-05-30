@@ -19,7 +19,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdDisagree : Command
+    public class CmdDisagree : Command
     {
         public override string name { get { return "disagree"; } }
         public override string shortcut { get { return ""; } }

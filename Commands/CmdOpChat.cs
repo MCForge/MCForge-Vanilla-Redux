@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdOpChat : Command
+    public class CmdOpChat : Command
     {
         public override string name { get { return "opchat"; } }
         public override string shortcut { get { return ""; } }

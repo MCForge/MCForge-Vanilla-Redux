@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdMeasure : Command
+    public class CmdMeasure : Command
     {
         public override string name { get { return "measure"; } }
         public override string shortcut { get { return "ms"; } }

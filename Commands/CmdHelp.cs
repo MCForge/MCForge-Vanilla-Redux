@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 namespace MCForge.Commands
 {
-    public sealed class CmdHelp : Command
+    public class CmdHelp : Command
     {
         public override string name { get { return "help"; } }
         public override string shortcut { get { return ""; } }

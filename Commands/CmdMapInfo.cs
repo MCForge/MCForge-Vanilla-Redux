@@ -19,7 +19,7 @@ using System;
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdMapInfo : Command
+    public class CmdMapInfo : Command
     {
         public override string name { get { return "mapinfo"; } }
         public override string shortcut { get { return "status"; } }

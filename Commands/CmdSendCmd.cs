@@ -19,7 +19,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdSendCmd : Command
+    public class CmdSendCmd : Command
     {
         public override string name { get { return "sendcmd"; } }
         public override string shortcut { get { return ""; } }

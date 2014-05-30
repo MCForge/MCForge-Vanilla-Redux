@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdCompLoad : Command
+    public class CmdCompLoad : Command
     {
         public override string name { get { return "compload"; } }
         public override string shortcut { get { return "cml"; } }

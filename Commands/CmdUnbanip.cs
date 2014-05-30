@@ -20,7 +20,7 @@ using System.Data;
 using MCForge.SQL;
 namespace MCForge.Commands
 {
-    public sealed class CmdUnbanip : Command
+    public class CmdUnbanip : Command
     {
         public override string name { get { return "unbanip"; } }
         public override string shortcut { get { return ""; } }

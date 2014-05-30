@@ -23,7 +23,7 @@ namespace MCForge.Commands
     /// This is the command /aka
     /// use /help aka in-game for more info
     /// </summary>
-    public sealed class CmdAka : Command
+    public class CmdAka : Command
     {
         public override string name { get { return "aka"; } }
         public override string shortcut { get { return ""; } }

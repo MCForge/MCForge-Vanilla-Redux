@@ -18,7 +18,7 @@
 using System.Collections.Generic;
 namespace MCForge.Commands
 {
-    public sealed class CmdSpin : Command
+    public class CmdSpin : Command
     {
         public override string name { get { return "spin"; } }
         public override string shortcut { get { return ""; } }

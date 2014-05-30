@@ -35,7 +35,7 @@ namespace Sharkbite.Irc
 	/// by a remote system returns a username. The server is controlled via static
 	/// methods all of which are Thread safe.
 	/// </summary>
-	public sealed class Identd
+	public class Identd
 	{
 		private static TcpListener listener;
 		private static bool running; 
@@ -137,7 +137,7 @@ namespace Sharkbite.Irc
 					goto loop;
 				}
 			}
-			catch( Exception e ) 
+			catch( Exception) 
 			{
 				Debug.WriteLineIf( Rfc2812Util.IrcTrace.TraceInfo,"[" + Thread.CurrentThread.Name +"] Identd::Run() Identd stopped");
 			}

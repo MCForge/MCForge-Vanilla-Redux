@@ -19,7 +19,7 @@ using System.Security.Cryptography;
 using System.Text;
 namespace MCForge.Commands
 {
-    public sealed class CmdDurl : Command
+    public class CmdDurl : Command
     {
         public override string name { get { return "durl"; } }
         public override string shortcut { get { return ""; } }

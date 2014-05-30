@@ -18,7 +18,7 @@
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdXJail : Command
+    public class CmdXJail : Command
     {
         public override string name { get { return "xjail"; } }
         public override string shortcut { get { return "xj"; } }

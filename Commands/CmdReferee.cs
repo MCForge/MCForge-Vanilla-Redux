@@ -21,7 +21,7 @@ namespace MCForge.Commands
     /// This is the command /referee
     /// use /help referee in-game for more info
     /// </summary>
-    public sealed class CmdReferee : Command
+    public class CmdReferee : Command
     {
         public override string name { get { return "ref"; } }
         public override string shortcut { get { return ""; } }
@@ -35,7 +35,7 @@ namespace MCForge.Commands
             if (p.referee)
             {
                 p.referee = false;
-                LevelPermission perm = Group.findPlayerGroup(name).Permission;
+      //          LevelPermission perm = Group.findPlayerGroup(name).Permission;
                 Player.GlobalDie(p, false);
                 Player.GlobalChat(p, p.color + p.name + Server.DefaultColor + " is no longer a referee", false);
                 if (Server.zombie.GameInProgess())

@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 namespace MCForge.Commands
 {
-    public sealed class CmdRestartPhysics : Command
+    public class CmdRestartPhysics : Command
     {
         public override string name { get { return "restartphysics"; } }
         public override string shortcut { get { return "rp"; } }

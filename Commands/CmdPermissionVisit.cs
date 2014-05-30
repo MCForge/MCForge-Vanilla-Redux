@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdPermissionVisit : Command
+    public class CmdPermissionVisit : Command
     {
         public override string name { get { return "pervisit"; } }
         public override string shortcut { get { return ""; } }

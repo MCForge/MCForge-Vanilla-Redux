@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-	public sealed class CmdReveal : Command
+	public class CmdReveal : Command
 	{
 		public override string name { get { return "reveal"; } }
 		public override string shortcut { get { return ""; } }

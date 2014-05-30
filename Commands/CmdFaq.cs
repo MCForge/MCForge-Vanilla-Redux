@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdFaq : Command
+    public class CmdFaq : Command
     {
         public override string name { get { return "faq"; } }
         public override string shortcut { get { return ""; } }

@@ -19,7 +19,7 @@ using System.Data;
 using MCForge.SQL;
 namespace MCForge.Commands
 {
-	public sealed class CmdSeen : Command
+	public class CmdSeen : Command
 	{
 		public override string name { get { return "seen"; } }
 		public override string shortcut { get { return ""; } }

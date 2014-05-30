@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdUnflood : Command
+    public class CmdUnflood : Command
     {
         public override string name { get { return "unflood"; } }
         public override string shortcut { get { return ""; } }

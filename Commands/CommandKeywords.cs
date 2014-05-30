@@ -18,7 +18,7 @@
 using System.Collections.Generic;
 namespace MCForge.Commands
 {
-    public sealed class CommandKeywords
+    public class CommandKeywords
     {
         public static List<CommandKeywords> all = new List<CommandKeywords>();
         public Command Cmd;
@@ -111,7 +111,6 @@ namespace MCForge.Commands
             new CommandKeywords((new CmdFollow()), "posses impersonate");
             new CommandKeywords((new CmdFreeze()), "ice move player");
             new CommandKeywords((new CmdGarbage()), "memory clean unused");
-            new CommandKeywords((new CmdGifToCin()), "gif image cinema cin");
             new CommandKeywords((new CmdGive()), "money pay " + Server.moneys);
             new CommandKeywords((new CmdGlobal()), "irc mcforge " + Server.ircChannel);
             new CommandKeywords((new CmdGlobalCLS()), "clear global chat");
@@ -162,6 +161,7 @@ namespace MCForge.Commands
             new CommandKeywords((new CmdMessageBlock()), "message block msg");
             new CommandKeywords((new CmdMissile()), "gun missil");
             new CommandKeywords((new CmdMode()), "block place");
+            new CommandKeywords((new CmdModel()), "change model");
             new CommandKeywords((new CmdModerate()), "chat enable disable allow disallow");
             new CommandKeywords((new CmdMoney()), "cash " + Server.moneys);
             new CommandKeywords((new CmdMove()), "player pos");
@@ -291,6 +291,7 @@ namespace MCForge.Commands
             new CommandKeywords((new CmdWarn()), "kick user");
             new CommandKeywords((new CmdWarp()), "move teleport tp pos");
             new CommandKeywords((new CmdWaypoint()), "way point");
+			new CommandKeywords((new CmdWeather()), "snow sunny rain");
             new CommandKeywords((new CmdWhisper()), "tell private");
             new CommandKeywords((new CmdWhitelist()), "white list allow acces server");
             new CommandKeywords((new CmdWhoip()), "who ip info");

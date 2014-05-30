@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdCmdBind : Command
+    public class CmdCmdBind : Command
     {
         public override string name { get { return "cmdbind"; } }
         public override string shortcut { get { return "cb"; } }

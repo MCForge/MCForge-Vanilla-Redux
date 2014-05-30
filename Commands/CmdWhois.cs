@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdWhois : Command
+    public class CmdWhois : Command
     {
         public override string name { get { return "whois"; } }
         public override string shortcut { get { return ""; } }

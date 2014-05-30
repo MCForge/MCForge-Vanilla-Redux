@@ -22,7 +22,7 @@ namespace MCForge
 {
     namespace SQL
     {
-        public sealed class MySQLTransactionHelper : DatabaseTransactionHelper
+        public class MySQLTransactionHelper : DatabaseTransactionHelper
         {
             private MySqlConnection connection = null;
             private MySqlTransaction transaction = null;

@@ -31,7 +31,7 @@ namespace MCForge
 	/// <summary>
 	/// Serializer Class.
 	/// </summary>
-	public sealed class Serializer
+	public class Serializer
 	{
 		//types:
         // N = null

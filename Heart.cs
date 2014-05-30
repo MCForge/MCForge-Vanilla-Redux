@@ -47,8 +47,7 @@ namespace MCForge {
 
             //Keep in this order.
             new MinecraftBeat(),
-            new WOMBeat(),
-            new MCForgeBeat(),
+			new ClassiCubeBeat(),
         };
 
 

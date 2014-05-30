@@ -32,10 +32,10 @@ namespace Sharkbite.Irc
 	/// <summary>
 	/// RFC 2812 Utility methods.
 	/// </summary>
-	public sealed class Rfc2812Util 
+	public class Rfc2812Util 
 	{
 		// Regex that matches the standard IRC 'nick!user@host' 
-		private static readonly Regex userRegex;
+	//	private static readonly Regex userRegex;
 		// Regex that matches a legal IRC nick 
 		private static readonly Regex nickRegex;
 		//Regex to create a UserInfo from a string
@@ -57,7 +57,6 @@ namespace Sharkbite.Irc
 		/// </summary>
 		static Rfc2812Util() 
 		{
-			userRegex = new Regex( User );
 			nickRegex = new Regex( Nick ); 
 			nameSplitterRegex = new Regex("[!@]",RegexOptions.Compiled | RegexOptions.Singleline );
 		}

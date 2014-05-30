@@ -21,7 +21,7 @@ using System.IO;
 using System.Net;
 namespace MCForge.Commands
 {
-    public sealed class CmdNyan : Command
+    public class CmdNyan : Command
     {
         public override string name { get { return "nyan"; } }
         public override string shortcut { get { return ""; } }

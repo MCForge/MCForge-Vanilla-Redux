@@ -23,10 +23,9 @@ using System.Threading;
 namespace MCForge
 {
     //I
-    public sealed class AutoSaver
+    public class AutoSaver
     {
         static int _interval;
-        string backupPath = @Server.backupLocation;
 
         static int count = 1;
         public AutoSaver(int interval)

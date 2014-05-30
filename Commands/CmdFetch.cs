@@ -24,7 +24,7 @@ namespace MCForge.Commands
     /// This is the command /fetch
     /// use /help fetch in-game for more info
     /// </summary>
-	public sealed class CmdFetch : Command
+	public class CmdFetch : Command
 	{
 		public override string name { get { return "fetch"; } }
 		public override string shortcut { get { return "fb"; } }

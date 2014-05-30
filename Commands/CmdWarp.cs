@@ -19,7 +19,7 @@ using System;
 using System.Threading;
 namespace MCForge.Commands
 {
-    public sealed class CmdWarp : Command
+    public class CmdWarp : Command
     {
         public override string name { get { return "warp"; } }
         public override string shortcut { get { return ""; } }

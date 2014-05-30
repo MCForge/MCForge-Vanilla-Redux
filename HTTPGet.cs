@@ -32,13 +32,12 @@ using System.Net;
 using System.Text;
 namespace MCForge
 {
-    public sealed class HTTPGet
+    public class HTTPGet
     {
         private HttpWebRequest request;
         private HttpWebResponse response;
 
         private string responseBody;
-        private string escapedBody;
         private int statusCode;
         private double responseTime;
 
@@ -80,7 +79,6 @@ namespace MCForge
             {
                 this.response = (HttpWebResponse)ex.Response;
                 this.responseBody = "No Server Response";
-                this.escapedBody = "No Server Response";
                 this.responseTime = 0.0;
             }
         }
@@ -93,7 +91,6 @@ namespace MCForge
             escapedBody = escapedBody.Replace(">", "&gt;");
             escapedBody = escapedBody.Replace("'", "&apos;");
             escapedBody = escapedBody.Replace("\"", "&quot;");
-            this.escapedBody = escapedBody;
 
             return escapedBody;
         }

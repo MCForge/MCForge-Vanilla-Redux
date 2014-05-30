@@ -31,7 +31,7 @@ namespace MCForge.Commands
 		{
 
 			if (message == "") { Help(p); return; }
-			Player who = Player.Find(message.Split(' ')[0]);
+	//		Player who = Player.Find(message.Split(' ')[0]);
 			string cmd = message.Split(' ')[0].ToUpper();
 
 			string par;
@@ -46,11 +46,11 @@ namespace MCForge.Commands
 			catch
 			{ par2 = ""; }
 
-			string par3;
-			try
-			{ par3 = message.Split(' ')[3]; }
-			catch
-			{ par3 = ""; }
+			//string par3;
+			//try
+			//{ par3 = message.Split(' ')[3]; }
+			//catch
+			//{ par3 = ""; }
 
 			if (cmd == "GO")
 			{

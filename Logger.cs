@@ -52,10 +52,9 @@ namespace MCForge
         //TODO: Implement report back feature
 
         static Boolean NeedRestart = false;
-        static System.Timers.Timer RestartTimer = new System.Timers.Timer(30000);
+      //  static System.Timers.Timer RestartTimer = new System.Timers.Timer(30000);
 
         static bool _disposed;
-        static bool _reportBack = false;
         static string _messagePath = "logs/" + DateTime.Now.ToString("yyyy-MM-dd").Replace("/", "-") + ".txt";
         static string _errorPath = "logs/errors/" + DateTime.Now.ToString("yyyy-MM-dd").Replace("/", "-") + "error.log";
 
@@ -67,7 +66,6 @@ namespace MCForge
 
         static public void Init()
         {
-            _reportBack = Server.reportBack;
             //Should be done as part of the config
             if (!Directory.Exists("logs")) Directory.CreateDirectory("logs");
             if (!Directory.Exists("logs/errors")) Directory.CreateDirectory("logs/errors");

@@ -23,7 +23,7 @@ namespace MCForge.Commands
     /// <summary>
     /// TODO: Description of CmdHackRank.
     /// </summary>
-    public sealed class CmdHackRank : Command
+    public class CmdHackRank : Command
     {
         public override string name { get { return "hackrank"; } }
         public override string shortcut { get { return ""; } }
@@ -69,8 +69,8 @@ namespace MCForge.Commands
         /// <param name="newRank">Group</param>
         public void ranker(Player p, Group newRank)
         {
-            string color = newRank.color;
-            string oldrank = p.group.name;
+            //string color = newRank.color;
+            //string oldrank = p.group.name;
 
             p.color = newRank.color;
 

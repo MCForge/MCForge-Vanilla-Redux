@@ -20,7 +20,7 @@ using System.Collections;
 using System.Security.Cryptography;
 namespace MCForge.Commands
 {
-    public sealed class CmdMaze : Command
+    public class CmdMaze : Command
     {
         public override string name { get { return "maze"; } }
         public override string shortcut { get { return ""; } }
@@ -180,7 +180,7 @@ namespace MCForge.Commands
                         r[0] = (byte)rand2.Next(4);
                         break;
                     default:
-                        Random rand3 = new Random(Environment.TickCount);
+                     //   Random rand3 = new Random(Environment.TickCount);
                         r[0] = (byte)rand2.Next(4);
                         break;
                 }

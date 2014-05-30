@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdRagequit : Command
+    public class CmdRagequit : Command
     {
         public override string name { get { return "ragequit"; } }
         public override string shortcut { get { return ""; } }

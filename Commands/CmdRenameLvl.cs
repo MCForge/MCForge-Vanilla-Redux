@@ -20,7 +20,7 @@ using System.IO;
 using MCForge.SQL;
 namespace MCForge.Commands
 {
-    public sealed class CmdRenameLvl : Command
+    public class CmdRenameLvl : Command
     {
         public override string name { get { return "renamelvl"; } }
         public override string shortcut { get { return ""; } }

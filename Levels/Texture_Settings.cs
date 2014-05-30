@@ -23,7 +23,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 namespace MCForge.Levels.Textures
 {
-    public sealed class LevelTextures
+    public class LevelTextures
     {
         #region ==VARS==
         string cachecfg = "";
@@ -375,7 +375,7 @@ namespace MCForge.Levels.Textures
                     if (match.Success)
                     {
                         string worldName = match.Groups[1].Value;
-                        bool firstTime = match.Groups[2].Success;
+                      //  bool firstTime = match.Groups[2].Success;
                         Level l = Level.Find(worldName);
                         if (l != null)
                         {

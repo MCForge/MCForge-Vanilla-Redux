@@ -27,7 +27,7 @@ Ideas, concepts, and code were used from the following two sources:
 using System;
 namespace MCForge
 {
-    public sealed class MapGenerator
+    public class MapGenerator
     {
         static bool Inuse = false;
         static float[] terrain;

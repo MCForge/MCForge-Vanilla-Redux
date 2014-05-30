@@ -19,7 +19,7 @@ using System;
 
 namespace MCForge.Commands
 {
-    public sealed class CmdGarbage : Command
+    public class CmdGarbage : Command
     {
         public override string name { get { return "garbage"; } }
         public override string shortcut { get { return ""; } }

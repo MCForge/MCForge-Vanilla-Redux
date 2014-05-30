@@ -33,7 +33,7 @@ namespace Sharkbite.Irc
 	/// had any activity within the timeout period so that
 	/// inactive sessions can be closed.
 	/// </summary>
-	public sealed class DccFileSessionManager
+	public class DccFileSessionManager
 	{
 		//How long to wait
 		private TimeSpan timeout;

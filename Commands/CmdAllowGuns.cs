@@ -20,7 +20,7 @@ using System;
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdAllowGuns : Command
+    public class CmdAllowGuns : Command
     {
         public override string name { get { return "allowguns"; } }
         public override string shortcut { get { return "ag"; } }

@@ -23,7 +23,7 @@ namespace MCForge
 	/// <summary>
 	/// Description of MojangAccount.
 	/// </summary>
-	public sealed class MojangAccount
+	public class MojangAccount
 	{
 		static Dictionary<string, int> users = new Dictionary<string, int>();
 		public static bool HasID(string truename) 

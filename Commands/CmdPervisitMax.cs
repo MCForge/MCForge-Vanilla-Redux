@@ -19,7 +19,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdPervisitMax : Command
+    public class CmdPervisitMax : Command
     {
         public override string name { get { return "pervisitmax"; } }
         public override string shortcut { get { return ""; } }

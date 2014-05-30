@@ -1,13 +1,14 @@
-MCForge Vanilla
+MCForge Classic
 ===============
 
 Minecraft Classic Custom Server Software
 
+#This repo is no longer being updated and will be deleted on 4/1/13
 
-About MCForge Vanilla
+About MCForge Classic
 ---------------------
 
-MCForge Vanilla is a classic Minecraft server software based on MCLawl.  It has been released under an open-source license to allow the community to help us develop it further.  We welcome all pull requests and will merge them in at our own discretion.  For more information, visit [our wiki][1].
+MCForge classic is a classic Minecraft server software based on MCLawl.  It has been released under an open-source license to allow the community to help us develop it further.  We welcome all pull requests and will merge them in at our own discretion.  For more information, visit [our wiki][1].
 
 The official website for MCForge is [mcforge.net][2]
 
@@ -25,7 +26,8 @@ A good habbit would be to *first* make some couple of commitments, then BEFORE p
 Copyright/License
 -----------------
 
-Unless otherwise noted, this software and its source code is Copyright 2011-2014 MCForge.
+Unless otherwise noted, this software and its source code is
+Copyright 2011 MCForge & Copyright 2012 David Mitchell. licensed under the [MIT][3]
 
 In an effort to add copyright notices to the source code, we utilized automated methods to insert these.
 Some copyright attributions may be incorrect.  If you identify any such cases, please notify us immediately so we may correct it.

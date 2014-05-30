@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdLowlag : Command
+    public class CmdLowlag : Command
     {
         public override string name { get { return "lowlag"; } }
         public override string shortcut { get { return ""; } }

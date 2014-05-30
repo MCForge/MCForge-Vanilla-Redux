@@ -1,3 +1,9 @@
+v6.0.0
+-New
+  -Added full CPE (Other than EmoteFix) support, also adding /setmodel and /weather
+  -Mass Cleanup
+  -Took out Obsolete tags as the software itself relied on olsolete methods
+
 v5.5.12
 -New:
   -Dynamic compilation for external DLLs (thanks headdetect)

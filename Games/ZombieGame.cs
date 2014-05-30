@@ -26,7 +26,7 @@ using System.Timers;
 
 namespace MCForge
 {
-    public sealed class ZombieGame
+    public class ZombieGame
     {
         public int amountOfRounds = 0;
         public int limitRounds = 0;

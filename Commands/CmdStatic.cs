@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdStatic : Command
+    public class CmdStatic : Command
     {
         public override string name { get { return "static"; } }
         public override string shortcut { get { return "t"; } }

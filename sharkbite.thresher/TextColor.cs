@@ -31,7 +31,7 @@ namespace Sharkbite.Irc
 	/// This class conatins a set of methods for adding and removing mIRC color
 	/// and other control codes.
 	/// </summary>
-	public sealed class TextColor
+	public class TextColor
 	{
 
 		private const char ColorControl = '\x0003';

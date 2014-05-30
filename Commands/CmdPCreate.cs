@@ -23,7 +23,7 @@ namespace MCForge.Commands
     /// This is the command /pcreate
     /// use /help pcreate in-game for more info
     /// </summary>
-    public sealed class CmdPCreate : Command
+    public class CmdPCreate : Command
     {
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public override bool museumUsable { get { return true; } }

@@ -21,7 +21,7 @@ using System.Linq;
 
 namespace MCForge.Commands
 {
-    public sealed class CmdReplaceAll : Command
+    public class CmdReplaceAll : Command
     {
         public override string name { get { return "replaceall"; } }
         public override string shortcut { get { return "ra"; } }

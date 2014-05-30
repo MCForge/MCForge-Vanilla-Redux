@@ -14,7 +14,7 @@ permissions and limitations under the Licenses.
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdSearch : Command
+    public class CmdSearch : Command
     {
         public override string name { get { return "search"; } }
         public override string shortcut { get { return ""; } }

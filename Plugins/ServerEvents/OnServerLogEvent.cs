@@ -21,7 +21,7 @@ using System.Linq;
 
 namespace MCForge
 {
-    public sealed class OnServerLogEvent
+    public class OnServerLogEvent
     {
         internal static List<OnServerLogEvent> events = new List<OnServerLogEvent>();
         Plugin plugin;

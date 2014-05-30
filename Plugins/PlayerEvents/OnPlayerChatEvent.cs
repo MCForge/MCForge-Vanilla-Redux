@@ -23,7 +23,7 @@ namespace MCForge
     /// <summary>
     /// This event is called whenever a player chats on the server
     /// </summary>
-    public sealed class OnPlayerChatEvent
+    public class OnPlayerChatEvent
     {
         internal static List<OnPlayerChatEvent> events = new List<OnPlayerChatEvent>();
         Plugin plugin;

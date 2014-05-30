@@ -22,7 +22,7 @@ namespace MCForge
     /// <summary>
     /// This event is called whenever a player connects to the server
     /// </summary>
-    public sealed class OnPlayerConnectEvent
+    public class OnPlayerConnectEvent
     {
         internal static List<OnPlayerConnectEvent> events = new List<OnPlayerConnectEvent>();
         Plugin plugin;

@@ -20,7 +20,7 @@ namespace MCForge.Commands
     /// <summary>
     /// This is the command /vote
     /// </summary>
-    public sealed class CmdVote : Command
+    public class CmdVote : Command
     {
         public override string name { get { return "vote"; } }
         public override string shortcut { get { return "vo"; } }

@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 namespace MCForge
 {
-    public sealed class OnServerErrorEvent
+    public class OnServerErrorEvent
     {
         internal static List<OnServerErrorEvent> events = new List<OnServerErrorEvent>();
         Plugin plugin;

@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdGcbanlistupdate : Command
+    public class CmdGcbanlistupdate : Command
     {
         public override string name { get { return "gcbanlistupdate"; } }
         public override string shortcut { get { return "gcbu"; } }

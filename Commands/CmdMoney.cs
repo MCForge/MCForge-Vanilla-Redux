@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdMoney : Command
+    public class CmdMoney : Command
     {
         public override string name { get { return "money"; } }
         public override string shortcut { get { return ""; } }

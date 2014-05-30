@@ -19,7 +19,7 @@ using System.Data;
 using MCForge.SQL;
 namespace MCForge.Commands
 {
-    public sealed class CmdWhoip : Command
+    public class CmdWhoip : Command
     {
         public override string name { get { return "whoip"; } }
         public override string shortcut { get { return ""; } }

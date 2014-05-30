@@ -75,6 +75,7 @@ namespace MCForge {
         public bool disconnected = false;
         public string time;
         public string name;
+		public bool identified = false;
         public string realName;
         public int warn = 0;
         public byte id;
@@ -268,7 +269,7 @@ namespace MCForge {
 
         public ushort[] pos = new ushort[] { 0, 0, 0 };
         ushort[] oldpos = new ushort[] { 0, 0, 0 };
-        ushort[] basepos = new ushort[] { 0, 0, 0 };
+       // ushort[] basepos = new ushort[] { 0, 0, 0 };
         public byte[] rot = new byte[] { 0, 0 };
         byte[] oldrot = new byte[] { 0, 0 };
 
@@ -315,6 +316,13 @@ namespace MCForge {
         public bool isStaff;
         public bool isProtected;
         public bool verifiedName;
+
+        //CPE
+        public bool extension = false;
+        public string appName;
+        public int extensionCount;
+        public List<string> extensions = new List<string>();
+        public int customBlockSupportLevel;
 
         public struct OfflinePlayer {
             public string name, color, title, titleColor;
@@ -631,33 +639,14 @@ namespace MCForge {
                             goto default;
                         length = 65;
                         break; // chat
-                    case 16: //OpenClassic
-                        if (!loggedIn)
-                            goto default;
-                        try {
-                            isUsingOpenClassic = true;
-                            String version = enc.GetString(buffer, 0, buffer.Length);
-                            Server.s.Log(name + " is using OpenClassic client, version " + version);
-                            Player.GlobalMessageOps(color + name + Server.DefaultColor + " is using OpenClassic client, version " + version);
-                            return new byte[1];
-                        }
-                        catch {
-                            goto default;
-                        }
-                    case 20: //OpenClassic Key Press
-                        if (!loggedIn || !isUsingOpenClassic)
-                            goto default;
-                        length = 5;
+                    case 16:
+                        length = 66;
                         break;
-                    case 25: //OpenClassic Plugins
-                        if (!loggedIn || !isUsingOpenClassic)
-                            goto default;
-                        length = 128;
+                    case 17:
+                        length = 68;
                         break;
-                    case 26: //OpenClassic Custom Packet
-                        if (!loggedIn || !isUsingOpenClassic)
-                            goto default;
-                        length = 64 + buffer.Length;
+                    case 19:
+                        length = 1;
                         break;
                     default:
                         if (!dontmindme)
@@ -695,16 +684,14 @@ namespace MCForge {
                                 break;
                             HandleChat(message);
                             break;
-                        case 20:
-                            int keyID = BitConverter.ToInt32(message, 0);
-                            bool pressed = message[4] == 1;
-                            //TODO Call event
+                        case 16:
+                            HandleExtInfo(message);
                             break;
-                        case 25:
-                            //TODO Handle plugin
+                        case 17:
+                            HandleExtEntry(message);
                             break;
-                        case 26:
-                            //TODO Handle custom byte
+                        case 19:
+                            HandleCustomBlockSupportLevel(message);
                             break;
                     }
                     //thread.Start((object)message);
@@ -719,6 +706,23 @@ namespace MCForge {
             }
             return buffer;
         }
+
+        void HandleExtInfo(byte[] message)
+        {
+            appName = enc.GetString(message, 0, 64).Trim();
+            extensionCount = message[65];
+        }
+
+        void HandleExtEntry(byte[] message)
+        {
+            extensions.Add(enc.GetString(message, 0, 64).Trim());
+        }
+
+        void HandleCustomBlockSupportLevel(byte[] message)
+        {
+            customBlockSupportLevel = message[0];
+        }
+
         void HandleLogin(byte[] message) {
             try {
                 //byte[] message = (byte[])m;
@@ -874,17 +878,24 @@ namespace MCForge {
                 }
 
                 if ( version != Server.version ) { Kick("Wrong version!"); return; }
-                if (truename.Length > 16 || !ValidName(name, this) ) { Kick("Illegal name!"); return; }
-
+                if (truename.Length > 50 || !ValidName(name, this) ) { Kick("Illegal name!"); return; }
+                if (type == 0x42) { extension = true; }
                 if ( Server.verify ) {
-                    if ( verify == "--" || verify !=
-                        BitConverter.ToString(md5.ComputeHash(enc.GetBytes(Server.salt + truename)))
-                        .Replace("-", "").ToLower().TrimStart('0') ) {
-                        if ( !IPInPrivateRange(ip) ) {
-                            Kick("Login failed! Try again."); return;
+                    if ( verify == BitConverter.ToString(md5.ComputeHash(enc.GetBytes(Server.salt + truename))).Replace("-", "").ToLower().TrimStart('0') ) {
+						identified = true;
                         }
+					if ( verify == BitConverter.ToString(md5.ComputeHash(enc.GetBytes(Server.salt2 + truename))).Replace("-", "").ToLower())
+					{
+						identified = true;
+						name += "+";
                     }
-                }
+					if ( IPInPrivateRange(ip) ) {
+						identified = true;
+					}
+					if (identified == false) { 
+						Kick("Login failed! Try again."); return;
+					}
+				}
 
                 foreach ( Player p in players ) {
                     if ( p.name == name ) {
@@ -893,6 +904,25 @@ namespace MCForge {
                         }
                         else { Kick("Already logged in!"); return; }
                     }
+                }
+
+                if (extension)
+                {
+                    SendExtInfo(12);
+                    SendExtEntry("ClickDistance", 1);
+                    SendExtEntry("CustomBlocks", 1);
+                    SendExtEntry("HeldBlock", 1);
+                    SendExtEntry("TextHotKey", 1);
+                    SendExtEntry("ExtPlayerList", 1);
+                    SendExtEntry("EnvColors", 1);
+                    SendExtEntry("SelectionCuboid", 1);
+                    SendExtEntry("BlockPermissions", 1);
+                    SendExtEntry("ChangeModel", 1);
+                    SendExtEntry("EnvMapAppearance", 1);
+                    SendExtEntry("EnvWeatherType", 1);
+                    SendExtEntry("HackControl", 1);
+
+                    SendCustomBlockSupportLevel(1);
                 }
 
                 try { left.Remove(name.ToLower()); }
@@ -1217,7 +1247,7 @@ namespace MCForge {
             }
         }
         public void manualChange(ushort x, ushort y, ushort z, byte action, byte type) {
-            if ( type > 49 ) {
+            if ( type > 65 ) {
                 Kick("Unknown block type!");
                 return;
             }
@@ -1494,20 +1524,6 @@ namespace MCForge {
                 case Block.door_cobblestone_air:
                 case Block.door_red_air:
 
-                case Block.door_orange_air:
-                case Block.door_yellow_air:
-                case Block.door_lightgreen_air:
-                case Block.door_aquagreen_air:
-                case Block.door_cyan_air:
-                case Block.door_lightblue_air:
-                case Block.door_purple_air:
-                case Block.door_lightpurple_air:
-                case Block.door_pink_air:
-                case Block.door_darkpink_air:
-                case Block.door_darkgrey_air:
-                case Block.door_lightgrey_air:
-                case Block.door_white_air:
-
                 case Block.door_dirt_air:
                 case Block.door_grass_air:
                 case Block.door_blue_air:
@@ -1635,7 +1651,7 @@ return;
 }*/
 
             byte[] message = (byte[])m;
-            byte thisid = message[0];
+      //      byte thisid = message[0];
 
             if ( this.incountdown == true && CountdownGame.gamestatus == CountdownGameStatus.InProgress && CountdownGame.freezemode == true ) {
                 if ( this.countdownsettemps == true ) {
@@ -2487,7 +2503,7 @@ return;
                 socket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, delegate(IAsyncResult result) { }, null);
                 buffer = null;
             }
-            catch ( SocketException e ) {
+            catch ( SocketException ) {
                 buffer = null;
                 Disconnect();
 #if DEBUG
@@ -2746,7 +2762,7 @@ return;
 
         public void SendUserMOTD() {
             byte[] buffer = new byte[130];
-            Random rand = new Random();
+           // Random rand = new Random();
             buffer[0] = Server.version;
             if ( UsingWom && ( level.textures.enabled || level.motd == "texture" ) && group.Permission >= level.textures.LowestRank.Permission ) { StringFormat(Server.name, 64).CopyTo(buffer, 1); StringFormat("&0cfg=" + ( IsLocalIpAddress(ip) ? ip : Server.IP ) + ":" + Server.port + "/" + level.name, 64).CopyTo(buffer, 65); }
             if ( level.motd == "ignore" ) {
@@ -2772,7 +2788,14 @@ return;
                 //ushort xx; ushort yy; ushort zz;
 
                 for ( int i = 0; i < level.blocks.Length; ++i )
-                    buffer[4 + i] = Block.Convert(level.blocks[i]);
+                    if (extension)
+                    {
+                        buffer[4 + i] = Block.Convert(level.blocks[i]);
+                    }
+                    else
+                    {
+                        buffer[4 + i] = Block.Convert(Block.ConvertCPE(level.blocks[i]));
+                    }
                 SendRaw(2);
                 buffer = buffer.GZip();
                 int number = (int)Math.Ceiling(( (double)buffer.Length ) / 1024);
@@ -2861,11 +2884,149 @@ rot = new byte[2] { rotx, roty };*/
             HTNO(x).CopyTo(buffer, 0);
             HTNO(y).CopyTo(buffer, 2);
             HTNO(z).CopyTo(buffer, 4);
-            buffer[6] = Block.Convert(type);
+            if ( extension ) {
+                buffer[6] = Block.Convert( type );
+            } else {
+                buffer[6] = Block.Convert( Block.ConvertCPE( type ) );
+            }
             SendRaw(6, buffer);
         }
         void SendKick(string message) { SendRaw(14, StringFormat(message, 64)); }
         void SendPing() { /*pingDelay = 0; pingDelayTimer.Start();*/ SendRaw(1); }
+
+        public void SendExtInfo(short count)
+        {
+            byte[] buffer = new byte[66];
+            StringFormat("MCForge Version: " + Server.Version, 64).CopyTo(buffer, 0);
+            HTNO(count).CopyTo(buffer, 64);
+            SendRaw(16, buffer);
+        }
+        public void SendExtEntry(string name, short version)
+        {
+            byte[] buffer = new byte[68];
+            StringFormat(name, 64).CopyTo(buffer, 0);
+            HTNO(version).CopyTo(buffer, 64);
+            SendRaw(17, buffer);
+        }
+        public void SendClickDistance(short distance)
+        {
+            byte[] buffer = new byte[2];
+            HTNO(distance).CopyTo(buffer, 0);
+            SendRaw(18, buffer);
+        }
+        public void SendCustomBlockSupportLevel(byte level)
+        {
+            byte[] buffer = new byte[1];
+            buffer[0] = level;
+            SendRaw(19, buffer);
+        }
+        public void SendHoldThis(byte type, byte locked)
+        { // if locked is on 1, then the player can't change their selected block.
+            byte[] buffer = new byte[2];
+            buffer[0] = type;
+            buffer[1] = locked;
+            SendRaw(20, buffer);
+        }
+        public void SendTextHotKey(string label, string command, int keycode, byte mods)
+        {
+            byte[] buffer = new byte[133];
+            StringFormat(label, 64).CopyTo(buffer, 0);
+            StringFormat(command, 64).CopyTo(buffer, 64);
+            BitConverter.GetBytes(keycode).CopyTo(buffer, 128);
+            buffer[132] = mods;
+            SendRaw(21, buffer);
+        }
+        public void SendAddPlayerName(byte id, string name, string listname, string groupname, byte grouprank)
+        {
+            byte[] buffer = new byte[195];
+            HTNO((short)id).CopyTo(buffer, 0);
+            StringFormat(name, 64).CopyTo(buffer, 2);
+            StringFormat(listname, 64).CopyTo(buffer, 66);
+            StringFormat(groupname, 64).CopyTo(buffer, 130);
+            buffer[194] = grouprank;
+            SendRaw(22, buffer);
+        }
+        public void SendDeletePlayerName(byte id)
+        {
+            byte[] buffer = new byte[2];
+            HTNO((short)id).CopyTo(buffer, 0);
+            SendRaw(24, buffer);
+        }
+        public void SendEnvSetColor(byte type, short r, short g, short b)
+        {
+            byte[] buffer = new byte[7];
+            buffer[0] = type;
+            HTNO(r).CopyTo(buffer, 1);
+            HTNO(g).CopyTo(buffer, 3);
+            HTNO(b).CopyTo(buffer, 5);
+            SendRaw(25, buffer);
+        }
+        public void SendMakeSelection(byte id, string label, short smallx, short smally, short smallz, short bigx, short bigy, short bigz, short r, short g, short b, short opacity)
+        {
+            byte[] buffer = new byte[85];
+            buffer[0] = id;
+            StringFormat(label, 64).CopyTo(buffer, 1);
+            HTNO(smallx).CopyTo(buffer, 65);
+            HTNO(smally).CopyTo(buffer, 67);
+            HTNO(smallz).CopyTo(buffer, 69);
+            HTNO(bigx).CopyTo(buffer, 71);
+            HTNO(bigy).CopyTo(buffer, 73);
+            HTNO(bigz).CopyTo(buffer, 75);
+            HTNO(r).CopyTo(buffer, 77);
+            HTNO(g).CopyTo(buffer, 79);
+            HTNO(b).CopyTo(buffer, 81);
+            HTNO(opacity).CopyTo(buffer, 83);
+            SendRaw(26, buffer);
+        }
+        public void SendDeleteSelection(byte id)
+        {
+            byte[] buffer = new byte[1];
+            buffer[0] = id;
+            SendRaw(27, buffer);
+        }
+        public void SendSetBlockPermission(byte type, byte canplace, byte candelete)
+        {
+            byte[] buffer = new byte[3];
+            buffer[0] = type;
+            buffer[1] = canplace;
+            buffer[2] = candelete;
+            SendRaw(28, buffer);
+        }
+        public void SendChangeModel(byte id, string model)
+        {
+            byte[] buffer = new byte[65];
+            buffer[0] = id;
+            StringFormat(model, 64).CopyTo(buffer, 1);
+            SendRaw(29, buffer);
+        }
+        public void SendSetMapAppearance(string url, byte sideblock, byte edgeblock, short sidelevel)
+        {
+            byte[] buffer = new byte[68];
+            StringFormat(url, 64).CopyTo(buffer, 0);
+            buffer[64] = sideblock;
+            buffer[65] = edgeblock;
+            HTNO(sidelevel).CopyTo(buffer, 66);
+            SendRaw(30, buffer);
+        }
+        public void SendSetMapWeather(byte weather)
+        { // 0 - sunny; 1 - raining; 2 - snowing
+            byte[] buffer = new byte[1];
+            buffer[0] = weather;
+            SendRaw(31, buffer);
+        }
+        public void SendHackControl(byte allowflying, byte allownoclip, byte allowspeeding, byte allowrespawning, byte allowthirdperson, byte allowchangingweather, short maxjumpheight)
+        {
+            byte[] buffer = new byte[7];
+            buffer[0] = allowflying;
+            buffer[1] = allownoclip;
+            buffer[2] = allowspeeding;
+            buffer[3] = allowrespawning;
+            buffer[4] = allowthirdperson;
+            buffer[5] = allowchangingweather;
+            HTNO(maxjumpheight).CopyTo(buffer, 6);
+            SendRaw(32, buffer);
+        }
+
         void UpdatePosition() {
 
             //pingDelayTimer.Stop();
@@ -3462,7 +3623,7 @@ changed |= 4;*/
                 else if ( self ) {
                     if ( !p.ignorePermission ) {
                         p.pos = new ushort[3] { x, y, z }; p.rot = new byte[2] { rotx, roty };
-                        p.oldpos = p.pos; p.basepos = p.pos; p.oldrot = p.rot;
+                        p.oldpos = p.pos; p.oldrot = p.rot;
                         unchecked { p.SendSpawn((byte)-1, from.color + from.name + possession, x, y, z, rotx, roty); }
                     }
                 }
@@ -3506,7 +3667,7 @@ changed |= 4;*/
                 Server.s.Log("Socket was shutdown for " + this.name ?? this.ip);
 #endif
             }
-            catch ( Exception e ) {
+            catch ( Exception) {
 #if DEBUG
                 Exception ex = new Exception("Failed to shutdown socket for " + this.name ?? this.ip, e);
                 Server.ErrorLog(ex);
@@ -3519,7 +3680,7 @@ changed |= 4;*/
                 Server.s.Log("Socket was closed for " + this.name ?? this.ip);
 #endif
             }
-            catch ( Exception e ) {
+            catch ( Exception ) {
 #if DEBUG
                 Exception ex = new Exception("Failed to close socket for " + this.name ?? this.ip, e);
                 Server.ErrorLog(ex);
@@ -3908,7 +4069,7 @@ Next: continue;
             return lines;
         }
         public static bool ValidName(string name, Player p = null) {
-            string allowedchars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890._";
+            string allowedchars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890._@";
             if (p != null && p.Mojangaccount) allowedchars += "-";
             return name.All(ch => allowedchars.IndexOf(ch) != -1);
         }
@@ -3956,7 +4117,7 @@ Next: continue;
                         if (message.Split().Length > 0) {
                             try {
                                 who = message.StartsWith("@") || message.StartsWith("#") ? Find(message.Split()[0].Substring(1)) : Find(message.Split()[0]);
-                            } catch (ArgumentOutOfRangeException e) { who = null; }
+                            } catch (ArgumentOutOfRangeException) { who = null; }
                             foundName = who != null ? who.name : message.Split()[0];
                         }
                         break;

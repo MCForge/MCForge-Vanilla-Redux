@@ -19,7 +19,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdOHide : Command
+    public class CmdOHide : Command
     {
         public override string name { get { return "ohide"; } }
         public override string shortcut { get { return ""; } }

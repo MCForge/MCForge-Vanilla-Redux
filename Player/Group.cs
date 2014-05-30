@@ -26,18 +26,18 @@ namespace MCForge {
     /// This is the group object
     /// Where ranks and there data are stored
     /// </summary>
-    public sealed class Group {
+    public class Group {
         public delegate void RankSet(Player p, Group newrank);
-        [Obsolete("Please use OnPlayerRankSetEvent.Register()")]
+        //[Obsolete("Please use OnPlayerRankSetEvent.Register()")]
         public static event RankSet OnPlayerRankSet;
         public delegate void GroupSave();
-        [Obsolete("Please use OnGroupSaveEvent.Register()")]
+        //[Obsolete("Please use OnGroupSaveEvent.Register()")]
         public static event GroupSave OnGroupSave;
         public delegate void GroupLoad();
-        [Obsolete("Please use OnGroupLoadEvent.Register()")]
+        //[Obsolete("Please use OnGroupLoadEvent.Register()")]
         public static event GroupLoad OnGroupLoad;
         public delegate void GroupLoaded(Group mGroup);
-        [Obsolete("Please use OnGroupLoadedEvent.Register()")]
+        //[Obsolete("Please use OnGroupLoadedEvent.Register()")]
         public static event GroupLoaded OnGroupLoaded;
         public static bool cancelrank = false;
         //Move along...nothing to see here...

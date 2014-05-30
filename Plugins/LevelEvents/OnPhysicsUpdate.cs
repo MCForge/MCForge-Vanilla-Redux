@@ -20,7 +20,7 @@ using System.Collections.Generic;
 
 namespace MCForge
 {
-    public sealed class OnPhysicsUpdateEvent
+    public class OnPhysicsUpdateEvent
     {
         internal static List<OnPhysicsUpdateEvent> events = new List<OnPhysicsUpdateEvent>();
         Plugin plugin;

@@ -21,7 +21,7 @@ namespace MCForge.Commands
     /// This is the command /infected
     /// use /help infected in-game for more info
     /// </summary>
-    public sealed class CmdInfected : Command
+    public class CmdInfected : Command
     {
         public override string name { get { return "infected"; } }
         public override string shortcut { get { return ""; } }
@@ -31,8 +31,7 @@ namespace MCForge.Commands
         public CmdInfected() { }
         public override void Use(Player p, string message)
         {
-            Player who = null;
-            if (message == "") { who = p; message = p.name; } else { who = Player.Find(message); }
+          //  Player who = null;
             if (ZombieGame.infectd.Count == 0)
             {
                 Player.SendMessage(p, "No one is infected");

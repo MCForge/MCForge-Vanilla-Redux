@@ -21,7 +21,7 @@ using System.Linq;
 
 namespace MCForge
 {
-    public sealed class OnGroupLoadedEvent
+    public class OnGroupLoadedEvent
     {
         internal static List<OnGroupLoadedEvent> events = new List<OnGroupLoadedEvent>();
         Plugin plugin;

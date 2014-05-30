@@ -31,7 +31,7 @@ namespace Sharkbite.Irc
 	/// returned by a Whois query. Instances of this class
 	/// are created internally.
 	/// </summary>
-	public sealed class WhoisInfo
+	public class WhoisInfo
 	{
 		internal UserInfo userInfo;
 		internal string realName;

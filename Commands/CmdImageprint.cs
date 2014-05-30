@@ -23,7 +23,7 @@ using System.Net;
 using System.Threading;
 namespace MCForge.Commands
 {
-    public sealed class CmdImageprint : Command
+    public class CmdImageprint : Command
     {
         public override string name { get { return "imageprint"; } }
         public override string shortcut { get { return "img"; } }

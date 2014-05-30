@@ -20,7 +20,7 @@ using System.Collections.Generic;
 
 namespace MCForge
 {
-    public sealed class OnGroupLoadEvent
+    public class OnGroupLoadEvent
     {
         internal static List<OnGroupLoadEvent> events = new List<OnGroupLoadEvent>();
         Plugin plugin;

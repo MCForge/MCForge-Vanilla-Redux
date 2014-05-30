@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdWrite : Command
+    public class CmdWrite : Command
     {
         public override string name { get { return "write"; } }
         public override string shortcut { get { return ""; } }

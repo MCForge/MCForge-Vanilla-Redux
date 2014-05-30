@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdBlockSpeed : Command
+    public class CmdBlockSpeed : Command
     {
         public override string name { get { return "blockspeed"; } }
         public override string shortcut { get { return "bs"; } }

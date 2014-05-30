@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdGcrules : Command
+    public class CmdGcrules : Command
     {
         public override string name { get { return "gcrules"; } }
         public override string shortcut { get { return "gcr"; } }

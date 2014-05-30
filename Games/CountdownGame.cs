@@ -21,7 +21,7 @@ using System.Linq;
 using System.Threading;
 namespace MCForge
 {
-    public sealed class CountdownGame
+    public class CountdownGame
     {
         public static List<Player> players = new List<Player>();
         public static List<Player> playersleftlist = new List<Player>();

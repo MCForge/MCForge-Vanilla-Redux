@@ -23,7 +23,7 @@ namespace MCForge
     /// <summary>
     /// This event is called whenever a player rotates
     /// </summary>
-    public sealed class PlayerRotateEvent
+    public class PlayerRotateEvent
     {
         internal static List<PlayerRotateEvent> events = new List<PlayerRotateEvent>();
         Plugin plugin;

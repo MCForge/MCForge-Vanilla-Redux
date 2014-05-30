@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 namespace MCForge.Commands
 {
-    public sealed class CmdLine : Command
+    public class CmdLine : Command
     {
         public override string name { get { return "line"; } }
         public override string shortcut { get { return "l"; } }

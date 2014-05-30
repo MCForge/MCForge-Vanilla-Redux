@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdTime : Command
+    public class CmdTime : Command
     {
         public override string name { get { return "time"; } }
         public override string shortcut { get { return ""; } }

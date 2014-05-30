@@ -20,7 +20,7 @@ using System.IO;
 using System.Threading;
 namespace MCForge.Commands
 {
-    public sealed class CmdLoad : Command
+    public class CmdLoad : Command
     {
         public override string name { get { return "load"; } }
         public override string shortcut { get { return ""; } }

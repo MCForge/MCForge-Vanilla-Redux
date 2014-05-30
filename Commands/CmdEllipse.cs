@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdEllipse : Command
+    public class CmdEllipse : Command
     {
         public override string name { get { return "ellipse"; } }
         public override string shortcut { get { return "el"; } }

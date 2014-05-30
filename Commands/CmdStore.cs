@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdStore : Command
+    public class CmdStore : Command
     {
         public override string name { get { return "store"; } }
         public override string shortcut { get { return ""; } }

@@ -18,7 +18,7 @@
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdRestore : Command
+    public class CmdRestore : Command
     {
         public override string name { get { return "restore"; } }
         public override string shortcut { get { return ""; } }

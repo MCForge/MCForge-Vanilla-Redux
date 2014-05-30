@@ -19,7 +19,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdPossess : Command
+    public class CmdPossess : Command
     {
         public override string name { get { return "possess"; } }
         public override string shortcut { get { return ""; } }

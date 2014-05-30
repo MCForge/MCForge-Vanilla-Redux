@@ -35,7 +35,6 @@ using System.Text.RegularExpressions;
 using Org.Mentalis.Security.Ssl;
 #endif
 
-[assembly:CLSCompliant(true)]
 [assembly:ComVisible(false)]
 namespace Sharkbite.Irc
 {
@@ -43,7 +42,7 @@ namespace Sharkbite.Irc
 	/// This class manages the connection to the IRC server and provides
 	/// access to all the objects needed to send and receive messages.
 	/// </summary>
-	public sealed class Connection 
+	public class Connection 
 	{
 		/// <summary>
 		/// Receive all the messages, unparsed, sent by the IRC server. This is not
@@ -559,7 +558,7 @@ namespace Sharkbite.Irc
 							OnRawMessageReceived( line );
 						}
 					}
-					catch( ThreadAbortException e ) 
+					catch( ThreadAbortException) 
 					{
 						Thread.ResetAbort();
 						//This exception is raised when the Thread

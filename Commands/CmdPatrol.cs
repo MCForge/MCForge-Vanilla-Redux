@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace MCForge.Commands
 {
-    public sealed class CmdPatrol : Command
+    public class CmdPatrol : Command
     {
         public override string name { get { return "patrol"; } }
         public override string shortcut { get { return ""; } }

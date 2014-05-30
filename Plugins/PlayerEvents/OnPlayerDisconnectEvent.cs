@@ -23,7 +23,7 @@ namespace MCForge
     /// <summary>
     /// This event is called whenever a player connects to the server
     /// </summary>
-    public sealed class OnPlayerDisconnectEvent
+    public class OnPlayerDisconnectEvent
     {
         internal static List<OnPlayerDisconnectEvent> events = new List<OnPlayerDisconnectEvent>();
         Plugin plugin;

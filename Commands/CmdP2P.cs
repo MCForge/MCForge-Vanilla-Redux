@@ -19,7 +19,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdP2P : Command
+    public class CmdP2P : Command
     {
         public override string name { get { return "p2p"; } }
         public override string shortcut { get { return ""; } }

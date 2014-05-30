@@ -20,7 +20,7 @@ using System.Data;
 using MCForge.SQL;
 namespace MCForge.Commands
 {
-    public sealed class CmdInbox : Command
+    public class CmdInbox : Command
     {
         public override string name { get { return "inbox"; } }
         public override string shortcut { get { return ""; } }

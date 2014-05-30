@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdUnload : Command
+    public class CmdUnload : Command
     {
         public override string name { get { return "unload"; } }
         public override string shortcut { get { return ""; } }

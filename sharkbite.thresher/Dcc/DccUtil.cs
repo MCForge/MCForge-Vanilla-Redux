@@ -31,7 +31,7 @@ namespace Sharkbite.Irc
 	/// <summary>
 	/// Utility methods needed to handle DCC requests.
 	/// </summary>
-	public sealed class DccUtil
+	public class DccUtil
 	{
 		internal static TraceSwitch DccTrace = new TraceSwitch("DccTraceSwitch", "Debug level for DCC classes.");
 
@@ -102,7 +102,7 @@ namespace Sharkbite.Irc
 				byte[] quads = BitConverter.GetBytes( long.Parse( networkOrder, CultureInfo.InvariantCulture ) );
 				return IPAddress.Parse( quads[3] + "." +quads[2] + "." + quads[1] + "." + quads[0] );
 			}
-			catch( FormatException fe ) 
+			catch( FormatException) 
 			{
 				throw new ArgumentException( networkOrder + " is not a valid network address.");
 			}

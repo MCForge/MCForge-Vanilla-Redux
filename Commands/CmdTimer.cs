@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdTimer : Command
+    public class CmdTimer : Command
     {
         public override string name { get { return "timer"; } }
         public override string shortcut { get { return ""; } }

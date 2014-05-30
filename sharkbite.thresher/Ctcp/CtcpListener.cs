@@ -105,7 +105,7 @@ namespace Sharkbite.Irc
 				Match match = ctcpRegex.Match( message );
 				return new string[] { match.Groups[1].ToString(), match.Groups[2].ToString(),match.Groups[3].ToString().Trim()  };
 			}
-			catch( Exception e ) 
+			catch( Exception) 
 			{
 				return null;
 			}

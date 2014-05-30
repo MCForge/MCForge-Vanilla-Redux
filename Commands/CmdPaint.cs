@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdPaint : Command
+    public class CmdPaint : Command
     {
         public override string name { get { return "paint"; } }
         public override string shortcut { get { return "p"; } }

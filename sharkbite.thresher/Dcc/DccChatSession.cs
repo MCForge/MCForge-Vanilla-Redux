@@ -33,7 +33,7 @@ namespace Sharkbite.Irc
 	/// <summary>
 	/// Establish a DCC Chat connection with a remote user. 
 	/// </summary>
-	public sealed class DccChatSession
+	public class DccChatSession
 	{		
 		
 		/// <summary>
@@ -168,7 +168,7 @@ namespace Sharkbite.Irc
 				//Start listening for messages
 				ReceiveMessages();
 			}
-			catch( Exception e ) 
+			catch( Exception) 
 			{
 				Debug.WriteLineIf( DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name +"] DccChatSession::Listen() Connection broken");
 			}
@@ -231,13 +231,13 @@ namespace Sharkbite.Irc
 				//Read loop broken. Remote user must have closed the socket
 				dccUserInfo.Connection.Listener.Error( ReplyCode.ConnectionFailed, "Chat connection closed by remote user." );
 			}
-			catch( ThreadAbortException tae ) 
+			catch( ThreadAbortException) 
 			{
 				Debug.WriteLineIf( DccUtil.DccTrace.TraceWarning, "[" + Thread.CurrentThread.Name +"] DccChatSession::ReceiveMessages() Thread manually stopped. ");
 				//Prevent the exception from being re-thrown in the Listen() method.
 				Thread.ResetAbort();
 			}
-			catch( Exception e ) 
+			catch( Exception e) 
 			{
 				Debug.WriteLineIf( DccUtil.DccTrace.TraceWarning, "[" + Thread.CurrentThread.Name +"] DccChatSession::ReceiveMessages() exception= "+ e);
 			}
@@ -384,11 +384,11 @@ namespace Sharkbite.Irc
 			//Start timeout thread if timeout > 0
 			if( timeout > 0 ) 
 			{
-				Timer timer = new Timer(
+			/*	Timer timer = new Timer(
 					new TimerCallback( session.TimerExpired ),
 					session,
 					timeout,
-					0);
+					0);*/
 				Debug.WriteLineIf( DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name +"] DccChatSession::Request timeout thread started");
 			}
 			return session;

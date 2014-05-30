@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdFlipHeads : Command
+    public class CmdFlipHeads : Command
     {
         public override string name { get { return "flipheads"; } }
         public override string shortcut { get { return ""; } }

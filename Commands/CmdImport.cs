@@ -18,7 +18,7 @@
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdImport : Command
+    public class CmdImport : Command
     {
         public override string name { get { return "import"; } }
         public override string shortcut { get { return ""; } }

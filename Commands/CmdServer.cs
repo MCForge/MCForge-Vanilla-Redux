@@ -23,7 +23,7 @@ using System.Threading;
 using MCForge.SQL;
 namespace MCForge.Commands
 {
-    public sealed class CmdServer : Command
+    public class CmdServer : Command
     {
         public override string name { get { return "server"; } }
         public override string shortcut { get { return "serv"; } }
@@ -141,7 +141,7 @@ namespace MCForge.Commands
 
         private void Save(bool withFiles, bool withDB, Player p)
         {
-            ParameterizedThreadStart pts = new ParameterizedThreadStart(CreatePackage);
+          //  ParameterizedThreadStart pts = new ParameterizedThreadStart(CreatePackage);
             Thread doWork = new Thread(new ParameterizedThreadStart(CreatePackage));
             List<object> param = new List<object>();
             param.Add("MCForge.zip");
@@ -187,6 +187,7 @@ namespace MCForge.Commands
             //Settings
             #region Server Settings
             Server.salt = "";
+			Server.salt2 = "";
 
             Server.name = "[MCForge] Default";
             Server.motd = "Welcome!";

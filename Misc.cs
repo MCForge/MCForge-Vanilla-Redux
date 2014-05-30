@@ -17,7 +17,7 @@
 */
 namespace MCForge
 {
-    public sealed class Report
+    public class Report
     {
         string name, ip, reason;
 

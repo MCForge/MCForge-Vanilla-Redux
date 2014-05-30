@@ -29,7 +29,7 @@ namespace Sharkbite.Irc
 	/// Manages the information about the file being
 	/// transfered. 
 	/// </summary>
-	public sealed class DccFileInfo
+	public class DccFileInfo
 	{
 		private FileInfo fileInfo;
 		private FileStream fileStream;

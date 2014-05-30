@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdPlace : Command
+    public class CmdPlace : Command
     {
         public override string name { get { return "place"; } }
         public override string shortcut { get { return "pl"; } }
@@ -60,8 +60,6 @@ namespace MCForge.Commands
 
             if (b == Block.Zero) b = (byte)1;
             if (!Block.canPlace(p, b)) { Player.SendMessage(p, "Cannot place that block type."); return; }
-
-            Level level = p.level;
 
             if (y >= p.level.depth) y = (ushort)(p.level.depth - 1);
 

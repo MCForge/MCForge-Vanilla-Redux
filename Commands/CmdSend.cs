@@ -20,7 +20,7 @@ using System.Text.RegularExpressions;
 using MCForge.SQL;
 namespace MCForge.Commands
 {
-    public sealed class CmdSend : Command
+    public class CmdSend : Command
     {
         public override string name { get { return "send"; } }
         public override string shortcut { get { return ""; } }

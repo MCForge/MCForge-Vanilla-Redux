@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdSave : Command
+    public class CmdSave : Command
     {
         public override string name { get { return "save"; } }
         public override string shortcut { get { return ""; } }
@@ -71,7 +71,7 @@ namespace MCForge.Commands
                     string restoreName = message.Split(' ')[1].ToLower();
                     if (foundLevel != null) {
                         foundLevel.Save(true);
-                        int backupNumber = p.level.Backup(true, restoreName);
+                      //  int backupNumber = p.level.Backup(true, restoreName);
                         Player.GlobalMessage(foundLevel.name + " had a backup created named &b" + restoreName);
                         Player.SendMessage(null, foundLevel.name + " had a backup created named &b" + restoreName);
                     } else {

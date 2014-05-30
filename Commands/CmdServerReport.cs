@@ -19,7 +19,7 @@ using System;
 using System.Diagnostics;
 namespace MCForge.Commands
 {
-    public sealed class CmdServerReport : Command
+    public class CmdServerReport : Command
     {
         public override string name { get { return "serverreport"; } }
         public override string shortcut { get { return "sr"; } }
@@ -45,7 +45,7 @@ namespace MCForge.Commands
                 Server.ProcessCounter.NextValue();
             }
 
-            TimeSpan tp = Process.GetCurrentProcess().TotalProcessorTime;
+         //   TimeSpan tp = Process.GetCurrentProcess().TotalProcessorTime;
             TimeSpan up = (DateTime.Now - Process.GetCurrentProcess().StartTime);
 
             //To get actual CPU% is OS dependant

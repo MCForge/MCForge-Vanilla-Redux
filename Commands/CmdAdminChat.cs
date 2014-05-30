@@ -14,7 +14,7 @@ permissions and limitations under the Licenses.
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdAdminChat : Command
+    public class CmdAdminChat : Command
     {
         public override string name { get { return "adminchat"; } }
         public override string shortcut { get { return ""; } }

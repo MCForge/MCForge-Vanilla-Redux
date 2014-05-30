@@ -14,7 +14,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdPlayerBlock : Command
+    public class CmdPlayerBlock : Command
     {
         public override string name { get { return "playerblock"; } }
         public override string shortcut { get { return "pblock"; } }

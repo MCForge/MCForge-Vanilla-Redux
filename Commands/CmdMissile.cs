@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Threading;
 namespace MCForge.Commands
 {
-	public sealed class CmdMissile : Command
+	public class CmdMissile : Command
 	{
 		public override string name { get { return "missile"; } }
 		public override string shortcut { get { return ""; } }

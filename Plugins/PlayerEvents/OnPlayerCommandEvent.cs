@@ -22,7 +22,7 @@ namespace MCForge
     /// <summary>
     /// This event is called whenever a player uses a command
     /// </summary>
-    public sealed class OnPlayerCommandEvent
+    public class OnPlayerCommandEvent
     {
         internal static List<OnPlayerCommandEvent> events = new List<OnPlayerCommandEvent>();
         Plugin plugin;

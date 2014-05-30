@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdCrashServer : Command
+    public class CmdCrashServer : Command
     {
         public override string name { get { return "crashserver"; } }
         public override string shortcut { get { return "crash"; } }

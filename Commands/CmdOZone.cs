@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdOZone : Command
+    public class CmdOZone : Command
     {
         public override string name { get { return "ozone"; } }
         public override string shortcut { get { return "oz"; } }

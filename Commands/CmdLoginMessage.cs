@@ -20,7 +20,7 @@
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdLoginMessage : Command
+    public class CmdLoginMessage : Command
     {
         public override string name { get { return "loginmessage"; } }
         public override string shortcut { get { return ""; } }

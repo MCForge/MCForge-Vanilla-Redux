@@ -18,7 +18,7 @@
 using System;
 namespace MCForge
 {
-    public sealed class CmdCTF : Command
+    public class CmdCTF : Command
     {
         public override string name { get { return "ctf"; } }
         public override string shortcut { get { return ""; } }

@@ -21,7 +21,7 @@ ________________________________________________________________________________
 using System.Threading;
 namespace MCForge.Commands
 {
-    public sealed class CmdKillPhysics : Command
+    public class CmdKillPhysics : Command
     {
         public override string name { get { return "killphysics"; } }
         public override string shortcut { get { return "kp"; } }

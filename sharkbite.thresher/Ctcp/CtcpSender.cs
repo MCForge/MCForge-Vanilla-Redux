@@ -33,7 +33,7 @@ namespace Sharkbite.Irc
 	/// <remarks>Action, though it is also a CTCP command, is so common that it is handled 
 	/// by the normal sender class. </remarks> 
 	/// </summary>
-	public sealed class CtcpSender : CommandBuilder
+	public class CtcpSender : CommandBuilder
 	{
 		private ArrayList pingList;
 

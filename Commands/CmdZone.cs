@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using MCForge.SQL;
 namespace MCForge.Commands
 {
-    public sealed class CmdZone : Command
+    public class CmdZone : Command
     {
         public override string name { get { return "zone"; } }
         public override string shortcut { get { return ""; } }

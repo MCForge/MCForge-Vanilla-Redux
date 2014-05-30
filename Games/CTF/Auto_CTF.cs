@@ -28,7 +28,7 @@ namespace MCForge
     /// <summary>
     /// This is the team class for CTF
     /// </summary>
-    public sealed class Teams
+    public class Teams
     {
         public string color;
         public int points = 0;
@@ -118,7 +118,7 @@ namespace MCForge
     /// <summary>
     /// This is the CTF gamemode
     /// </summary>
-    public sealed class Auto_CTF
+    public class Auto_CTF
     {
         public System.Timers.Timer tagging = new System.Timers.Timer(500);
         public bool voting = false;

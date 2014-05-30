@@ -20,7 +20,7 @@ using System.Collections.Generic;
 
 namespace MCForge
 {
-    public sealed class OnConsoleCommandEvent
+    public class OnConsoleCommandEvent
     {
         internal static List<OnConsoleCommandEvent> events = new List<OnConsoleCommandEvent>();
         Plugin plugin;

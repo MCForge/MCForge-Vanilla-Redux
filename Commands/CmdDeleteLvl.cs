@@ -19,7 +19,7 @@ using System;
 using System.IO;
 using MCForge.SQL;
 namespace MCForge.Commands {
-    public sealed class CmdDeleteLvl : Command {
+    public class CmdDeleteLvl : Command {
         public override string name { get { return "deletelvl"; } }
         public override string shortcut { get { return ""; } }
         public override string type { get { return "mod"; } }

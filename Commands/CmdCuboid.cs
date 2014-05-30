@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace MCForge.Commands
 {
-    public sealed class CmdCuboid : Command
+    public class CmdCuboid : Command
     {
         public override string name { get { return "cuboid"; } }
         public override string shortcut { get { return "z"; } }

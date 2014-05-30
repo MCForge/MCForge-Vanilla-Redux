@@ -24,7 +24,7 @@ namespace MCForge.CTF
     /// This plugin will create CTF Config files for you by using the command
     /// /ctfsetup in-game
     /// </summary>
-    public sealed class Setup : Plugin_Simple
+    public class Setup : Plugin_Simple
     {
         Dictionary<Player, Data> cache = new Dictionary<Player, Data>();
         Player.OnPlayerCommand command;
@@ -206,7 +206,7 @@ namespace MCForge.CTF
             if (cmd.ToLower() == "ctfsetup")
             {
                 Level current = p.level;
-                int middle = p.level.height / 2;
+        //        int middle = p.level.height / 2;
                 Player.SendMessage(p, "%2Hello and welcome to the noob friendly CTF setup :D");
                 if (!Directory.Exists("CTF")) Directory.CreateDirectory("CTF");
                 Player.SendMessage(p, "I'll setup this map, but first can you stand in the middle of the map?");

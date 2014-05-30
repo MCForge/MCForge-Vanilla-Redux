@@ -23,7 +23,7 @@ namespace MCForge
     /// <summary>
     /// This event is called whenever a player dies in-game
     /// </summary>
-    public sealed class OnPlayerDeathEvent
+    public class OnPlayerDeathEvent
     {
         internal static List<OnPlayerDeathEvent> events = new List<OnPlayerDeathEvent>();
         Plugin plugin;

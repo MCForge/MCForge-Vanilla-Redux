@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 namespace MCForge
 {
-    public sealed class Team
+    public class Team
     {
         public char color;
         public int points = 0;

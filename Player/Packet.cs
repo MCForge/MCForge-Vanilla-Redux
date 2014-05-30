@@ -22,7 +22,7 @@ using System.Net;
 using System.Text;
 namespace MCForge
 {
-    public sealed class Packet
+    public class Packet
     {
         public List<byte> totalData;
         Encoding encoding;

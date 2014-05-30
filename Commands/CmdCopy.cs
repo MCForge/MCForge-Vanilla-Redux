@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdCopy : Command
+    public class CmdCopy : Command
     {
         public override string name { get { return "copy"; } }
         public override string shortcut { get { return "c"; } }
@@ -186,7 +186,7 @@ namespace MCForge.Commands
             p.ClearBlockchange();
             byte b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
-            CatchPos cpos = (CatchPos)p.blockchangeObject;
+           // CatchPos cpos = (CatchPos)p.blockchangeObject;
 
 
             p.copyoffset[0] = (p.copystart[0] - x);

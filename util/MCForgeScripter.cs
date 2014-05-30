@@ -23,7 +23,7 @@ using System.Reflection;
 
 namespace MCForge.Util {
 
-    public sealed class MCForgeScripter {
+    public class MCForgeScripter {
 
         private static readonly CompilerParameters _settings = new CompilerParameters(new [] {"mscorlib.dll", "MCForge_.dll", "MCForge.exe"}) {
             GenerateInMemory = true
@@ -85,7 +85,7 @@ namespace MCForge.Util {
 
     }
 
-    public sealed class CompileResult {
+    public class CompileResult {
 
         /// <summary>
         /// Array of errors, if any.

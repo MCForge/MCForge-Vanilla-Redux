@@ -16,7 +16,7 @@
 	permissions and limitations under the Licenses.
 */
 namespace MCForge.Commands {
-	public sealed class CmdDevs : Command {
+	public class CmdDevs : Command {
 		public override string name { get { return "devs"; } }
 		public override string shortcut { get { return "dev"; } }
 		public override string type { get { return "information"; } }

@@ -119,7 +119,6 @@ namespace MCForge
             all.Add(new CmdGcmods());
 			all.Add(new CmdGcrules());
 			all.Add(new CmdGcbanlistupdate());
-			all.Add(new CmdGifToCin());
 			all.Add(new CmdGive());
 			all.Add(new CmdGlobal());
 			all.Add(new CmdGlobalCLS());
@@ -170,6 +169,7 @@ namespace MCForge
 			all.Add(new CmdMessageBlock());
 			all.Add(new CmdMissile());
 			all.Add(new CmdMode());
+            all.Add(new CmdModel());
             all.Add(new CmdMods());
 			all.Add(new CmdModerate());
 			all.Add(new CmdMoney());
@@ -301,6 +301,7 @@ namespace MCForge
 			all.Add(new CmdWarn());
 			all.Add(new CmdWarp());
 			all.Add(new CmdWaypoint());
+			all.Add(new CmdWeather());
 			all.Add(new CmdWhisper());
 			all.Add(new CmdWhitelist());
 			all.Add(new CmdWhoip());

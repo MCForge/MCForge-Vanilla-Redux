@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdMove : Command
+    public class CmdMove : Command
     {
         public override string name { get { return "move"; } }
         public override string shortcut { get { return ""; } }

@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdRetrieve : Command
+    public class CmdRetrieve : Command
     {
         public override string name { get { return "retrieve"; } }
         public override string shortcut { get { return ""; } }
@@ -74,7 +74,6 @@ namespace MCForge.Commands
                             cO.name = s.Split(' ')[1];
                             list.Add(cO);
                         }
-                        List<CopyOwner> results = new List<CopyOwner>();
                         for (int i = 0; i < list.Count; i++)
                         {
                             if (list[i].name.ToLower() == message.ToLower())

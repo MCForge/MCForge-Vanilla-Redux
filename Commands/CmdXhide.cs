@@ -18,7 +18,7 @@
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdXhide : Command
+    public class CmdXhide : Command
     {
         public override string name { get { return "xhide"; } }
         public override string shortcut { get { return ""; } }

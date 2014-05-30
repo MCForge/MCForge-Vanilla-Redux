@@ -19,7 +19,7 @@ using System.Data;
 using MCForge.SQL;
 namespace MCForge.Commands
 {
-    public sealed class CmdPCount : Command
+    public class CmdPCount : Command
     {
         public override string name { get { return "pcount"; } }
         public override string shortcut { get { return ""; } }

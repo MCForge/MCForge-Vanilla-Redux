@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdKill : Command
+    public class CmdKill : Command
     {
         public override string name { get { return "kill"; } }
         public override string shortcut { get { return ""; } }

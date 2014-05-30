@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdRepeat : Command
+    public class CmdRepeat : Command
     {
         public override string name { get { return "repeat"; } }
         public override string shortcut { get { return "m"; } }

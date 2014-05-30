@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdKickban : Command
+    public class CmdKickban : Command
     {
         public override string name { get { return "kickban"; } }
         public override string shortcut { get { return "kb"; } }
@@ -29,7 +29,7 @@ namespace MCForge.Commands
         public override void Use(Player p, string message)
         {
             if (message == "") { Help(p); return; }
-            string who = message.Split(' ')[0];
+         //   string who = message.Split(' ')[0];
             Command.all.Find("ban").Use(p, message.Split(' ')[0]);
             Command.all.Find("kick").Use(p, message);
         }

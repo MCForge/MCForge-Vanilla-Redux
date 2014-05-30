@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdPause : Command
+    public class CmdPause : Command
     {
         public override string name { get { return "pause"; } }
         public override string shortcut { get { return ""; } }

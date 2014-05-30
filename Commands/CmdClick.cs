@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdClick : Command
+    public class CmdClick : Command
     {
         public override string name { get { return "click"; } }
         public override string shortcut { get { return "x"; } }

@@ -24,7 +24,7 @@ namespace MCForge.Commands
     /// This is the command /gun
     /// use /help gun in-game for more info
     /// </summary>
-    public sealed class CmdGun : Command
+    public class CmdGun : Command
     {
         public override string name { get { return "gun"; } }
         public override string shortcut { get { return ""; } }

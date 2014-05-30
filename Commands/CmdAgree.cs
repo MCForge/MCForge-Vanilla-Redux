@@ -21,7 +21,7 @@ using System.IO;
 
 namespace MCForge.Commands
 {
-    public sealed class CmdAgree : Command
+    public class CmdAgree : Command
     {
         public override string name { get { return "agree"; } }
         public override string shortcut { get { return ""; } }

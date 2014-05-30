@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdKick : Command
+    public class CmdKick : Command
     {
         public override string name { get { return "kick"; } }
         public override string shortcut { get { return "k"; } }

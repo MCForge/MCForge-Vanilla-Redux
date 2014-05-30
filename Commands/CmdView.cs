@@ -19,7 +19,7 @@ using System;
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdView : Command
+    public class CmdView : Command
     {
         public override string name { get { return "view"; } }
         public override string shortcut { get { return ""; } }

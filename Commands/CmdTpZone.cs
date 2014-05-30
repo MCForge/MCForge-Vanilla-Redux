@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdTpZone : Command
+    public class CmdTpZone : Command
     {
         public override string name { get { return "tpzone"; } }
         public override string shortcut { get { return ""; } }

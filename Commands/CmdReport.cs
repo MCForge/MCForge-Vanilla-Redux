@@ -21,7 +21,7 @@ using System;
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdReport : Command
+    public class CmdReport : Command
     {
         public override string name { get { return "report"; } }
         public override string shortcut { get { return ""; } }

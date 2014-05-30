@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdC4 : Command
+    public class CmdC4 : Command
     {
         public override string name { get { return "c4"; } }
         public override string shortcut { get { return ""; } }
@@ -68,7 +68,7 @@ namespace MCForge.Commands
         public void Blockchange2(Player p, ushort x, ushort y, ushort z, byte type)
         {
             p.ClearBlockchange();
-            byte b = p.level.GetTile(x, y, z);
+        //    byte b = p.level.GetTile(x, y, z);
             p.level.Blockchange(p, x, y, z, Block.c4det);
             Player.SendMessage(p, "Placed detonator block!");
         }

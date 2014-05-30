@@ -19,7 +19,7 @@ using System.IO;
 using System.Collections.Generic;
 namespace MCForge
 {
-    public sealed class PlayerList
+    public class PlayerList
     {
         //public string name;
         public Group group;

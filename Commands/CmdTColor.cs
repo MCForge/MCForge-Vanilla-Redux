@@ -18,7 +18,7 @@
 using MCForge.SQL;
 namespace MCForge.Commands
 {
-    public sealed class CmdTColor : Command
+    public class CmdTColor : Command
     {
         public override string name { get { return "tcolor"; } }
         public override string shortcut { get { return ""; } }

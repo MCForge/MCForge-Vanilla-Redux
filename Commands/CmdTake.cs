@@ -19,7 +19,7 @@ using System;
 using System.Globalization;
 namespace MCForge.Commands
 {
-    public sealed class CmdTake : Command
+    public class CmdTake : Command
     {
         public override string name { get { return "take"; } }
         public override string shortcut { get { return ""; } }

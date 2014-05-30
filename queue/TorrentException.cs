@@ -29,7 +29,7 @@ using System;
 namespace MonoTorrent.Common
 {
     [Serializable]
-    public sealed class TorrentException : Exception
+    public class TorrentException : Exception
     {
         public TorrentException()
             : base()

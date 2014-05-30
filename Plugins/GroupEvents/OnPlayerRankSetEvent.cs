@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 namespace MCForge
 {
-    public sealed class OnPlayerRankSetEvent
+    public class OnPlayerRankSetEvent
     {
         internal static List<OnPlayerRankSetEvent> events = new List<OnPlayerRankSetEvent>();
         Plugin plugin;

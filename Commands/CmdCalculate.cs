@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdCalculate : Command
+    public class CmdCalculate : Command
     {
         public override string name { get { return "calculate"; } }
         public override string shortcut { get { return "calc"; } }

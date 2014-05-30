@@ -22,7 +22,7 @@ namespace MCForge
     /// <summary>
     /// This event is called whenever the server saves data to MySQL or SQLite
     /// </summary>
-    public sealed class OnMySQLSaveEvent
+    public class OnMySQLSaveEvent
     {
         internal static List<OnMySQLSaveEvent> events = new List<OnMySQLSaveEvent>();
         Plugin plugin;

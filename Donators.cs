@@ -22,9 +22,8 @@ using System.Threading;
 
 namespace MCForge
 {
-    public sealed class Donators
+    public class Donators
     {
-        private readonly static Timer timer;
         private const int TEN_MINUTES = 600000;
 
         /// <summary>
@@ -34,7 +33,6 @@ namespace MCForge
 
         static Donators()
         {
-            timer = new Timer(CallBack, null, 0, TEN_MINUTES);
             DonatorList = new List<DonatorPlayers>();
         }
 

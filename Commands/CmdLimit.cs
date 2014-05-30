@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdLimit : Command
+    public class CmdLimit : Command
     {
         public override string name { get { return "limit"; } }
         public override string shortcut { get { return ""; } }

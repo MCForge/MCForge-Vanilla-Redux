@@ -32,7 +32,7 @@ using Newtonsoft.Json.Linq;
 namespace MCForge
 {
     public enum ForgeProtection { Off = 0, Mod = 1, Dev = 2 }
-    public sealed class Server
+    public class Server
     {
         public static bool cancelcommand = false;
         public static bool canceladmin = false;
@@ -85,6 +85,7 @@ namespace MCForge
 
         // URL hash for connecting to the server
         public static string Hash = String.Empty;
+        public static string CCURL = String.Empty;
         public static string URL = String.Empty;
 
         public static Socket listen;
@@ -114,13 +115,13 @@ namespace MCForge
         public static PlayerList ignored;
 
         // The MCForge Developer List
-        internal static readonly List<string> devs = new List<string>();
+        internal static readonly List<string> devs = new List<string>(new string[] { "Hetal+", "EricKilla+" });
         public static List<string> Devs { get { return new List<string>(devs); } }
         //The MCForge Moderation List
         internal static readonly List<string> mods = new List<string>();
         public static List<string> Mods { get { return new List<string>(mods); } }
         //GCMods List
-        internal static readonly List<string> gcmods = new List<string>();
+		internal static readonly List<string> gcmods = new List<string>(new string[] { "rwayy", "David", "JoeBukkit", "notrwaeh" } );
         public static List<string> GCmods { get { return new List<string>(gcmods); } }
         internal static readonly List<string> protectover = new List<string>(new string[] { "moderate", "mute", "freeze", "lockdown", "ban", "banip", "kickban", "kick", "global", "xban", "xundo", "undo", "uban", "unban", "unbanip", "demote", "promote", "restart", "shutdown", "setrank", "warn", "tempban", "impersonate", "sendcmd", "possess", "joker", "jail", "ignore", "voice" });
         public static List<string> ProtectOver { get { return new List<string>(protectover); } }
@@ -233,6 +234,7 @@ namespace MCForge
         #region Server Settings
         public const byte version = 7;
         public static string salt = "";
+		public static string salt2 = "";
 
         public static string name = "[MCForge] Default";
         public static string motd = "Welcome!";
@@ -670,7 +672,6 @@ namespace MCForge
             }
 
             Economy.LoadDatabase();
-            UpdateStaffList();
             Log("MCForge Staff Protection Level: " + forgeProtection);
 
             if (levels != null)
@@ -792,7 +793,7 @@ namespace MCForge
                                 if (!key.Equals(mainLevel.name))
                                 {
                                     Command.all.Find("load").Use(null, key + " " + value);
-                                    Level l = Level.FindExact(key);
+                                  //  Level l = Level.FindExact(key);
                                 }
                                 else
                                 {
@@ -1147,6 +1148,11 @@ namespace MCForge
             if (OnURLChange != null) OnURLChange(url);
         }
 
+        public void UpdateCCUrl(string ccurl)
+        {
+            if (OnURLChange != null) OnURLChange(ccurl);
+        }
+
         public void Log(string message, bool systemMsg = false)
         {
             if (ServerLog != null)
@@ -1272,7 +1278,7 @@ namespace MCForge
         }
         public static void UpdateGlobalSettings()
         {
-            try
+        /*    try
             {
                 gcipbans.Clear();
                 gcnamebans.Clear();
@@ -1294,30 +1300,7 @@ namespace MCForge
                 s.Log("Could not update GlobalChat Banlist!");
                 gcnamebans.Clear();
                 gcipbans.Clear();
-            }
-        }
-        public void UpdateStaffList() {
-            try {
-                devs.Clear();
-                mods.Clear();
-                gcmods.Clear();
-                using (WebClient web = new WebClient()) {
-                    string[] result = web.DownloadString("http://server.mcforge.net/devs.txt").Split(new string[] { Environment.NewLine, "\n" }, StringSplitOptions.None);
-                    foreach (string line in result) {
-                        string type = line.Split(':')[0].ToLower();
-                        List<string> staffList = type.Equals("devs") ? devs : type.Equals("mods") ? mods : type.Equals("gcmods") ? gcmods : null;
-                        foreach (string name in line.Split(':')[1].Split())
-                            staffList.Add(name.ToLower());
-                    }
-                }
-            } catch (Exception e) {
-                ErrorLog(e);
-                s.Log("Couldn't update MCForge staff list, turning MCForge Staff Protection Level off. . . ");
-                forgeProtection = ForgeProtection.Off;
-                devs.Clear();
-                mods.Clear();
-                gcmods.Clear();
-            }
+            }*/
         }
 
         public static bool canusegc = true; //badpokerface

@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdUBan : Command
+    public class CmdUBan : Command
     {
         public override string name { get { return "uban"; } }
         public override string shortcut { get { return ""; } }

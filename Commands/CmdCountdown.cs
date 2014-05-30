@@ -22,7 +22,7 @@ using System.Net;
 using System.Threading;
 namespace MCForge.Commands
 {
-    public sealed class CmdCountdown : Command
+    public class CmdCountdown : Command
     {
         public override string name { get { return "countdown"; } }
         public override string shortcut { get { return "cd"; } }
@@ -43,13 +43,12 @@ namespace MCForge.Commands
             string par0 = String.Empty;
             string par1 = String.Empty;
             string par2 = String.Empty;
-            string par3 = String.Empty;
+          //  string par3 = String.Empty;
             try
             {
                 par0 = command[0];
                 par1 = command[1];
                 par2 = command[2];
-                par3 = command[3];
             }
             catch { }
 

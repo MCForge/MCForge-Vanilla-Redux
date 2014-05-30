@@ -37,7 +37,7 @@ namespace MonoTorrent.Client
     public delegate void MainLoopTask();
     public delegate bool TimeoutTask();
 
-    public sealed class MainLoop
+    public class MainLoop
     {
         private class DelegateTask : ICacheable
         {

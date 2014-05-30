@@ -34,7 +34,7 @@ namespace Sharkbite.Irc
 	/// DCC is enabled. This class follows the singleton pattern and there so there
 	/// is only a single instance which listens to all connections.
 	/// </summary>
-	public sealed class DccListener
+	public class DccListener
 	{
 		/// <summary>
 		/// A user from any Connection has sent a request to open a DCC
@@ -123,7 +123,7 @@ namespace Sharkbite.Irc
 								Rfc2812Util.ParseUserInfoLine( requestor ),
 								new IPEndPoint( DccUtil.LongToIPAddress( tokens[ Address ]), int.Parse( tokens[ Port], CultureInfo.InvariantCulture ) ) );
 						}
-						catch( ArgumentException ae ) 
+						catch( ArgumentException ) 
 						{
 							connection.Listener.Error( ReplyCode.BadDccEndpoint, "Invalid TCP/IP connection information sent." );
 							return;

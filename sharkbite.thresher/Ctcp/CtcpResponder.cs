@@ -30,7 +30,7 @@ namespace Sharkbite.Irc
 	/// A class which automatically responds to CTCP queries. The
 	/// replies it sends are configurable by the client.
 	/// </summary>
-	public sealed class CtcpResponder
+	public class CtcpResponder
 	{
 		private Connection connection;
 		private long nextTime;

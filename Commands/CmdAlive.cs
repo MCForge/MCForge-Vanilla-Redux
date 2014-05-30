@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdAlive : Command
+    public class CmdAlive : Command
     {
         public override string name { get { return "alive"; } }
         public override string shortcut { get { return "alive"; } }
@@ -27,8 +27,7 @@ namespace MCForge.Commands
         public CmdAlive() { }
         public override void Use(Player p, string message)
         {
-            Player who = null;
-            if (message == "") { who = p; message = p.name; } else { who = Player.Find(message); }
+         //   Player who = null;
             if (ZombieGame.alive.Count == 0)
             {
                 Player.SendMessage(p, "No one is alive.");

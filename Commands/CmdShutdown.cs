@@ -22,7 +22,7 @@ using System.IO;
 using System.Threading;
 namespace MCForge.Commands
 {
-    public sealed class CmdShutdown : Command
+    public class CmdShutdown : Command
     {
         public override string name { get { return "shutdown"; } }
         public override string shortcut { get { return ""; } }

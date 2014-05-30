@@ -20,7 +20,7 @@ using System.Globalization;
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdUndo : Command
+    public class CmdUndo : Command
     {
         public override string name { get { return "undo"; } }
         public override string shortcut { get { return "u"; } }
@@ -284,7 +284,7 @@ namespace MCForge.Commands
                         }
                     }
                 }
-                catch (Exception e) { }
+                catch (Exception) { }
             }
 
             return true;

@@ -28,12 +28,12 @@ namespace MCForge
             private static SQLiteParameterCollection parameters = new SQLiteCommand().Parameters;
 
             public static string connString { get { return String.Format(connStringFormat, Server.DatabasePooling); } }
-            [Obsolete("Preferably use Database.executeQuery instead")]
+            //[Obsolete("Preferably use Database.executeQuery instead")]
             public static void executeQuery(string queryString)
             {
                 Database.executeQuery(queryString);
             }
-            [Obsolete("Preferably use Database.executeQuery instead")]
+            //[Obsolete("Preferably use Database.executeQuery instead")]
             public static DataTable fillData(string queryString, bool skipError = false)
             {
                 return Database.fillData(queryString, skipError);

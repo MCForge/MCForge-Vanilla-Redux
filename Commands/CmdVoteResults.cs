@@ -21,7 +21,7 @@ namespace MCForge.Commands
     /// This is the command /voteresults
     /// use /help voteresults in-game for more info
     /// </summary>
-    public sealed class CmdVoteResults : Command
+    public class CmdVoteResults : Command
     {
         public override string name { get { return "voteresults"; } }
         public override string shortcut { get { return "vr"; } }
@@ -31,8 +31,8 @@ namespace MCForge.Commands
         public CmdVoteResults() { }
         public override void Use(Player p, string message)
         {
-            Player who = null;
-            if (message == "") { who = p; message = p.name; } else { who = Player.Find(message); }
+    //        Player who = null;
+//            if (message == "") { who = p; message = p.name; } else { who = Player.Find(message); }
             if (Server.YesVotes >= 1 || Server.NoVotes >= 1)
             {
                 p.SendMessage(c.green + "Y: " + Server.YesVotes + c.red + " N: " + Server.NoVotes);

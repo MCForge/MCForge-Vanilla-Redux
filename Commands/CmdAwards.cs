@@ -18,7 +18,7 @@
 using System.Collections.Generic;
 namespace MCForge.Commands
 {
-    public sealed class CmdAwards : Command
+    public class CmdAwards : Command
     {
         public override string name { get { return "awards"; } }
         public override string shortcut { get { return ""; } }

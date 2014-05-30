@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdRoll : Command
+    public class CmdRoll : Command
     {
         public override string name { get { return "roll"; } }
         public override string shortcut { get { return ""; } }

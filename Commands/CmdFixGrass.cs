@@ -18,7 +18,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdFixGrass : Command
+    public class CmdFixGrass : Command
     {
         public override string name { get { return "fixgrass"; } }
         public override string shortcut { get { return "fg"; } }

@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 namespace MCForge
 {
-    public sealed class PlayerCollection : List<Player>, ITypedList
+    public class PlayerCollection : List<Player>, ITypedList
     {
         protected IPlayerViewBuilder _viewBuilder;
 

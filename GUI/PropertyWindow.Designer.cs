@@ -407,7 +407,7 @@ namespace MCForge.Gui
             this.label79 = new System.Windows.Forms.Label();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.timer1 = new System.Windows.Forms.Timer( this.components );
+     //       this.timer1 = new System.Windows.Forms.Timer( this.components );
             this.groupBox24 = new System.Windows.Forms.GroupBox();
             this.lstCommands = new System.Windows.Forms.ListBox();
             this.label92 = new System.Windows.Forms.Label();
@@ -2841,16 +2841,6 @@ namespace MCForge.Gui
             this.txechx.UseVisualStyleBackColor = true;
             this.txechx.CheckedChanged += new System.EventHandler( this.txechx_CheckedChanged );
             // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point( 10, 49 );
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size( 120, 27 );
-            this.button3.TabIndex = 43;
-            this.button3.Text = "Edit WoM Direct Options";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler( this.button3_Click );
-            // 
             // editTxtsBt
             // 
             this.editTxtsBt.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -4918,7 +4908,7 @@ namespace MCForge.Gui
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.Timer timer1;
+   //     private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.CheckBox chkIgnoreGlobal;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.RadioButton radioButton1;

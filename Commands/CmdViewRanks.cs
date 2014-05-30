@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdViewRanks : Command
+    public class CmdViewRanks : Command
     {
         public override string name { get { return "viewranks"; } }
         public override string shortcut { get { return ""; } }

@@ -36,7 +36,7 @@ namespace Sharkbite.Irc
 	/// This class parses messages received from the IRC server and
 	/// raises the appropriate event. 
 	/// </summary>
-	public sealed class Listener
+	public class Listener
 	{
 		/// <summary>
 		/// Messages that are not handled by other events and are not errors.
@@ -225,8 +225,7 @@ namespace Sharkbite.Irc
 		private const string MODE = "MODE";
 		private const string KILL = "KILL";
 		private const string ACTION = "\u0001ACTION";
-		private readonly char[] Separator = { ' ' };
-		private readonly Regex userPattern; 
+		private readonly char[] Separator = { ' ' }; 
 		private readonly Regex channelPattern;
 		private readonly Regex replyRegex;
 		/// <summary>
@@ -241,7 +240,7 @@ namespace Sharkbite.Irc
 		/// </summary>
 		public Listener() 
 		{
-			userPattern = new Regex( "([\\w\\-" + Rfc2812Util.Special + "]+![\\~\\w]+@[\\w\\.\\-]+)", RegexOptions.Compiled | RegexOptions.Singleline);
+		//	userPattern = new Regex( "([\\w\\-" + Rfc2812Util.Special + "]+![\\~\\w]+@[\\w\\.\\-]+)", RegexOptions.Compiled | RegexOptions.Singleline);
 			channelPattern = new Regex( "([#!+&]\\w+)", RegexOptions.Compiled | RegexOptions.Singleline);
 			replyRegex = new Regex("^:([^\\s]*) ([\\d]{3}) ([^\\s]*) (.*)", RegexOptions.Compiled | RegexOptions.Singleline);
 		}
@@ -448,7 +447,7 @@ namespace Sharkbite.Irc
 								ChannelModeInfo[] modes = ChannelModeInfo.ParseModes( tokens, 3);
 								OnChannelModeChange( who, tokens[2], modes );
 							}
-							catch( Exception e ) 
+							catch( Exception ) 
 							{
 								if( OnError != null ) 
 								{
@@ -679,7 +678,7 @@ namespace Sharkbite.Irc
 							ChannelModeInfo[] modes = ChannelModeInfo.ParseModes( tokens, 4);
 							OnChannelModeRequest( tokens[3], modes);
 						}
-						catch( Exception e ) 
+						catch( Exception ) 
 						{
 							if( OnError != null ) 
 							{

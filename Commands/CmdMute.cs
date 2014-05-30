@@ -23,7 +23,7 @@ namespace MCForge.Commands
     /// Doesn't save mute.txt
     /// Players with the defaultRank can unmute themself
     /// </summary>
-    public sealed class CmdMute : Command
+    public class CmdMute : Command
     {
         public override string name { get { return "mute"; } }
         public override string shortcut { get { return ""; } }

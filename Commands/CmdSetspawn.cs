@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdSetspawn : Command
+    public class CmdSetspawn : Command
     {
         public override string name { get { return "setspawn"; } }
         public override string shortcut { get { return ""; } }

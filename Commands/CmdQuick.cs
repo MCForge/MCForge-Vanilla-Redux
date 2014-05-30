@@ -20,7 +20,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdQuick : Command
+    public class CmdQuick : Command
     {
         public override string name { get { return "quick"; } }
         public override string shortcut { get { return "q"; } }

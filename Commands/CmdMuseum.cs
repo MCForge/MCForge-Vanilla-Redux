@@ -22,7 +22,7 @@ using System.Net;
 using System.Threading;
 namespace MCForge.Commands
 {
-    public sealed class CmdMuseum : Command
+    public class CmdMuseum : Command
     {
         public override string name { get { return "museum"; } }
         public override string shortcut { get { return ""; } }

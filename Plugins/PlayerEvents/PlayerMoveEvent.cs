@@ -23,7 +23,7 @@ namespace MCForge
     /// <summary>
     /// This event is called whenever a player moves
     /// </summary>
-    public sealed class PlayerMoveEvent
+    public class PlayerMoveEvent
     {
         internal static List<PlayerMoveEvent> events = new List<PlayerMoveEvent>();
         Plugin plugin;

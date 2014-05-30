@@ -890,12 +890,6 @@ namespace MCForge.Gui {
         }
 
         void removeDigit(TextBox foundTxt) {
-            try {
-                int lastChar = int.Parse(foundTxt.Text[foundTxt.Text.Length - 1].ToString());
-            }
-            catch {
-                foundTxt.Text = "";
-            }
         }
 
         private void txtPort_TextChanged(object sender, EventArgs e) { removeDigit(txtPort); }
@@ -1696,10 +1690,6 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
 
         private void numCountReset_ValueChanged(object sender, EventArgs e) {
 
-        }
-
-        private void button3_Click(object sender, EventArgs e) {
-            new GUI.WoM().Show();
         }
 
         private void chkWomDirect_CheckedChanged(object sender, EventArgs e) {

@@ -23,7 +23,7 @@ namespace MCForge
     /// <summary>
     /// This event is called whenever a player recieves a message from the server or from another player
     /// </summary>
-    public sealed class OnMessageRecieveEvent
+    public class OnMessageRecieveEvent
     {
         internal static List<OnMessageRecieveEvent> events = new List<OnMessageRecieveEvent>();
         Plugin plugin;

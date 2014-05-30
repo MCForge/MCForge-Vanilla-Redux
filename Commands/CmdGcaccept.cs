@@ -18,7 +18,7 @@
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdGcaccept : Command
+    public class CmdGcaccept : Command
     {
         public override string name { get { return "gcaccept"; } }
         public override string shortcut { get { return "gca"; } }

@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-   public sealed class CmdFakeRank : Command
+   public class CmdFakeRank : Command
    {
       public override string name { get { return "fakerank"; } }
       public override string shortcut { get { return "frk"; } } 

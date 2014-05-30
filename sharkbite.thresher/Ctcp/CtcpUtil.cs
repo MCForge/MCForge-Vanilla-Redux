@@ -32,7 +32,7 @@ namespace Sharkbite.Irc
 	/// <remarks>The CTCP constants should be used to test incoming
 	/// CTCP queries for their type and as the CTCP command
 	/// for outgoing ones.</remarks>
-	public sealed class CtcpUtil
+	public class CtcpUtil
 	{
 		/// <summary>CTCP Finger.</summary>
 		public const string Finger = "FINGER";

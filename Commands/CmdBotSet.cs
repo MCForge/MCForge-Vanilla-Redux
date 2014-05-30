@@ -19,7 +19,7 @@ using System;
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdBotSet : Command
+    public class CmdBotSet : Command
     {
         public override string name { get { return "botset"; } }
         public override string shortcut { get { return ""; } }

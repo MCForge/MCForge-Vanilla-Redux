@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdPlayerCLS : Command
+    public class CmdPlayerCLS : Command
     {
         public override string name { get { return "playercls"; } }
         public override string shortcut { get { return "cls"; } }

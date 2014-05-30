@@ -21,7 +21,7 @@ namespace MCForge.Commands
     /// This is the command /infect
     /// use /help infect in-game for more info
     /// </summary>
-    public sealed class CmdInfect : Command
+    public class CmdInfect : Command
     {
         public override string name { get { return "infect"; } }
         public override string shortcut { get { return "i"; } }

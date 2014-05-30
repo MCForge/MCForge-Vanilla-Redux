@@ -49,7 +49,7 @@ namespace MCForge
         Other
     }
 
-    public sealed class Level : IDisposable
+    public class Level : IDisposable
     {
         #region Delegates
 
@@ -288,6 +288,8 @@ namespace MCForge
             get { return getPlayers(); }
         }
 
+        public byte weather;
+
         #region IDisposable Members
 
         public void Dispose()
@@ -305,18 +307,18 @@ namespace MCForge
         }
 
         #endregion
-        [Obsolete("Please use OnPhysicsUpdate.Register()")]
+        //[Obsolete("Please use OnPhysicsUpdate.Register()")]
         public event OnPhysicsUpdate PhysicsUpdate = null;
-        [Obsolete("Please use OnLevelUnloadEvent.Register()")]
+        //[Obsolete("Please use OnLevelUnloadEvent.Register()")]
         public static event OnLevelUnload LevelUnload = null;
-        [Obsolete("Please use OnLevelSaveEvent.Register()")]
+        //[Obsolete("Please use OnLevelSaveEvent.Register()")]
         public static event OnLevelSave LevelSave = null;
         //public static event OnLevelSave onLevelSave = null;
-        [Obsolete("Please use OnLevelUnloadEvent.Register()")]
-        public event OnLevelUnload onLevelUnload = null;
-        [Obsolete("Please use OnLevelUnloadEvent.Register()")]
+     //   //[Obsolete("Please use OnLevelUnloadEvent.Register()")]
+     //   public event OnLevelUnload onLevelUnload = null;
+        //[Obsolete("Please use OnLevelUnloadEvent.Register()")]
         public static event OnLevelLoad LevelLoad = null;
-        [Obsolete("Please use OnLevelUnloadEvent.Register()")]
+        //[Obsolete("Please use OnLevelUnloadEvent.Register()")]
         public static event OnLevelLoaded LevelLoaded;
 
         public void CopyBlocks(byte[] source, int offset)
@@ -1781,20 +1783,6 @@ namespace MCForge
                                                           case Block.door_cobblestone_air:
                                                           case Block.door_red_air:
 
-                                                          case Block.door_orange_air:
-                                                          case Block.door_yellow_air:
-                                                          case Block.door_lightgreen_air:
-                                                          case Block.door_aquagreen_air:
-                                                          case Block.door_cyan_air:
-                                                          case Block.door_lightblue_air:
-                                                          case Block.door_purple_air:
-                                                          case Block.door_lightpurple_air:
-                                                          case Block.door_pink_air:
-                                                          case Block.door_darkpink_air:
-                                                          case Block.door_darkgrey_air:
-                                                          case Block.door_lightgrey_air:
-                                                          case Block.door_white_air:
-
                                                           case Block.door_dirt_air:
                                                           case Block.door_grass_air:
                                                           case Block.door_blue_air:
@@ -3188,20 +3176,6 @@ namespace MCForge
                                                           case Block.door_gold_air:
                                                           case Block.door_cobblestone_air:
                                                           case Block.door_red_air:
-
-                                                          case Block.door_orange_air:
-                                                          case Block.door_yellow_air:
-                                                          case Block.door_lightgreen_air:
-                                                          case Block.door_aquagreen_air:
-                                                          case Block.door_cyan_air:
-                                                          case Block.door_lightblue_air:
-                                                          case Block.door_purple_air:
-                                                          case Block.door_lightpurple_air:
-                                                          case Block.door_pink_air:
-                                                          case Block.door_darkpink_air:
-                                                          case Block.door_darkgrey_air:
-                                                          case Block.door_lightgrey_air:
-                                                          case Block.door_white_air:
 
                                                           case Block.door_dirt_air:
                                                           case Block.door_grass_air:

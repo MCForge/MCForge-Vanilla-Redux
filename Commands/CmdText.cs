@@ -19,7 +19,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 namespace MCForge.Commands
 {
-    public sealed class CmdText : Command
+    public class CmdText : Command
     {
         public override string name { get { return "text"; } }
         public override string shortcut { get { return ""; } }

@@ -711,7 +711,7 @@ namespace MCForge.Gui
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(767, 488);
+            this.tabPage5.Size = new System.Drawing.Size(767, 491);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Logs";
             // 
@@ -750,7 +750,7 @@ namespace MCForge.Gui
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(767, 488);
+            this.tabPage3.Size = new System.Drawing.Size(767, 491);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Errors";
             // 
@@ -773,7 +773,7 @@ namespace MCForge.Gui
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(767, 488);
+            this.tabPage2.Size = new System.Drawing.Size(767, 491);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Changelog";
             // 
@@ -796,7 +796,7 @@ namespace MCForge.Gui
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(767, 488);
+            this.tabPage4.Size = new System.Drawing.Size(767, 491);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "System";
             // 
@@ -830,7 +830,7 @@ namespace MCForge.Gui
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(767, 488);
+            this.tabPage1.Size = new System.Drawing.Size(767, 491);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             // 
@@ -903,9 +903,9 @@ namespace MCForge.Gui
             // 
             this.gBChat.Controls.Add(this.txtLog);
             this.gBChat.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gBChat.Location = new System.Drawing.Point(13, 33);
+            this.gBChat.Location = new System.Drawing.Point(13, 34);
             this.gBChat.Name = "gBChat";
-            this.gBChat.Size = new System.Drawing.Size(493, 287);
+            this.gBChat.Size = new System.Drawing.Size(493, 286);
             this.gBChat.TabIndex = 32;
             this.gBChat.TabStop = false;
             this.gBChat.Text = "Chat";
@@ -1072,7 +1072,7 @@ namespace MCForge.Gui
             this.tabControl1.Location = new System.Drawing.Point(1, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(775, 514);
+            this.tabControl1.Size = new System.Drawing.Size(775, 517);
             this.tabControl1.TabIndex = 2;
             this.tabControl1.Click += new System.EventHandler(this.tabControl1_Click);
             // 
@@ -1085,7 +1085,7 @@ namespace MCForge.Gui
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(767, 488);
+            this.tabPage6.Size = new System.Drawing.Size(767, 491);
             this.tabPage6.TabIndex = 6;
             this.tabPage6.Text = "Maps";
             // 
@@ -1719,7 +1719,7 @@ namespace MCForge.Gui
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(767, 488);
+            this.tabPage7.Size = new System.Drawing.Size(767, 491);
             this.tabPage7.TabIndex = 7;
             this.tabPage7.Text = "Players";
             // 
@@ -2274,7 +2274,7 @@ namespace MCForge.Gui
             this.Chat.Location = new System.Drawing.Point(4, 22);
             this.Chat.Name = "Chat";
             this.Chat.Padding = new System.Windows.Forms.Padding(3);
-            this.Chat.Size = new System.Drawing.Size(767, 488);
+            this.Chat.Size = new System.Drawing.Size(767, 491);
             this.Chat.TabIndex = 8;
             this.Chat.Text = "Chat";
             this.Chat.UseVisualStyleBackColor = true;
@@ -2390,11 +2390,11 @@ namespace MCForge.Gui
             this.txtLog.BackColor = System.Drawing.SystemColors.Window;
             this.txtLog.ContextMenuStrip = this.txtLogMenuStrip;
             this.txtLog.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLog.Location = new System.Drawing.Point(7, 20);
+            this.txtLog.Location = new System.Drawing.Point(6, 30);
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.txtLog.Size = new System.Drawing.Size(480, 261);
+            this.txtLog.Size = new System.Drawing.Size(480, 250);
             this.txtLog.TabIndex = 0;
             this.txtLog.Text = "";
             // 
@@ -2454,7 +2454,7 @@ namespace MCForge.Gui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(775, 523);
+            this.ClientSize = new System.Drawing.Size(775, 525);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnProperties);
             this.Controls.Add(this.Restart);

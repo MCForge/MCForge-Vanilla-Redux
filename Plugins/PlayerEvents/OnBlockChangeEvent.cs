@@ -23,7 +23,7 @@ namespace MCForge
     /// <summary>
     /// This event is called whenever a player places or deletes a block
     /// </summary>
-    public sealed class OnBlockChangeEvent
+    public class OnBlockChangeEvent
     {
         internal static List<OnBlockChangeEvent> events = new List<OnBlockChangeEvent>();
         Plugin plugin;

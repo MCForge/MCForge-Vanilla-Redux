@@ -22,7 +22,7 @@ using System.IO;
 using MCForge.Util;
 namespace MCForge.Commands
 {
-    public sealed class CmdPass : Command
+    public class CmdPass : Command
     {
         public override string name { get { return "pass"; } }
         public override string shortcut { get { return ""; } }
@@ -79,8 +79,8 @@ namespace MCForge.Commands
                 return;
             }
 
-            DirectoryInfo di = new DirectoryInfo("extra/passwords/");
-            FileInfo[] fi = di.GetFiles("*.dat");
+           // DirectoryInfo di = new DirectoryInfo("extra/passwords/");
+     //       FileInfo[] fi = di.GetFiles("*.dat");
             if (!File.Exists("extra/passwords/" + p.name + ".dat"))
             {
                 Player.SendMessage(p, "You have not &cset a password, " + Server.DefaultColor + "use &a/setpass [Password] &cto set one!");

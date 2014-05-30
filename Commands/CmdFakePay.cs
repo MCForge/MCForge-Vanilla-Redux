@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdFakePay : Command
+    public class CmdFakePay : Command
     {
         public override string name { get { return "fakepay"; } }
         public override string shortcut { get { return "fpay"; } }

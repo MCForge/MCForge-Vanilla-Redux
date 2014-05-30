@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdHost : Command
+    public class CmdHost : Command
     {
         public override string name { get { return "host"; } }
         public override string shortcut { get { return "zall"; } }

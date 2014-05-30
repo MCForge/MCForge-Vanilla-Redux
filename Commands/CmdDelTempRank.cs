@@ -16,7 +16,7 @@ permissions and limitations under the Licenses.
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdDelTempRank : Command
+    public class CmdDelTempRank : Command
     {
         public override string name { get { return "deltemprank"; } }
         public override string shortcut { get { return "dtr"; } }

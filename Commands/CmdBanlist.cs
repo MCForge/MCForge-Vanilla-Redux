@@ -18,7 +18,7 @@
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdBanlist : Command
+    public class CmdBanlist : Command
     {
         public override string name { get { return "banlist"; } }
         public override string shortcut { get { return "bl"; } }

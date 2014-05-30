@@ -22,7 +22,7 @@ using System.Net;
 
 namespace MCForge
 {
-	public sealed class OmniBan
+	public class OmniBan
 	{
 		public List<string> bans;
 		public string kickMsg;

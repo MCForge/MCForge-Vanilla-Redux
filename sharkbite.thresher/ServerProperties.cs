@@ -20,7 +20,7 @@ namespace Sharkbite.Irc
 	/// }
 	/// //Only a handful of properties will ever be available.
 	/// </code></example>
-	public sealed class ServerProperties
+	public class ServerProperties
 	{
 		private Hashtable properties;
 

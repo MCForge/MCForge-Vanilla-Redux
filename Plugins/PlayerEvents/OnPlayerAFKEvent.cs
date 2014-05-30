@@ -22,7 +22,7 @@ namespace MCForge
     /// <summary>
     /// This event is called whenever the player goes AFK
     /// </summary>
-    public sealed class OnPlayerAFKEvent
+    public class OnPlayerAFKEvent
     {
         internal static List<OnPlayerAFKEvent> events = new List<OnPlayerAFKEvent>();
         Plugin plugin;

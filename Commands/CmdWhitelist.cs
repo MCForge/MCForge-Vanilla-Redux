@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdWhitelist : Command
+    public class CmdWhitelist : Command
     {
         public override string name { get { return "whitelist"; } }
         public override string shortcut { get { return "w"; } }

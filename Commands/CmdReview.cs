@@ -20,7 +20,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdReview : Command
+    public class CmdReview : Command
     {
         public override string name { get { return "review"; } }
         public override string shortcut { get { return ""; } }

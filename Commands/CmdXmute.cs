@@ -20,7 +20,7 @@ using System;
 using System.Threading;
 namespace MCForge.Commands
 {
-    public sealed class CmdXmute : Command
+    public class CmdXmute : Command
     {
         public override string name { get { return "xmute"; } }
         public override string shortcut { get { return ""; } }

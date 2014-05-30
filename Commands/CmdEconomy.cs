@@ -23,7 +23,7 @@ namespace MCForge.Commands {
     /// <summary>
     /// Economy Beta v1.0 QuantumHive
     /// </summary>
-    public sealed class CmdEconomy : Command {
+    public class CmdEconomy : Command {
         public override string name { get { return "economy"; } }
         public override string shortcut { get { return "eco"; } }
         public override string type { get { return "other"; } }

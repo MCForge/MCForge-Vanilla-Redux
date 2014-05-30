@@ -20,7 +20,7 @@ using System.IO;
 using System.Net;
 namespace MCForge.Commands
 {
-    public sealed class CmdPumpkin : Command
+    public class CmdPumpkin : Command
     {
         public override string name { get { return "pumpkin"; } }
         public override string shortcut { get { return ""; } }

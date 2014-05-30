@@ -10,9 +10,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MCForge</RootNamespace>
     <AssemblyName>MCForge_</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
@@ -45,17 +42,26 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <BaseAddress>4194304</BaseAddress>
+    <Prefer32Bit>False</Prefer32Bit>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>PdbOnly</DebugType>
-    <Optimize>True</Optimize>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>..\..\Source\General.ruleset</CodeAnalysisRuleSet>
     <DebugSymbols>true</DebugSymbols>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <BaseAddress>4194304</BaseAddress>
+    <Prefer32Bit>False</Prefer32Bit>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>MCForge.ico</ApplicationIcon>
@@ -77,27 +83,17 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite, Version=1.0.76.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\System.Data.SQLite.dll</HintPath>
-    </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Windows.Forms.Ribbon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\System.Windows.Forms.Ribbon.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -105,6 +101,12 @@
       <HintPath>MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms.Ribbon">
+      <HintPath>System.Windows.Forms.Ribbon.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoSaver.cs" />
@@ -115,11 +117,12 @@
     <Compile Include="Commands\CmdGcbanlistupdate.cs" />
     <Compile Include="Commands\CmdGcmods.cs" />
     <Compile Include="Commands\CmdGcrules.cs" />
-    <Compile Include="Commands\CmdGifToCin.cs" />
+    <Compile Include="Commands\CmdModel.cs" />
     <Compile Include="Commands\CmdMods.cs" />
     <Compile Include="Commands\CmdSearch.cs" />
     <Compile Include="Commands\CmdStaff.cs" />
     <Compile Include="Commands\CmdTntWars.cs" />
+    <Compile Include="Commands\CmdWeather.cs" />
     <Compile Include="Commands\CommandKeywords.cs" />
     <Compile Include="Donators.cs" />
     <Compile Include="GUI\ColoredTextBox.cs">
@@ -158,12 +161,6 @@
     <Compile Include="GUI\Win32\Natives.cs" />
     <Compile Include="GUI\Win32\RECT.cs" />
     <Compile Include="GUI\Win32\Utils.cs" />
-    <Compile Include="GUI\WoM.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\WoM.Designer.cs">
-      <DependentUpon>WoM.cs</DependentUpon>
-    </Compile>
     <Compile Include="HTTPGet.cs" />
     <Compile Include="Levels\Texture_Settings.cs" />
     <Compile Include="Player\MojangAccount.cs" />
@@ -192,34 +189,6 @@
     <Compile Include="Plugins\ServerEvents\OnServerErrorEvent.cs" />
     <Compile Include="Plugins\ServerEvents\OnServerLogEvent.cs" />
     <Compile Include="Plugins\Utils\Priority.cs" />
-    <Compile Include="Sharkbite.Thresher\ChannelModeInfo.cs" />
-    <Compile Include="Sharkbite.Thresher\CommandBuilder.cs" />
-    <Compile Include="Sharkbite.Thresher\Connection.cs" />
-    <Compile Include="Sharkbite.Thresher\ConnectionArgs.cs" />
-    <Compile Include="Sharkbite.Thresher\Ctcp\CtcpListener.cs" />
-    <Compile Include="Sharkbite.Thresher\Ctcp\CtcpResponder.cs" />
-    <Compile Include="Sharkbite.Thresher\Ctcp\CtcpSender.cs" />
-    <Compile Include="Sharkbite.Thresher\Ctcp\CtcpUtil.cs" />
-    <Compile Include="Sharkbite.Thresher\Dcc\DccChatSession.cs" />
-    <Compile Include="Sharkbite.Thresher\Dcc\DccFileInfo.cs" />
-    <Compile Include="Sharkbite.Thresher\Dcc\DccFileSession.cs" />
-    <Compile Include="Sharkbite.Thresher\Dcc\DccFileSessionManager.cs" />
-    <Compile Include="Sharkbite.Thresher\Dcc\DccListener.cs" />
-    <Compile Include="Sharkbite.Thresher\Dcc\DccUserInfo.cs" />
-    <Compile Include="Sharkbite.Thresher\Dcc\DccUtil.cs" />
-    <Compile Include="Sharkbite.Thresher\Delegates.cs" />
-    <Compile Include="Sharkbite.Thresher\Enums.cs" />
-    <Compile Include="Sharkbite.Thresher\Identd.cs" />
-    <Compile Include="Sharkbite.Thresher\IParser.cs" />
-    <Compile Include="Sharkbite.Thresher\Listener.cs" />
-    <Compile Include="Sharkbite.Thresher\NameGenerator.cs" />
-    <Compile Include="Sharkbite.Thresher\ReplyCode.cs" />
-    <Compile Include="Sharkbite.Thresher\Rfc2812Util.cs" />
-    <Compile Include="Sharkbite.Thresher\Sender.cs" />
-    <Compile Include="Sharkbite.Thresher\ServerProperties.cs" />
-    <Compile Include="Sharkbite.Thresher\TextColor.cs" />
-    <Compile Include="Sharkbite.Thresher\UserInfo.cs" />
-    <Compile Include="Sharkbite.Thresher\WhoisInfo.cs" />
     <Compile Include="Translate.cs" />
     <Compile Include="Commands\CmdAscend.cs" />
     <Compile Include="Commands\CmdBanEdit.cs" />
@@ -247,7 +216,6 @@
     <Compile Include="Commands\CmdChatRoom.cs" />
     <Compile Include="Commands\CmdCompload.cs" />
     <Compile Include="Commands\CmdCountdown.cs" />
-    <Compile Include="Commands\CmdCTF.cs" />
     <Compile Include="Commands\CmdDelTempRank.cs" />
     <Compile Include="Commands\CmdDisagree.cs" />
     <Compile Include="Commands\CmdDisinfect.cs" />
@@ -368,7 +336,6 @@
     <Compile Include="GUI\EditText.Designer.cs">
       <DependentUpon>EditText.cs</DependentUpon>
     </Compile>
-    <Compile Include="Heartbeat\WOMBeat.cs" />
     <Compile Include="Games\LavaSurvival.cs" />
     <Compile Include="Levels\BlockQueue.cs" />
     <Compile Include="MySQLTransactionHelper.cs" />
@@ -377,11 +344,6 @@
     <Compile Include="Plugins\Utils\Events.cs" />
     <Compile Include="Plugins\Manager\Plugin_Manager.cs" />
     <Compile Include="Plugins\Manager\Plugin_Simple.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="ScriptingVB.cs" />
     <Compile Include="Checktimer.cs" />
     <Compile Include="Service References\TranslateService\Reference.cs">
@@ -392,7 +354,6 @@
     <Compile Include="UPnP.cs" />
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteTransactionHelper.cs" />
-    <Compile Include="Util\ExtrasCollection.cs" />
     <Compile Include="FindReference.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Commands\CmdBotAdd.cs" />
@@ -446,7 +407,6 @@
     <Compile Include="Commands\CmdRedo.cs" />
     <Compile Include="Commands\CmdReplace.cs" />
     <Compile Include="Commands\CmdResetBot.cs" />
-    <Compile Include="Commands\CmdRestart.cs" />
     <Compile Include="Commands\CmdRestore.cs" />
     <Compile Include="Commands\CmdRetrieve.cs" />
     <Compile Include="Commands\CmdRules.cs" />
@@ -548,16 +508,12 @@
     <Compile Include="GUI\UpdateWindow.Designer.cs">
       <DependentUpon>UpdateWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Heartbeat\IBeat.cs" />
-    <Compile Include="Heartbeat\MCForgeBeat.cs" />
-    <Compile Include="Heartbeat\MinecraftBeat.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\ConvertDAT.cs" />
     <Compile Include="MySQL.cs" />
     <Compile Include="Player\Team.cs" />
     <Compile Include="Player\Group.cs" />
     <Compile Include="GUI\Program.cs" />
-    <Compile Include="Heart.cs" />
     <Compile Include="Levels\MapGenerator.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Misc.cs" />
@@ -568,19 +524,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GUI\Window.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\Window.Designer.cs">
       <DependentUpon>Window.cs</DependentUpon>
     </Compile>
-    <Compile Include="Queue\Cache.cs" />
-    <Compile Include="Queue\Check.cs" />
-    <Compile Include="Queue\Enums.cs" />
-    <Compile Include="Queue\ICacheable.cs" />
-    <Compile Include="Queue\MainLoop.cs" />
-    <Compile Include="Queue\TorrentException.cs" />
     <Compile Include="Scripting.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="ServerSettings.cs" />
@@ -588,13 +537,6 @@
     <Compile Include="GUI\AutoScrollTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Util\Extensions.cs" />
-    <Compile Include="Util\Hasher.cs" />
-    <Compile Include="Util\ICryptoService.cs" />
-    <Compile Include="Util\MathHelper.cs" />
-    <Compile Include="Util\MCForgeScripter.cs" />
-    <Compile Include="Util\SCOGenerator.cs" />
-    <Compile Include="Util\Serializer.cs" />
     <Compile Include="VIP.cs" />
     <Compile Include="Warp.cs" />
     <Compile Include="Games\ZombieGame.cs" />
@@ -625,14 +567,63 @@
       <DependentUpon>Window.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\WoM.resx">
-      <DependentUpon>WoM.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <Compile Include="sharkbite.thresher\ChannelModeInfo.cs" />
+    <Compile Include="sharkbite.thresher\CommandBuilder.cs" />
+    <Compile Include="sharkbite.thresher\Connection.cs" />
+    <Compile Include="sharkbite.thresher\ConnectionArgs.cs" />
+    <Compile Include="sharkbite.thresher\Ctcp\CtcpListener.cs" />
+    <Compile Include="sharkbite.thresher\Ctcp\CtcpResponder.cs" />
+    <Compile Include="sharkbite.thresher\Ctcp\CtcpSender.cs" />
+    <Compile Include="sharkbite.thresher\Ctcp\CtcpUtil.cs" />
+    <Compile Include="sharkbite.thresher\Dcc\DccChatSession.cs" />
+    <Compile Include="sharkbite.thresher\Dcc\DccFileInfo.cs" />
+    <Compile Include="sharkbite.thresher\Dcc\DccFileSession.cs" />
+    <Compile Include="sharkbite.thresher\Dcc\DccFileSessionManager.cs" />
+    <Compile Include="sharkbite.thresher\Dcc\DccListener.cs" />
+    <Compile Include="sharkbite.thresher\Dcc\DccUserInfo.cs" />
+    <Compile Include="sharkbite.thresher\Dcc\DccUtil.cs" />
+    <Compile Include="sharkbite.thresher\Delegates.cs" />
+    <Compile Include="sharkbite.thresher\Enums.cs" />
+    <Compile Include="sharkbite.thresher\Identd.cs" />
+    <Compile Include="sharkbite.thresher\IParser.cs" />
+    <Compile Include="sharkbite.thresher\Listener.cs" />
+    <Compile Include="sharkbite.thresher\NameGenerator.cs" />
+    <Compile Include="sharkbite.thresher\ReplyCode.cs" />
+    <Compile Include="sharkbite.thresher\Rfc2812Util.cs" />
+    <Compile Include="sharkbite.thresher\Sender.cs" />
+    <Compile Include="sharkbite.thresher\ServerProperties.cs" />
+    <Compile Include="sharkbite.thresher\TextColor.cs" />
+    <Compile Include="sharkbite.thresher\UserInfo.cs" />
+    <Compile Include="sharkbite.thresher\WhoisInfo.cs" />
+    <Compile Include="Commands\CmdCtf.cs" />
+    <Compile Include="properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="util\ExtrasCollection.cs" />
+    <Compile Include="Commands\cmdRestart.cs" />
+    <Compile Include="properties\AssemblyInfo.cs" />
+    <Compile Include="queue\Cache.cs" />
+    <Compile Include="queue\Check.cs" />
+    <Compile Include="queue\Enums.cs" />
+    <Compile Include="queue\ICacheable.cs" />
+    <Compile Include="queue\MainLoop.cs" />
+    <Compile Include="queue\TorrentException.cs" />
+    <Compile Include="util\Extensions.cs" />
+    <Compile Include="util\Hasher.cs" />
+    <Compile Include="util\ICryptoService.cs" />
+    <Compile Include="util\MathHelper.cs" />
+    <Compile Include="util\MCForgeScripter.cs" />
+    <Compile Include="util\SCOGenerator.cs" />
+    <Compile Include="util\Serializer.cs" />
+    <EmbeddedResource Include="properties\Resources.resx">
+      <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Compile Include="Heartbeat\IBeat.cs" />
+    <Compile Include="Heartbeat\MinecraftBeat.cs" />
+    <Compile Include="Heartbeat\ClassiCubeBeat.cs" />
+    <Compile Include="Heart.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -717,6 +708,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\OpenClassicEvents\" />
+    <Folder Include="Heartbeat\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

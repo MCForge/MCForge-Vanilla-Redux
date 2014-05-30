@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdPhysics : Command
+    public class CmdPhysics : Command
     {
         public override string name { get { return "physics"; } }
         public override string shortcut { get { return ""; } }

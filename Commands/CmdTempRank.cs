@@ -16,7 +16,7 @@ using System;
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdTempRank : Command
+    public class CmdTempRank : Command
     {
         public override string name { get { return "temprank"; } }
         public override string shortcut { get { return "tr"; } }

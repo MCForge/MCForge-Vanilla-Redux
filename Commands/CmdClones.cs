@@ -21,7 +21,7 @@ using System.Text.RegularExpressions;
 using MCForge.SQL;
 namespace MCForge.Commands
 {
-	public sealed class CmdClones : Command
+	public class CmdClones : Command
 	{
 		public override string name { get { return "clones"; } }
 		public override string shortcut { get { return "alts"; } }

@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdBanEdit : Command
+    public class CmdBanEdit : Command
     {
         public override string name { get { return "banedit"; } }
         public override string shortcut { get { return "be"; } }

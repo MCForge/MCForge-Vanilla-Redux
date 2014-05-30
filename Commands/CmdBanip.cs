@@ -22,7 +22,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using MCForge.SQL;
 namespace MCForge.Commands {
-    public sealed class CmdBanip : Command {
+    public class CmdBanip : Command {
         public override string name { get { return "banip"; } }
         public override string shortcut { get { return "bi"; } }
         public override string type { get { return "mod"; } }

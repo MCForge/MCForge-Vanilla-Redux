@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdLevels : Command
+    public class CmdLevels : Command
     {
         public override string name { get { return "levels"; } }
         public override string shortcut { get { return "maps"; } }

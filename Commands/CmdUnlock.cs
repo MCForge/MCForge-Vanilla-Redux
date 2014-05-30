@@ -18,7 +18,7 @@
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdUnlock : Command
+    public class CmdUnlock : Command
     {
         // The command's name, in all lowercase.  What you'll be putting behind the slash when using it.
         public override string name { get { return "unlock"; } }

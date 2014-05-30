@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-	public sealed class CmdZz : Command
+	public class CmdZz : Command
 	{
         public override string name { get { return "zz"; } }
 		public override string shortcut { get { return ""; } }

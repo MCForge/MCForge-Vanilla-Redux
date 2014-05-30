@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdWarn : Command
+    public class CmdWarn : Command
     {
         public override string name { get { return "warn"; } }
         public override string shortcut { get { return ""; } }

@@ -22,7 +22,7 @@ namespace MCForge.Commands
     /// This is the command /afk
     /// use /help afk in-game for more info
     /// </summary>
-    public sealed class CmdAfk : Command
+    public class CmdAfk : Command
     {
         public override string name { get { return "afk"; } }
         public override string shortcut { get { return ""; } }

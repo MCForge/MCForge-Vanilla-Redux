@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 namespace MCForge
 {
-    public sealed class OnLevelSaveEvent
+    public class OnLevelSaveEvent
     {
         internal static List<OnLevelSaveEvent> events = new List<OnLevelSaveEvent>();
         Plugin plugin;

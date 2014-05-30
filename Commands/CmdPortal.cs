@@ -20,7 +20,7 @@ using System.Data;
 using MCForge.SQL;
 namespace MCForge.Commands
 {
-    public sealed class CmdPortal : Command
+    public class CmdPortal : Command
     {
         public override string name { get { return "portal"; } }
         public override string shortcut { get { return "o"; } }
@@ -82,7 +82,7 @@ namespace MCForge.Commands
 
             if (bp.Multi && type == Block.red && bp.port.Count > 0) { ExitChange(p, x, y, z, type); return; }
 
-            byte b = p.level.GetTile(x, y, z);
+          //  byte b = p.level.GetTile(x, y, z);
             p.level.Blockchange(p, x, y, z, bp.type);
             p.SendBlockchange(x, y, z, Block.green);
             portPos Port;

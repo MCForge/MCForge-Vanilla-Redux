@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-	public sealed class CmdGlobalCLS : Command
+	public class CmdGlobalCLS : Command
 	{
 		public override string name { get { return "globalcls"; } }
 		public override string shortcut { get { return "gcls"; } }

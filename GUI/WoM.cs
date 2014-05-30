@@ -37,7 +37,7 @@ namespace MCForge.GUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (WOMBeat.SetSettings(Server.IP, "" + Server.port, textBox1.Text, textBox2.Text, textBox3.Text))
+         //   if (WOMBeat.SetSettings(Server.IP, "" + Server.port, textBox1.Text, textBox2.Text, textBox3.Text))
             {
                 MessageBox.Show("Your settings have been saved!", "Results", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Server.Server_ALT = textBox1.Text;
@@ -45,8 +45,8 @@ namespace MCForge.GUI
                 Server.Server_Flag = textBox3.Text;
                 this.Close();
             }
-            else
-                MessageBox.Show("There was an error, check the error log for more details!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+          //  else
+          //     MessageBox.Show("There was an error, check the error log for more details!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void WoM_Load(object sender, EventArgs e)

@@ -21,7 +21,7 @@ namespace MCForge.Commands
     /// This is the command /punload
     /// use /help punload in-game for more info
     /// </summary>
-    public sealed class CmdPUnload : Command
+    public class CmdPUnload : Command
     {
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public override bool museumUsable { get { return true; } }

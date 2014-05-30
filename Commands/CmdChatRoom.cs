@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdChatRoom : Command
+    public class CmdChatRoom : Command
     {
         public override string name { get { return "chatroom"; } }
         public override string shortcut { get { return "cr"; } }
@@ -37,13 +37,12 @@ namespace MCForge.Commands
             string par0 = String.Empty;
             string par1 = String.Empty;
             string par2 = String.Empty;
-            string par3 = String.Empty;
+           // string par3 = String.Empty;
             try
             {
                 par0 = command[0];
                 par1 = command[1];
                 par2 = command[2];
-                par3 = command[3];
             }
             catch { }
 

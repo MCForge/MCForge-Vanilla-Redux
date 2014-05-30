@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdPaste : Command
+    public class CmdPaste : Command
     {
         public override string name { get { return "paste"; } }
         public override string shortcut { get { return "v"; } }

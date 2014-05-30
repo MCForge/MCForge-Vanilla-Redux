@@ -27,7 +27,7 @@ namespace MCForge
     /// For Example:
     /// This is useful if you want to store the value "lives" for the player object to 
     /// </summary>
-    public sealed class ExtrasCollection : IDisposable
+    public class ExtrasCollection : IDisposable
     {
         private Dictionary<string, object> _objects = new Dictionary<string, object>();
 

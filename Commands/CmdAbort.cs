@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdAbort : Command
+    public class CmdAbort : Command
     {
         public override string name { get { return "abort"; } }
         public override string shortcut { get { return "a"; } }

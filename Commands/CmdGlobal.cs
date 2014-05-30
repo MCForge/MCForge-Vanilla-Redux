@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdGlobal : Command
+    public class CmdGlobal : Command
     {
         public override string name { get { return "global"; } }
         public override string shortcut { get { return "gc"; } }

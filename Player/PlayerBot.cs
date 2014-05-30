@@ -21,7 +21,7 @@ using System.IO;
 using System.Threading;
 namespace MCForge
 {
-    public sealed class PlayerBot
+    public class PlayerBot
     {
         public static List<PlayerBot> playerbots = new List<PlayerBot>(64);
 
@@ -92,7 +92,7 @@ namespace MCForge
             botTimer.Elapsed += delegate
             {
                 int currentNum, foundNum = (32 * 75);
-                Random rand = new Random();
+            //    Random rand = new Random();
 
                 x = (ushort)Math.Round((decimal)pos[0] / (decimal)32);
                 y = (ushort)((pos[1] - 33) / 32);
@@ -311,7 +311,7 @@ namespace MCForge
             {
                 moveTimer.Interval = Server.updateTimer.Interval / movementSpeed;
                 if (!movement) return;
-                int newNum; Random rand = new Random();
+                int newNum;// Random rand = new Random();
 
                 if ((pos[1] - 19) % 32 != 0 && !jumping)
                 {

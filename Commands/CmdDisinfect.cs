@@ -21,7 +21,7 @@ namespace MCForge.Commands
     /// This is the command /disinfect
     /// use /help disinfect in-game for more info
     /// </summary>
-    public sealed class CmdDisInfect : Command
+    public class CmdDisInfect : Command
     {
         public override string name { get { return "disinfect"; } }
         public override string shortcut { get { return "di"; } }

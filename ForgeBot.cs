@@ -22,14 +22,14 @@ using System.Text;
 using Sharkbite.Irc;
 
 namespace MCForge {
-	public sealed class ForgeBot {
+	public class ForgeBot {
 		public static readonly string ColorSignal = "\x03";
 		public static readonly string ResetSignal = "\x0F";
 		private Connection connection;
 		private List<string> banCmd;
 		private string channel, opchannel;
 		private string nick;
-		private string server;
+	//	private string server;
 		private bool reset = false;
 		private byte retries = 0;
 		public string usedCmd = "";
@@ -40,7 +40,7 @@ namespace MCForge {
 				Server.s.Log("[IRC] The IRC dll was not found!");
 				return;
 			}*/
-			this.channel = channel.Trim(); this.opchannel = opchannel.Trim(); this.nick = nick.Replace(" ", ""); this.server = server;
+			this.channel = channel.Trim(); this.opchannel = opchannel.Trim(); this.nick = nick.Replace(" ", ""); //this.server = server;
 			banCmd = new List<string>();
 			if (Server.irc) {
 

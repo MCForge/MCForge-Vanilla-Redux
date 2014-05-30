@@ -18,7 +18,7 @@
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdTranslate : Command
+    public class CmdTranslate : Command
     {
         public override string name { get { return "translate"; } }
         public override string shortcut { get { return "trans"; } }

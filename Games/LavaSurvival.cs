@@ -24,7 +24,7 @@ using System.Timers;
 
 namespace MCForge
 {
-    public sealed class LavaSurvival
+    public class LavaSurvival
     {
         // Private variables
         private string propsPath = "properties/lavasurvival/";

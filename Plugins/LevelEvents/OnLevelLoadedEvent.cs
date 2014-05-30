@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 namespace MCForge
 {
-    public sealed class OnLevelLoadedEvent
+    public class OnLevelLoadedEvent
     {
         internal static List<OnLevelLoadedEvent> events = new List<OnLevelLoadedEvent>();
         Plugin plugin;

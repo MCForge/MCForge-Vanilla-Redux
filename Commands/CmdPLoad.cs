@@ -21,7 +21,7 @@ namespace MCForge.Commands
     /// <summary>
     /// This is the command /pload
     /// </summary>
-    public sealed class CmdPLoad : Command
+    public class CmdPLoad : Command
     {
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public override bool museumUsable { get { return true; } }

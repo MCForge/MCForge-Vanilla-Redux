@@ -19,7 +19,7 @@
 using System;
 namespace MCForge.Commands
 {
-	public sealed class CmdLavaSurvival : Command
+	public class CmdLavaSurvival : Command
 	{
 		public override string name { get { return "lavasurvival"; } }
 		public override string shortcut { get { return "ls"; } }

@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdTrust : Command
+    public class CmdTrust : Command
     {
         public override string name { get { return "trust"; } }
         public override string shortcut { get { return ""; } }

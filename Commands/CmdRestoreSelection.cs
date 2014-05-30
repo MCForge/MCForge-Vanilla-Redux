@@ -20,7 +20,7 @@ using System.IO;
 using System.IO.Compression;
 namespace MCForge.Commands
 {
-    public sealed class CmdRestoreSelection : Command
+    public class CmdRestoreSelection : Command
     {
         public override string name { get { return "rs"; } }
         public override string shortcut { get { return ""; } }

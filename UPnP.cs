@@ -24,7 +24,7 @@ using System.Xml;
 
 namespace MCForge.Core {
 
-    public sealed class UPnP {
+    public class UPnP {
 
         public static bool CanUseUpnp { get {return Discover(); } }
 
@@ -39,7 +39,7 @@ namespace MCForge.Core {
             get { return _timeout; }
             set { _timeout = value; }
         }
-        static string _descUrl, _serviceUrl, _eventUrl;
+        static string _serviceUrl;
         private static bool Discover() {
             Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             s.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
@@ -73,7 +73,6 @@ namespace MCForge.Core {
                             resp = resp.Substring(resp.ToLower().IndexOf("location:") + 9);
                             resp = resp.Substring(0, resp.IndexOf("\r")).Trim();
                             if (!string.IsNullOrEmpty(_serviceUrl = GetServiceUrl(resp))) {
-                                _descUrl = resp;
                                 return true;
                             }
                         }
@@ -101,8 +100,7 @@ namespace MCForge.Core {
                 XmlNode node = desc.SelectSingleNode("//tns:service[tns:serviceType=\"urn:schemas-upnp-org:service:WANIPConnection:1\"]/tns:controlURL/text()", nsMgr);
                 if ( node == null )
                     return null;
-                XmlNode eventnode = desc.SelectSingleNode("//tns:service[tns:serviceType=\"urn:schemas-upnp-org:service:WANIPConnection:1\"]/tns:eventSubURL/text()", nsMgr);
-                _eventUrl = CombineUrls(resp, eventnode.Value);
+             //   XmlNode eventnode = desc.SelectSingleNode("//tns:service[tns:serviceType=\"urn:schemas-upnp-org:service:WANIPConnection:1\"]/tns:eventSubURL/text()", nsMgr);
                 return CombineUrls(resp, node.Value);
 #if !DEBUG
             }
@@ -119,23 +117,23 @@ namespace MCForge.Core {
         public static void ForwardPort(int port, ProtocolType protocol, string description) {
             if ( string.IsNullOrEmpty(_serviceUrl) )
                 throw new Exception("No UPnP service available or Discover() has not been called");
-            XmlDocument xdoc = SOAPRequest(_serviceUrl, "<u:AddPortMapping xmlns:u=\"urn:schemas-upnp-org:service:WANIPConnection:1\">" +
+         /*   XmlDocument xdoc = SOAPRequest(_serviceUrl, "<u:AddPortMapping xmlns:u=\"urn:schemas-upnp-org:service:WANIPConnection:1\">" +
                 "<NewRemoteHost></NewRemoteHost><NewExternalPort>" + port.ToString() + "</NewExternalPort><NewProtocol>" + protocol.ToString().ToUpper() + "</NewProtocol>" +
                 "<NewInternalPort>" + port.ToString() + "</NewInternalPort><NewInternalClient>" + GetLocalIP() +
                 "</NewInternalClient><NewEnabled>1</NewEnabled><NewPortMappingDescription>" + description +
             "</NewPortMappingDescription><NewLeaseDuration>0</NewLeaseDuration></u:AddPortMapping>", "AddPortMapping");
-        }
+        */}
 
         public static void DeleteForwardingRule(int port, ProtocolType protocol) {
             if ( string.IsNullOrEmpty(_serviceUrl) )
                 throw new Exception("No UPnP service available or Discover() has not been called");
-            XmlDocument xdoc = SOAPRequest(_serviceUrl,
-            "<u:DeletePortMapping xmlns:u=\"urn:schemas-upnp-org:service:WANIPConnection:1\">" +
-            "<NewRemoteHost>" +
-            "</NewRemoteHost>" +
-            "<NewExternalPort>" + port + "</NewExternalPort>" +
-            "<NewProtocol>" + protocol.ToString().ToUpper() + "</NewProtocol>" +
-            "</u:DeletePortMapping>", "DeletePortMapping");
+           // XmlDocument xdoc = SOAPRequest(_serviceUrl,
+           // "<u:DeletePortMapping xmlns:u=\"urn:schemas-upnp-org:service:WANIPConnection:1\">" +
+           // "<NewRemoteHost>" +
+          //  "</NewRemoteHost>" +
+          //  "<NewExternalPort>" + port + "</NewExternalPort>" +
+           // "<NewProtocol>" + protocol.ToString().ToUpper() + "</NewProtocol>" +
+          //  "</u:DeletePortMapping>", "DeletePortMapping");
 
         }
 

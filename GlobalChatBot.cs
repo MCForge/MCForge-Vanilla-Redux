@@ -20,7 +20,7 @@ using System.Net;
 using Sharkbite.Irc;
 namespace MCForge
 {
-    public sealed class GlobalChatBot
+    public class GlobalChatBot
     {
         public delegate void RecieveChat(string nick, string message);
         public static event RecieveChat OnNewRecieveGlobalMessage;
@@ -46,18 +46,8 @@ namespace MCForge
                 Server.s.Log("[GlobalChat] The IRC dll was not found!");
                 return;
             }*/
-            try {
-            	using (WebClient wc = new WebClient()) {
-            		string data = wc.DownloadString("http://server.mcforge.net/gcdata");
-            		server = data.Split('&')[0];
-            		channel = data.Split('&')[1];
-            	}
-            }
-            catch 
-            {
-            	server = "irc.mcforge.net";
-            	channel = "#GlobalChat";
-            }
+            server = "irc.geekshed.net";
+            channel = "#MCForge";
             this.nick = nick.Replace(" ", "");
             connection = new Connection(new ConnectionArgs(nick, server), false, false);
 

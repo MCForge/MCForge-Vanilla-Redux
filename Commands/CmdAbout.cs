@@ -22,7 +22,7 @@ using MCForge.SQL;
 
 namespace MCForge.Commands
 {
-    public sealed class CmdAbout : Command
+    public class CmdAbout : Command
     {
         public override string name { get { return "about"; } }
         public override string shortcut { get { return "b"; } }

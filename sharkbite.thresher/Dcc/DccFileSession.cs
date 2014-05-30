@@ -35,7 +35,7 @@ namespace Sharkbite.Irc
 	/// Allows the user to send and receive files
 	/// from other IRC users.
 	/// </summary>
-	public sealed class DccFileSession
+	public class DccFileSession
 	{
 		/// <summary>
 		/// The remote user did not accept the file within the timeout period.
@@ -71,7 +71,6 @@ namespace Sharkbite.Irc
 		private byte[] buffer;
 		private int listenPort;
 		private string sessionID;
-		private string listenIPAddress;
 		private Socket socket;
 		private Socket serverSocket;
 		private Thread thread;		
@@ -205,7 +204,7 @@ namespace Sharkbite.Irc
 				{
 					socket.Close();
 				}
-				catch( Exception e ) 
+				catch( Exception) 
 				{
 					//Ignore this exception
 				}
@@ -250,7 +249,7 @@ namespace Sharkbite.Irc
 					UploadLegacy();
 				}
 			}
-			catch ( Exception se) 
+			catch ( Exception) 
 			{
 				Debug.WriteLineIf( Rfc2812Util.IrcTrace.TraceWarning, "[" + Thread.CurrentThread.Name +"] DccFileSession::Listen() Connection broken" );		
 				Interrupted();
@@ -262,7 +261,7 @@ namespace Sharkbite.Irc
 			try 
 			{
 				int bytesRead = 0;
-				byte[] ack = new byte[4];
+			//	byte[] ack = new byte[4];
 				while( (bytesRead = dccFileInfo.TransferStream.Read(buffer, 0 , buffer.Length ) ) != 0 ) 
 				{
 					socket.Send(buffer, 0 , bytesRead, SocketFlags.None);
@@ -563,8 +562,6 @@ namespace Sharkbite.Irc
 				session = new DccFileSession( dccUserInfo, dccFileInfo , bufferSize, listenPort, "S" + listenPort );
 				//set turbo mode
 				session.turboMode = turbo;
-				//Set server IP address
-				session.listenIPAddress = listenIPAddress; 
 				//Add session to active sessions hashtable
 				DccFileSessionManager.DefaultInstance.AddSession( session );
 				//Create stream to file

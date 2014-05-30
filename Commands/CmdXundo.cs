@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdXundo : Command
+    public class CmdXundo : Command
     {
         public override string name { get { return "xundo"; } }
         public override string shortcut { get { return ""; } }

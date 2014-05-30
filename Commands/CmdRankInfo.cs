@@ -19,7 +19,7 @@ using System;
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdRankInfo : Command
+    public class CmdRankInfo : Command
     {
         public override string name { get { return "rankinfo"; } }
         public override string shortcut { get { return "ri"; } }

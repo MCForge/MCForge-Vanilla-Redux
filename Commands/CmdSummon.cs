@@ -19,7 +19,7 @@ using System;
 using System.Threading;
 namespace MCForge.Commands
 {
-    public sealed class CmdSummon : Command
+    public class CmdSummon : Command
     {
         public override string name { get { return "summon"; } }
         public override string shortcut { get { return "s"; } }

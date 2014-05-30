@@ -20,7 +20,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdRankMsg : Command
+    public class CmdRankMsg : Command
     {
         public override string name { get { return "rankmsg"; } }
         public override string shortcut { get { return "rm"; } }

@@ -21,7 +21,7 @@ using System.Text.RegularExpressions;
 using MCForge.SQL;
 namespace MCForge.Commands
 {
-    public sealed class CmdMessageBlock : Command
+    public class CmdMessageBlock : Command
     {
         public override string name { get { return "mb"; } }
         public override string shortcut { get { return ""; } }

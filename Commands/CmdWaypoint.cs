@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdWaypoint : Command
+    public class CmdWaypoint : Command
     {
         public override string name { get { return "waypoint"; } }
         public override string shortcut { get { return "wp"; } }

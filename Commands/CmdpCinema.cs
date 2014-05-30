@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdpCinema : Command
+    public class CmdpCinema : Command
     {
         CmdpCinema2[] cmdPC = new CmdpCinema2[100]; //reserving space for 100 movies.
         bool[] used = new bool[100];
@@ -114,7 +114,7 @@ namespace MCForge.Commands
         }
     }
 
-    public sealed class CmdpCinema2 : Command
+    public class CmdpCinema2 : Command
     {
         String FilePath;
         int frameLonging;

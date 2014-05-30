@@ -61,7 +61,6 @@ namespace MCForge
         /// <returns>Whether the plugin loaded or not</returns>
         public static bool Load(string pluginname, bool startup)
         {
-            String creator = "";
             object instance = null;
             Assembly lib = null;
             using (FileStream fs = File.Open(pluginname, FileMode.Open))
@@ -113,7 +112,6 @@ namespace MCForge
             }
             here:
             Plugin.all_simple.Add((Plugin_Simple)instance);
-            creator = ((Plugin_Simple)instance).creator;
             ((Plugin_Simple)instance).Load(startup);
             Server.s.Log("Plugin: " + ((Plugin_Simple)instance).name + " loaded...");
             Thread.Sleep(1000);

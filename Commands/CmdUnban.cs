@@ -21,7 +21,7 @@ namespace MCForge.Commands
     /// BUG: cannot unban while typing player names partially, code is not written optimal
     /// TODO: Fix this bug
     /// </summary>
-    public sealed class CmdUnban : Command
+    public class CmdUnban : Command
     {
         public override string name { get { return "unban"; } }
         public override string shortcut { get { return ""; } }

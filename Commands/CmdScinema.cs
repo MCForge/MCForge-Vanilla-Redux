@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 namespace MCForge.Commands
 {
-    public sealed class CmdSCinema : Command
+    public class CmdSCinema : Command
     {
         StreamWriter cin;
         String Filepath = "";

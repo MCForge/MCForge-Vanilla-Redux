@@ -27,7 +27,7 @@ using System.Threading;
 
 namespace MCForge
 {
-    public sealed class TntWarsGame
+    public class TntWarsGame
     {
         //Vars
         public static List<TntWarsGame> GameList = new List<TntWarsGame>();

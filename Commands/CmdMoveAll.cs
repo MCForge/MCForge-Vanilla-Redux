@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdMoveAll : Command
+    public class CmdMoveAll : Command
     {
         public override string name { get { return "moveall"; } }
         public override string shortcut { get { return "ma"; } }

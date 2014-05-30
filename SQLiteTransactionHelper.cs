@@ -21,7 +21,7 @@ namespace MCForge
 {
     namespace SQL 
     {
-        public sealed class SQLiteTransactionHelper : DatabaseTransactionHelper
+        public class SQLiteTransactionHelper : DatabaseTransactionHelper
         {
             private SQLiteConnection connection = null;
             private SQLiteTransaction transaction = null;

@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdDescend : Command
+    public class CmdDescend : Command
     {
         public override string name { get { return "descend"; } }
         public override string shortcut { get { return ""; } }

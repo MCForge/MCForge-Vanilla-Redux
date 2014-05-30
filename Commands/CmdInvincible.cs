@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdInvincible : Command
+    public class CmdInvincible : Command
     {
         public override string name { get { return "invincible"; } }
         public override string shortcut { get { return "inv"; } }

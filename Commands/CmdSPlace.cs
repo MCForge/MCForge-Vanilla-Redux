@@ -22,7 +22,7 @@ namespace MCForge.Commands
     /// This is the command /splace
     /// use /help splace in game for more info
     /// </summary>
-    public sealed class CmdSPlace : Command
+    public class CmdSPlace : Command
     {
         public override string name { get { return "splace"; } }
         public override string shortcut { get { return "set"; } }

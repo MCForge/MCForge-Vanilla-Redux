@@ -25,7 +25,7 @@ namespace MCForge
 {
     namespace SQL
     {
-        public sealed class Database
+        public class Database
         {
             public static void CopyDatabase(StreamWriter sql)
             {
@@ -344,7 +344,7 @@ namespace MCForge
                 //Make new
                 string script = new StreamReader(stream).ReadToEnd();
                 string[] cmds = script.Split(';');
-                StringBuilder sb = new StringBuilder();
+             //   StringBuilder sb = new StringBuilder();
 
                 using (DatabaseTransactionHelper helper = DatabaseTransactionHelper.Create())
                 {

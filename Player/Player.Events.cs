@@ -59,12 +59,12 @@ namespace MCForge
         /// <summary>
         /// This event is triggered when a player goes AFK
         /// </summary>
-        [Obsolete("Please use the OnPlayerAFKEvent.Register()")]
+        //[Obsolete("Please use the OnPlayerAFKEvent.Register()")]
         public static event OnAFK AFK;
         /// <summary>
         /// This event is triggered when a player goes AFK
         /// </summary>
-        [Obsolete("Please use the OnPlayerAFKEvent.Register()")]
+        //[Obsolete("Please use the OnPlayerAFKEvent.Register()")]
         public event OnAFK ONAFK;
         /// <summary>
         /// This method is called whenever a players data is saved in mysql (even if disabled)
@@ -75,7 +75,7 @@ namespace MCForge
         /// <summary>
         /// This event is called whenever a players data is saved in mysql (even if disabled) (Can be cancled)
         /// </summary>
-        [Obsolete("Please use the OnMySQLSaveEvent.Register()")]
+        //[Obsolete("Please use the OnMySQLSaveEvent.Register()")]
         public static event OnMySQLSave MySQLSave;
         /// <summary>
         /// BlockchangeEventHandler2 event is called when a player removes or places a block
@@ -99,7 +99,7 @@ namespace MCForge
         /// <summary>
         /// BlockChange event is called when a player removes or places a block
         /// </summary>
-        [Obsolete("Please use OnBlockChangeEvent.Register()")]
+        //[Obsolete("Please use OnBlockChangeEvent.Register()")]
         public event BlockchangeEventHandler Blockchange = null;
         /// <summary>
         /// Player Connect Event is called when a Player connects
@@ -109,7 +109,7 @@ namespace MCForge
         /// <summary>
         /// PlayerConnect event is called when a player connects (Player p)
         /// </summary>
-        [Obsolete("Please use OnPlayerConnectEvent.Register()")]
+        //[Obsolete("Please use OnPlayerConnectEvent.Register()")]
         public static event OnPlayerConnect PlayerConnect = null;
         /// <summary>
         /// Player Disconnect is called when a player disconnects
@@ -132,7 +132,7 @@ namespace MCForge
         /// <summary>
         /// PlayerCommand is called when a player does a command (string cmd, Player p, string message)
         /// </summary>
-        [Obsolete("Please use OnPlayerCommandEvent.Register()")]
+        //[Obsolete("Please use OnPlayerCommandEvent.Register()")]
         public static event OnPlayerCommand PlayerCommand = null;
         /// <summary>
         /// PlayerChat is event is called when a player chats on the server
@@ -144,19 +144,19 @@ namespace MCForge
         /// <summary>
         /// PlayerChat event is called when a player chats (Player p, string message)
         /// </summary>
-        [Obsolete("Please use OnPlayerChatEvent.Register()")]
+        //[Obsolete("Please use OnPlayerChatEvent.Register()")]
         public static event OnPlayerChat PlayerChat = null;
 
         /// <summary>
         /// This event is called when a player is about to recieve a chat message
         /// </summary>
-        [Obsolete("Please use OnMessageRecieveEvent.Register()")]
+        //[Obsolete("Please use OnMessageRecieveEvent.Register()")]
         public static event OnPlayerChat MessageRecieve = null;
 
         /// <summary>
         /// This event is called when the player is about to recieve a chat message
         /// </summary>
-        [Obsolete("Please use OnMessageRecieveEvent.Register()")]
+        //[Obsolete("Please use OnMessageRecieveEvent.Register()")]
         public event OnPlayerChat OnMessageRecieve = null;
         /// <summary>
         /// The OnPlayerDeath event is called when...a player dies
@@ -197,27 +197,27 @@ namespace MCForge
         /// <summary>
         /// PlayerDeath is called when the player dies (Player p, byte deathblock)
         /// </summary>
-        [Obsolete("Please use OnPlayerDeathEvent.Register()")]
+        //[Obsolete("Please use OnPlayerDeathEvent.Register()")]
         public static event OnPlayerDeath PlayerDeath = null;
         /// <summary>
         /// PlayerBlockChange is called when a player places a block
         /// </summary>
-        [Obsolete("Please use OnBlockChangeEvent.Register()")]
+        //[Obsolete("Please use OnBlockChangeEvent.Register()")]
         public static event BlockchangeEventHandler2 PlayerBlockChange = null;
         /// <summary>
         /// OnChat is called when the player chats (Player p, string message)
         /// </summary>
-        [Obsolete("Please use OnPlayerChatEvent.Register()")]
+        //[Obsolete("Please use OnPlayerChatEvent.Register()")]
         public event OnPlayerChat OnChat = null;
         /// <summary>
         /// OnCommand is called when the player does a command (string cmd, Player p, string message)
         /// </summary>
-        [Obsolete("Please use OnPlayerCommandEvent.Register()")]
+        //[Obsolete("Please use OnPlayerCommandEvent.Register()")]
         public event OnPlayerCommand OnCommand = null;
         /// <summary>
         /// OnDeath is called when the player dies (Player p, byte deathblock)
         /// </summary>
-        [Obsolete("Please use OnPlayerDeathEvent.Register()")]
+        //[Obsolete("Please use OnPlayerDeathEvent.Register()")]
         public event OnPlayerDeath OnDeath = null;
         public void ClearPlayerCommand() { OnCommand = null; }
         public void ClearPlayerChat() { OnChat = null; }

@@ -28,12 +28,12 @@ namespace MCForge
             private static MySqlParameterCollection parameters = new MySqlCommand().Parameters;
 
             public static string connString { get { return String.Format(connStringFormat, Server.MySQLHost, Server.MySQLPort, Server.MySQLUsername, Server.MySQLPassword, Server.DatabasePooling); } }
-            [Obsolete("Preferably use Database.executeQuery instead")]
+            //[Obsolete("Preferably use Database.executeQuery instead")]
             public static void executeQuery(string queryString, bool createDB = false)
             {
                 Database.executeQuery(queryString, createDB);
             }
-            [Obsolete("Preferably use Database.executeQuery instead")]
+            //[Obsolete("Preferably use Database.executeQuery instead")]
             public static DataTable fillData(string queryString, bool skipError = false)
             {
                 return Database.fillData(queryString, skipError);

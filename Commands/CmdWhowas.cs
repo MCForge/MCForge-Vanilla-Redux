@@ -20,7 +20,7 @@ using System.Data;
 using MCForge.SQL;
 namespace MCForge.Commands
 {
-    public sealed class CmdWhowas : Command
+    public class CmdWhowas : Command
     {
         public override string name { get { return "whowas"; } }
         public override string shortcut { get { return ""; } }

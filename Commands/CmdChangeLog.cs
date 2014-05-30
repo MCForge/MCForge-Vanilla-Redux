@@ -20,7 +20,7 @@ using System.IO;
 using System.Linq;
 namespace MCForge.Commands
 {
-    public sealed class CmdChangeLog : Command
+    public class CmdChangeLog : Command
     {
         public override string name { get { return "changelog"; } }
         public override string shortcut { get { return ""; } }

@@ -18,7 +18,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdPerbuildMax : Command
+    public class CmdPerbuildMax : Command
     {
         public override string name { get { return "perbuildmax"; } }
         public override string shortcut { get { return ""; } }

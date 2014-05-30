@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdResetBot : Command
+    public class CmdResetBot : Command
     {
         public override string name { get { return "resetbot"; } }
         public override string shortcut { get { return "resetirc"; } }

@@ -19,7 +19,7 @@ using System;
 using System.Threading;
 namespace MCForge.Commands
 {
-    public sealed class CmdChain : Command
+    public class CmdChain : Command
     {
         public override string name { get { return "chain"; } }
         public override string shortcut { get { return ""; } }

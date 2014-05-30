@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdWhisper : Command
+    public class CmdWhisper : Command
     {
         public override string name { get { return "whisper"; } }
         public override string shortcut { get { return ""; } }

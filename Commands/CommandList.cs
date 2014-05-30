@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace MCForge
 {
-    public sealed class CommandList
+    public class CommandList
     {
         public List<Command> commands = new List<Command>();
         public CommandList() { }

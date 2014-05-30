@@ -23,7 +23,7 @@ namespace MCForge
     /// <summary>
     /// This is the LevelUnload Event class
     /// </summary>
-    public sealed class OnLevelUnloadEvent
+    public class OnLevelUnloadEvent
     {
         internal static List<OnLevelUnloadEvent> events = new List<OnLevelUnloadEvent>();
         Plugin plugin;

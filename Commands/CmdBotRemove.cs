@@ -18,7 +18,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdBotRemove : Command
+    public class CmdBotRemove : Command
     {
         public override string name { get { return "botremove"; } }
         public override string shortcut { get { return ""; } }

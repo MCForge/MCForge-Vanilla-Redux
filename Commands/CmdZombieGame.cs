@@ -19,7 +19,7 @@
 using System;
 namespace MCForge.Commands
 {
-    public sealed class CmdZombieGame : Command
+    public class CmdZombieGame : Command
     {
         public override string name { get { return "zombiegame"; } }
         public override string shortcut { get { return "zg"; } }

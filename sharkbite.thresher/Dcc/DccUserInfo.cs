@@ -29,7 +29,7 @@ namespace Sharkbite.Irc
 	/// This class encapsulates all the information known
 	/// about a remote user in the context of a DCC session.
 	/// </summary>
-	public sealed class DccUserInfo : UserInfo
+	public class DccUserInfo : UserInfo
 	{
 
 		private Connection connection;

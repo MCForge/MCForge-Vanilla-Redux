@@ -17,7 +17,7 @@
 */
 namespace MCForge.Commands
 {
-    public sealed class CmdImpersonate : Command
+    public class CmdImpersonate : Command
 	{
 		public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
 		public override void Help(Player p) { Player.SendMessage(p, "/impersonate <player> <message> - Sends a message as if it came from <player>"); }

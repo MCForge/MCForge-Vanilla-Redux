@@ -21,7 +21,7 @@ using System.IO;
 using MCForge.Util;
 namespace MCForge.Commands
 {
-    public sealed class CmdSetPass : Command
+    public class CmdSetPass : Command
     {
         public override string name { get { return "setpass"; } }
         public override string shortcut { get { return ""; } }
