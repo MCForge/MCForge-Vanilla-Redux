@@ -99,10 +99,10 @@ namespace MCForge
 
 
         int x, y, z;
-        ushort block;
+        byte block;
         public readonly int[] ChunkCoords = new int[6];
 
-        readonly ushort* image;
+        readonly byte* image;
         readonly Bitmap imageBmp;
         readonly BitmapData imageData;
         readonly int imageWidth, imageHeight;
@@ -132,7 +132,7 @@ namespace MCForge
             dimX1 = dimX - 1;
             dimY1 = dimY - 1;
 
-            blendDivisor = Block.maxblocks * Level.depth;
+            blendDivisor = 255 * Level.depth;
 
             imageWidth = TileX * Math.Max(dimX, dimY) + TileY / 2 * Level.depth + TileX * 2;
             imageHeight = TileY / 2 * Level.depth + MaxTileDim / 2 * Math.Max(Math.Max(dimX, dimY), Level.depth) + TileY * 2;
@@ -142,7 +142,7 @@ namespace MCForge
                                            ImageLockMode.ReadWrite,
                                            PixelFormat.Format32bppArgb);
 
-            image = (ushort*)imageData.Scan0;
+            image = (byte*)imageData.Scan0;
             imageStride = imageData.Stride;
 
             isoOffset = (Level.depth * TileY / 2 * imageStride + imageStride / 2 + TileX * 2);
@@ -160,7 +160,7 @@ namespace MCForge
             cropRectangle = Rectangle.Empty;
             try
             {
-                //ushort[] convertedBlocks = Level.blocks;
+                //byte[] convertedBlocks = Level.blocks;
                 //for (ushort x = 0; x < Level.width; x++)
                 //    for (ushort y = 0; y < Level.depth; y++)
                 //        for (ushort z = 0; z < Level.height; z++)
@@ -359,7 +359,7 @@ namespace MCForge
         }
 
 
-        const ushort ShadingStrength = 48;
+        const byte ShadingStrength = 48;
         readonly int blendDivisor, mh34;
 
         // inspired by http://www.devmaster.net/wiki/Alpha_blending
@@ -371,7 +371,7 @@ namespace MCForge
             ushort tA = ctp[tileOffset + 3];
 
             // Get final alpha channel.
-            int finalAlpha = tA + ((Block.maxblocks - tA) * image[imageOffset + 3]) / Block.maxblocks;
+            int finalAlpha = tA + ((255 - tA) * image[imageOffset + 3]) / 255;
 
             // Get percentage (out of 256) of source alpha compared to final alpha
             if (finalAlpha == 0)
@@ -380,31 +380,31 @@ namespace MCForge
             }
             else
             {
-                sourceAlpha = tA * Block.maxblocks / finalAlpha;
+                sourceAlpha = tA * 255 / finalAlpha;
             }
 
             // Destination percentage is just the additive inverse.
-            int destAlpha = Block.maxblocks - sourceAlpha;
+            int destAlpha = 255 - sourceAlpha;
 
             if (z < (Level.height >> 1))
             {
                 int shadow = (z >> 1) + mh34;
-                image[imageOffset] = (ushort)((ctp[tileOffset] * sourceAlpha * shadow + image[imageOffset] * destAlpha * Level.height) / blendDivisor);
-                image[imageOffset + 1] = (ushort)((ctp[tileOffset + 1] * sourceAlpha * shadow + image[imageOffset + 1] * destAlpha * Level.height) / blendDivisor);
-                image[imageOffset + 2] = (ushort)((ctp[tileOffset + 2] * sourceAlpha * shadow + image[imageOffset + 2] * destAlpha * Level.height) / blendDivisor);
+                image[imageOffset] = (byte)((ctp[tileOffset] * sourceAlpha * shadow + image[imageOffset] * destAlpha * Level.height) / blendDivisor);
+                image[imageOffset + 1] = (byte)((ctp[tileOffset + 1] * sourceAlpha * shadow + image[imageOffset + 1] * destAlpha * Level.height) / blendDivisor);
+                image[imageOffset + 2] = (byte)((ctp[tileOffset + 2] * sourceAlpha * shadow + image[imageOffset + 2] * destAlpha * Level.height) / blendDivisor);
             }
             else
             {
                 int shadow = (z - (Level.height >> 1)) * ShadingStrength;
-                image[imageOffset] = (ushort)Math.Min(Block.maxblocks, (ctp[tileOffset] * sourceAlpha + shadow + image[imageOffset] * destAlpha) / Block.maxblocks);
-                image[imageOffset + 1] = (ushort)Math.Min(Block.maxblocks, (ctp[tileOffset + 1] * sourceAlpha + shadow + image[imageOffset + 1] * destAlpha) / Block.maxblocks);
-                image[imageOffset + 2] = (ushort)Math.Min(Block.maxblocks, (ctp[tileOffset + 2] * sourceAlpha + shadow + image[imageOffset + 2] * destAlpha) / Block.maxblocks);
+                image[imageOffset] = (byte)Math.Min(255, (ctp[tileOffset] * sourceAlpha + shadow + image[imageOffset] * destAlpha) / 255);
+                image[imageOffset + 1] = (byte)Math.Min(255, (ctp[tileOffset + 1] * sourceAlpha + shadow + image[imageOffset + 1] * destAlpha) / 255);
+                image[imageOffset + 2] = (byte)Math.Min(255, (ctp[tileOffset + 2] * sourceAlpha + shadow + image[imageOffset + 2] * destAlpha) / 255);
             }
 
-            image[imageOffset + 3] = (ushort)finalAlpha;
+            image[imageOffset + 3] = (byte)finalAlpha;
         }
 
-        ushort GetBlock(int xx, int yy, int zz)
+        byte GetBlock(int xx, int yy, int zz)
         {
             int realx;
             int realy;
@@ -431,7 +431,7 @@ namespace MCForge
 
             if (Mode == IsoCatMode.Normal)
             {
-                return Block.Convert(bp[pos]);
+                return (byte)Block.Convert(bp[pos]);
             }
             else if (Mode == IsoCatMode.Peeled && (xx == (Rot == 1 || Rot == 3 ? dimY1 : dimX1) || yy == (Rot == 1 || Rot == 3 ? dimX1 : dimY1) || zz == Level.height - 1))
             {
@@ -446,7 +446,7 @@ namespace MCForge
                 return 0;
             }
 
-            return Block.Convert(bp[pos]);
+            return (byte)Block.Convert(bp[pos]);
         }
     }
 }
