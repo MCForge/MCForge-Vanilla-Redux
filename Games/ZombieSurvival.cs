@@ -107,7 +107,7 @@ namespace MCForge
                 if (loop == 2)
                 {
                     loop--;
-                    Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "Zombie Survival ends in 30 seconds" + 
+                    Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "Zombie Survival ends in 30 seconds Keep running!" + 
                                             c.gray + " - ");
                 }
                 else if (loop == 1)
@@ -115,7 +115,7 @@ namespace MCForge
                     loop = 2;
                     ElapsedRounds++;
                     Server.ZombieRound = false;
-                    Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "Zombie Survival has ended! " + c.gray + " - ");
+                    Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "Zombie Survival has ended! GG! " + c.gray + " - ");
                     //DO VOTING
                     ChooseLevel();
                     EndTimer.Stop();
