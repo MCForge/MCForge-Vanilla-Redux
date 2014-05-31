@@ -9,3 +9,4 @@ C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\bin\Release\Updater.exe
 C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\bin\Release\Updater.pdb
 C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\updater\obj\x86\Release\Updater.exe
 C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\updater\obj\x86\Release\Updater.pdb
+C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\updater\obj\x86\Release\Updater.csprojResolveAssemblyReference.cache

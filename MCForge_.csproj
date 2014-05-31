@@ -84,6 +84,9 @@
     <Reference Include="IsoCraft">
       <HintPath>IsoCraft.dll</HintPath>
     </Reference>
+    <Reference Include="Meebey.SmartIrc4net">
+      <HintPath>..\..\..\Downloads\Meebey.SmartIrc4net.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -714,7 +717,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\OpenClassicEvents\" />
-    <Folder Include="Heartbeat\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

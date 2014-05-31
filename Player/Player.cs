@@ -2887,6 +2887,11 @@ rot = new byte[2] { rotx, roty };*/
         public void SendDie(byte id) { SendRaw(0x0C, new byte[1] { id }); }
         public void SendBlockchange(ushort x, ushort y, ushort z, ushort type) {
             if ( x < 0 || y < 0 || z < 0 ) return;
+            if(type > Block.maxblocks)
+            {
+                this.SendMessage("The server was not able to detect your held block, please try again!");
+                return;
+            }
             if ( x >= level.width || y >= level.depth || z >= level.height ) return;
 
             byte[] buffer = new byte[7];
@@ -3604,6 +3609,7 @@ changed |= 4;*/
             }
             catch { Server.s.Log("Error occured with Admin Chat"); }
         }
+
         public static void GlobalSpawn(Player from, ushort x, ushort y, ushort z, byte rotx, byte roty, bool self, string possession = "") {
             players.ForEach(delegate(Player p) {
                 if ( p.Loading && p != from ) { return; }
