@@ -21,6 +21,8 @@ namespace MCForge
 {
     public sealed class ClassiCubeBeat : IBeat
     {
+        public bool UrlSaid = false;
+
         public string URL
         {
             get
@@ -59,7 +61,11 @@ namespace MCForge
                     Server.CCURL = line;
                     Server.s.UpdateUrl(Server.URL);
                     File.WriteAllText("text/ccexternalurl.txt", Server.CCURL);
-                    Server.s.Log("ClassiCube URL found: " + Server.CCURL);
+                    if (UrlSaid == false)
+                    {
+                        Server.s.Log("ClassiCube URL found: " + Server.CCURL);
+                        UrlSaid = true;
+                    }
                 }
             }
         }

@@ -21,6 +21,8 @@ namespace MCForge
 {
     public sealed class MinecraftBeat : IBeat
     {
+        public bool UrlSaid = false;
+
         public string URL
         {
             get
@@ -60,7 +62,11 @@ namespace MCForge
                     Server.URL = line;
                     Server.s.UpdateUrl(Server.URL);
                     File.WriteAllText("text/externalurl.txt", Server.URL);
-                    Server.s.Log("URL found: " + Server.URL);
+                    if (UrlSaid == false)
+                    {
+                        Server.s.Log("URL found: " + Server.URL);
+                        UrlSaid = true;
+                    }
                 }
             }
         }
