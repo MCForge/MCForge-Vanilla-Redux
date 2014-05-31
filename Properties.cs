@@ -67,7 +67,7 @@ namespace MCForge {
 										Server.salt = sb.ToString ();
 								}
 
-								if (gotSalt2) {
+								if (!gotSalt2) {
 										RandomNumberGenerator prng = RandomNumberGenerator.Create ();
 										StringBuilder sb = new StringBuilder ();
 										byte[] oneChar = new byte[1];

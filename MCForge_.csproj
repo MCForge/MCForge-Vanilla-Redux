@@ -625,11 +625,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Heartbeat\IBeat.cs" />
-    <Compile Include="Heartbeat\MinecraftBeat.cs" />
-    <Compile Include="Heartbeat\ClassiCubeBeat.cs" />
     <Compile Include="Heart.cs" />
     <Compile Include="Commands\CmdLoadBytes.cs" />
+    <Compile Include="Heartbeat\ClassiCubeBeat.cs" />
+    <Compile Include="Heartbeat\IBeat.cs" />
+    <Compile Include="Heartbeat\MinecraftBeat.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -714,6 +714,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\OpenClassicEvents\" />
+    <Folder Include="Heartbeat\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
