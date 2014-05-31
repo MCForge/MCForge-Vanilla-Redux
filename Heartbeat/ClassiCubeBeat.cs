@@ -58,8 +58,8 @@ namespace MCForge
                     Server.Hash = newHash;
                     Server.CCURL = line;
                     Server.s.UpdateUrl(Server.URL);
-                    File.WriteAllText("text/ccexternalurl.txt", Server.URL);
-                    Server.s.Log("ClassiCube URL found: " + Server.URL);
+                    File.WriteAllText("text/ccexternalurl.txt", Server.CCURL);
+                    Server.s.Log("ClassiCube URL found: " + Server.CCURL);
                 }
             }
         }

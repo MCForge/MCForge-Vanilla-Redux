@@ -5300,7 +5300,7 @@ namespace MCForge
                     ushort x, y, z;
                     IntToPos(b, out x, out y, out z);
                     AddCheck(b, extraInfo, true); //Dont need to check physics here....AddCheck will do that
-                    Blockchange(x, y, z, (byte)type, true, extraInfo);
+                    Blockchange(x, y, z, (ushort)type, true, extraInfo);
                     return true;
                 }
 
