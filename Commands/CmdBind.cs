@@ -1,23 +1,28 @@
 /*
-	Copyright 2010 MCSharp team (Modified for use with MCZall/MCLawl/MCForge)
-	
-	Dual-licensed under the	Educational Community License, Version 2.0 and
-	the GNU General Public License, Version 3 (the "Licenses"); you may
-	not use this file except in compliance with the Licenses. You may
-	obtain a copy of the Licenses at
-	
-	http://www.opensource.org/licenses/ecl2.php
-	http://www.gnu.org/licenses/gpl-3.0.html
-	
-	Unless required by applicable law or agreed to in writing,
-	software distributed under the Licenses are distributed on an "AS IS"
-	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-	or implied. See the Licenses for the specific language governing
-	permissions and limitations under the Licenses.
+Copyright (C) 2010-2013 David Mitchell
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 */
+
 namespace MCForge.Commands
 {
-    public class CmdBind : Command
+    public sealed class CmdBind : Command
     {
         public override string name { get { return "bind"; } }
         public override string shortcut { get { return ""; } }
@@ -46,10 +51,10 @@ namespace MCForge.Commands
             int pos = message.IndexOf(' ');
             if (pos != -1)
             {
-                byte b1 = Block.Byte(message.Substring(0, pos));
-                byte b2 = Block.Byte(message.Substring(pos + 1));
-                if (b1 == 255) { Player.SendMessage(p, "There is no block \"" + message.Substring(0, pos) + "\"."); return; }
-                if (b2 == 255) { Player.SendMessage(p, "There is no block \"" + message.Substring(pos + 1) + "\"."); return; }
+                ushort b1 = Block.Ushort(message.Substring(0, pos));
+                ushort b2 = Block.Ushort(message.Substring(pos + 1));
+                if (b1 == Block.maxblocks) { Player.SendMessage(p, "There is no block \"" + message.Substring(0, pos) + "\"."); return; }
+                if (b2 == Block.maxblocks) { Player.SendMessage(p, "There is no block \"" + message.Substring(pos + 1) + "\"."); return; }
 
                 if (!Block.Placable(b1)) { Player.SendMessage(p, Block.Name(b1) + " isn't a special block."); return; }
                 if (!Block.canPlace(p, b2)) { Player.SendMessage(p, "You can't bind " + Block.Name(b2) + "."); return; }
@@ -64,7 +69,7 @@ namespace MCForge.Commands
             }
             else
             {
-                byte b = Block.Byte(message);
+                ushort b = Block.Ushort(message);
                 if (b > 100) { Player.SendMessage(p, "This block cannot be bound"); return; }
 
                 if (p.bindings[b] == b) { Player.SendMessage(p, Block.Name(b) + " isn't bound."); return; }

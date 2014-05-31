@@ -37,7 +37,7 @@ v5.5.11
 -Removals:
   -Restriction to the rankname devs/mods/gcmods etc. removed
   -Staff cannot use protection commands anymore
-  -LavaMapSubmission to MCForge.net deleted
+  -LavaMapSubmission to  deleted
 
 v5.5.10
 -New:
@@ -73,7 +73,7 @@ v5.5.10
 v5.5.9
 -New:
   -If textures are enabled, WoM users sees join/leave messages at the top right
-  -GlobalChat changed to irc.mcforge.net #GlobalChat
+  -GlobalChat changed to irc. #GlobalChat
   -GC data is gotten from remote server.
 -Fixes:
   -/womid now compatible with xWoM
@@ -155,7 +155,7 @@ v5.5.0.2
 -Fixed the color code crashes (for good)
 -Reverted to old networking code
 -Fixed GUI bugs
--Released Forge Remote for Android and PC : http://www.mcforge.net/remote/
+-Released Forge Remote for Android and PC : http://www./remote/
 
 v5.5.0.1
 -Fixed Players not disconnecting under mono.
@@ -183,7 +183,7 @@ through them. You can no longer use sensitive admin commands (like setrank, ban,
 -Fixed CLI on Windows.
 -Made it so you cannot use /sendcmd to impersonate a person on Global Chat. 
 -Server should now Auto-Restart upon encountering an "Out Of Memory" Error. 
--Moved remote console code to a plugin. Download: http://www.mcforge.net/forums/forumdisplay.php?fid=35
+-Moved remote console code to a plugin. Download: http://www./forums/forumdisplay.php?fid=35
 
 v5.4.0.4
 -Fixed physics error
@@ -586,7 +586,7 @@ This release was a redo of all changes made since 4.3.0.0. Because of this, we'v
 - Fixed offline undo bug for players who leave autoloaded levels
 - Changed the Console Message in the server for CLI so that it resembles the console message for GUI users.
 - Fixed an issue where running the software would open up a small CLI window as well as the GUI.
-- Port checker now uses MCForge.net to see if the server port is accessible.
+- Port checker now uses  to see if the server port is accessible.
 - Fixed server verifier to work with Class A and Class B networks (reported in forum topic 688)
 - Command thread will no longer be manually aborted, as this can sometimes cause problems closing the socket.
 
@@ -620,7 +620,7 @@ v4.3.0.0
   - Devs will responsible for managing this data and not overwriting other commands' data (mostly because I'm too lazy to 
 
 partition it - it'll be fine :P)
-- Changed web references to our new domain: mcforge.net
+- Changed web references to our new domain: 
 
 v4.2.0.1
 - Fixed naming typos with commands "seen" and "zombiespawn"

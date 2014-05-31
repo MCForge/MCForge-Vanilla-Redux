@@ -236,7 +236,7 @@ namespace MCForge
             switch (code)
             {
                 case ReplyCode.ERR_BANNEDFROMCHAN:
-                    Server.s.Log("Your server is banned from the Global Chat Channel. Please appeal at mcforge.net");
+                    Server.s.Log("Your server is banned from the Global Chat Channel. Please appeal at mcforge.org");
                     break;
                 case ReplyCode.ERR_INVITEONLYCHAN:
                     Server.s.Log("Cannot join Global Chat. (Channel is invite only (+i))");

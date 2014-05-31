@@ -214,7 +214,7 @@ namespace Sharkbite.Irc
 		/// <returns>An action enum.</returns>
 		public static ModeAction CharToModeAction( char action ) 
 		{
-			byte b = Convert.ToByte( action, CultureInfo.InvariantCulture );
+			ushort b = Convert.ToByte( action, CultureInfo.InvariantCulture );
 			return (ModeAction) Enum.Parse( typeof( ModeAction), b.ToString( CultureInfo.InvariantCulture), false );
 		}
 
@@ -255,7 +255,7 @@ namespace Sharkbite.Irc
 		/// <returns>An mode enum.</returns>
 		public static UserMode CharToUserMode( char mode ) 
 		{
-			byte b = Convert.ToByte( mode, CultureInfo.InvariantCulture );
+			ushort b = Convert.ToByte( mode, CultureInfo.InvariantCulture );
 			return (UserMode) Enum.Parse( typeof( UserMode), b.ToString(CultureInfo.InvariantCulture), false );
 		}
 
@@ -295,7 +295,7 @@ namespace Sharkbite.Irc
 		/// <returns>An mode enum.</returns>
 		public static ChannelMode CharToChannelMode( char mode ) 
 		{
-			byte b = Convert.ToByte( mode, CultureInfo.InvariantCulture );
+			ushort b = Convert.ToByte( mode, CultureInfo.InvariantCulture );
 			return (ChannelMode) Enum.Parse( typeof( ChannelMode), b.ToString( CultureInfo.InvariantCulture), false );
 		}
 
@@ -317,7 +317,7 @@ namespace Sharkbite.Irc
 		/// <returns>An StatsQuery enum.</returns>
 		public static StatsQuery CharToStatsQuery( char queryType ) 
 		{
-			byte b = Convert.ToByte( queryType, CultureInfo.InvariantCulture );
+			ushort b = Convert.ToByte( queryType, CultureInfo.InvariantCulture );
 			return (StatsQuery) Enum.Parse( typeof( StatsQuery), b.ToString(CultureInfo.InvariantCulture), false );
 		}
 

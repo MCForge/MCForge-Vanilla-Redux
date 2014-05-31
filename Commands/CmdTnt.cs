@@ -30,7 +30,7 @@ namespace MCForge.Commands
         {
             if (message.Split(' ').Length > 1) { Help(p); return; }
 
-            if (p.BlockAction == 13 || p.BlockAction == 14)
+            if (p.blockAction == 13 || p.blockAction == 14)
             {
                 if (p.allowTnt == false) 
                 {
@@ -38,13 +38,13 @@ namespace MCForge.Commands
                     return;
                 }
 
-                p.BlockAction = 0; Player.SendMessage(p, "TNT mode is now &cOFF" + Server.DefaultColor + ".");
+                p.blockAction = 0; Player.SendMessage(p, "TNT mode is now &cOFF" + Server.DefaultColor + ".");
             }
             else if (message.ToLower() == "small" || message == "")
             {
                 if (p.allowTnt == true) 
                 {
-                    p.BlockAction = 13; Player.SendMessage(p, "TNT mode is now &aON" + Server.DefaultColor + ".");
+                    p.blockAction = 13; Player.SendMessage(p, "TNT mode is now &aON" + Server.DefaultColor + ".");
                     return;
                 }
                 Player.SendMessage(p, "Tnt usage is not allowed at the moment!");
@@ -59,7 +59,7 @@ namespace MCForge.Commands
                 }
                 if ((int)p.group.Permission >= CommandOtherPerms.GetPerm(this, 1))
                 {
-                    p.BlockAction = 14; Player.SendMessage(p, "TNT (Big) mode is now &aON" + Server.DefaultColor + ".");
+                    p.blockAction = 14; Player.SendMessage(p, "TNT (Big) mode is now &aON" + Server.DefaultColor + ".");
                 }
                 else
                 {
@@ -97,7 +97,7 @@ namespace MCForge.Commands
                 }
                 if ((int)p.group.Permission >= CommandOtherPerms.GetPerm(this, 3))
                 {
-                    p.BlockAction = 15; Player.SendMessage(p, "TNT (Nuke) mode is now &aON" + Server.DefaultColor + ".");
+                    p.blockAction = 15; Player.SendMessage(p, "TNT (Nuke) mode is now &aON" + Server.DefaultColor + ".");
                 }
                 else
                 {

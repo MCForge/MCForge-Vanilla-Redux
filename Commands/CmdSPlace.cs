@@ -30,7 +30,7 @@ namespace MCForge.Commands
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Builder; } }
         private ushort distance, interval;
-        private byte blocktype = (byte)1;
+        private ushort blocktype = (byte)1;
         public CmdSPlace() { }
 
         public override void Use(Player p, string message)
@@ -70,20 +70,20 @@ namespace MCForge.Commands
             Player.SendMessage(p, "/splace [distance] [interval] - Measures a set [distance] and places a stone block at each end.");
             Player.SendMessage(p, "Optionally place a block at set [interval] between them.");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos bp = (CatchPos)p.blockchangeObject;
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             type = p.bindings[type];
             p.ClearBlockchange();
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos cpos = (CatchPos)p.blockchangeObject;
             if (x == cpos.x && z == cpos.z) { Player.SendMessage(p, "No direction was selected"); return; }

@@ -3,3 +3,8 @@ C:\Users\Dhruv\Downloads\MCForge-Vanilla-Redux-master\MCForge-Vanilla-Redux-mast
 C:\Users\Dhruv\Downloads\MCForge-Vanilla-Redux-master\MCForge-Vanilla-Redux-master\bin\Release\Updater.pdb
 C:\Users\Dhruv\Downloads\MCForge-Vanilla-Redux-master\MCForge-Vanilla-Redux-master\updater\obj\x86\Debug\Updater.exe
 C:\Users\Dhruv\Downloads\MCForge-Vanilla-Redux-master\MCForge-Vanilla-Redux-master\updater\obj\x86\Debug\Updater.pdb
+C:\Users\Dhruv\Downloads\MCForge-Vanilla-Redux-master (1)\MCForge-Vanilla-Redux-master\bin\Release\Updater.exe.config
+C:\Users\Dhruv\Downloads\MCForge-Vanilla-Redux-master (1)\MCForge-Vanilla-Redux-master\updater\obj\x86\Debug\Updater.exe
+C:\Users\Dhruv\Downloads\MCForge-Vanilla-Redux-master (1)\MCForge-Vanilla-Redux-master\updater\obj\x86\Debug\Updater.pdb
+C:\Users\Dhruv\Downloads\MCForge-Vanilla-Redux-master (1)\MCForge-Vanilla-Redux-master\bin\Release\Updater.exe
+C:\Users\Dhruv\Downloads\MCForge-Vanilla-Redux-master (1)\MCForge-Vanilla-Redux-master\bin\Release\Updater.pdb

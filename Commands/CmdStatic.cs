@@ -30,7 +30,7 @@ namespace MCForge.Commands
         {
             p.staticCommands = !p.staticCommands;
             p.ClearBlockchange();
-            p.BlockAction = 0;
+            p.blockAction = 0;
 
             Player.SendMessage(p, "Static mode: &a" + p.staticCommands.ToString());
 

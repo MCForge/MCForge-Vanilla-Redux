@@ -31,7 +31,7 @@ namespace MCForge.Commands
             if (message != "") { Help(p); return; }
             p.painting = !p.painting; if (p.painting) { Player.SendMessage(p, "Painting mode: &aON" + Server.DefaultColor + "."); }
             else { Player.SendMessage(p, "Painting mode: &cOFF" + Server.DefaultColor + "."); }
-            p.BlockAction = 0;
+            p.blockAction = 0;
         }
         public override void Help(Player p)
         {

@@ -46,8 +46,8 @@ namespace MCForge.Commands
                 int pos = message.IndexOf(' ');
                 string t = message.Substring(0, pos).ToLower();
                 string s = message.Substring(pos + 1).ToLower();
-                byte type = Block.Byte(t);
-                if (type == 255) { Player.SendMessage(p, "There is no block \"" + t + "\"."); wait = 1; return; }
+                ushort type = Block.Ushort(t);
+                if (type == Block.maxblocks) { Player.SendMessage(p, "There is no block \"" + t + "\"."); wait = 1; return; }
 
                 if (!Block.canPlace(p, type)) { Player.SendMessage(p, "Cannot place that."); wait = 1; return; }
 
@@ -70,7 +70,7 @@ namespace MCForge.Commands
                     msg = message.ToLower();
                 }
                 catch { }
-                byte type; unchecked { type = (byte)-1; }
+                ushort type; unchecked { type = (byte)-1; }
                 if (msg == "solid") { solid = SolidType.solid; }
                 else if (msg == "hollow") { solid = SolidType.hollow; }
                 else if (msg == "walls") { solid = SolidType.walls; }
@@ -79,8 +79,8 @@ namespace MCForge.Commands
                 else if (msg == "random") { solid = SolidType.random; }
                 else
                 {
-                    byte t = Block.Byte(msg);
-                    if (t == 255) { Player.SendMessage(p, "There is no block \"" + msg + "\"."); wait = 1; return; }
+                    ushort t = Block.Ushort(msg);
+                    if (t == Block.maxblocks) { Player.SendMessage(p, "There is no block \"" + msg + "\"."); wait = 1; return; }
 
                     if (!Block.canPlace(p, t)) { Player.SendMessage(p, "Cannot place that."); wait = 1; return; }
 
@@ -104,19 +104,19 @@ namespace MCForge.Commands
         {
             Player.SendMessage(p, "/cuboid [type] <solid/hollow/walls/holes/wire/random> - create a cuboid of blocks.");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos bp = (CatchPos)p.blockchangeObject;
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos cpos = (CatchPos)p.blockchangeObject;
             unchecked { if (cpos.type != (byte)-1) type = cpos.type; else type = p.bindings[type]; }
@@ -314,7 +314,7 @@ namespace MCForge.Commands
         struct CatchPos
         {
             public SolidType solid;
-            public byte type;
+            public ushort type;
             public ushort x, y, z;
         }
         enum SolidType { solid, hollow, walls, holes, wire, random };

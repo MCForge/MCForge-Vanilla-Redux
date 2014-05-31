@@ -32,7 +32,7 @@ namespace MCForge.Commands
             {
                 p.ClearBlockchange();
                 p.painting = false;
-                p.BlockAction = 0;
+                p.blockAction = 0;
                 p.megaBoid = false;
                 p.cmdTimer = false;
                 p.staticCommands = false;

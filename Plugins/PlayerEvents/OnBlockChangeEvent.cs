@@ -30,7 +30,7 @@ namespace MCForge
         Player.BlockchangeEventHandler method;
         Priority priority;
         internal OnBlockChangeEvent(Player.BlockchangeEventHandler method, Priority priority, Plugin plugin) { this.plugin = plugin; this.priority = priority; this.method = method; }
-        public static void Call(Player p, ushort x, ushort y, ushort z, byte type)
+        public static void Call(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             events.ForEach(delegate(OnBlockChangeEvent p1)
             {

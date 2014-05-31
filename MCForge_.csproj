@@ -62,6 +62,7 @@
     <Prefer32Bit>False</Prefer32Bit>
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>MCForge.ico</ApplicationIcon>
@@ -80,6 +81,9 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IsoCraft">
+      <HintPath>IsoCraft.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -145,6 +149,7 @@
     </Compile>
     <Compile Include="Games\CTF\Setup.cs" />
     <Compile Include="Games\TntWarsGame.cs" />
+    <Compile Include="GUI\Isocat.cs" />
     <Compile Include="GUI\PortTools.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -624,6 +629,7 @@
     <Compile Include="Heartbeat\MinecraftBeat.cs" />
     <Compile Include="Heartbeat\ClassiCubeBeat.cs" />
     <Compile Include="Heart.cs" />
+    <Compile Include="Commands\CmdLoadBytes.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -708,7 +714,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\OpenClassicEvents\" />
-    <Folder Include="Heartbeat\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

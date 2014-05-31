@@ -364,7 +364,7 @@ namespace MCForge.Commands
 			}
 		}
 
-		public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)
+		public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
 		{
 			p.ClearBlockchange();
 			p.SendBlockchange(x, y, z, p.level.GetTile(x, y, z));
@@ -386,7 +386,7 @@ namespace MCForge.Commands
 			Player.SendMessage(p, String.Format("Position set! &b({0}, {1}, {2})", x, y, z));
 		}
 
-		public void Blockchange2(Player p, ushort x, ushort y, ushort z, byte type)
+		public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
 		{
 			p.ClearBlockchange();
 			p.SendBlockchange(x, y, z, p.level.GetTile(x, y, z));

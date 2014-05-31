@@ -30,7 +30,7 @@ namespace MCForge.Commands
 
         public override void Use(Player p, string message)
         {
-            byte b; Int64 seconds;
+            ushort b; Int64 seconds;
             Player who;
             Player.UndoPos Pos;
             int CurrentPos = 0;

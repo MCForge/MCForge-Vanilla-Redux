@@ -178,7 +178,7 @@ namespace MCForge
 
         }
 
-        public static byte GetColorBlock(char color)
+        public static ushort GetColorBlock(char color)
         {
             if (color == '2')
                 return Block.green;
@@ -198,7 +198,7 @@ namespace MCForge
                 return Block.air;
         }
 
-        public struct CatchPos { public ushort x, y, z; public byte type; }
+        public struct CatchPos { public ushort x, y, z; public ushort type; }
         public struct Spawn { public ushort x, y, z, rotx, roty; }
     }
 }

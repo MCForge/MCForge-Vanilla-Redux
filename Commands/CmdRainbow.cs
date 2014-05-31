@@ -1,25 +1,30 @@
 /*
-	Copyright 2010 MCSharp team (Modified for use with MCZall/MCLawl/MCForge)
-	
-	Dual-licensed under the	Educational Community License, Version 2.0 and
-	the GNU General Public License, Version 3 (the "Licenses"); you may
-	not use this file except in compliance with the Licenses. You may
-	obtain a copy of the Licenses at
-	
-	http://www.opensource.org/licenses/ecl2.php
-	http://www.gnu.org/licenses/gpl-3.0.html
-	
-	Unless required by applicable law or agreed to in writing,
-	software distributed under the Licenses are distributed on an "AS IS"
-	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-	or implied. See the Licenses for the specific language governing
-	permissions and limitations under the Licenses.
+Copyright (C) 2010-2013 David Mitchell
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 */
+
 using System;
 using System.Collections.Generic;
 namespace MCForge.Commands
 {
-    public class CmdRainbow : Command
+    public sealed class CmdRainbow : Command
     {
         public override string name { get { return "rainbow"; } }
         public override string shortcut { get { return ""; } }
@@ -40,24 +45,24 @@ namespace MCForge.Commands
         {
             Player.SendMessage(p, "/rainbow - Taste the rainbow");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos bp = (CatchPos)p.blockchangeObject;
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos cpos = (CatchPos)p.blockchangeObject;
             List<Pos> buffer = new List<Pos>();
 
-            byte newType = Block.darkpink;
+            ushort newType = Block.darkpink;
 
             int xdif = Math.Abs(cpos.x - x);
             int ydif = Math.Abs(cpos.y - y);
@@ -127,14 +132,14 @@ namespace MCForge.Commands
 
             if (p.staticCommands) p.Blockchange += new Player.BlockchangeEventHandler(Blockchange1);
         }
-        void BufferAdd(List<Pos> list, ushort x, ushort y, ushort z, byte newType)
+        void BufferAdd(List<Pos> list, ushort x, ushort y, ushort z, ushort newType)
         {
             Pos pos;
             pos.x = x; pos.y = y; pos.z = z; pos.newType = newType;
             list.Add(pos);
         }
 
-        struct Pos { public ushort x, y, z; public byte newType; }
+        struct Pos { public ushort x, y, z; public ushort newType; }
         struct CatchPos { public ushort x, y, z; }
     }
 }

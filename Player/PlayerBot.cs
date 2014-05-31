@@ -129,7 +129,7 @@ namespace MCForge
                                     foundPos = p.pos;
                                     foundRot = p.rot;
                                     movement = true;
-                                    rot[1] = (byte)(255 - foundRot[1]);
+                                    rot[1] = (byte)(Block.maxblocks - foundRot[1]);
                                     if (foundRot[0] < 128) rot[0] = (byte)(foundRot[0] + 128);
                                     else rot[0] = (byte)(foundRot[0] - 128);
                                 }
@@ -198,7 +198,7 @@ namespace MCForge
                                     if (rot[1] > 32 && rot[1] < 128) nodUp = !nodUp;
                                     else
                                     {
-                                        if (rot[1] + (byte)Waypoints[currentPoint].rotspeed > 255) rot[1] = 0;
+                                        if (rot[1] + (byte)Waypoints[currentPoint].rotspeed > Block.maxblocks) rot[1] = 0;
                                         else rot[1] += (byte)Waypoints[currentPoint].rotspeed;
                                     }
                                 }
@@ -207,7 +207,7 @@ namespace MCForge
                                     if (rot[1] > 128 && rot[1] < 224) nodUp = !nodUp;
                                     else
                                     {
-                                        if (rot[1] - (byte)Waypoints[currentPoint].rotspeed < 0) rot[1] = 255;
+                                        if (rot[1] - (byte)Waypoints[currentPoint].rotspeed < 0) rot[1] = Block.maxblocks;
                                         else rot[1] -= (byte)Waypoints[currentPoint].rotspeed;
                                     }
                                 }
@@ -229,8 +229,8 @@ namespace MCForge
                             {
                                 countdown--;
 
-                                if (rot[0] + (byte)Waypoints[currentPoint].rotspeed > 255) rot[0] = 0;
-                                else if (rot[0] + (byte)Waypoints[currentPoint].rotspeed < 0) rot[0] = 255;
+                                if (rot[0] + (byte)Waypoints[currentPoint].rotspeed > Block.maxblocks) rot[0] = 0;
+                                else if (rot[0] + (byte)Waypoints[currentPoint].rotspeed < 0) rot[0] = Block.maxblocks;
                                 else rot[0] += (byte)Waypoints[currentPoint].rotspeed;
 
                                 if (countdown == 0)
@@ -322,8 +322,8 @@ namespace MCForge
                 y = (ushort)((pos[1] - 64) / 32);
                 z = (ushort)Math.Round((decimal)(pos[2] - 16) / (decimal)32);
 
-                byte b = Block.Convert(level.GetTile(x, y, z));
-                byte b1, b2, b3;//, b4;
+                ushort b = Block.Convert(level.GetTile(x, y, z));
+                ushort b1, b2, b3;//, b4;
 
                 if (Block.Walkthrough(b) && !jumping)
                 {

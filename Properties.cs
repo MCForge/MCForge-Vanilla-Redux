@@ -793,7 +793,7 @@ namespace MCForge {
 
 														case "griefer-stone-type":
 																try {
-																		Server.grieferStoneType = (byte)MathHelper.Clamp ((decimal)Block.Byte (value), 1, 49);
+																		Server.grieferStoneType = (byte)MathHelper.Clamp ((decimal)Block.Ushort (value), 1, 49);
 																} catch {
 																		Server.s.Log ("Invalid " + key + ". Using default");
 																}

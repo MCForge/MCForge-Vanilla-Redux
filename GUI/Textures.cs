@@ -27,12 +27,12 @@ namespace MCForge.GUI
                 l.textures.ChangeEdge(custom.Text);
             else if (comboBox1.SelectedIndex != -1)
             {
-                byte block = Block.Byte(comboBox1.Items[comboBox1.SelectedIndex].ToString().Replace(' ', '_'));
+                ushort block = Block.Ushort(comboBox1.Items[comboBox1.SelectedIndex].ToString().Replace(' ', '_'));
                 try
                 {
                     if (comboBox1.Items[comboBox1.SelectedIndex].ToString().Split(' ')[1].StartsWith("("))
                     {
-                        block = Block.Byte(comboBox1.Items[comboBox1.SelectedIndex].ToString().Split(' ')[0]);
+                        block = Block.Ushort(comboBox1.Items[comboBox1.SelectedIndex].ToString().Split(' ')[0]);
                     }
                 }
                 catch { }
@@ -54,12 +54,12 @@ namespace MCForge.GUI
                 l.textures.side = custom_side.Text;
             else if (side.SelectedIndex != -1)
             {
-                byte block = Block.Byte(side.Items[side.SelectedIndex].ToString().Replace(' ', '_'));
+                ushort block = Block.Ushort(side.Items[side.SelectedIndex].ToString().Replace(' ', '_'));
                 try
                 {
                     if (side.Items[side.SelectedIndex].ToString().Split(' ')[1].StartsWith("("))
                     {
-                        block = Block.Byte(side.Items[side.SelectedIndex].ToString().Split(' ')[0]);
+                        block = Block.Ushort(side.Items[side.SelectedIndex].ToString().Split(' ')[0]);
                     }
                 }
                 catch { }
@@ -102,7 +102,7 @@ namespace MCForge.GUI
         {
 
         }
-        public string GetName(byte b)
+        public string GetName(ushort b)
         {
             return Block.Name(b).Substring(0, 1).ToUpper() + Block.Name(b).Remove(0, 1);
         }

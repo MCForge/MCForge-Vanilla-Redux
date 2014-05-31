@@ -43,7 +43,7 @@ namespace MCForge.Commands
             }
             else if (message.IndexOf(' ') == -1)
             {
-                cpos.type = Block.Byte(message);
+                cpos.type = Block.Ushort(message);
                 cpos.vertical = false;
                 if (message.ToLower() != "vertical" && !Block.canPlace(p, cpos.type)) { Player.SendMessage(p, "Cannot place that."); wait = 1; return; }
                 if (cpos.type == Block.Zero)
@@ -60,7 +60,7 @@ namespace MCForge.Commands
             }
             else
             {
-                cpos.type = Block.Byte(message.Split(' ')[0]);
+                cpos.type = Block.Ushort(message.Split(' ')[0]);
                 if (!Block.canPlace(p, cpos.type)) { Player.SendMessage(p, "Cannot place that."); wait = 1; return; }
                 if (cpos.type == Block.Zero || message.Split(' ')[1].ToLower() != "vertical")
                 {
@@ -82,19 +82,19 @@ namespace MCForge.Commands
             Player.SendMessage(p, "/spheroid [type] <vertical> - Create a spheroid of blocks.");
             Player.SendMessage(p, "If <vertical> is added, it will be a vertical tube");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos bp = (CatchPos)p.blockchangeObject;
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos cpos = (CatchPos)p.blockchangeObject;
             if (cpos.type != Block.Zero) { type = cpos.type; }
@@ -231,7 +231,7 @@ namespace MCForge.Commands
         struct Pos { public ushort x, y, z; }
         struct CatchPos
         {
-            public byte type;
+            public ushort type;
             public ushort x, y, z;
             public bool vertical;
         }

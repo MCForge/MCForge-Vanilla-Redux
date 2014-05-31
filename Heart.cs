@@ -39,8 +39,8 @@ namespace MCForge {
         /// </value>
         public static bool CanBeat { get; set; }
 
-        static Timer Timer;
-        static object Lock = new object();
+      //  static Timer Timer;
+       // static object Lock = new object();
 
 
         private readonly static IBeat[] Beats = {
@@ -49,21 +49,6 @@ namespace MCForge {
             new MinecraftBeat(),
 			new ClassiCubeBeat(),
         };
-
-
-
-
-        static Heart() {
-            new Thread(new ThreadStart(() => {
-                Timer = new Timer(OnBeat, null,
-#if DEBUG
-                6000, 6000
-#else
-                45000, 45000
-#endif
-                );
-            })).Start();
-        }
 
         private static void OnBeat(object state) {
             for ( int i = 0; i < Beats.Length; i++ ) {

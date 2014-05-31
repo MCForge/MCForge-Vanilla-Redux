@@ -48,9 +48,9 @@ namespace MCForge.Commands
 
             List<string> invalid = new List<string>(); //Check for invalid blocks
             foreach (string name in temp)
-                if (Block.Byte(name) == 255)
+                if (Block.Ushort(name) == Block.maxblocks)
                     invalid.Add(name);
-            if (Block.Byte(args[1]) == 255)
+            if (Block.Ushort(args[1]) == Block.maxblocks)
                 invalid.Add(args[1]);
             if (invalid.Count > 0)
             {
@@ -65,19 +65,19 @@ namespace MCForge.Commands
                 return;
             }
 
-            List<byte> oldType = new List<byte>();
+            List<ushort> oldType = new List<ushort>();
             foreach (string name in temp)
-                oldType.Add(Block.Byte(name));
-            byte newType = Block.Byte(args[1]);
+                oldType.Add(Block.Ushort(name));
+            ushort newType = Block.Ushort(args[1]);
 
-            foreach (Byte type in oldType)
+            foreach (ushort type in oldType)
                 if (!Block.canPlace(p, type) && !Block.BuildIn(type)) { p.SendMessage("Cannot replace that."); wait = 1; return; }
             if (!Block.canPlace(p, newType)) { Player.SendMessage(p, "Cannot place that."); wait = 1; return; }
             
             ushort x, y, z; int currentBlock = 0;
             List<Pos> stored = new List<Pos>(); Pos pos;
 
-            foreach (byte b in p.level.blocks)
+            foreach (ushort b in p.level.blocks)
             {
                 if (oldType.Contains(b))
                 {

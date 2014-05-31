@@ -44,7 +44,7 @@ namespace MCForge.Commands
                 else if (message.ToLower() == "all")
                 {
                     Player.SendMessage(p, "Complex blocks: ");
-                    for (byte i = 50; i < 255; i++)
+                    for (byte i = 50; i < Block.maxblocks; i++)
                     {
                         if (Block.Name(i).ToLower() != "unknown") message += ", " + Block.Name(i);
                     }
@@ -71,12 +71,12 @@ namespace MCForge.Commands
                 {
                     string printMessage = ">>>&b";
 
-                    if (Block.Byte(message) != Block.Zero)
+                    if (Block.Ushort(message) != Block.Zero)
                     {
-                        byte b = Block.Byte(message);
+                        ushort b = Block.Ushort(message);
                         if (b < 51)
                         {
-                            for (byte i = 51; i < 255; i++)
+							for (byte i = 51; i < Block.maxblocks; i++)
                             {
                                 if (Block.Convert(i) == b)
                                     printMessage += Block.Name(i) + ", ";
@@ -134,7 +134,7 @@ namespace MCForge.Commands
                     }
                     else if (message.Split(' ')[0].ToLower() == "count")
                     {
-                        int foundNum = 0; byte foundBlock = Block.Byte(message.Split(' ')[1]);
+                        int foundNum = 0; ushort foundBlock = Block.Ushort(message.Split(' ')[1]);
                         if (foundBlock == Block.Zero) { Player.SendMessage(p, "Could not find block specified"); return; }
 
                         for (int i = 0; i < p.level.blocks.Length; i++)

@@ -155,6 +155,7 @@ namespace MCForge
 			all.Add(new CmdLimit());
 			all.Add(new CmdLine());
 			all.Add(new CmdLoad());
+			all.Add(new CmdLoadByte());
 			all.Add(new CmdLockdown());
 			all.Add(new CmdLoginMessage());
 			all.Add(new CmdLogoutMessage());

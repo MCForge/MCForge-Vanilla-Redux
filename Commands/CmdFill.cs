@@ -1,25 +1,30 @@
 /*
-	Copyright 2011 MCForge
-	
-	Dual-licensed under the	Educational Community License, Version 2.0 and
-	the GNU General Public License, Version 3 (the "Licenses"); you may
-	not use this file except in compliance with the Licenses. You may
-	obtain a copy of the Licenses at
-	
-	http://www.opensource.org/licenses/ecl2.php
-	http://www.gnu.org/licenses/gpl-3.0.html
-	
-	Unless required by applicable law or agreed to in writing,
-	software distributed under the Licenses are distributed on an "AS IS"
-	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-	or implied. See the Licenses for the specific language governing
-	permissions and limitations under the Licenses.
+Copyright (C) 2010-2013 David Mitchell
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 */
+
 using System;
 using System.Collections.Generic;
 namespace MCForge.Commands
 {
-    public class CmdFill : Command
+    public sealed class CmdFill : Command
     {
         public override string name { get { return "fill"; } }
         public override string shortcut { get { return "f"; } }
@@ -39,8 +44,8 @@ namespace MCForge.Commands
                 int pos = message.IndexOf(' ');
                 string t = message.Substring(0, pos).ToLower();
                 string s = message.Substring(pos + 1).ToLower();
-                cpos.type = Block.Byte(t);
-                if (cpos.type == 255) { Player.SendMessage(p, "There is no block \"" + t + "\"."); return; }
+                cpos.type = Block.Ushort(t);
+                if (cpos.type == Block.maxblocks) { Player.SendMessage(p, "There is no block \"" + t + "\"."); return; }
 
                 if (!Block.canPlace(p, cpos.type)) { Player.SendMessage(p, "Cannot place that."); return; }
 
@@ -61,8 +66,8 @@ namespace MCForge.Commands
                 else if (message == "vertical_z") { cpos.fillType = FillType.VerticalZ; cpos.type = Block.Zero; }
                 else
                 {
-                    cpos.type = Block.Byte(message);
-                    if (cpos.type == (byte)255) { Player.SendMessage(p, "Invalid block or fill type"); return; }
+                    cpos.type = Block.Ushort(message);
+                    if (cpos.type == (byte)Block.maxblocks) { Player.SendMessage(p, "Invalid block or fill type"); return; }
                     if (!Block.canPlace(p, cpos.type)) { Player.SendMessage(p, "Cannot place that."); return; }
 
                     cpos.fillType = FillType.Default;
@@ -83,8 +88,8 @@ namespace MCForge.Commands
             Player.SendMessage(p, "/fill [block] [type] - Fills the area specified with [block].");
             Player.SendMessage(p, "[types] - up, down, layer, vertical_x, vertical_z");
         }
-        
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)
+
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             try
             {
@@ -92,13 +97,13 @@ namespace MCForge.Commands
                 CatchPos cpos = (CatchPos)p.blockchangeObject;
                 if (cpos.type == Block.Zero) cpos.type = p.bindings[type];
 
-                byte oldType = p.level.GetTile(x, y, z);
+                ushort oldType = p.level.GetTile(x, y, z);
                 p.SendBlockchange(x, y, z, oldType);
 
                 if (cpos.type == oldType) { Player.SendMessage(p, "Cannot fill with the same type."); return; }
                 if (!Block.canPlace(p, oldType) && !Block.BuildIn(oldType)) { Player.SendMessage(p, "Cannot fill with that."); return; }
 
-                byte[] mapBlocks = new byte[p.level.blocks.Length];
+                ushort[] mapBlocks = new ushort[p.level.blocks.Length];
                 List<Pos> buffer = new List<Pos>();
                 p.level.blocks.CopyTo(mapBlocks, 0);
 
@@ -154,7 +159,7 @@ namespace MCForge.Commands
 
         int deep;
         List<Pos> fromWhere = new List<Pos>();
-        public void FloodFill(Player p, ushort x, ushort y, ushort z, byte b, byte oldType, FillType fillType, ref byte[] blocks, ref List<Pos> buffer)
+        public void FloodFill(Player p, ushort x, ushort y, ushort z, ushort b, ushort oldType, FillType fillType, ref ushort[] blocks, ref List<Pos> buffer)
         {
             try
             {
@@ -232,7 +237,7 @@ namespace MCForge.Commands
             } catch (Exception e) { Server.ErrorLog(e); }
         }
 
-        public byte GetTile(ushort x, ushort y, ushort z, Level l, byte[] blocks)
+        public ushort GetTile(ushort x, ushort y, ushort z, Level l, ushort[] blocks)
         {
             //if (PosToInt(x, y, z) >= blocks.Length) { return null; }
             //Avoid internal overflow
@@ -249,7 +254,7 @@ namespace MCForge.Commands
             catch (Exception e) { Server.ErrorLog(e); return Block.Zero; }
         }
 
-        struct CatchPos { public ushort x, y, z; public byte type; public FillType fillType; }
+        struct CatchPos { public ushort x, y, z; public ushort type; public FillType fillType; }
         public struct Pos { public ushort x, y, z; }
         public enum FillType : int
         {

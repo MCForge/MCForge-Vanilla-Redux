@@ -31,7 +31,7 @@ namespace MCForge
 		public OmniBan()
 		{
 			bans = new List<string>();
-			kickMsg = "You are Omnibanned! Visit mcforge.net to appeal.";
+			kickMsg = "You are Omnibanned! Visit mcforge.org to appeal.";
 		}
 
 		public void Load(bool web)
@@ -44,7 +44,7 @@ namespace MCForge
 					try
 					{
 						using (WebClient WC = new WebClient())
-							data = WC.DownloadString("http://mcforge.net/serverdata/omnibans.txt").ToLower();
+							data = WC.DownloadString("http://update.mcforge.org/omnibans.txt").ToLower();
 					}
 					catch { Load(false); return; }
 

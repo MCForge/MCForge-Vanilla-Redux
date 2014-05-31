@@ -73,7 +73,7 @@ namespace MCForge.CTF
             if (cache.ContainsKey(p))
                 cache.Remove(p);
         }
-        void blockuse(Player p, ushort x, ushort y, ushort z, byte type)
+        void blockuse(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             if (cache.ContainsKey(p))
             {
@@ -244,8 +244,8 @@ namespace MCForge.CTF
         public int rx = 0;
         public int ry = 0;
         public int rz = 0;
-        public byte blue;
-        public byte red;
+        public ushort blue;
+        public ushort red;
         public int bluex;
         public int bluey;
         public int bluez;

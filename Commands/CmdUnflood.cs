@@ -30,7 +30,7 @@ namespace MCForge.Commands
         {
             if (p == null) { Player.SendMessage(p, "This command can only be used in-game!"); return; }
             if (String.IsNullOrEmpty(message)) { Help(p); return; }
-            if (message.ToLower() != "all" && Block.Byte(message) == Block.Zero) { Player.SendMessage(p, "There is no block \"" + message + "\"."); return; }
+            if (message.ToLower() != "all" && Block.Ushort(message) == Block.Zero) { Player.SendMessage(p, "There is no block \"" + message + "\"."); return; }
             int phys = p.level.physics;
             Command.all.Find("physics").Use(p, "0");
             if (!p.level.Instant)

@@ -51,7 +51,7 @@ namespace MCForge.Gui.Popups {
         }
 
         private void linkHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            try { Process.Start( "http://www.mcforge.net/community/forum/46-help-support/" ); }
+            try { Process.Start( "http://www.forum.mcforge.org/community/forum/46-help-support/" ); }
             catch { }
         }
 
@@ -104,7 +104,7 @@ namespace MCForge.Gui.Popups {
         void mWorker_DoWork(object sender, DoWorkEventArgs e) {
             try {
                 using (var webClient = new WebClient()) {
-                    string response = webClient.DownloadString("http://www.mcforge.net/ports.php?port=" + e.Argument);
+                    string response = webClient.DownloadString("http://www.mcforge.org/ports.php?port=" + e.Argument);
                     switch (response.ToLower()) {
                         case "open":
                             e.Result = 1;

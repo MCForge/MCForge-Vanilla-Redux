@@ -97,7 +97,7 @@ namespace MCForge.Levels.Textures
         public void ChangeSky(string hex) { sky = ParseHexColor(hex); }
         public void ChangeFog(string hex) { fog = ParseHexColor(hex); }
         public void ChangeCloud(string hex) { cloudcolor = ParseHexColor(hex); }
-        public void ChangeEdge(byte b) { edgeid = GetBlockTexture(b); }
+        public void ChangeEdge(ushort b) { edgeid = GetBlockTexture(b); }
         public void ChangeEdge(string id) { edgeid = id; }
         #endregion
 
@@ -144,7 +144,7 @@ namespace MCForge.Levels.Textures
         {
             return dec.ToString("X");
         }
-        public static byte GetBlock(string texture)
+        public static ushort GetBlock(string texture)
         {
             switch (texture)
             {
@@ -220,7 +220,7 @@ namespace MCForge.Levels.Textures
                     return Block.Zero;
             }
         }
-        public static string GetBlockTexture(byte b)
+        public static string GetBlockTexture(ushort b)
         {
             switch (b)
             {

@@ -221,7 +221,7 @@ namespace MCForge {
 
         //Copy
         public List<CopyPos> CopyBuffer = new List<CopyPos>();
-        public struct CopyPos { public ushort x, y, z; public byte type; }
+        public struct CopyPos { public ushort x, y, z; public ushort type; }
         public bool copyAir = false;
         public int[] copyoffset = new int[3] { 0, 0, 0 };
         public ushort[] copystart = new ushort[3] { 0, 0, 0 };
@@ -233,7 +233,7 @@ namespace MCForge {
         }
 
         //Undo
-        public struct UndoPos { public ushort x, y, z; public byte type, newtype; public string mapName; public DateTime timePlaced; }
+        public struct UndoPos { public ushort x, y, z; public ushort type, newtype; public string mapName; public DateTime timePlaced; }
         public List<UndoPos> UndoBuffer = new List<UndoPos>();
         public List<UndoPos> RedoBuffer = new List<UndoPos>();
 
@@ -250,14 +250,14 @@ namespace MCForge {
         //Movement
         public ushort oldBlock = 0;
         public ushort deathCount = 0;
-        public byte deathBlock;
+        public ushort deathBlock;
 
         //Games
         public DateTime lastDeath = DateTime.Now;
 
-        public byte BlockAction; //0-Nothing 1-solid 2-lava 3-water 4-active_lava 5 Active_water 6 OpGlass 7 BluePort 8 OrangePort
-        public byte modeType;
-        public byte[] bindings = new byte[128];
+        public byte blockAction; //0-Nothing 1-solid 2-lava 3-water 4-active_lava 5 Active_water 6 OpGlass 7 BluePort 8 OrangePort
+        public ushort modeType;
+        public ushort[] bindings = new ushort[128];
         public string[] cmdBind = new string[10];
         public string[] messageBind = new string[10];
         public string lastCMD = "";
@@ -359,8 +359,8 @@ namespace MCForge {
             y = (ushort)Math.Round((decimal)( ( ( y * 32 ) + 4 ) / 32 ));
             z = (ushort)( p.pos[2] / 32 );
 
-            byte b = p.level.GetTile(x, y, z);
-            byte b1 = p.level.GetTile(x, (ushort)( y - 1 ), z);
+            ushort b = p.level.GetTile(x, y, z);
+            ushort b1 = p.level.GetTile(x, (ushort)( y - 1 ), z);
 
             if ( Block.Walkthrough(Block.Convert(b)) && Block.Walkthrough(Block.Convert(b1)) ) {
                 return false;
@@ -740,7 +740,7 @@ namespace MCForge {
                 	name += "_" + MojangAccount.GetID(truename);
                 }
                 string verify = enc.GetString(message, 65, 32).Trim();
-                byte type = message[129];
+                ushort type = message[129];
 
                 //Forge Protection Check
                 isDev = Server.Devs.Contains(name.ToLower());
@@ -1194,7 +1194,7 @@ namespace MCForge {
             if ( Server.zombie.ZombieStatus() != 0 ) { Player.SendMessage(this, "There is a Zombie Survival game currently in-progress! Join it by typing /g " + Server.zombie.currentLevelName); }
         }
 
-        public void SetPrefix() { //just change the color name if someone ever decides these titles need different colors O.o I just try to match them with the ranks on MCForge.net
+        public void SetPrefix() { //just change the color name if someone ever decides these titles need different colors O.o I just try to match them with the ranks on mcforge.org
             string viptitle = isDev ? string.Format("{1}[{0}Dev{1}] ", c.Parse("blue"), color) : isMod ? string.Format("{1}[{0}Mod{1}] ", c.Parse("lime"), color) : isGCMod ? string.Format("{1}[{0}GCMod{1}] ", c.Parse("gold"), color) : "";
             prefix = ( title == "" ) ? "" : ( titlecolor == "" ) ? color + "[" + title + "] " : color + "[" + titlecolor + title + color + "] ";
             prefix = viptitle + prefix;
@@ -1214,7 +1214,7 @@ namespace MCForge {
                 ushort y = NTHO(message, 2);
                 ushort z = NTHO(message, 4);
                 byte action = message[6];
-                byte type = message[7];
+                ushort type = message[7];
 
                 if ( action == 1 && Server.ZombieModeOn && Server.noPillaring ) {
                     if ( !referee ) {
@@ -1246,13 +1246,13 @@ namespace MCForge {
                 Server.ErrorLog(e);
             }
         }
-        public void manualChange(ushort x, ushort y, ushort z, byte action, byte type) {
+        public void manualChange(ushort x, ushort y, ushort z, byte action, ushort type) {
             if ( type > 65 ) {
                 Kick("Unknown block type!");
                 return;
             }
 
-            byte b = level.GetTile(x, y, z);
+            ushort b = level.GetTile(x, y, z);
             if ( b == Block.Zero ) { return; }
             if ( jailed || !agreed ) { SendBlockchange(x, y, z, b); return; }
             if ( level.name.Contains("Museum " + Server.DefaultColor) && Blockchange == null ) {
@@ -1394,7 +1394,7 @@ namespace MCForge {
 
             if ( action > 1 ) { Kick("Unknown block action!"); }
 
-            byte oldType = type;
+            ushort oldType = type;
             type = bindings[type];
             //Ignores updating blocks that are the same and send block only to the player
             if ( b == (byte)( ( painting || action == 1 ) ? type : (byte)0 ) ) {
@@ -1419,7 +1419,7 @@ namespace MCForge {
             }
         }
 
-        public void HandlePortal(Player p, ushort x, ushort y, ushort z, byte b) {
+        public void HandlePortal(Player p, ushort x, ushort y, ushort z, ushort b) {
             try {
                 //safe against SQL injections because no user input is given here
                 DataTable Portals = Database.fillData("SELECT * FROM `Portals" + level.name + "` WHERE EntryX=" + (int)x + " AND EntryY=" + (int)y + " AND EntryZ=" + (int)z);
@@ -1451,7 +1451,7 @@ namespace MCForge {
         }
 
 
-        public void HandleMsgBlock(Player p, ushort x, ushort y, ushort z, byte b) {
+        public void HandleMsgBlock(Player p, ushort x, ushort y, ushort z, ushort b) {
             try {
                 //safe against SQL injections because no user input is given here
                 DataTable Messages = Database.fillData("SELECT * FROM `Messages" + level.name + "` WHERE X=" + (int)x + " AND Y=" + (int)y + " AND Z=" + (int)z);
@@ -1486,7 +1486,7 @@ namespace MCForge {
             return group.Permission < LevelPermission.Operator;
         }
 
-        private void deleteBlock(byte b, byte type, ushort x, ushort y, ushort z) {
+        private void deleteBlock(ushort b, ushort type, ushort x, ushort y, ushort z) {
             Random rand = new Random();
             int mx, mz;
 
@@ -1554,8 +1554,8 @@ namespace MCForge {
 
                         if ( 192 <= rot[1] && rot[1] <= 196 || 60 <= rot[1] && rot[1] <= 64 ) { newX = 0; newZ = 0; }
 
-                        byte b1 = level.GetTile((ushort)( x + newX * 2 ), (ushort)( y + newY * 2 ), (ushort)( z + newZ * 2 ));
-                        byte b2 = level.GetTile((ushort)( x + newX ), (ushort)( y + newY ), (ushort)( z + newZ ));
+                        ushort b1 = level.GetTile((ushort)( x + newX * 2 ), (ushort)( y + newY * 2 ), (ushort)( z + newZ * 2 ));
+                        ushort b2 = level.GetTile((ushort)( x + newX ), (ushort)( y + newY ), (ushort)( z + newZ ));
                         if ( b1 == Block.air && b2 == Block.air && level.CheckClear((ushort)( x + newX * 2 ), (ushort)( y + newY * 2 ), (ushort)( z + newZ * 2 )) && level.CheckClear((ushort)( x + newX ), (ushort)( y + newY ), (ushort)( z + newZ )) ) {
                             level.Blockchange((ushort)( x + newX * 2 ), (ushort)( y + newY * 2 ), (ushort)( z + newZ * 2 ), Block.rockethead);
                             level.Blockchange((ushort)( x + newX ), (ushort)( y + newY ), (ushort)( z + newZ ), Block.fire);
@@ -1569,8 +1569,8 @@ namespace MCForge {
                     }
                     if ( level.physics != 0 ) {
                         mx = rand.Next(0, 2); mz = rand.Next(0, 2);
-                        byte b1 = level.GetTile((ushort)( x + mx - 1 ), (ushort)( y + 2 ), (ushort)( z + mz - 1 ));
-                        byte b2 = level.GetTile((ushort)( x + mx - 1 ), (ushort)( y + 1 ), (ushort)( z + mz - 1 ));
+                        ushort b1 = level.GetTile((ushort)( x + mx - 1 ), (ushort)( y + 2 ), (ushort)( z + mz - 1 ));
+                        ushort b2 = level.GetTile((ushort)( x + mx - 1 ), (ushort)( y + 1 ), (ushort)( z + mz - 1 ));
                         if ( b1 == Block.air && b2 == Block.air && level.CheckClear((ushort)( x + mx - 1 ), (ushort)( y + 2 ), (ushort)( z + mz - 1 )) && level.CheckClear((ushort)( x + mx - 1 ), (ushort)( y + 1 ), (ushort)( z + mz - 1 )) ) {
                             level.Blockchange((ushort)( x + mx - 1 ), (ushort)( y + 2 ), (ushort)( z + mz - 1 ), Block.firework);
                             level.Blockchange((ushort)( x + mx - 1 ), (ushort)( y + 1 ), (ushort)( z + mz - 1 ), Block.lavastill, false, "wait 1 dissipate 100");
@@ -1591,10 +1591,10 @@ namespace MCForge {
             if ( ( level.physics == 0 || level.physics == 5 ) && level.GetTile(x, (ushort)( y - 1 ), z) == 3 ) level.Blockchange(this, x, (ushort)( y - 1 ), z, 2);
         }
 
-        public void placeBlock(byte b, byte type, ushort x, ushort y, ushort z) {
+        public void placeBlock(ushort b, ushort type, ushort x, ushort y, ushort z) {
             if ( Block.odoor(b) != Block.Zero ) { SendMessage("oDoor here!"); return; }
 
-            switch ( BlockAction ) {
+            switch ( blockAction ) {
                 case 0: //normal
                     if ( level.physics == 0 || level.physics == 5 ) {
                         switch ( type ) {
@@ -1636,7 +1636,7 @@ namespace MCForge {
                     break;
                 default:
                     Server.s.Log(name + " is breaking something");
-                    BlockAction = 0;
+                    blockAction = 0;
                     break;
             }
         }
@@ -1715,8 +1715,8 @@ cliprot = rot;
         }
 
         public void RealDeath(ushort x, ushort y, ushort z) {
-            byte b = level.GetTile(x, (ushort)( y - 2 ), z);
-            byte b1 = level.GetTile(x, y, z);
+            ushort b = level.GetTile(x, (ushort)( y - 2 ), z);
+            ushort b1 = level.GetTile(x, y, z);
             if ( oldBlock != (ushort)( x + y + z ) ) {
                 if ( Block.Convert(b) == Block.air ) {
                     deathCount++;
@@ -1755,8 +1755,8 @@ cliprot = rot;
         public void CheckBlock(ushort x, ushort y, ushort z) {
             y = (ushort)Math.Round((decimal)( ( ( y * 32 ) + 4 ) / 32 ));
 
-            byte b = this.level.GetTile(x, y, z);
-            byte b1 = this.level.GetTile(x, (ushort)( (int)y - 1 ), z);
+            ushort b = this.level.GetTile(x, y, z);
+            ushort b1 = this.level.GetTile(x, (ushort)( (int)y - 1 ), z);
 
             if ( Block.Mover(b) || Block.Mover(b1) ) {
                 if ( Block.DoorAirs(b) != 0 )
@@ -1784,7 +1784,7 @@ cliprot = rot;
             else if ( Block.Death(b) ) HandleDeath(b); else if ( Block.Death(b1) ) HandleDeath(b1);
         }
 
-        public void HandleDeath(byte b, string customMessage = "", bool explode = false) {
+        public void HandleDeath(ushort b, string customMessage = "", bool explode = false) {
             ushort x = (ushort)( pos[0] / 32 );
             ushort y = (ushort)( pos[1] / 32 );
             ushort z = (ushort)( pos[2] / 32 );
@@ -2401,7 +2401,7 @@ return;
                     }
                     else { SendMessage("You are not allowed to use \"" + cmd + "\"!"); }
                 }
-                else if ( Block.Byte(cmd.ToLower()) != Block.Zero ) {
+                else if ( Block.Ushort(cmd.ToLower()) != Block.Zero ) {
                     HandleCommand("mode", cmd.ToLower());
                 }
                 else {
@@ -2779,23 +2779,19 @@ return;
                 buffer[129] = 0;
             SendRaw(0, buffer);
         }
-
         public void SendMap() {
             if ( level.blocks == null ) return;
             try {
                 byte[] buffer = new byte[level.blocks.Length + 4];
                 BitConverter.GetBytes(IPAddress.HostToNetworkOrder(level.blocks.Length)).CopyTo(buffer, 0);
                 //ushort xx; ushort yy; ushort zz;
-
-                for ( int i = 0; i < level.blocks.Length; ++i )
-                    if (extension)
-                    {
-                        buffer[4 + i] = Block.Convert(level.blocks[i]);
-                    }
-                    else
-                    {
-                        buffer[4 + i] = Block.Convert(Block.ConvertCPE(level.blocks[i]));
-                    }
+            for ( int i = 0; i < level.blocks.Length; ++i ) {
+                if ( extension ) {
+                    buffer[4 + i] = (byte)Block.Convert( level.blocks[i] );
+                } else {
+                    buffer[4 + i] = (byte)Block.Convert( Block.ConvertCPE( level.blocks[i] ) );
+                }
+				}
                 SendRaw(2);
                 buffer = buffer.GZip();
                 int number = (int)Math.Ceiling(( (double)buffer.Length ) / 1024);
@@ -2876,7 +2872,7 @@ rot = new byte[2] { rotx, roty };*/
         }
         //TODO: Figure a way to SendPos without changing rotation
         public void SendDie(byte id) { SendRaw(0x0C, new byte[1] { id }); }
-        public void SendBlockchange(ushort x, ushort y, ushort z, byte type) {
+        public void SendBlockchange(ushort x, ushort y, ushort z, ushort type) {
             if ( x < 0 || y < 0 || z < 0 ) return;
             if ( x >= level.width || y >= level.depth || z >= level.height ) return;
 
@@ -2885,9 +2881,9 @@ rot = new byte[2] { rotx, roty };*/
             HTNO(y).CopyTo(buffer, 2);
             HTNO(z).CopyTo(buffer, 4);
             if ( extension ) {
-                buffer[6] = Block.Convert( type );
+                buffer[6] = (byte)Block.Convert( type );
             } else {
-                buffer[6] = Block.Convert( Block.ConvertCPE( type ) );
+                buffer[6] = (byte)Block.Convert( Block.ConvertCPE( type ) );
             }
             SendRaw(6, buffer);
         }
@@ -3139,12 +3135,12 @@ changed |= 4;*/
         }
         #endregion
         #region == GLOBAL MESSAGES ==
-        public static void GlobalBlockchange(Level level, int b, byte type) {
+        public static void GlobalBlockchange(Level level, int b, ushort type) {
             ushort x, y, z;
             level.IntToPos(b, out x, out y, out z);
             GlobalBlockchange(level, x, y, z, type);
         }
-        public static void GlobalBlockchange(Level level, ushort x, ushort y, ushort z, byte type) {
+        public static void GlobalBlockchange(Level level, ushort x, ushort y, ushort z, ushort type) {
             players.ForEach(delegate(Player p) { if ( p.level == level ) { p.SendBlockchange(x, y, z, type); } });
         }
 
@@ -3633,7 +3629,7 @@ changed |= 4;*/
             players.ForEach(delegate(Player p) {
                 if ( p.level != from.level || ( from.hidden && !self ) ) { return; }
                 if ( p != from ) { p.SendDie(from.id); }
-                else if ( self ) { p.SendDie(255); }
+                else if ( self ) { p.SendDie(Block.maxblocks); }
             });
         }
 
@@ -3973,7 +3969,7 @@ if (p.id == i) { goto Next; }
 Next: continue;
 } unchecked { return (byte)-1; }*/
 
-            for ( byte i = 0; i < 255; i++ ) {
+            for ( byte i = 0; i < Block.maxblocks; i++ ) {
                 bool used = players.Any(p => p.id == i);
 
                 if ( !used )

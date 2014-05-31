@@ -74,7 +74,7 @@ namespace MCForge.Commands
             if (number == 3)
             {
                 {
-                  //  byte b = Block.Zero;
+                  //  ushort b = Block.Zero;
                     ushort x = 0; ushort y = 0; ushort z = 0;
 
                     x = (ushort)(p.pos[0] / 32);
@@ -86,14 +86,14 @@ namespace MCForge.Commands
                         switch (message.Split(' ').Length)
                         {
                        //     case 0: b = Block.rock; break;
-                          //  case 1: b = Block.Byte(message); break;
+                          //  case 1: b = Block.Ushort(message); break;
                             case 3:
                                 x = Convert.ToUInt16(message.Split(' ')[0]);
                                 y = Convert.ToUInt16(message.Split(' ')[1]);
                                 z = Convert.ToUInt16(message.Split(' ')[2]);
                                 break;
                             case 4:
-                            //    b = Block.Byte(message.Split(' ')[0]);
+                            //    b = Block.Ushort(message.Split(' ')[0]);
                                 x = Convert.ToUInt16(message.Split(' ')[1]);
                                 y = Convert.ToUInt16(message.Split(' ')[2]);
                                 z = Convert.ToUInt16(message.Split(' ')[3]);

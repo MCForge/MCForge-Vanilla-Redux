@@ -135,7 +135,7 @@ namespace MCForge.Gui {
             cmbClearQueue.SelectedIndex = ( clearqueuerank != String.Empty ? cmbClearQueue.Items.IndexOf(clearqueuerank) : 1 );
             cmbGotoNext.SelectedIndex = ( gotonextrank != String.Empty ? cmbGotoNext.Items.IndexOf(gotonextrank) : 1 );
 
-            for ( byte b = 1; b < 50; b++ )
+            for ( ushort b = 1; b < 50; b++ )
                 cmbGrieferStoneType.Items.Add(Block.Name(b));
 
             comboBoxProtection.Items.Add("Off");
@@ -862,7 +862,7 @@ namespace MCForge.Gui {
             Server.GlobalChatColor = cmbGlobalChatColor.SelectedItem.ToString();
 
             Server.grieferStoneBan = chkGrieferStoneBan.Checked;
-            Server.grieferStoneType = Block.Byte(cmbGrieferStoneType.SelectedItem.ToString());
+            Server.grieferStoneType = Block.Ushort(cmbGrieferStoneType.SelectedItem.ToString());
             Server.grieferStoneRank = Group.GroupList.Find(grp => grp.name == cmbGrieferStoneRank.SelectedItem.ToString()).Permission;
 
             Server.WomDirect = chkWomDirect.Checked;
@@ -1114,7 +1114,7 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
 
         #region BlockTab
         private void listBlocks_SelectedIndexChanged(object sender, EventArgs e) {
-            byte b = Block.Byte(listBlocks.SelectedItem.ToString());
+            ushort b = Block.Ushort(listBlocks.SelectedItem.ToString());
             Block.Blocks bs = storedBlocks.Find(bS => bS.type == b);
 
             txtBlLowest.Text = (int)bs.lowestRank + "";
@@ -1136,7 +1136,7 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
             if ( foundOne ) txtBlAllow.Text = txtBlAllow.Text.Remove(0, 1);
         }
         private void txtBlLowest_TextChanged(object sender, EventArgs e) {
-            fillLowest(ref txtBlLowest, ref storedBlocks[Block.Byte(listBlocks.SelectedItem.ToString())].lowestRank);
+            fillLowest(ref txtBlLowest, ref storedBlocks[Block.Ushort(listBlocks.SelectedItem.ToString())].lowestRank);
         }
         private void txtBlDisallow_TextChanged(object sender, EventArgs e) {
             fillAllowance(ref txtBlDisallow, ref storedBlocks[listBlocks.SelectedIndex].disallow);
@@ -1469,7 +1469,7 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
                     Directory.CreateDirectory("extra/images");
                 if ( !File.Exists( "extra/images/mcpony.png" ) ) {
                     using ( WebClient WEB = new WebClient () ) {
-                        WEB.DownloadFileAsync ( new Uri ( "http://mcforge.net/uploads/images/mcpony.png" ), "extra/images/mcpony.png" );
+                        WEB.DownloadFileAsync ( new Uri ( "http://update.mcforge.org/images/mcpony.png" ), "extra/images/mcpony.png" );
                         WEB.DownloadFileCompleted += ( ea, args ) => {
                                                          if ( File.Exists ( "extra/images/mcpony.png" ) ) {
                                                              Image img = Image.FromFile ( "extra/images/mcpony.png" );

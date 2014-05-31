@@ -37,7 +37,7 @@ namespace MCForge
 
                 sql.WriteLine("-- MCForge SQL Database Dump");
                 sql.WriteLine("-- version 1.5");
-                sql.WriteLine("-- http://www.mcforge.net");
+                sql.WriteLine("-- http://www.mcforge.org");
                 sql.WriteLine("--");
                 sql.WriteLine("-- Host: {0}", Server.MySQLHost);
                 sql.WriteLine("-- Generation Time: {0} at {1}", DateTime.Now.Date, DateTime.Now.TimeOfDay);

@@ -270,7 +270,7 @@ namespace MCForge
         //        public static bool safemode = false; //Never used
         public static int ircPort = 6667;
         public static string ircNick = "ForgeBot";
-        public static string ircServer = "irc.mcforge.net";
+        public static string ircServer = "irc.mcforge.org";
         public static string ircChannel = "#changethis";
         public static string ircOpChannel = "#changethistoo";
         public static bool ircIdentify = false;
@@ -367,7 +367,7 @@ namespace MCForge
 
         // lol useless junk here lolololasdf poop
         public static bool showEmptyRanks = false;
-        public static byte grieferStoneType = 1;
+        public static ushort grieferStoneType = 1;
         public static bool grieferStoneBan = true;
         public static LevelPermission grieferStoneRank = LevelPermission.Guest;
 
@@ -425,7 +425,7 @@ namespace MCForge
                     {
                         using (WebClient WEB = new WebClient())
                         {
-                            WEB.DownloadFile("http://mcforge.net/uploads/MySql.Data.dll", "MySql.Data.dll");
+                            WEB.DownloadFile("http://update.mcforge.org/MySql.Data.dll", "MySql.Data.dll");
                         }
                         if (File.Exists("MySql.Data.dll"))
                         {
@@ -444,7 +444,7 @@ namespace MCForge
                     {
                         using (WebClient WEB = new WebClient())
                         {
-                            WEB.DownloadFile("http://mcforge.net/uploads/System.Data.SQLite.dll", "System.Data.SQLite.dll");
+                            WEB.DownloadFile("http://update.mcforge.org/System.Data.SQLite.dll", "System.Data.SQLite.dll");
                         }
                         if (File.Exists("System.Data.SQLite.dll"))
                         {
@@ -463,7 +463,7 @@ namespace MCForge
                     {
                         using (WebClient WEB = new WebClient())
                         {
-                            WEB.DownloadFile("http://www.mcforge.net/sqlite3.dll", "sqlite3.dll");
+                            WEB.DownloadFile("http://www.mcforge.org/sqlite3.dll", "sqlite3.dll");
                         }
                         if (File.Exists("sqlite3.dll"))
                         {
@@ -482,7 +482,7 @@ namespace MCForge
                 	{
                 		using (WebClient WEB = new WebClient())
                 		{
-                			WEB.DownloadFile("http://update.mcforge.net/oldf/Newtonsoft.Json.dll", "Newtonsoft.Json.dll");
+                			WEB.DownloadFile("http://update.mcforge.org/oldf/Newtonsoft.Json.dll", "Newtonsoft.Json.dll");
                 		}
                 		if (File.Exists("Newtonsoft.Json.dll"))
                 		{
@@ -563,8 +563,8 @@ namespace MCForge
                     SW.WriteLine("// This is used to create custom $s");
                     SW.WriteLine("// If you start the line with a // it wont be used");
                     SW.WriteLine("// It should be formatted like this:");
-                    SW.WriteLine("// $website:mcforge.net");
-                    SW.WriteLine("// That would replace '$website' in any message to 'mcforge.net'");
+                    SW.WriteLine("// $website:mcforge.org");
+                    SW.WriteLine("// That would replace '$website' in any message to 'mcforge.org'");
                     SW.WriteLine("// It must not start with a // and it must not have a space between the 2 sides and the colon (:)");
                     SW.Close();
                 }
@@ -672,6 +672,7 @@ namespace MCForge
             }
 
             Economy.LoadDatabase();
+            UpdateStaffList();
             Log("MCForge Staff Protection Level: " + forgeProtection);
 
             if (levels != null)
@@ -1004,7 +1005,7 @@ namespace MCForge
                 try
                 {
                     using (WebClient web = new WebClient())
-                        IP = web.DownloadString("http://server.mcforge.net/ip.php");
+                        IP = web.DownloadString("http://server.mcforge.org/ip.php");
                 }
                 catch { }
 #if DEBUG
@@ -1278,13 +1279,13 @@ namespace MCForge
         }
         public static void UpdateGlobalSettings()
         {
-        /*    try
+            try
             {
                 gcipbans.Clear();
                 gcnamebans.Clear();
                 JArray jason; //jason plz (troll)
                 using (var client = new WebClient()) {
-                    jason = JArray.Parse(client.DownloadString("http://server.mcforge.net/gcbanned.txt"));
+                    jason = JArray.Parse(client.DownloadString("http://update.mcforge.org/gcbanned.txt"));
                 }
                 foreach (JObject ban in jason) {
                     if((string)ban["banned_isIp"] == "0")
@@ -1300,8 +1301,39 @@ namespace MCForge
                 s.Log("Could not update GlobalChat Banlist!");
                 gcnamebans.Clear();
                 gcipbans.Clear();
-            }*/
+            }
         }
+
+        public void UpdateStaffList()
+        {
+            try
+            {
+                devs.Clear();
+                mods.Clear();
+                gcmods.Clear();
+                using (WebClient web = new WebClient())
+                {
+                    string[] result = web.DownloadString("http://update.mcforge.org/devs.txt").Split(new string[] { Environment.NewLine, "\n" }, StringSplitOptions.None);
+                    foreach (string line in result)
+                    {
+                        string type = line.Split(':')[0].ToLower();
+                        List<string> staffList = type.Equals("devs") ? devs : type.Equals("mods") ? mods : type.Equals("gcmods") ? gcmods : null;
+                        foreach (string name in line.Split(':')[1].Split())
+                            staffList.Add(name.ToLower());
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorLog(e);
+                s.Log("Couldn't update MCForge staff list, turning MCForge Staff Protection Level off. . . ");
+                forgeProtection = ForgeProtection.Off;
+                devs.Clear();
+                mods.Clear();
+                gcmods.Clear();
+            }
+        }
+
 
         public static bool canusegc = true; //badpokerface
         public static int gcmultiwarns = 0, gcspamcount = 0, gccapscount = 0, gcfloodcount = 0;

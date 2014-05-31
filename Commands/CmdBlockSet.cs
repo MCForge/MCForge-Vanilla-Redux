@@ -30,7 +30,7 @@ namespace MCForge.Commands
         {
             if (message == "" || message.IndexOf(' ') == -1) { Help(p); return; }
 
-            byte foundBlock = Block.Byte(message.Split(' ')[0]);
+            ushort foundBlock = Block.Ushort(message.Split(' ')[0]);
             if (foundBlock == Block.Zero) { Player.SendMessage(p, "Could not find block entered"); return; }
             LevelPermission newPerm = Level.PermissionFromName(message.Split(' ')[1]);
             if (newPerm == LevelPermission.Null) { Player.SendMessage(p, "Could not find rank specified"); return; }

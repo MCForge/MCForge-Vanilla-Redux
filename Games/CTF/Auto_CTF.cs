@@ -86,7 +86,7 @@ namespace MCForge
         public ushort spawnx = 0;
         public ushort spawny = 0;
         public ushort spawnz = 0;
-        public byte block;
+        public ushort block;
         public void SendToSpawn(Level mainlevel, Auto_CTF game, Player p1)
         {
             Random rand = new Random();
@@ -186,10 +186,10 @@ namespace MCForge
                         redbase.z = ushort.Parse(l.Split('=')[1]);
                         break;
                     case "base.red.block":
-                        redbase.block = Block.Byte(l.Split('=')[1]);
+                        redbase.block = Block.Ushort(l.Split('=')[1]);
                         break;
                     case "base.blue.block":
-                        bluebase.block = Block.Byte(l.Split('=')[1]);
+                        bluebase.block = Block.Ushort(l.Split('=')[1]);
                         break;
                     case "base.blue.spawnx":
                         bluebase.spawnx = ushort.Parse(l.Split('=')[1]);
@@ -254,7 +254,7 @@ namespace MCForge
             bluebase = new Base();
             Start();
             //Lets get started
-            Player.PlayerDeath += new Player.OnPlayerDeath(Player_PlayerDeath);
+            Player.PlayerDeath +=  new Player.OnPlayerDeath(Player_PlayerDeath);
             Player.PlayerChat += new Player.OnPlayerChat(Player_PlayerChat);
             Player.PlayerCommand += new Player.OnPlayerCommand(Player_PlayerCommand);
             Player.PlayerBlockChange += new Player.BlockchangeEventHandler2(Player_PlayerBlockChange);
@@ -484,7 +484,7 @@ namespace MCForge
             Thread.Sleep(2000);
             LoadMap(nextmap);
         }
-        void Player_PlayerBlockChange(Player p, ushort x, ushort y, ushort z, byte type)
+        void Player_PlayerBlockChange(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             if (started)
             {
@@ -719,7 +719,7 @@ namespace MCForge
                 }
             }
         }
-        void Player_PlayerDeath(Player p, byte deathblock)
+        void Player_PlayerDeath(Player p, ushort deathblock)
         {
             if (started)
             {

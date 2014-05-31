@@ -42,8 +42,8 @@ namespace MCForge.Commands
                 int pos = message.IndexOf(' ');
                 string t = message.Substring(0, pos).ToLower();
                 string s = message.Substring(pos + 1).ToLower();
-                byte type = Block.Byte(t);
-                if (type == 255) { Player.SendMessage(p, "There is no block \"" + t + "\"."); wait = 1; return; }
+                ushort type = Block.Ushort(t);
+                if (type == Block.maxblocks) { Player.SendMessage(p, "There is no block \"" + t + "\"."); wait = 1; return; }
                 if (!Block.canPlace(p, type)) { Player.SendMessage(p, "Cannot place that."); wait = 1; return; }
                 SolidType solid;
                 if (s == "solid") { solid = SolidType.solid; }
@@ -52,22 +52,22 @@ namespace MCForge.Commands
                 else { Help(p); wait = 1; return; }
                 CatchPos cpos; cpos.solid = solid; cpos.type = type;
                 cpos.x = 0; cpos.y = 0; cpos.z = 0; p.blockchangeObject = cpos;
-                cpos.type = Block.Byte(message);
+                cpos.type = Block.Ushort(message);
                 p.pyramidblock = t;
             }
             else if (message != "")
             {
                 SolidType solid = SolidType.hollow;
                 message = message.ToLower();
-                byte type; unchecked { type = (byte)-1; }
+                ushort type; unchecked { type = (byte)-1; }
                 p.pyramidblock = "stone";
                 if (message == "solid") { solid = SolidType.solid; }
                 else if (message == "hollow") { solid = SolidType.hollow; }
                 else if (message == "reverse") { solid = SolidType.reverse; }
                 else
                 {
-                    byte t = Block.Byte(message);
-                    if (t == 255) { Player.SendMessage(p, "There is no block \"" + message + "\"."); wait = 1; return; }
+                    ushort t = Block.Ushort(message);
+                    if (t == Block.maxblocks) { Player.SendMessage(p, "There is no block \"" + message + "\"."); wait = 1; return; }
                     if (!Block.canPlace(p, t)) { Player.SendMessage(p, "Cannot place that."); wait = 1; return; }
                     p.pyramidblock = message;
 
@@ -93,10 +93,10 @@ namespace MCForge.Commands
         {
             Player.SendMessage(p, "/pyramid [type] <solid/hollow/reverse> - create a pyramid of blocks.");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos bp = (CatchPos)p.blockchangeObject;
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
@@ -105,10 +105,10 @@ namespace MCForge.Commands
             p.pyramidy1 = bp.z;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos cpos = (CatchPos)p.blockchangeObject;
             cpos.x = x; cpos.y = y; cpos.z = z; p.blockchangeObject = cpos;
@@ -562,7 +562,7 @@ namespace MCForge.Commands
         struct CatchPos
         {
             public SolidType solid;
-            public byte type;
+            public ushort type;
             public ushort x, y, z;
         }
         enum SolidType { solid, hollow, reverse };

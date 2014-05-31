@@ -14,7 +14,7 @@ namespace Updater
     {
         static int tries = 0;
         static bool usingConsole = false;
-        static string parent = Path.GetFileName(Assembly.GetExecutingAssembly().Location);
+      //  static string parent = Path.GetFileName(Assembly.GetExecutingAssembly().Location);
         static string parentfullpathdir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         static void Main(string[] args)
         {

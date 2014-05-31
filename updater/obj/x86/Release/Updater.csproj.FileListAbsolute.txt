@@ -1,0 +1,6 @@
+C:\Users\Dhruv\Downloads\MCForge-Vanilla-Redux-master (1)\MCForge-Vanilla-Redux-master\bin\Release\Updater.exe.config
+C:\Users\Dhruv\Downloads\MCForge-Vanilla-Redux-master (1)\MCForge-Vanilla-Redux-master\bin\Release\Updater.exe
+C:\Users\Dhruv\Downloads\MCForge-Vanilla-Redux-master (1)\MCForge-Vanilla-Redux-master\bin\Release\Updater.pdb
+C:\Users\Dhruv\Downloads\MCForge-Vanilla-Redux-master (1)\MCForge-Vanilla-Redux-master\updater\obj\x86\Release\Updater.csprojResolveAssemblyReference.cache
+C:\Users\Dhruv\Downloads\MCForge-Vanilla-Redux-master (1)\MCForge-Vanilla-Redux-master\updater\obj\x86\Release\Updater.exe
+C:\Users\Dhruv\Downloads\MCForge-Vanilla-Redux-master (1)\MCForge-Vanilla-Redux-master\updater\obj\x86\Release\Updater.pdb

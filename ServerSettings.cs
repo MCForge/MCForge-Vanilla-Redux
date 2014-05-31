@@ -24,11 +24,11 @@ namespace MCForge {
         /// <summary>
         /// The url MCForge downloads additional URL's from
         /// </summary>
-		public const string UrlsUrl = "http://server.mcforge.net/urls.txt";
+		public const string UrlsUrl = "http://server.mcforge.org/urls.txt";
 
-		private static string _RevisionList = "http://www.mcforge.net/revs.txt";
-		private static string _HeartbeatAnnounce = "http://server.mcforge.net/hbannounce.php";
-		private static string _ArchivePath = "http://www.mcforge.net/archives/exe/";
+		private static string _RevisionList = "http://www.update.mcforge.org/revs.txt";
+		private static string _HeartbeatAnnounce = "http://server.mcforge.org/hbannounce.php";
+		private static string _ArchivePath = "http://www.update.mcforge.org/archives/exe/";
 
 		static ServerSettings() {
 			using ( var client = new WebClient() ) {

@@ -1,23 +1,28 @@
 /*
-	Copyright 2011 MCForge
-		
-	Dual-licensed under the	Educational Community License, Version 2.0 and
-	the GNU General Public License, Version 3 (the "Licenses"); you may
-	not use this file except in compliance with the Licenses. You may
-	obtain a copy of the Licenses at
-	
-	http://www.opensource.org/licenses/ecl2.php
-	http://www.gnu.org/licenses/gpl-3.0.html
-	
-	Unless required by applicable law or agreed to in writing,
-	software distributed under the Licenses are distributed on an "AS IS"
-	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-	or implied. See the Licenses for the specific language governing
-	permissions and limitations under the Licenses.
+Copyright (C) 2010-2013 David Mitchell
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 */
+
 namespace MCForge.Commands
 {
-    public class CmdMode : Command
+    public sealed class CmdMode : Command
     {
         public override string name { get { return "mode"; } }
         public override string shortcut { get { return ""; } }
@@ -34,7 +39,7 @@ namespace MCForge.Commands
                 {
                     Player.SendMessage(p, "&b" + Block.Name(p.modeType)[0].ToString().ToUpper() + Block.Name(p.modeType).Remove(0, 1).ToLower() + Server.DefaultColor + " mode: &cOFF");
                     p.modeType = 0;
-                    p.BlockAction = 0;
+                    p.blockAction = 0;
                 }
                 else
                 {
@@ -43,7 +48,7 @@ namespace MCForge.Commands
             }
             else
             {
-                byte b = Block.Byte(message);
+                ushort b = Block.Ushort(message);
                 if (b == Block.Zero) { Player.SendMessage(p, "Could not find block given."); return; }
                 if (b == Block.air) { Player.SendMessage(p, "Cannot use Air Mode."); return; }
                 if (p.allowTnt == false)
@@ -106,11 +111,11 @@ namespace MCForge.Commands
                 {
                     Player.SendMessage(p, "&b" + Block.Name(p.modeType)[0].ToString().ToUpper() + Block.Name(p.modeType).Remove(0, 1).ToLower() + Server.DefaultColor + " mode: &cOFF");
                     p.modeType = 0;
-                    p.BlockAction = 0;
+                    p.blockAction = 0;
                 }
                 else
                 {
-                    p.BlockAction = 6;
+                    p.blockAction = 6;
                     p.modeType = b;
                     Player.SendMessage(p, "&b" + Block.Name(p.modeType)[0].ToString().ToUpper() + Block.Name(p.modeType).Remove(0, 1).ToLower() + Server.DefaultColor + " mode: &aON");
                 }

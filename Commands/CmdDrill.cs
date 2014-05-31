@@ -49,11 +49,11 @@ namespace MCForge.Commands
             Player.SendMessage(p, "/drill [distance] - Drills a hole, destroying all similar blocks in a 3x3 rectangle ahead of you.");
         }
         
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             if (!p.staticCommands) p.ClearBlockchange();
             CatchPos cpos = (CatchPos)p.blockchangeObject;
-            byte oldType = p.level.GetTile(x, y, z);
+            ushort oldType = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, oldType);
 
             int diffX = 0, diffZ = 0;

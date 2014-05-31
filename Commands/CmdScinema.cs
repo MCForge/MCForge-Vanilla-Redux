@@ -69,11 +69,11 @@ namespace MCForge.Commands
             }
         }
 
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
             //com(p, "get the type of the changed block");
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             //com(p, "undo the change2");
             p.SendBlockchange(x, y, z, b);
             //com(p, "blockundone making Catchpos bp");
@@ -94,11 +94,11 @@ namespace MCForge.Commands
             Player.SendMessage(p, lol);
         }
 
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
             //com(p, "get the type of the changed block");
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             //com(p, "undo the change");
             p.SendBlockchange(x, y, z, b);
             //getting the startpos of copy stored in blockchangeobject
@@ -176,7 +176,7 @@ namespace MCForge.Commands
             Player.SendMessage(p, "/sCinema [name] - Saves a given Frame to the File. Can be Played by pCinema");
         }
 
-        void BufferAdd(Player p, ushort x, ushort y, ushort z, byte type, List<Player.CopyPos> Buf)
+        void BufferAdd(Player p, ushort x, ushort y, ushort z, ushort type, List<Player.CopyPos> Buf)
         {
             Player.CopyPos pos;
             pos.x = x;

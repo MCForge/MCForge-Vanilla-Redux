@@ -195,7 +195,7 @@ namespace MCForge.Commands
                             Player.SendMessage(p, "Rank needed: " + getColor(cmd.name) + foundRank);
                             return;
                         }
-                        byte b = Block.Byte(message);
+                        ushort b = Block.Ushort(message);
                         if (b != Block.Zero)
                         {
                             Player.SendMessage(p, "Block \"" + message + "\" appears as &b" + Block.Name(Block.Convert(b)));

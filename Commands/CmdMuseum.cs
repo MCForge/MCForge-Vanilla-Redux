@@ -1,20 +1,25 @@
 /*
-	Copyright 2011 MCForge
-		
-	Dual-licensed under the	Educational Community License, Version 2.0 and
-	the GNU General Public License, Version 3 (the "Licenses"); you may
-	not use this file except in compliance with the Licenses. You may
-	obtain a copy of the Licenses at
-	
-	http://www.opensource.org/licenses/ecl2.php
-	http://www.gnu.org/licenses/gpl-3.0.html
-	
-	Unless required by applicable law or agreed to in writing,
-	software distributed under the Licenses are distributed on an "AS IS"
-	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-	or implied. See the Licenses for the specific language governing
-	permissions and limitations under the Licenses.
+Copyright (C) 2010-2013 David Mitchell
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 */
+
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -22,7 +27,7 @@ using System.Net;
 using System.Threading;
 namespace MCForge.Commands
 {
-    public class CmdMuseum : Command
+    public sealed class CmdMuseum : Command
     {
         public override string name { get { return "museum"; } }
         public override string shortcut { get { return ""; } }
@@ -97,7 +102,9 @@ namespace MCForge.Commands
 
 					byte[] blocks = new byte[level.width * level.height * level.depth];
 					gs.Read(blocks, 0, blocks.Length);
-					level.blocks = blocks;
+                    for (int i = 0; i < (blocks.Length / 2); ++i)
+                        level.blocks[i] = BitConverter.ToUInt16(new byte[] { blocks[i * 2], blocks[(i * 2) + 1] }, 0);
+                    
 					gs.Close();
 
 					level.backedup = true;
@@ -121,7 +128,7 @@ namespace MCForge.Commands
 					//ushort xx; ushort yy; ushort zz;
 
 					for (int i = 0; i < level.blocks.Length; ++i)
-						buffer[4 + i] = Block.Convert(level.blocks[i]);
+						buffer[4 + i] = (byte)Block.Convert(level.blocks[i]);
 
 					buffer = buffer.GZip();
 					int number = (int)Math.Ceiling(((double)buffer.Length) / 1024);

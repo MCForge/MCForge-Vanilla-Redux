@@ -23,288 +23,291 @@ namespace MCForge
 {
     public class Block
     {
-        public const byte air = (byte)0;
-        public const byte rock = (byte)1;
-        public const byte grass = (byte)2;
-        public const byte dirt = (byte)3;
-        public const byte stone = (byte)4;
-        public const byte wood = (byte)5;
-        public const byte shrub = (byte)6;
-        public const byte blackrock = (byte)7;// adminium
-        public const byte water = (byte)8;
-        public const byte waterstill = (byte)9;
-        public const byte lava = (byte)10;
-        public const byte lavastill = (byte)11;
-        public const byte sand = (byte)12;
-        public const byte gravel = (byte)13;
-        public const byte goldrock = (byte)14;
-        public const byte ironrock = (byte)15;
-        public const byte coal = (byte)16;
-        public const byte trunk = (byte)17;
-        public const byte leaf = (byte)18;
-        public const byte sponge = (byte)19;
-        public const byte glass = (byte)20;
-        public const byte red = (byte)21;
-        public const byte orange = (byte)22;
-        public const byte yellow = (byte)23;
-        public const byte lightgreen = (byte)24;
-        public const byte green = (byte)25;
-        public const byte aquagreen = (byte)26;
-        public const byte cyan = (byte)27;
-        public const byte lightblue = (byte)28;
-        public const byte blue = (byte)29;
-        public const byte purple = (byte)30;
-        public const byte lightpurple = (byte)31;
-        public const byte pink = (byte)32;
-        public const byte darkpink = (byte)33;
-        public const byte darkgrey = (byte)34;
-        public const byte lightgrey = (byte)35;
-        public const byte white = (byte)36;
-        public const byte yellowflower = (byte)37;
-        public const byte redflower = (byte)38;
-        public const byte mushroom = (byte)39;
-        public const byte redmushroom = (byte)40;
-        public const byte goldsolid = (byte)41;
-        public const byte iron = (byte)42;
-        public const byte staircasefull = (byte)43;
-        public const byte staircasestep = (byte)44;
-        public const byte brick = (byte)45;
-        public const byte tnt = (byte)46;
-        public const byte bookcase = (byte)47;
-        public const byte stonevine = (byte)48;
-        public const byte obsidian = (byte)49;
-        public const byte cobblestoneslab = (byte)50;
-        public const byte rope = (byte)51;
-        public const byte sandstone = (byte)52;
-        public const byte snowreal = (byte)53;
-        public const byte firereal = (byte)54;
-        public const byte lightpinkwool = (byte)55;
-        public const byte forestgreenwool = (byte)56;
-        public const byte brownwool = (byte)57;
-        public const byte deepblue = (byte)58;
-        public const byte turquoise = (byte)59;
-        public const byte ice = (byte)60;
-        public const byte ceramictile = (byte)61;
-        public const byte magmablock = (byte)62;
-        public const byte pillar = (byte)63;
-        public const byte crate = (byte)64;
-        public const byte stonebrick = (byte)65;
-        public const byte Zero = 0xff;
 
-        public const byte flagbase = (byte)70;
+		public const int maxblocks = 255;
+
+        public const ushort air = (ushort)0;
+        public const ushort rock = (ushort)1;
+        public const ushort grass = (ushort)2;
+        public const ushort dirt = (ushort)3;
+        public const ushort stone = (ushort)4;
+        public const ushort wood = (ushort)5;
+        public const ushort shrub = (ushort)6;
+        public const ushort blackrock = (ushort)7;// adminium
+        public const ushort water = (ushort)8;
+        public const ushort waterstill = (ushort)9;
+        public const ushort lava = (ushort)10;
+        public const ushort lavastill = (ushort)11;
+        public const ushort sand = (ushort)12;
+        public const ushort gravel = (ushort)13;
+        public const ushort goldrock = (ushort)14;
+        public const ushort ironrock = (ushort)15;
+        public const ushort coal = (ushort)16;
+        public const ushort trunk = (ushort)17;
+        public const ushort leaf = (ushort)18;
+        public const ushort sponge = (ushort)19;
+        public const ushort glass = (ushort)20;
+        public const ushort red = (ushort)21;
+        public const ushort orange = (ushort)22;
+        public const ushort yellow = (ushort)23;
+        public const ushort lightgreen = (ushort)24;
+        public const ushort green = (ushort)25;
+        public const ushort aquagreen = (ushort)26;
+        public const ushort cyan = (ushort)27;
+        public const ushort lightblue = (ushort)28;
+        public const ushort blue = (ushort)29;
+        public const ushort purple = (ushort)30;
+        public const ushort lightpurple = (ushort)31;
+        public const ushort pink = (ushort)32;
+        public const ushort darkpink = (ushort)33;
+        public const ushort darkgrey = (ushort)34;
+        public const ushort lightgrey = (ushort)35;
+        public const ushort white = (ushort)36;
+        public const ushort yellowflower = (ushort)37;
+        public const ushort redflower = (ushort)38;
+        public const ushort mushroom = (ushort)39;
+        public const ushort redmushroom = (ushort)40;
+        public const ushort goldsolid = (ushort)41;
+        public const ushort iron = (ushort)42;
+        public const ushort staircasefull = (ushort)43;
+        public const ushort staircasestep = (ushort)44;
+        public const ushort brick = (ushort)45;
+        public const ushort tnt = (ushort)46;
+        public const ushort bookcase = (ushort)47;
+        public const ushort stonevine = (ushort)48;
+        public const ushort obsidian = (ushort)49;
+        public const ushort cobblestoneslab = (ushort)50;
+        public const ushort rope = (ushort)51;
+        public const ushort sandstone = (ushort)52;
+        public const ushort snowreal = (ushort)53;
+        public const ushort firereal = (ushort)54;
+        public const ushort lightpinkwool = (ushort)55;
+        public const ushort forestgreenwool = (ushort)56;
+        public const ushort brownwool = (ushort)57;
+        public const ushort deepblue = (ushort)58;
+        public const ushort turquoise = (ushort)59;
+        public const ushort ice = (ushort)60;
+        public const ushort ceramictile = (ushort)61;
+        public const ushort magmablock = (ushort)62;
+        public const ushort pillar = (ushort)63;
+        public const ushort crate = (ushort)64;
+        public const ushort stonebrick = (ushort)65;
+        public const ushort Zero = 0xff;
+
+        public const ushort flagbase = (ushort)70;
 
         //Seasons
-        public const byte fallsnow = (byte)71;
-        public const byte snow = (byte)72;
+        public const ushort fallsnow = (ushort)71;
+        public const ushort snow = (ushort)72;
 
-        public const byte fastdeathlava = (byte)73;
+        public const ushort fastdeathlava = (ushort)73;
 
-        public const byte c4 = (byte)74;
-        public const byte c4det = (byte)75;
+        public const ushort c4 = (ushort)74;
+        public const ushort c4det = (ushort)75;
 
-        public const byte door_cobblestone = (byte)80;
-        public const byte door_cobblestone_air = (byte)81;
-        public const byte door_red = (byte)83;
-        public const byte door_red_air = (byte)84;
+        public const ushort door_cobblestone = (ushort)80;
+        public const ushort door_cobblestone_air = (ushort)81;
+        public const ushort door_red = (ushort)83;
+        public const ushort door_red_air = (ushort)84;
 
-        public const byte door_orange = (byte)85;
-        public const byte door_yellow = (byte)86;
-        public const byte door_lightgreen = (byte)87;
-        public const byte door_aquagreen = (byte)89;
-        public const byte door_cyan = (byte)90;
-        public const byte door_lightblue = (byte)91;
-        public const byte door_purple = (byte)92;
-        public const byte door_lightpurple = (byte)93;
-        public const byte door_pink = (byte)94;
-        public const byte door_darkpink = (byte)95;
-        public const byte door_darkgrey = (byte)96;
-        public const byte door_lightgrey = (byte)97;
-        public const byte door_white = (byte)98;
+        public const ushort door_orange = (ushort)85;
+        public const ushort door_yellow = (ushort)86;
+        public const ushort door_lightgreen = (ushort)87;
+        public const ushort door_aquagreen = (ushort)89;
+        public const ushort door_cyan = (ushort)90;
+        public const ushort door_lightblue = (ushort)91;
+        public const ushort door_purple = (ushort)92;
+        public const ushort door_lightpurple = (ushort)93;
+        public const ushort door_pink = (ushort)94;
+        public const ushort door_darkpink = (ushort)95;
+        public const ushort door_darkgrey = (ushort)96;
+        public const ushort door_lightgrey = (ushort)97;
+        public const ushort door_white = (ushort)98;
 
-        public const byte op_glass = (byte)100;
-        public const byte opsidian = (byte)101;
-        public const byte op_brick = (byte)102;
-        public const byte op_stone = (byte)103;
-        public const byte op_cobblestone = (byte)104;
-        public const byte op_air = (byte)105;
-        public const byte op_water = (byte)106;
-        public const byte op_lava = (byte)107;
+        public const ushort op_glass = (ushort)100;
+        public const ushort opsidian = (ushort)101;
+        public const ushort op_brick = (ushort)102;
+        public const ushort op_stone = (ushort)103;
+        public const ushort op_cobblestone = (ushort)104;
+        public const ushort op_air = (ushort)105;
+        public const ushort op_water = (ushort)106;
+        public const ushort op_lava = (ushort)107;
 
-        public const byte griefer_stone = (byte)108;
-        public const byte lava_sponge = (byte)109;
+        public const ushort griefer_stone = (ushort)108;
+        public const ushort lava_sponge = (ushort)109;
 
-        public const byte wood_float = (byte)110;
-        public const byte door = (byte)111;
-        public const byte lava_fast = (byte)112;
-        public const byte door2 = (byte)113;
-        public const byte door3 = (byte)114;
-        public const byte door4 = (byte)115;
-        public const byte door5 = (byte)116;
-        public const byte door6 = (byte)117;
-        public const byte door7 = (byte)118;
-        public const byte door8 = (byte)119;
-        public const byte door9 = (byte)120;
-        public const byte door10 = (byte)121;
+        public const ushort wood_float = (ushort)110;
+        public const ushort door = (ushort)111;
+        public const ushort lava_fast = (ushort)112;
+        public const ushort door2 = (ushort)113;
+        public const ushort door3 = (ushort)114;
+        public const ushort door4 = (ushort)115;
+        public const ushort door5 = (ushort)116;
+        public const ushort door6 = (ushort)117;
+        public const ushort door7 = (ushort)118;
+        public const ushort door8 = (ushort)119;
+        public const ushort door9 = (ushort)120;
+        public const ushort door10 = (ushort)121;
 
-        public const byte tdoor = (byte)122;
-        public const byte tdoor2 = (byte)123;
-        public const byte tdoor3 = (byte)124;
-        public const byte tdoor4 = (byte)125;
-        public const byte tdoor5 = (byte)126;
-        public const byte tdoor6 = (byte)127;
-        public const byte tdoor7 = (byte)128;
-        public const byte tdoor8 = (byte)129;
+        public const ushort tdoor = (ushort)122;
+        public const ushort tdoor2 = (ushort)123;
+        public const ushort tdoor3 = (ushort)124;
+        public const ushort tdoor4 = (ushort)125;
+        public const ushort tdoor5 = (ushort)126;
+        public const ushort tdoor6 = (ushort)127;
+        public const ushort tdoor7 = (ushort)128;
+        public const ushort tdoor8 = (ushort)129;
 
         //Messages
-        public const byte MsgWhite = (byte)130;
-        public const byte MsgBlack = (byte)131;
-        public const byte MsgAir = (byte)132;
-        public const byte MsgWater = (byte)133;
-        public const byte MsgLava = (byte)134;
+        public const ushort MsgWhite = (ushort)130;
+        public const ushort MsgBlack = (ushort)131;
+        public const ushort MsgAir = (ushort)132;
+        public const ushort MsgWater = (ushort)133;
+        public const ushort MsgLava = (ushort)134;
 
-        public const byte tdoor9 = (byte)135;
-        public const byte tdoor10 = (byte)136;
-        public const byte tdoor11 = (byte)137;
-        public const byte tdoor12 = (byte)138;
-        public const byte tdoor13 = (byte)139;
+        public const ushort tdoor9 = (ushort)135;
+        public const ushort tdoor10 = (ushort)136;
+        public const ushort tdoor11 = (ushort)137;
+        public const ushort tdoor12 = (ushort)138;
+        public const ushort tdoor13 = (ushort)139;
 
         //"finite"
-        public const byte WaterDown = (byte)140;
-        public const byte LavaDown = (byte)141;
-        public const byte WaterFaucet = (byte)143;
-        public const byte LavaFaucet = (byte)144;
+        public const ushort WaterDown = (ushort)140;
+        public const ushort LavaDown = (ushort)141;
+        public const ushort WaterFaucet = (ushort)143;
+        public const ushort LavaFaucet = (ushort)144;
 
-        public const byte finiteWater = (byte)145;
-        public const byte finiteLava = (byte)146;
-        public const byte finiteFaucet = (byte)147;
+        public const ushort finiteWater = (ushort)145;
+        public const ushort finiteLava = (ushort)146;
+        public const ushort finiteFaucet = (ushort)147;
 
-        public const byte odoor1 = (byte)148;
-        public const byte odoor2 = (byte)149;
-        public const byte odoor3 = (byte)150;
-        public const byte odoor4 = (byte)151;
-        public const byte odoor5 = (byte)152;
-        public const byte odoor6 = (byte)153;
-        public const byte odoor7 = (byte)154;
-        public const byte odoor8 = (byte)155;
-        public const byte odoor9 = (byte)156;
-        public const byte odoor10 = (byte)157;
-        public const byte odoor11 = (byte)158;
-        public const byte odoor12 = (byte)159;
+        public const ushort odoor1 = (ushort)148;
+        public const ushort odoor2 = (ushort)149;
+        public const ushort odoor3 = (ushort)150;
+        public const ushort odoor4 = (ushort)151;
+        public const ushort odoor5 = (ushort)152;
+        public const ushort odoor6 = (ushort)153;
+        public const ushort odoor7 = (ushort)154;
+        public const ushort odoor8 = (ushort)155;
+        public const ushort odoor9 = (ushort)156;
+        public const ushort odoor10 = (ushort)157;
+        public const ushort odoor11 = (ushort)158;
+        public const ushort odoor12 = (ushort)159;
 
         //movement
-        public const byte air_portal = (byte)160;
-        public const byte water_portal = (byte)161;
-        public const byte lava_portal = (byte)162;
+        public const ushort air_portal = (ushort)160;
+        public const ushort water_portal = (ushort)161;
+        public const ushort lava_portal = (ushort)162;
 
         //Movement doors
-        public const byte air_door = (byte)164;
-        public const byte air_switch = (byte)165;
-        public const byte water_door = (byte)166;
-        public const byte lava_door = (byte)167;
+        public const ushort air_door = (ushort)164;
+        public const ushort air_switch = (ushort)165;
+        public const ushort water_door = (ushort)166;
+        public const ushort lava_door = (ushort)167;
 
-        public const byte odoor1_air = (byte)168;
-        public const byte odoor2_air = (byte)169;
-        public const byte odoor3_air = (byte)170;
-        public const byte odoor4_air = (byte)171;
-        public const byte odoor5_air = (byte)172;
-        public const byte odoor6_air = (byte)173;
-        public const byte odoor7_air = (byte)174;
+        public const ushort odoor1_air = (ushort)168;
+        public const ushort odoor2_air = (ushort)169;
+        public const ushort odoor3_air = (ushort)170;
+        public const ushort odoor4_air = (ushort)171;
+        public const ushort odoor5_air = (ushort)172;
+        public const ushort odoor6_air = (ushort)173;
+        public const ushort odoor7_air = (ushort)174;
 
         //portals
-        public const byte blue_portal = (byte)175;
-        public const byte orange_portal = (byte)176;
+        public const ushort blue_portal = (ushort)175;
+        public const ushort orange_portal = (ushort)176;
 
-        public const byte odoor8_air = (byte)177;
-        public const byte odoor9_air = (byte)178;
-        public const byte odoor10_air = (byte)179;
-        public const byte odoor11_air = (byte)180;
-        public const byte odoor12_air = (byte)181;
+        public const ushort odoor8_air = (ushort)177;
+        public const ushort odoor9_air = (ushort)178;
+        public const ushort odoor10_air = (ushort)179;
+        public const ushort odoor11_air = (ushort)180;
+        public const ushort odoor12_air = (ushort)181;
 
         //Explosions
-        public const byte smalltnt = (byte)182;
-        public const byte bigtnt = (byte)183;
-        public const byte tntexplosion = (byte)184;
+        public const ushort smalltnt = (ushort)182;
+        public const ushort bigtnt = (ushort)183;
+        public const ushort tntexplosion = (ushort)184;
 
-        public const byte fire = (byte)185;
+        public const ushort fire = (ushort)185;
 		
-		public const byte nuketnt = (byte)186;
+		public const ushort nuketnt = (ushort)186;
 
-        public const byte rocketstart = (byte)187;
-        public const byte rockethead = (byte)188;
-        public const byte firework = (byte)189;
+        public const ushort rocketstart = (ushort)187;
+        public const ushort rockethead = (ushort)188;
+        public const ushort firework = (ushort)189;
 
         //Death
-        public const byte deathlava = (byte)190;
-        public const byte deathwater = (byte)191;
-        public const byte deathair = (byte)192;
+        public const ushort deathlava = (ushort)190;
+        public const ushort deathwater = (ushort)191;
+        public const ushort deathair = (ushort)192;
 
-        public const byte activedeathwater = (byte)193;
-        public const byte activedeathlava = (byte)194;
+        public const ushort activedeathwater = (ushort)193;
+        public const ushort activedeathlava = (ushort)194;
 
-        public const byte magma = (byte)195;
-        public const byte geyser = (byte)196;
+        public const ushort magma = (ushort)195;
+        public const ushort geyser = (ushort)196;
 
-        public const byte air_flood = (byte)200;
-        public const byte door_air = (byte)201;
-        public const byte air_flood_layer = (byte)202;
-        public const byte air_flood_down = (byte)203;
-        public const byte air_flood_up = (byte)204;
-        public const byte door2_air = (byte)205;
-        public const byte door3_air = (byte)206;
-        public const byte door4_air = (byte)207;
-        public const byte door5_air = (byte)208;
-        public const byte door6_air = (byte)209;
-        public const byte door7_air = (byte)210;
-        public const byte door8_air = (byte)211;
-        public const byte door9_air = (byte)212;
-        public const byte door10_air = (byte)213;
-        public const byte door11_air = (byte)214;
-        public const byte door12_air = (byte)215;
-        public const byte door13_air = (byte)216;
-        public const byte door14_air = (byte)217;
+        public const ushort air_flood = (ushort)200;
+        public const ushort door_air = (ushort)201;
+        public const ushort air_flood_layer = (ushort)202;
+        public const ushort air_flood_down = (ushort)203;
+        public const ushort air_flood_up = (ushort)204;
+        public const ushort door2_air = (ushort)205;
+        public const ushort door3_air = (ushort)206;
+        public const ushort door4_air = (ushort)207;
+        public const ushort door5_air = (ushort)208;
+        public const ushort door6_air = (ushort)209;
+        public const ushort door7_air = (ushort)210;
+        public const ushort door8_air = (ushort)211;
+        public const ushort door9_air = (ushort)212;
+        public const ushort door10_air = (ushort)213;
+        public const ushort door11_air = (ushort)214;
+        public const ushort door12_air = (ushort)215;
+        public const ushort door13_air = (ushort)216;
+        public const ushort door14_air = (ushort)217;
 
-        public const byte door_iron = (byte)220;
-        public const byte door_dirt = (byte)221;
-        public const byte door_grass = (byte)222;
-        public const byte door_blue = (byte)223;
-        public const byte door_book = (byte)224;
-        public const byte door_iron_air = (byte)225;
-        public const byte door_dirt_air = (byte)226;
-        public const byte door_grass_air = (byte)227;
-        public const byte door_blue_air = (byte)228;
-        public const byte door_book_air = (byte)229;
+        public const ushort door_iron = (ushort)220;
+        public const ushort door_dirt = (ushort)221;
+        public const ushort door_grass = (ushort)222;
+        public const ushort door_blue = (ushort)223;
+        public const ushort door_book = (ushort)224;
+        public const ushort door_iron_air = (ushort)225;
+        public const ushort door_dirt_air = (ushort)226;
+        public const ushort door_grass_air = (ushort)227;
+        public const ushort door_blue_air = (ushort)228;
+        public const ushort door_book_air = (ushort)229;
 
-        public const byte train = (byte)230;
+        public const ushort train = (ushort)230;
 
-        public const byte creeper = (byte)231;
-        public const byte zombiebody = (byte)232;
-        public const byte zombiehead = (byte)233;
+        public const ushort creeper = (ushort)231;
+        public const ushort zombiebody = (ushort)232;
+        public const ushort zombiehead = (ushort)233;
 
-        public const byte birdwhite = (byte)235;
-        public const byte birdblack = (byte)236;
-        public const byte birdwater = (byte)237;
-        public const byte birdlava = (byte)238;
-        public const byte birdred = (byte)239;
-        public const byte birdblue = (byte)240;
-        public const byte birdkill = (byte)242;
+        public const ushort birdwhite = (ushort)235;
+        public const ushort birdblack = (ushort)236;
+        public const ushort birdwater = (ushort)237;
+        public const ushort birdlava = (ushort)238;
+        public const ushort birdred = (ushort)239;
+        public const ushort birdblue = (ushort)240;
+        public const ushort birdkill = (ushort)242;
 
-        public const byte fishgold = (byte)245;
-        public const byte fishsponge = (byte)246;
-        public const byte fishshark = (byte)247;
-        public const byte fishsalmon = (byte)248;
-        public const byte fishbetta = (byte)249;
-        public const byte fishlavashark = (byte)250;
+        public const ushort fishgold = (ushort)245;
+        public const ushort fishsponge = (ushort)246;
+        public const ushort fishshark = (ushort)247;
+        public const ushort fishsalmon = (ushort)248;
+        public const ushort fishbetta = (ushort)249;
+        public const ushort fishlavashark = (ushort)250;
 
-        public const byte snake = (byte)251;
-        public const byte snaketail = (byte)252;
+        public const ushort snake = (ushort)251;
+        public const ushort snaketail = (ushort)252;
 		
-		public const byte door_gold = (byte)253;
-		public const byte door_gold_air = (byte)254;
+		public const ushort door_gold = (ushort)253;
+		public const ushort door_gold_air = (ushort)254;
 
         public static List<Blocks> BlockList = new List<Blocks>();
         public class Blocks
         {
-            public byte type;
+            public ushort type;
             public LevelPermission lowestRank;
             public List<LevelPermission> disallow = new List<LevelPermission>();
             public List<LevelPermission> allow = new List<LevelPermission>();
@@ -333,10 +336,10 @@ namespace MCForge
             Blocks b = new Blocks();
             b.lowestRank = LevelPermission.Guest;
 
-            for (int i = 0; i < 256; i++)
+            for (int i = 0; i < (maxblocks+ 1); i++)
             {
                 b = new Blocks();
-                b.type = (byte)i;
+                b.type = (ushort)i;
                 BlockList.Add(b);
             }
 
@@ -574,11 +577,11 @@ namespace MCForge
                             string[] block = line.Split(colon, StringSplitOptions.None);
                             Blocks newBlock = new Blocks();
 
-                            if (Block.Byte(block[0]) == Block.Zero)
+                            if (Block.Ushort(block[0]) == Block.Zero)
                             {
                                 continue;
                             }
-                            newBlock.type = Block.Byte(block[0]);
+                            newBlock.type = Block.Ushort(block[0]);
 
                             string[] disallow = new string[0];
                             if (block[2] != "")
@@ -621,7 +624,7 @@ namespace MCForge
                             try
                             {
                                 Blocks newBlock = new Blocks();
-                                newBlock.type = Block.Byte(s.Split(' ')[0]);
+                                newBlock.type = Block.Ushort(s.Split(' ')[0]);
                                 newBlock.lowestRank = Level.PermissionFromName(s.Split(' ')[2]);
                                 if (newBlock.lowestRank != LevelPermission.Null)
                                     storedList[storedList.FindIndex(sL => sL.type == newBlock.type)] = newBlock;
@@ -667,8 +670,8 @@ namespace MCForge
             catch (Exception e) { Server.ErrorLog(e); }
         }
 
-        public static bool canPlace(Player p, byte b) { return canPlace(p.group.Permission, b); }
-        public static bool canPlace(LevelPermission givenPerm, byte givenBlock)
+        public static bool canPlace(Player p, ushort b) { return canPlace(p.group.Permission, b); }
+        public static bool canPlace(LevelPermission givenPerm, ushort givenBlock)
         {
             foreach (Blocks b in BlockList)
             {
@@ -682,7 +685,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool Walkthrough(byte type)
+        public static bool Walkthrough(ushort type)
         {
             switch (type)
             {
@@ -701,7 +704,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool AnyBuild(byte type)
+        public static bool AnyBuild(ushort type)
         {
             switch (type)
             {
@@ -755,7 +758,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool AllowBreak(byte type)
+        public static bool AllowBreak(ushort type)
         {
             switch (type)
             {
@@ -813,7 +816,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool Placable(byte type)
+        public static bool Placable(ushort type)
         {
             switch (type)
             {
@@ -831,7 +834,7 @@ namespace MCForge
             return true;
         }
 
-        public static bool RightClick(byte type, bool countAir = false)
+        public static bool RightClick(ushort type, bool countAir = false)
         {
             if (countAir && type == Block.air) return true;
 
@@ -846,7 +849,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool OPBlocks(byte type)
+        public static bool OPBlocks(ushort type)
         {
             switch (type)
             {
@@ -867,7 +870,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool Death(byte type)
+        public static bool Death(ushort type)
         {
             switch (type)
             {
@@ -902,7 +905,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool BuildIn(byte type)
+        public static bool BuildIn(ushort type)
         {
             if (type == op_water || type == op_lava || Block.portal(type) || Block.mb(type)) return false;
 
@@ -917,7 +920,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool Mover(byte type)
+        public static bool Mover(ushort type)
         {
             switch (type)
             {
@@ -939,7 +942,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool LavaKill(byte type)
+        public static bool LavaKill(ushort type)
         {
             switch (type)
             {
@@ -973,7 +976,7 @@ namespace MCForge
             }
             return false;
         }
-        public static bool WaterKill(byte type)
+        public static bool WaterKill(ushort type)
         {
             switch (type)
             {
@@ -989,7 +992,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool LightPass(byte type)
+        public static bool LightPass(ushort type)
         {
             switch (Convert(type))
             {
@@ -1008,7 +1011,7 @@ namespace MCForge
             }
         }
 
-        public static bool NeedRestart(byte type)
+        public static bool NeedRestart(ushort type)
         {
             switch (type)
             {
@@ -1046,7 +1049,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool portal(byte type)
+        public static bool portal(ushort type)
         {
             switch (type)
             {
@@ -1059,7 +1062,7 @@ namespace MCForge
             }
             return false;
         }
-        public static bool mb(byte type)
+        public static bool mb(ushort type)
         {
             switch (type)
             {
@@ -1073,7 +1076,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool Physics(byte type)   //returns false if placing block cant actualy cause any physics to happen
+        public static bool Physics(ushort type)   //returns false if placing block cant actualy cause any physics to happen
         {
             switch (type)
             {
@@ -1178,7 +1181,7 @@ namespace MCForge
             }
         }
 
-        public static string Name(byte type)
+        public static string Name(ushort type)
         {
             switch (type)
             {
@@ -1444,7 +1447,7 @@ namespace MCForge
                 default: return "unknown";
             }
         }
-        public static byte Byte(string type)
+        public static ushort Ushort(string type)
         {
             switch (type.ToLower())
             {
@@ -1751,25 +1754,25 @@ namespace MCForge
             }
         }
 
-        public static byte Convert(byte b)
+        public static ushort Convert(ushort b)
         {
             switch (b)
             {
                 case flagbase: return mushroom; //CTF Flagbase
-                case 100: return (byte)20; //Op_glass
-                case 101: return (byte)49; //Opsidian
-                case 102: return (byte)45; //Op_brick
-                case 103: return (byte)1; //Op_stone
-                case 104: return (byte)4; //Op_cobblestone
-                case 105: return (byte)0; //Op_air - Must be cuboided / replaced
+                case 100: return (ushort)20; //Op_glass
+                case 101: return (ushort)49; //Opsidian
+                case 102: return (ushort)45; //Op_brick
+                case 103: return (ushort)1; //Op_stone
+                case 104: return (ushort)4; //Op_cobblestone
+                case 105: return (ushort)0; //Op_air - Must be cuboided / replaced
                 case 106: return waterstill; //Op_water
                 case 107: return lavastill; //Op_lava
 
                 case 108: return Server.grieferStoneType; //Griefer_stone
-                case 109: return (byte)19; //Lava_sponge
+                case 109: return (ushort)19; //Lava_sponge
 
-                case 110: return (byte)5; //wood_float
-                case 112: return (byte)10;
+                case 110: return (ushort)5; //wood_float
+                case 112: return (ushort)10;
                 case 71:
                 case 72:
                     return Block.white;
@@ -1833,14 +1836,14 @@ namespace MCForge
                 case odoor11: return lavastill;
                 case odoor12: return waterstill;
 
-                case 130: return (byte)36;  //upVator
-                case 131: return (byte)34;  //upVator
-                case 132: return (byte)0;   //upVator
+                case 130: return (ushort)36;  //upVator
+                case 131: return (ushort)34;  //upVator
+                case 132: return (ushort)0;   //upVator
                 case MsgWater: return waterstill;   //upVator
                 case MsgLava: return lavastill;  //upVator
 
-                case 140: return (byte)8;
-                case 141: return (byte)10;
+                case 140: return (ushort)8;
+                case 141: return (ushort)10;
                 case WaterFaucet: return Block.cyan;
                 case LavaFaucet: return Block.orange;
 
@@ -1848,7 +1851,7 @@ namespace MCForge
                 case finiteLava: return lava;
                 case finiteFaucet: return lightblue;
 
-                case 160: return (byte)0;//air portal
+                case 160: return (ushort)0;//air portal
                 case 161: return waterstill;//water portal
                 case 162: return lavastill;//lava portal
 
@@ -1857,15 +1860,15 @@ namespace MCForge
                 case water_door: return waterstill;//water door
                 case lava_door: return lavastill;
 
-                case 175: return (byte)28;//blue portal
-                case 176: return (byte)22;//orange portal
+                case 175: return (ushort)28;//blue portal
+                case 176: return (ushort)22;//orange portal
 
-                case c4: return (byte)46;
-                case c4det: return (byte)red;
-                case 182: return (byte)46;//smalltnt
-                case 183: return (byte)46;//bigtnt
-                case 186: return (byte)46;//nuketnt
-                case 184: return (byte)10;//explosion
+                case c4: return (ushort)46;
+                case c4det: return (ushort)red;
+                case 182: return (ushort)46;//smalltnt
+                case 183: return (ushort)46;//bigtnt
+                case 186: return (ushort)46;//nuketnt
+                case 184: return (ushort)10;//explosion
 
                 case fire: return lava;
 
@@ -1875,7 +1878,7 @@ namespace MCForge
 
                 case Block.deathwater: return waterstill;
                 case Block.deathlava: return lavastill;
-                case Block.deathair: return (byte)0;
+                case Block.deathair: return (ushort)0;
                 case activedeathwater: return water;
                 case activedeathlava: return lava;
                 case fastdeathlava: return lava;
@@ -1907,7 +1910,7 @@ namespace MCForge
                 case door_grass_air:
                 case door_blue_air:
                 case door_book_air:
-                    return (byte)0;
+                    return (ushort)0;
                 case door9_air: return lava;
                 case door8_air: return red;
 
@@ -1954,7 +1957,7 @@ namespace MCForge
             }
         }
 
-        public static byte ConvertCPE(byte b)
+        public static ushort ConvertCPE(ushort b)
         {
             switch (b)
             {
@@ -1979,7 +1982,7 @@ namespace MCForge
             }
         }
 
-        public static byte SaveConvert(byte b)
+        public static ushort SaveConvert(ushort b)
         {
             switch (b)
             {
@@ -1990,20 +1993,20 @@ namespace MCForge
                 case 202:
                 case 203:
                 case 204:
-                    return (byte)0; //air_flood must be converted to air on save to prevent issues
-                case 201: return (byte)111; //door_air back into door
-                case 205: return (byte)113; //door_air back into door
-                case 206: return (byte)114; //door_air back into door
-                case 207: return (byte)115; //door_air back into door
-                case 208: return (byte)116; //door_air back into door
-                case 209: return (byte)117; //door_air back into door
-                case 210: return (byte)118; //door_air back into door
-                case 211: return (byte)119; //door_air back into door
-                case 212: return (byte)120; //door_air back into door
-                case 213: return (byte)121; //door_air back into door
-                case 214: return (byte)165; //door_air back into door
-                case 215: return (byte)166; //door_air back into door
-                case 216: return (byte)167; //door_air back into door
+                    return (ushort)0; //air_flood must be converted to air on save to prevent issues
+                case 201: return (ushort)111; //door_air back into door
+                case 205: return (ushort)113; //door_air back into door
+                case 206: return (ushort)114; //door_air back into door
+                case 207: return (ushort)115; //door_air back into door
+                case 208: return (ushort)116; //door_air back into door
+                case 209: return (ushort)117; //door_air back into door
+                case 210: return (ushort)118; //door_air back into door
+                case 211: return (ushort)119; //door_air back into door
+                case 212: return (ushort)120; //door_air back into door
+                case 213: return (ushort)121; //door_air back into door
+                case 214: return (ushort)165; //door_air back into door
+                case 215: return (ushort)166; //door_air back into door
+                case 216: return (ushort)167; //door_air back into door
                 case 217: return air_door; //door_air back into door
                 case door_iron_air: return door_iron;
 				case door_gold_air: return door_gold;
@@ -2031,7 +2034,7 @@ namespace MCForge
                 default: return b;
             }
         }
-        public static byte DoorAirs(byte b)
+        public static ushort DoorAirs(ushort b)
         {
             switch (b)
             {
@@ -2061,7 +2064,7 @@ namespace MCForge
             }
         }
 
-        public static bool tDoor(byte b)
+        public static bool tDoor(ushort b)
         {
             switch (b)
             {
@@ -2083,7 +2086,7 @@ namespace MCForge
             return false;
         }
 
-        public static byte odoor(byte b)
+        public static ushort odoor(ushort b)
         {
             switch (b)
             {

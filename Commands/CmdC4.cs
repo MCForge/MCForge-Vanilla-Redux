@@ -53,7 +53,7 @@ namespace MCForge.Commands
         {
             Player.SendMessage(p, "/c4 - Place c4!");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
 
@@ -65,10 +65,10 @@ namespace MCForge.Commands
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange1);
         }
 
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-        //    byte b = p.level.GetTile(x, y, z);
+        //    ushort b = p.level.GetTile(x, y, z);
             p.level.Blockchange(p, x, y, z, Block.c4det);
             Player.SendMessage(p, "Placed detonator block!");
         }

@@ -41,7 +41,7 @@ namespace MCForge
                 "&name=" + Heart.EncodeUrl(Server.name) +
                 "&public=" + Server.pub +
                 "&version=7" +
-                "&salt=" + Server.salt +
+                "&salt=" + Server.salt2 +
                 "&users=" + Player.players.Count;
         }
 

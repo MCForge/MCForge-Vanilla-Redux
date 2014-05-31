@@ -32,11 +32,11 @@ namespace MCForge.Commands
         {
             CatchPos cpos;
             if (message != "")
-                if (Block.Byte(message.ToLower()) == Block.Zero) { Player.SendMessage(p, "Cannot find block entered."); return; }
+                if (Block.Ushort(message.ToLower()) == Block.Zero) { Player.SendMessage(p, "Cannot find block entered."); return; }
 
             if (message != "")
             {
-                cpos.countOther = Block.Byte(message.ToLower());
+                cpos.countOther = Block.Ushort(message.ToLower());
             }
             else
             {
@@ -53,19 +53,19 @@ namespace MCForge.Commands
             Player.SendMessage(p, "/hollow - Hollows out an area without flooding it");
             Player.SendMessage(p, "/hollow [block] - Hollows around [block]");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos bp = (CatchPos)p.blockchangeObject;
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos cpos = (CatchPos)p.blockchangeObject;
 
@@ -121,7 +121,7 @@ namespace MCForge.Commands
         }
         struct CatchPos
         {
-            public ushort x, y, z; public byte countOther;
+            public ushort x, y, z; public ushort countOther;
         }
 
     }

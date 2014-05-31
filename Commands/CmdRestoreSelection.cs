@@ -46,7 +46,7 @@ namespace MCForge.Commands
             else Help(p);
         }
 
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
             p.SendBlockchange(x, y, z, p.level.GetTile(x, y, z));
@@ -55,7 +55,7 @@ namespace MCForge.Commands
             p.Blockchange += Blockchange2;
         }
 
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
             p.SendBlockchange(x, y, z, p.level.GetTile(x, y, z));

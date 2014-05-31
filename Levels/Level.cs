@@ -1,20 +1,25 @@
 /*
-	Copyright 2010 MCSharp team (Modified for use with MCZall/MCLawl/MCForge)
-	
-	Dual-licensed under the	Educational Community License, Version 2.0 and
-	the GNU General Public License, Version 3 (the "Licenses"); you may
-	not use this file except in compliance with the Licenses. You may
-	obtain a copy of the Licenses at
-	
-	http://www.opensource.org/licenses/ecl2.php
-	http://www.gnu.org/licenses/gpl-3.0.html
-	
-	Unless required by applicable law or agreed to in writing,
-	software distributed under the Licenses are distributed on an "AS IS"
-	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-	or implied. See the Licenses for the specific language governing
-	permissions and limitations under the Licenses.
+Copyright (C) 2010-2013 David Mitchell
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -49,7 +54,7 @@ namespace MCForge
         Other
     }
 
-    public class Level : IDisposable
+    public sealed class Level : IDisposable
     {
         #region Delegates
 
@@ -91,7 +96,7 @@ namespace MCForge
         public bool ai = true;
         public bool backedup;
         public List<BlockPos> blockCache = new List<BlockPos>();
-        public byte[] blocks;
+        public ushort[] blocks;
 
         public bool cancelsave1;
         public bool cancelunload;
@@ -123,6 +128,44 @@ namespace MCForge
         public string motd = "ignore";
         public string name;
         public int overload = 1500;
+		public byte weather;
+
+        // IsoCat
+        public ushort[,] shadows;
+        public void CalculateShadows()
+        {
+            try
+            {
+                if (shadows != null) return;
+
+                shadows = new ushort[width, height];
+                for (ushort x = 0; x < width; x++)
+                {
+                    for (ushort y = 0; y < height; y++)
+                    {
+                        for (ushort z = (ushort)(depth - 1); z >= 0; z--)
+                        {
+                            switch (GetTile(x, y, z))
+                            {
+                                case Block.air:
+                                case Block.mushroom:
+                                case Block.glass:
+                                case Block.leaf:
+                                case Block.redflower:
+                                case Block.redmushroom:
+                                case Block.yellowflower:
+                                    continue;
+                                default:
+                                    shadows[x, y] = z;
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) { Server.ErrorLog(ex); shadows = new ushort[width, height]; }
+        }
         public LevelPermission perbuildmax = LevelPermission.Nobody;
 
         public LevelPermission permissionbuild = LevelPermission.Builder;
@@ -189,7 +232,7 @@ namespace MCForge
             }
 
             name = n;
-            blocks = new byte[width * depth * height];
+            blocks = new ushort[width * depth * height];
             ZoneList = new List<Zone>();
 
             var half = (ushort)(depth / 2);
@@ -288,8 +331,6 @@ namespace MCForge
             get { return getPlayers(); }
         }
 
-        public byte weather;
-
         #region IDisposable Members
 
         public void Dispose()
@@ -307,23 +348,17 @@ namespace MCForge
         }
 
         #endregion
-        //[Obsolete("Please use OnPhysicsUpdate.Register()")]
         public event OnPhysicsUpdate PhysicsUpdate = null;
-        //[Obsolete("Please use OnLevelUnloadEvent.Register()")]
         public static event OnLevelUnload LevelUnload = null;
-        //[Obsolete("Please use OnLevelSaveEvent.Register()")]
         public static event OnLevelSave LevelSave = null;
         //public static event OnLevelSave onLevelSave = null;
-     //   //[Obsolete("Please use OnLevelUnloadEvent.Register()")]
-     //   public event OnLevelUnload onLevelUnload = null;
-        //[Obsolete("Please use OnLevelUnloadEvent.Register()")]
+  //      public event OnLevelUnload onLevelUnload = null;
         public static event OnLevelLoad LevelLoad = null;
-        //[Obsolete("Please use OnLevelUnloadEvent.Register()")]
         public static event OnLevelLoaded LevelLoaded;
 
         public void CopyBlocks(byte[] source, int offset)
         {
-            blocks = new byte[width * depth * height];
+            blocks = new ushort[width * depth * height];
             Array.Copy(source, offset, blocks, 0, blocks.Length);
 
             for (int i = 0; i < blocks.Length; i++)
@@ -434,7 +469,7 @@ namespace MCForge
             tempCache.Clear();
         }
 
-        public byte GetTile(ushort x, ushort y, ushort z)
+        public ushort GetTile(ushort x, ushort y, ushort z)
         {
             if (blocks == null) return Block.Zero;
             //if (PosToInt(x, y, z) >= blocks.Length) { return null; }
@@ -442,13 +477,13 @@ namespace MCForge
             return !InBound(x, y, z) ? Block.Zero : blocks[PosToInt(x, y, z)];
         }
 
-        public byte GetTile(int b)
+        public ushort GetTile(int b)
         {
             ushort x = 0, y = 0, z = 0;
             IntToPos(b, out x, out y, out z);
             return GetTile(x, y, z);
         }
-        public void SetTile(int b, byte type)
+        public void SetTile(int b, ushort type)
         {
             if (blocks == null) return;
             if (b >= blocks.Length) return;
@@ -456,7 +491,7 @@ namespace MCForge
             blocks[b] = type;
             //blockchanges[x + width * z + width * height * y] = pName;
         }
-        public void SetTile(ushort x, ushort y, ushort z, byte type)
+        public void SetTile(ushort x, ushort y, ushort z, ushort type)
         {
             if (blocks == null) return;
             if (!InBound(x, y, z)) return;
@@ -491,7 +526,7 @@ namespace MCForge
         }
 
 
-        public void Blockchange(Player p, ushort x, ushort y, ushort z, byte type, bool addaction = true)
+        public void Blockchange(Player p, ushort x, ushort y, ushort z, ushort type, bool addaction = true)
         {
             string errorLocation = "start";
         retry:
@@ -500,7 +535,7 @@ namespace MCForge
                 if (x < 0 || y < 0 || z < 0) return;
                 if (x >= width || y >= depth || z >= height) return;
 
-                byte b = GetTile(x, y, z);
+                ushort b = GetTile(x, y, z);
 
                 errorLocation = "Block rank checking";
                 if (!Block.AllowBreak(b))
@@ -784,12 +819,12 @@ namespace MCForge
                 Server.s.Log("Failed to save level properties!");
             }
         }
-        public void Blockchange(int b, byte type, bool overRide = false, string extraInfo = "")
+        public void Blockchange(int b, ushort type, bool overRide = false, string extraInfo = "")
         //Block change made by physics
         {
             if (b < 0) return;
             if (b >= blocks.Length) return;
-            byte bb = GetTile(b);
+            ushort bb = GetTile(b);
 
             try
             {
@@ -844,12 +879,12 @@ namespace MCForge
                 SetTile(b, type);
             }
         }
-        public void Blockchange(ushort x, ushort y, ushort z, byte type, bool overRide = false, string extraInfo = "")
+        public void Blockchange(ushort x, ushort y, ushort z, ushort type, bool overRide = false, string extraInfo = "")
         //Block change made by physics
         {
             if (x < 0 || y < 0 || z < 0) return;
             if (x >= width || y >= depth || z >= height) return;
-            byte b = GetTile(x, y, z);
+            ushort b = GetTile(x, y, z);
 
             try
             {
@@ -913,7 +948,7 @@ namespace MCForge
             return !ListCheck.Exists(Check => Check.b == b);
         }
 
-        public void skipChange(ushort x, ushort y, ushort z, byte type)
+        public void skipChange(ushort x, ushort y, ushort z, ushort type)
         {
             if (x < 0 || y < 0 || z < 0) return;
             if (x >= width || y >= depth || z >= height) return;
@@ -971,17 +1006,17 @@ namespace MCForge
                             header[14] = (byte)permissionvisit;
                             header[15] = (byte)permissionbuild;
                             gs.Write(header, 0, header.Length);
-                            var level = new byte[blocks.Length];
+                            var level = new byte[blocks.Length * 2];
                             for (int i = 0; i < blocks.Length; ++i)
                             {
                                 if (blocks[i] < 57)
                                 //CHANGED THIS TO INCOPARATE SOME MORE SPACE THAT I NEEDED FOR THE door_orange_air ETC.
                                 {
-                                    level[i] = blocks[i];
+                                    BitConverter.GetBytes(blocks[i]).CopyTo(level, (i * 2));
                                 }
                                 else
                                 {
-                                    level[i] = Block.SaveConvert(blocks[i]);
+                                    BitConverter.GetBytes(Block.SaveConvert(blocks[i])).CopyTo(level, (i * 2));
                                 }
                             }
                             gs.Write(level, 0, level.Length);
@@ -1126,7 +1161,7 @@ namespace MCForge
         }
 
         //givenName is safe against SQL injections, it gets checked in CmdLoad.cs
-        public static Level Load(string givenName, byte phys) 
+        public static Level Load(string givenName, byte phys, bool bite = false) 
         {
             if (LevelLoad != null)
                 LevelLoad(givenName);
@@ -1138,7 +1173,7 @@ namespace MCForge
             }
             CreateLeveldb(givenName);
 
-            string path = string.Format("levels/{0}.lvl", givenName);
+            string path = string.Format("levels/{0}.lvl", bite ? "byte/" + givenName : givenName);
             if (File.Exists(path))
             {
                 FileStream fs = File.OpenRead(path);
@@ -1199,9 +1234,14 @@ namespace MCForge
 
                     level.setPhysics(phys);
 
-                    var blocks = new byte[level.width * level.height * level.depth];
+                    var blocks = new byte[(bite ? 1 : 2) * level.width * level.height * level.depth];
                     gs.Read(blocks, 0, blocks.Length);
-                    level.blocks = blocks;
+                    if(!bite)
+                        for (int i = 0; i < (blocks.Length / 2); ++i)
+                            level.blocks[i] = BitConverter.ToUInt16(new byte[] { blocks[i * 2], blocks[(i * 2) + 1] }, 0);
+                    else
+                        for (int i = 0; i < blocks.Length; ++i)
+                            level.blocks[i] = (ushort)blocks[i];
                     gs.Close();
                     gs.Dispose();
                     //level.textures = new LevelTextures(level);
@@ -1384,6 +1424,8 @@ namespace MCForge
                     if (LevelLoaded != null)
                         LevelLoaded(level);
                     OnLevelLoadedEvent.Call(level);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                     return level;
                 }
                 catch (Exception ex)
@@ -1393,11 +1435,15 @@ namespace MCForge
                 }
                 finally
                 {
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                     fs.Close();
                     fs.Dispose();
                 }
             }
             Server.s.Log("ERROR loading level.");
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             return null;
         }
 
@@ -1782,6 +1828,8 @@ namespace MCForge
                                                           case Block.door_gold_air:
                                                           case Block.door_cobblestone_air:
                                                           case Block.door_red_air:
+
+                      
 
                                                           case Block.door_dirt_air:
                                                           case Block.door_grass_air:
@@ -3176,6 +3224,8 @@ namespace MCForge
                                                           case Block.door_gold_air:
                                                           case Block.door_cobblestone_air:
                                                           case Block.door_red_air:
+
+        
 
                                                           case Block.door_dirt_air:
                                                           case Block.door_grass_air:
@@ -5341,7 +5391,7 @@ namespace MCForge
         }
 
         //================================================================================================================
-        private void PhysWater(int b, byte type)
+        private void PhysWater(int b, ushort type)
         {
             if (b == -1)
             {
@@ -5458,7 +5508,7 @@ namespace MCForge
         }
 
         //================================================================================================================
-        private void PhysLava(int b, byte type)
+        private void PhysLava(int b, ushort type)
         {
             if (b == -1)
             {
@@ -5621,7 +5671,7 @@ namespace MCForge
         }
 
         //================================================================================================================
-        private bool PhysSand(int b, byte type) //also does gravel
+        private bool PhysSand(int b, ushort type) //also does gravel
         {
             if (b == -1 || physics == 0) return false;
             if (physics == 5) return false;
@@ -5827,7 +5877,7 @@ namespace MCForge
         }
 
         //================================================================================================================
-        private void PhysAirFlood(int b, byte type)
+        private void PhysAirFlood(int b, ushort type)
         {
             if (b == -1)
             {
@@ -5837,10 +5887,10 @@ namespace MCForge
         }
 
         //================================================================================================================
-        private void PhysFall(byte newBlock, ushort x, ushort y, ushort z, bool random)
+        private void PhysFall(ushort newBlock, ushort x, ushort y, ushort z, bool random)
         {
             var randNum = new Random();
-            byte b;
+            ushort b;
             if (!random)
             {
                 b = GetTile((ushort)(x + 1), y, z);
@@ -5881,7 +5931,7 @@ namespace MCForge
         //================================================================================================================
         private bool PhysLeaf(int b)
         {
-            byte type, dist = 4;
+            ushort type, dist = 4;
             int i, xx, yy, zz;
             ushort x, y, z;
             IntToPos(b, out x, out y, out z);
@@ -6001,7 +6051,7 @@ namespace MCForge
         {
             if (C.time == 0)
             {
-                byte foundBlock;
+                ushort foundBlock;
 
                 foundBlock = Block.odoor(GetTile(IntOffset(C.b, -1, 0, 0)));
                 if (foundBlock == blocks[C.b])
@@ -6098,7 +6148,7 @@ namespace MCForge
                             {
                                 for (int zz = -1; zz <= 1; zz++)
                                 {
-                                    byte b = GetTile(IntOffset(C.b, xx, yy, zz));
+                                    ushort b = GetTile(IntOffset(C.b, xx, yy, zz));
                                     if (b == Block.rocketstart)
                                     {
                                         if (physics == 5)
@@ -6164,7 +6214,7 @@ namespace MCForge
         public void PhysDoor(ushort x, ushort y, ushort z, bool instaUpdate)
         {
             int foundInt = PosToInt(x, y, z);
-            byte FoundAir = Block.DoorAirs(blocks[foundInt]);
+            ushort FoundAir = Block.DoorAirs(blocks[foundInt]);
 
             if (FoundAir != 0)
             {
@@ -6186,7 +6236,7 @@ namespace MCForge
             //DateTime start = DateTime.Now;
             int xx, yy, zz;
             var rand = new Random();
-            byte b;
+            ushort b;
 
             if (physics < 2 && force == false) return;
             if (physics == 5 && force == false) return;
@@ -6399,7 +6449,7 @@ namespace MCForge
             public DateTime TimePerformed;
             public bool deleted;
             public string name;
-            public byte type;
+            public ushort type;
             public ushort x, y, z;
         }
 
@@ -6410,8 +6460,8 @@ namespace MCForge
         public struct UndoPos
         {
             public int location;
-            public byte newType;
-            public byte oldType;
+            public ushort newType;
+            public ushort oldType;
             public DateTime timePerformed;
         }
 
@@ -6516,9 +6566,9 @@ public class Update
 {
     public int b;
     public string extraInfo = "";
-    public byte type;
+    public ushort type;
 
-    public Update(int b, byte type, string extraInfo = "")
+    public Update(int b, ushort type, string extraInfo = "")
     {
         this.b = b;
         this.type = type;

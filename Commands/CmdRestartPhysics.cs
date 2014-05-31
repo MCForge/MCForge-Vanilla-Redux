@@ -58,8 +58,8 @@ namespace MCForge.Commands
                                 storedArray = message.Split(' ');
                                 try
                                 {
-                                    storedArray[currentLoop + 1] = Block.Byte(message.Split(' ')[currentLoop + 1].ToString().ToLower()).ToString();
-                                    if (storedArray[currentLoop + 1].ToString() == "255") throw new OverflowException();
+                                    storedArray[currentLoop + 1] = Block.Ushort(message.Split(' ')[currentLoop + 1].ToString().ToLower()).ToString();
+                                    if (storedArray[currentLoop + 1].ToString() == Block.maxblocks.ToString()) throw new OverflowException();
                                 }
                                 catch { Player.SendMessage(p, "Invalid block type."); return; }
 
@@ -99,19 +99,19 @@ namespace MCForge.Commands
             Player.SendMessage(p, "Possible [types]: drop, explode, dissipate, finite, wait, rainbow, revert");
             Player.SendMessage(p, "/rp revert takes block names");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos bp = (CatchPos)p.blockchangeObject;
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, byte type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            byte b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos cpos = (CatchPos)p.blockchangeObject;
             List<CatchPos> buffer = new List<CatchPos>();

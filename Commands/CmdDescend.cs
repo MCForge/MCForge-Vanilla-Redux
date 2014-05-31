@@ -35,7 +35,7 @@ namespace MCForge.Commands
             while (!found && posy > 0)
             {
                 posy = (ushort)(posy - 1);
-                byte block = p.level.GetTile(xpos, posy, zpos);
+                ushort block = p.level.GetTile(xpos, posy, zpos);
                 if (block == Block.air || block == Block.air_door || block == Block.air_switch || block == Block.Zero)
                 {
                     ushort blockabove = (ushort)(posy + 1);

@@ -17,14 +17,18 @@
 */
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using System.Threading;
-
+using System.Media;
 using System.Net;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MCForge.Gui {
     public partial class Window : Form {
@@ -58,6 +62,19 @@ namespace MCForge.Gui {
         public Window() {
             InitializeComponent();
         }
+
+        private GroupBox grpMapEditor;
+        private TextBox txtMapEditorLevelName;
+        private TextBox txtMapEditorX;
+        private TextBox txtMapEditorZ;
+        private TextBox txtMapEditorY;
+        private TextBox txtMapEditorCurrentBlock;
+        private TextBox txtMapEditorChangeBlock;
+        private Button btnMapEditorChange;
+        private Button btnMapEditorUpdate;
+        private GroupBox grpMapViewer;
+        private PictureBox picMapViewer;
+        private TextBox txtMapViewerLevelName;
 
         private void Window_Load(object sender, EventArgs e) {
             btnProperties.Enabled = false;
@@ -110,6 +127,10 @@ namespace MCForge.Gui {
                     txtChangelog.AppendText("\r\n           " + line);
                 }
             }
+
+            // Map Viewer/Editor
+            txtMapEditorLevelName.Text = Server.level;
+            txtMapEditorX.Text = "0"; txtMapEditorY.Text = "0"; txtMapEditorZ.Text = "0";
 
             // Bind player list
             dgvPlayers.DataSource = pc;
@@ -835,6 +856,110 @@ namespace MCForge.Gui {
                 }
                 mapgen = false;
             }).Start(); ;
+        }
+
+        private void btnMapEditorChange_Click(object sender, EventArgs e)
+        {
+            MapEditorChangeBlock();
+        }
+
+        public void MapEditorChangeBlock()
+        {
+            try
+            {
+                Level l = Level.Find(txtMapEditorLevelName.Text);
+                if (l == null) { l = Level.Load(txtMapEditorLevelName.Text); }
+                if (l == null) { MessageBox.Show("Level " + txtMapEditorLevelName.Text + " could not be found.", "Map Editor"); return; }
+                ushort x, y, z;
+                if (!ushort.TryParse(txtMapEditorX.Text, out x) || (x >= l.width || x < 0)) { txtMapEditorX.Text = "0"; MessageBox.Show("Invalid x value.", "Map Editor"); return; }
+                if (!ushort.TryParse(txtMapEditorY.Text, out y) || (y >= l.height || y < 0)) { txtMapEditorY.Text = "0"; MessageBox.Show("Invalid y value.", "Map Editor"); return; }
+                if (!ushort.TryParse(txtMapEditorZ.Text, out z) || (z >= l.depth || z < 0)) { txtMapEditorZ.Text = "0"; MessageBox.Show("Invalid z value.", "Map Editor"); return; }
+                txtMapEditorCurrentBlock.Text = Block.Name(l.GetTile(x, y, z));
+
+                if (String.IsNullOrEmpty(txtMapEditorChangeBlock.Text)) { MessageBox.Show("Enter a block to change the selected block to."); return; }
+                ushort b = Block.Ushort(txtMapEditorChangeBlock.Text);
+                if (Block.Name(b).ToLower() == "unknown") { MessageBox.Show("Block could not be found.", "Map Editor"); return; }
+                l.SetTile(x, y, z, b); Player.GlobalBlockchange(l, x, y, z, b);
+                txtMapEditorCurrentBlock.Text = Block.Name(l.GetTile(x, y, z));
+                MapViewerUpdateLevel();
+            }
+            catch (Exception ex) { Server.ErrorLog(ex); return; }
+        }
+
+        public void MapEditorUpdateBlock()
+        {
+            try
+            {
+                Level l = Level.Find(txtMapEditorLevelName.Text);
+                if (l == null) { l = Level.Load(txtMapEditorLevelName.Text); }
+                if (l == null) { MessageBox.Show("Level " + txtMapEditorLevelName.Text + " could not be found.", "Map Editor"); return; }
+                ushort x, y, z;
+                if (!ushort.TryParse(txtMapEditorX.Text, out x) || (x >= l.width || x < 0)) { txtMapEditorX.Text = "0"; MessageBox.Show("Invalid x value.", "Map Editor"); return; }
+                if (!ushort.TryParse(txtMapEditorY.Text, out y) || (y >= l.depth || y < 0)) { txtMapEditorY.Text = "0"; MessageBox.Show("Invalid y value.", "Map Editor"); return; }
+                if (!ushort.TryParse(txtMapEditorZ.Text, out z) || (z >= l.height || z < 0)) { txtMapEditorZ.Text = "0"; MessageBox.Show("Invalid z value.", "Map Editor"); return; }
+                txtMapEditorCurrentBlock.Text = Block.Name(l.GetTile(x, y, z));
+                MapViewerUpdateLevel();
+            }
+            catch (Exception ex) { Server.ErrorLog(ex); return; }
+        }
+
+        private void btnMapEditorUpdate_Click(object sender, EventArgs e)
+        {
+            MapEditorUpdateBlock();
+        }
+
+        private void btnMapViewerUpdate_Click(object sender, EventArgs e)
+        {
+            MapViewerUpdateLevel();
+        }
+
+        private TextBox txtMapViewerZ;
+        private TextBox txtMapViewerY;
+        private TextBox txtMapViewerX;
+        private NumericUpDown txtMapViewerRotation;
+
+        public void MapViewerUpdateLevel()
+        {
+            try
+            {
+                Level l = Level.Find(txtMapViewerLevelName.Text);
+                if (l == null)
+                {
+                    Command.all.Find("load").Use(null, txtMapViewerLevelName.Text);
+                    l = Level.Find(txtMapViewerLevelName.Text);
+                }
+                if (l == null) { MessageBox.Show("Level could not be found.", "Map Viewer"); return; }
+                txtMapViewerX.Text = l.width.ToString();
+                txtMapViewerY.Text = l.depth.ToString();
+                txtMapViewerZ.Text = l.height.ToString();
+                int rotation = (int)txtMapViewerRotation.Value;
+                if (rotation < 0 || rotation > 3) { MessageBox.Show("Invalid rotation (must be from 0-3).", "Map Viewer"); return; }
+                IsoCat IsoCat = new IsoCat(l, IsoCatMode.Normal, rotation);
+                Rectangle r = new Rectangle(0, 0, picMapViewer.Width, picMapViewer.Height);
+                System.ComponentModel.BackgroundWorker bgw = new System.ComponentModel.BackgroundWorker();
+                bgw.WorkerReportsProgress = true;
+                MapViewerLastDrawn = IsoCat.Draw(out r, bgw);
+                picMapViewer.Image = MapViewerLastDrawn;
+            }
+            catch (Exception ex) { Server.ErrorLog(ex); }
+        }
+        public Bitmap MapViewerLastDrawn;
+
+        private void btnMapViewerSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MapViewerUpdateLevel();
+                if (!Directory.Exists("extra/levelimages")) Directory.CreateDirectory("extra/levelimages");
+                int lastExisting = 0;
+                string saveLocation = "extra/levelimages/" + txtMapViewerLevelName.Text + " (" + DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss") + ")";
+                while (File.Exists(saveLocation)) { saveLocation = "extra/levelimages/" + txtMapViewerLevelName.Text + " (" + DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss") + ") (" + lastExisting + ")"; lastExisting++; }
+                saveLocation += ".png";
+                if (MapViewerLastDrawn != null) MapViewerLastDrawn.Save(saveLocation, ImageFormat.Png);
+                if (MessageBox.Show("Saved to " + saveLocation + "." + Environment.NewLine + "Would you like to display the image now?", "Map Viewer", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    Process.Start(Application.StartupPath + "/" + saveLocation);
+            }
+            catch (Exception ex) { MessageBox.Show(ex.ToString()); }
         }
 
         private void ldmapbt_Click(object sender, EventArgs e) {
@@ -1679,6 +1804,11 @@ namespace MCForge.Gui {
             }
         }
         #endregion
+
+        private void tabPage8_Click(object sender, EventArgs e)
+        {
+
+        }
 
 
 
