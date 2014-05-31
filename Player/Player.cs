@@ -752,7 +752,19 @@ namespace MCForge {
 
                 try {
                     Server.TempBan tBan = Server.tempBans.Find(tB => tB.name.ToLower() == name.ToLower());
+                    
                     if ( tBan.allowedJoin < DateTime.Now ) {
+                        Server.tempBans.Remove(tBan);
+                    }
+                    else if (!isDev && !isMod) {
+                        Kick("You're still banned (temporary ban)!");
+                    }
+                }
+                catch { }
+                try {
+                    Server.TempBan tBan = Server.tempBans.Find(tB => tB.name.ToLower() == name.ToLower() + "+");
+
+                    if (tBan.allowedJoin < DateTime.Now) {
                         Server.tempBans.Remove(tBan);
                     }
                     else if (!isDev && !isMod) {
@@ -843,14 +855,15 @@ namespace MCForge {
                         }
                     }
                     if (Server.omniban.CheckPlayer(this)) { Kick(Server.omniban.kickMsg); return; } //deprecated
-                    if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Banned)) {
+                    if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Banned) || Group.findPlayerGroup(name + "+") == Group.findPerm(LevelPermission.Banned))
+                    {
                         if (Server.useWhitelist) {
                             if (!onWhitelist) {
                                 Kick(Server.customBanMessage);
                                 return;
                             }
                         } else {
-                            if (Ban.Isbanned(name)) {
+                            if (Ban.Isbanned(name) || Ban.Isbanned(name + "+")) {
                                 string[] data = Ban.Getbandata(name);
                                 Kick("You were banned for \"" + data[1] + "\" by " + data[0]);
                             } else
