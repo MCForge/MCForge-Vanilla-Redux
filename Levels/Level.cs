@@ -1419,6 +1419,7 @@ namespace MCForge
                     catch
                     {
                     }
+                    level.CalculateShadows();
 
                     Server.s.Log(string.Format("Level \"{0}\" loaded.", level.name));
                     if (LevelLoaded != null)
