@@ -34,11 +34,11 @@ namespace MCForge.Commands {
 				devlist += temp + ", ";
 			}
 			devlist = devlist.Remove(devlist.Length - 2);
-			Player.SendMessage(p, "&9MCForge Development Team: " + Server.DefaultColor + devlist + "&e.");
+			Player.SendMessage(p, "&9MCForge-Redux Development Team: " + Server.DefaultColor + devlist + "&e.");
 		}
 
 		public override void Help(Player p) {
-			Player.SendMessage(p, "/devs - Displays the list of MCForge developers.");
+			Player.SendMessage(p, "/devs - Displays the list of MCForge-Redux developers.");
 		}
 	}
 }

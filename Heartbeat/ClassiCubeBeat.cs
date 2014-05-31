@@ -44,8 +44,6 @@ namespace MCForge
                 "&salt=" + Server.salt2 +
                 "&users=" + Player.players.Count;
         }
-
-
         public void OnResponse(string line)
         {
 
@@ -59,9 +57,9 @@ namespace MCForge
                 {
                     Server.Hash = newHash;
                     Server.CCURL = line;
-                    Server.s.UpdateCCUrl(Server.CCURL);
-                    File.WriteAllText("text/ccexternalurl.txt", Server.CCURL);
-                    Server.s.Log("URL found: " + Server.CCURL);
+                    Server.s.UpdateUrl(Server.URL);
+                    File.WriteAllText("text/ccexternalurl.txt", Server.URL);
+                    Server.s.Log("ClassiCube URL found: " + Server.URL);
                 }
             }
         }

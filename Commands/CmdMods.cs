@@ -38,12 +38,12 @@ namespace MCForge.Commands
                 modlist += tempmods + ", ";
             }
             modlist = modlist.Remove(modlist.Length - 2);
-            Player.SendMessage(p, "&9MCForge Moderation Team: " + Server.DefaultColor + modlist + "&e.");
+            Player.SendMessage(p, "&9MCForge-Redux Moderation Team: " + Server.DefaultColor + modlist + "&e.");
         }
 
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/mods - Displays the list of MCForge moderators.");
+            Player.SendMessage(p, "/mods - Displays the list of MCForge-Redux moderators.");
         }
     }
 }

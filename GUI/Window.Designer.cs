@@ -135,7 +135,6 @@ namespace MCForge.Gui
             this.copyAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MapViewer = new System.Windows.Forms.TabPage();
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.grpMapViewer = new System.Windows.Forms.GroupBox();
             this.txtMapViewerRotation = new System.Windows.Forms.NumericUpDown();
@@ -928,14 +927,7 @@ namespace MCForge.Gui
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
-            // MapViewer
-            // 
-            this.MapViewer.Location = new System.Drawing.Point(0, 0);
-            this.MapViewer.Name = "MapViewer";
-            this.MapViewer.Size = new System.Drawing.Size(200, 100);
-            this.MapViewer.TabIndex = 0;
-            // 
-            // tabPage8
+            // Map Viewer
             // 
             this.tabPage8.Controls.Add(this.grpMapViewer);
             this.tabPage8.Controls.Add(this.grpMapEditor);
@@ -945,7 +937,7 @@ namespace MCForge.Gui
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage8.Size = new System.Drawing.Size(767, 491);
             this.tabPage8.TabIndex = 9;
-            this.tabPage8.Text = "tabPage8";
+            this.tabPage8.Text = "MapViewer";
             this.tabPage8.UseVisualStyleBackColor = true;
             this.tabPage8.Click += new System.EventHandler(this.tabPage8_Click);
             // 
@@ -2766,7 +2758,6 @@ namespace MCForge.Gui
         private ToolStripMenuItem clonesToolStripMenuItem;
         private Button Restart;
         private ToolStripMenuItem restartServerToolStripMenuItem;
-        private TabPage MapViewer;
         private ToolStripMenuItem promoteToolStripMenuItem;
         private ToolStripMenuItem demoteToolStripMenuItem;
         private ToolStripMenuItem unloadToolStripMenuItem1;

@@ -40,7 +40,7 @@ namespace MCForge.Commands
                 Player.SendMessage(p, "This server currently has $banned people that are &8banned" + Server.DefaultColor + ".");
                 Player.SendMessage(p, "This server currently has " + Server.levels.Count + " levels loaded.");
                 Player.SendMessage(p, "This server's currency is: " + Server.moneys);
-                Player.SendMessage(p, "This server runs on &bMCForge" + Server.DefaultColor + ", which is based on &bMCLawl" + Server.DefaultColor + ".");
+                Player.SendMessage(p, "This server runs on &bMCForge-Redux" + Server.DefaultColor + ", which is based on &bMCLawl" + Server.DefaultColor + ".");
                 Player.SendMessage(p, "This server's version: &a" + Server.VersionString);
                 Command.all.Find("devs").Use(p, "");
                 TimeSpan up = DateTime.Now - Server.timeOnline;

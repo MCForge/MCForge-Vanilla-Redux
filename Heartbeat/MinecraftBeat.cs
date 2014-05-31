@@ -45,7 +45,6 @@ namespace MCForge
                 "&users=" + Player.players.Count;
         }
 
-
         public void OnResponse(string line)
         {
 

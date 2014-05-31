@@ -154,7 +154,7 @@ namespace MCForge.Commands
             public ushort x, y, z;
         }
 
-        protected struct CatchPos
+        struct CatchPos
         {
             public List<ushort> oldType;
             public ushort newType;

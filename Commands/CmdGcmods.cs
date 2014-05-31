@@ -38,12 +38,12 @@ namespace MCForge.Commands
                 gcmodlist += tempgcmods + ", ";
             }
             gcmodlist = gcmodlist.Remove(gcmodlist.Length - 2);
-            Player.SendMessage(p, "&9MCForge Global Chat Moderation Team: " + Server.DefaultColor + gcmodlist + "&e.");
+            Player.SendMessage(p, "&9MCForge-Redux Global Chat Moderation Team: " + Server.DefaultColor + gcmodlist + "&e.");
         }
 
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/gcmods - Displays the list of MCForge global chat moderators.");
+            Player.SendMessage(p, "/gcmods - Displays the list of MCForge-Redux global chat moderators.");
         }
     }
 }
