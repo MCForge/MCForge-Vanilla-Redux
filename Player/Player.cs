@@ -749,22 +749,26 @@ namespace MCForge {
                 isStaff = isDev || isMod || isGCMod;
                 isProtected = Server.forgeProtection == ForgeProtection.Mod && (isMod || isDev) ? true : Server.forgeProtection == ForgeProtection.Dev && isDev ? true : false;
                 verifiedName = Server.verify ? true : false;
-
+                if ( Server.verify ) {
+                    if ( verify == BitConverter.ToString(md5.ComputeHash(enc.GetBytes(Server.salt + truename))).Replace("-", "").ToLower().TrimStart('0') ) {
+						identified = true;
+                        }
+					if ( verify == BitConverter.ToString(md5.ComputeHash(enc.GetBytes(Server.salt2 + truename))).Replace("-", "").ToLower())
+					{
+						identified = true;
+						name += "+";
+                    }
+					if ( IPInPrivateRange(ip) ) {
+						identified = true;
+					}
+					if (identified == false) { 
+						Kick("Login failed! Try again."); return;
+					}
+				}
                 try {
                     Server.TempBan tBan = Server.tempBans.Find(tB => tB.name.ToLower() == name.ToLower());
                     
                     if ( tBan.allowedJoin < DateTime.Now ) {
-                        Server.tempBans.Remove(tBan);
-                    }
-                    else if (!isDev && !isMod) {
-                        Kick("You're still banned (temporary ban)!");
-                    }
-                }
-                catch { }
-                try {
-                    Server.TempBan tBan = Server.tempBans.Find(tB => tB.name.ToLower() == name.ToLower() + "+");
-
-                    if (tBan.allowedJoin < DateTime.Now) {
                         Server.tempBans.Remove(tBan);
                     }
                     else if (!isDev && !isMod) {
@@ -855,7 +859,7 @@ namespace MCForge {
                         }
                     }
                     if (Server.omniban.CheckPlayer(this)) { Kick(Server.omniban.kickMsg); return; } //deprecated
-                    if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Banned) || Group.findPlayerGroup(name + "+") == Group.findPerm(LevelPermission.Banned))
+                    if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Banned))
                     {
                         if (Server.useWhitelist) {
                             if (!onWhitelist) {
@@ -863,7 +867,7 @@ namespace MCForge {
                                 return;
                             }
                         } else {
-                            if (Ban.Isbanned(name) || Ban.Isbanned(name + "+")) {
+                            if (Ban.Isbanned(name) || Ban.Isbanned(name)) {
                                 string[] data = Ban.Getbandata(name);
                                 Kick("You were banned for \"" + data[1] + "\" by " + data[0]);
                             } else
@@ -893,22 +897,6 @@ namespace MCForge {
                 if ( version != Server.version ) { Kick("Wrong version!"); return; }
                 if (truename.Length > 50 || !ValidName(name, this) ) { Kick("Illegal name!"); return; }
                 if (type == 0x42) { extension = true; }
-                if ( Server.verify ) {
-                    if ( verify == BitConverter.ToString(md5.ComputeHash(enc.GetBytes(Server.salt + truename))).Replace("-", "").ToLower().TrimStart('0') ) {
-						identified = true;
-                        }
-					if ( verify == BitConverter.ToString(md5.ComputeHash(enc.GetBytes(Server.salt2 + truename))).Replace("-", "").ToLower())
-					{
-						identified = true;
-						name += "+";
-                    }
-					if ( IPInPrivateRange(ip) ) {
-						identified = true;
-					}
-					if (identified == false) { 
-						Kick("Login failed! Try again."); return;
-					}
-				}
 
                 foreach ( Player p in players ) {
                     if ( p.name == name ) {
@@ -3041,7 +3029,7 @@ rot = new byte[2] { rotx, roty };*/
             SendRaw(32, buffer);
         }
 
-        void UpdatePosition() {
+        public void UpdatePosition() {
 
             //pingDelayTimer.Stop();
 
