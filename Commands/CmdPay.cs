@@ -40,7 +40,7 @@ namespace MCForge.Commands
             int amountPaid;
             try { amountPaid = int.Parse(message.Split(' ')[1]); }
             catch { Player.SendMessage(p, "%cInvalid amount"); return; }
-            if (amountPaid < 0) { Player.SendMessage(p, "%cCannot pay negative %3" + Server.moneys); return; }
+            if (amountPaid < 0) { Player.SendMessage(p, "%cIt is impossible to pay negative %3" + Server.moneys); return; }
 
             if (who == null)
             { //player is offline
