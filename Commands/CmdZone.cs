@@ -130,7 +130,7 @@ namespace MCForge.Commands
             Player.SendMessage(p, "/zone del - Deletes the zone clicked");
         }
 
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -140,7 +140,7 @@ namespace MCForge.Commands
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
 
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);

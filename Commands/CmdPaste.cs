@@ -45,7 +45,7 @@ namespace MCForge.Commands
             Player.SendMessage(p, "&4BEWARE: " + Server.DefaultColor + "The blocks will always be pasted in a set direction");
         }
 
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -61,7 +61,7 @@ namespace MCForge.Commands
                     Pos1.y = (ushort)(Math.Abs(pos.y) + y);
                     Pos1.z = (ushort)(Math.Abs(pos.z) + z);
 
-                    if (pos.type != Block.air || p.copyAir)
+                    if (pos.type != null || p.copyAir)
                         unchecked { if (p.level.GetTile(Pos1.x, Pos1.y, Pos1.z) != Block.Zero) BlockQueue.Addblock(p, (ushort)(Pos1.x + p.copyoffset[0]), (ushort)(Pos1.y + p.copyoffset[1]), (ushort)(Pos1.z + p.copyoffset[2]), pos.type); }
                 });
             }
@@ -73,7 +73,7 @@ namespace MCForge.Commands
                     Pos1.y = (ushort)(Math.Abs(pos.y) + y);
                     Pos1.z = (ushort)(Math.Abs(pos.z) + z);
 
-                    if (pos.type != Block.air || p.copyAir)
+                    if (pos.type != null || p.copyAir)
                         unchecked { if (p.level.GetTile(Pos1.x, Pos1.y, Pos1.z) != Block.Zero) p.level.Blockchange(p, (ushort)(Pos1.x + p.copyoffset[0]), (ushort)(Pos1.y + p.copyoffset[1]), (ushort)(Pos1.z + p.copyoffset[2]), pos.type); }
                 });
             }

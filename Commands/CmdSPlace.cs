@@ -30,7 +30,7 @@ namespace MCForge.Commands
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Builder; } }
         private ushort distance, interval;
-        private ushort blocktype = (byte)1;
+        private ushort? blocktype = (byte)1;
         public CmdSPlace() { }
 
         public override void Use(Player p, string message)
@@ -70,7 +70,7 @@ namespace MCForge.Commands
             Player.SendMessage(p, "/splace [distance] [interval] - Measures a set [distance] and places a stone block at each end.");
             Player.SendMessage(p, "Optionally place a block at set [interval] between them.");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -79,9 +79,9 @@ namespace MCForge.Commands
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
-            type = p.bindings[type];
+            type = p.bindings[(int)type];
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
@@ -104,7 +104,7 @@ namespace MCForge.Commands
                 else
                 {
                     p.level.Blockchange(p, (ushort)(cpos.x - (distance - 1)), cpos.y, cpos.z, blocktype);
-                    p.level.Blockchange(p, cpos.x, cpos.y, cpos.z, b = blocktype);
+                    p.level.Blockchange(p, (ushort)cpos.x, (ushort)cpos.y, (ushort?)cpos.z, (ushort)b = blocktype);
                     if (interval > 0)
                     {
                         for (ushort offset = interval; cpos.x - (distance - 1) < cpos.x - offset; offset += interval)

@@ -89,7 +89,7 @@ namespace MCForge.Commands
             Player.SendMessage(p, "[types] - up, down, layer, vertical_x, vertical_z");
         }
 
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             try
             {
@@ -254,7 +254,7 @@ namespace MCForge.Commands
             catch (Exception e) { Server.ErrorLog(e); return Block.Zero; }
         }
 
-        struct CatchPos { public ushort x, y, z; public ushort type; public FillType fillType; }
+        struct CatchPos { public ushort x, y, z; public ushort? type; public FillType fillType; }
         public struct Pos { public ushort x, y, z; }
         public enum FillType : int
         {

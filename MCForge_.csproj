@@ -115,7 +115,6 @@
   <ItemGroup>
     <Compile Include="AutoSaver.cs" />
     <Compile Include="Ban.cs" />
-    <Compile Include="Block.cs" />
     <Compile Include="Commands\CmdC4.cs" />
     <Compile Include="Commands\CmdGcaccept.cs" />
     <Compile Include="Commands\CmdGcbanlistupdate.cs" />
@@ -630,6 +629,8 @@
     <Compile Include="Heartbeat\ClassiCubeBeat.cs" />
     <Compile Include="Heartbeat\IBeat.cs" />
     <Compile Include="Heartbeat\MinecraftBeat.cs" />
+    <Compile Include="Block.cs" />
+    <Compile Include="Games\EXPLevel.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

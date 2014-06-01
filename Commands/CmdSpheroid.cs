@@ -82,7 +82,7 @@ namespace MCForge.Commands
             Player.SendMessage(p, "/spheroid [type] <vertical> - Create a spheroid of blocks.");
             Player.SendMessage(p, "If <vertical> is added, it will be a vertical tube");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -91,7 +91,7 @@ namespace MCForge.Commands
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -231,7 +231,7 @@ namespace MCForge.Commands
         struct Pos { public ushort x, y, z; }
         struct CatchPos
         {
-            public ushort type;
+            public ushort? type;
             public ushort x, y, z;
             public bool vertical;
         }

@@ -45,7 +45,7 @@ namespace MCForge.Commands
         {
             Player.SendMessage(p, "/rainbow - Taste the rainbow");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -54,7 +54,7 @@ namespace MCForge.Commands
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -78,7 +78,7 @@ namespace MCForge.Commands
                     {
                         for (ushort zz = Math.Min(cpos.z, z); zz <= Math.Max(cpos.z, z); zz++)
                         {
-                            if (p.level.GetTile(xx, yy, zz) != Block.air)
+                            if (p.level.GetTile(xx, yy, zz) != null)
                                 BufferAdd(buffer, xx, yy, zz, newType);
                         }
                     }
@@ -94,7 +94,7 @@ namespace MCForge.Commands
                     {
                         for (ushort zz = Math.Min(cpos.z, z); zz <= Math.Max(cpos.z, z); zz++)
                         {
-                            if (p.level.GetTile(xx, yy, zz) != Block.air)
+                            if (p.level.GetTile(xx, yy, zz) != null)
                                 BufferAdd(buffer, xx, yy, zz, newType);
                         }
                     }
@@ -110,7 +110,7 @@ namespace MCForge.Commands
                     {
                         for (ushort xx = Math.Min(cpos.x, x); xx <= Math.Max(cpos.x, x); xx++)
                         {
-                            if (p.level.GetTile(xx, yy, zz) != Block.air)
+                            if (p.level.GetTile(xx, yy, zz) != null)
                                 BufferAdd(buffer, xx, yy, zz, newType);
                         }
                     }

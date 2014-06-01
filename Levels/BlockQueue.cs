@@ -66,12 +66,12 @@ namespace MCForge
         public static void pause() { blocktimer.Enabled = false; }
         public static void resume() { blocktimer.Enabled = true; }
 
-        public static void Addblock(Player P, ushort X, ushort Y, ushort Z, ushort Type)
+        public static void Addblock(Player P, ushort X, ushort Y, ushort Z, ushort? type)
         {
             b.x = X; b.y = Y; b.z = Z; b.type = Type; b.p = P;
             P.level.blockqueue.Add(b);
         }
 
-        public struct block { public Player p; public ushort x; public ushort y; public ushort z; public ushort type; }
+        public struct block { public Player p; public ushort x; public ushort y; public ushort z; public ushort? type; }
     }
 }

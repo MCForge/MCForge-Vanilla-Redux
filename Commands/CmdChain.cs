@@ -76,7 +76,7 @@ namespace MCForge.Commands
                         p.level.Blockchange(p, num13, y, z, 0x27);
                         if (p.level.GetTile(num14, y, z) != 0)
                         {
-                            ushort type = p.level.GetTile(num14, y, z);
+                            ushort? type = p.level.GetTile(num14, y, z);
                             for (int j = 0; j <= num9; j++)
                             {
                                 if (p.level.GetTile(x, y, z) == type)

@@ -68,7 +68,7 @@ namespace MCForge.Commands
                                 {
                                     for (ushort zz = (ushort)(z - 1); zz <= z + 1; zz++)
                                     {
-                                        if (p.level.GetTile(xx, yy, zz) == Block.air)
+                                        if (p.level.GetTile(xx, yy, zz) == null)
                                         {
                                             pos.x = xx; pos.y = yy; pos.z = zz;
                                             tempBuffer.Add(pos);
@@ -88,7 +88,7 @@ namespace MCForge.Commands
                             {
                                 if (!tempBuffer.Contains(cP))
                                 {
-                                    p.SendBlockchange(cP.x, cP.y, cP.z, Block.air);
+                                    p.SendBlockchange(cP.x, cP.y, cP.z, null);
                                     toRemove.Add(cP);
                                 }
                             }
@@ -107,7 +107,7 @@ namespace MCForge.Commands
 
                 foreach (Pos cP in buffer)
                 {
-                    p.SendBlockchange(cP.x, cP.y, cP.z, Block.air);
+                    p.SendBlockchange(cP.x, cP.y, cP.z, null);
                 }
 
                 Player.SendMessage(p, "Stopped flying");

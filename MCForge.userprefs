@@ -1,17 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Ban.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Commands/CmdSPlace.cs">
     <Files>
       <File FileName="Commands/CmdCuboid.cs" Line="1" Column="1" />
       <File FileName="Commands/Command.cs" Line="37" Column="1" />
-      <File FileName="Player/Player.cs" Line="854" Column="36" />
-      <File FileName="Server.cs" Line="124" Column="94" />
+      <File FileName="Player/Player.cs" Line="1398" Column="34" />
+      <File FileName="Server.cs" Line="115" Column="42" />
       <File FileName="Commands/CmdGifToCin.cs" Line="20" Column="22" />
       <File FileName="Commands/CmdAbort.cs" Line="1" Column="1" />
       <File FileName="Commands/CmdCopy.cs" Line="159" Column="10" />
       <File FileName="Commands/CmdFill.cs" Line="145" Column="1" />
       <File FileName="Commands/CmdSetspawn.cs" Line="1" Column="1" />
-      <File FileName="Levels/Level.cs" Line="352" Column="30" />
+      <File FileName="Levels/Level.cs" Line="908" Column="43" />
       <File FileName="Heartbeat/IBeat.cs" Line="51" Column="1" />
       <File FileName="Heartbeat/ClassiCubeBeat.cs" Line="64" Column="42" />
       <File FileName="GUI/PortTools.cs" Line="26" Column="26" />
@@ -20,18 +20,57 @@
       <File FileName="Default.aspx" Line="23" Column="1" />
       <File FileName="Games/LavaSurvival.cs" Line="30" Column="46" />
       <File FileName="Games/ZombieGame.cs" Line="386" Column="14" />
-      <File FileName="Games/CTF/Setup.cs" Line="1" Column="1" />
+      <File FileName="Games/CTF/Setup.cs" Line="95" Column="52" />
       <File FileName="Ban.cs" Line="92" Column="2" />
+      <File FileName="Mob.cs" Line="477" Column="51" />
+      <File FileName="Player/PlayerBot.cs" Line="364" Column="60" />
+      <File FileName="Commands/CmdTp.cs" Line="99" Column="2" />
+      <File FileName="Commands/CmdP2P.cs" Line="63" Column="18" />
+      <File FileName="Program.cs" Line="108" Column="12" />
+      <File FileName="util/Vector3I.cs" Line="80" Column="25" />
+      <File FileName="util/Vector3F.cs" Line="5" Column="18" />
+      <File FileName="Commands/CmdEconomy.cs" Line="819" Column="22" />
+      <File FileName="Commands/CmdNewLvl.cs" Line="74" Column="28" />
+      <File FileName="Commands/CmdGun.cs" Line="138" Column="43" />
+      <File FileName="Commands/CmdHackRank.cs" Line="1" Column="1" />
+      <File FileName="Block.cs" Line="674" Column="71" />
+      <File FileName="Changelog.txt" Line="1" Column="1" />
+      <File FileName="Commands/CmdC4.cs" Line="61" Column="25" />
+      <File FileName="Commands/CmdAscend.cs" Line="43" Column="34" />
+      <File FileName="Plugins/PlayerEvents/OnPlayerDeathEvent.cs" Line="30" Column="27" />
+      <File FileName="Player/Player.Events.cs" Line="103" Column="65" />
+      <File FileName="Commands/CmdDraw.cs" Line="326" Column="17" />
+      <File FileName="util/SCOGenerator.cs" Line="839" Column="70" />
+      <File FileName="GUI/Textures.cs" Line="66" Column="49" />
+      <File FileName="Levels/Texture_Settings.cs" Line="223" Column="53" />
+      <File FileName="Commands/CmdTntWars.cs" Line="1900" Column="20" />
+      <File FileName="Commands/CmdChain.cs" Line="94" Column="41" />
+      <File FileName="Commands/CmdDescend.cs" Line="34" Column="50" />
+      <File FileName="Commands/CmdPyramid.cs" Line="47" Column="33" />
+      <File FileName="Commands/CmdSPlace.cs" Line="107" Column="93" />
+      <File FileName="Player/Team.cs" Line="167" Column="28" />
+      <File FileName="Games/CTF/Auto_CTF.cs" Line="257" Column="24" />
+      <File FileName="Games/EXPLevel.cs" Line="1" Column="2" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="MCForge_" expanded="True">
+            <Node name="Commands" expanded="True">
+              <Node name="CmdSPlace.cs" selected="True" />
+            </Node>
             <Node name="Games" expanded="True">
               <Node name="CTF" expanded="True" />
             </Node>
-            <Node name="Ban.cs" selected="True" />
+            <Node name="GUI" expanded="True" />
+            <Node name="Levels" expanded="True" />
+            <Node name="Player" expanded="True" />
+            <Node name="Plugins" expanded="True">
+              <Node name="PlayerEvents" expanded="True" />
+            </Node>
+            <Node name="util" expanded="True" />
           </Node>
+          <Node name="Starter" expanded="True" />
         </State>
       </Pad>
     </Pads>

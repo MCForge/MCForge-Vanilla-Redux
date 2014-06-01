@@ -69,7 +69,7 @@ namespace MCForge.Commands
             }
         }
 
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             //com(p, "get the type of the changed block");
@@ -94,7 +94,7 @@ namespace MCForge.Commands
             Player.SendMessage(p, lol);
         }
 
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             //com(p, "get the type of the changed block");
@@ -176,7 +176,7 @@ namespace MCForge.Commands
             Player.SendMessage(p, "/sCinema [name] - Saves a given Frame to the File. Can be Played by pCinema");
         }
 
-        void BufferAdd(Player p, ushort x, ushort y, ushort z, ushort type, List<Player.CopyPos> Buf)
+        void BufferAdd(Player p, ushort x, ushort y, ushort z, ushort? type, List<Player.CopyPos> Buf)
         {
             Player.CopyPos pos;
             pos.x = x;

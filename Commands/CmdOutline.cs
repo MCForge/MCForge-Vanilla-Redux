@@ -36,9 +36,9 @@ namespace MCForge.Commands
             int pos = message.IndexOf(' ');
             string t = message.Substring(0, pos).ToLower();
             string t2 = message.Substring(pos + 1).ToLower();
-            ushort type = Block.Ushort(t);
+            ushort? type = Block.Ushort(t);
             if (type == Block.maxblocks) { Player.SendMessage(p, "There is no block \"" + t + "\"."); return; }
-            ushort type2 = Block.Ushort(t2);
+            ushort? type2 = Block.Ushort(t2);
             if (type2 == Block.maxblocks) { Player.SendMessage(p, "There is no block \"" + t2 + "\"."); return; }
             if (!Block.canPlace(p, type2)) { Player.SendMessage(p, "Cannot place that block type."); return; }
 
@@ -53,7 +53,7 @@ namespace MCForge.Commands
         {
             Player.SendMessage(p, "/outline [type] [type2] - Outlines [type] with [type2]");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -62,7 +62,7 @@ namespace MCForge.Commands
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -117,8 +117,8 @@ namespace MCForge.Commands
         }
         struct CatchPos
         {
-            public ushort type;
-            public ushort type2;
+            public ushort? type;
+            public ushort? type2;
             public ushort x, y, z;
         }
 

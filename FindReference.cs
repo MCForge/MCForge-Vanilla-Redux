@@ -1162,7 +1162,7 @@ namespace MCForge
             return refCol;
         }
 
-        public static void placeBlock(Level l, Player p, ushort x, ushort y, ushort z, ushort type)
+        public static void placeBlock(Level l, Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             if (p == null)
                 l.Blockchange(x, y, z, type);
@@ -1172,7 +1172,7 @@ namespace MCForge
 
         public struct ColorBlock
         {
-            public ushort x, y, z; public ushort type, r, g, b, a;
+            public ushort x, y, z; public ushort? type, r, g, b, a;
         }
     }
 }

@@ -53,19 +53,19 @@ namespace MCForge.Commands
         {
             Player.SendMessage(p, "/c4 - Place c4!");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
 
             if (type == Block.red) { Blockchange2(p, x, y, z, type); return; }
-            if (type != Block.air)
+            if (type != null)
             {
                 p.level.Blockchange(p, x, y, z, Block.c4);
             }
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange1);
         }
 
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
         //    ushort b = p.level.GetTile(x, y, z);

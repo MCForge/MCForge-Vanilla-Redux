@@ -53,7 +53,7 @@ namespace MCForge.Commands
             Player.SendMessage(p, "/hollow - Hollows out an area without flooding it");
             Player.SendMessage(p, "/hollow [block] - Hollows around [block]");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -62,7 +62,7 @@ namespace MCForge.Commands
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -103,7 +103,7 @@ namespace MCForge.Commands
 
             buffer.ForEach(delegate(Pos pos1)
             {
-                p.level.Blockchange(p, pos1.x, pos1.y, pos1.z, Block.air);
+                p.level.Blockchange(p, pos1.x, pos1.y, pos1.z, null);
             });
 
             Player.SendMessage(p, "You hollowed " + buffer.Count + " blocks.");

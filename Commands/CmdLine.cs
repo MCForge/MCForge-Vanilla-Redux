@@ -118,7 +118,7 @@ namespace MCForge.Commands
             Player.SendMessage(p, "/line [num] <block> [extra] - Creates a line between two blocks [num] long.");
             Player.SendMessage(p, "Possible [extras] - wall");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -128,7 +128,7 @@ namespace MCForge.Commands
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
 
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -286,6 +286,6 @@ namespace MCForge.Commands
 
             if (p.staticCommands) p.Blockchange += new Player.BlockchangeEventHandler(Blockchange1);
         }
-        struct CatchPos { public ushort x, y, z; public int maxNum; public int extraType; public ushort type; }
+        struct CatchPos { public ushort x, y, z; public int maxNum; public int extraType; public ushort? type; }
     }
 }

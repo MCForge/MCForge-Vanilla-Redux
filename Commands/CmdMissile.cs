@@ -108,7 +108,7 @@ namespace MCForge.Commands
 							{
 								for (ushort zz = z; zz <= z + 1; zz++)
 								{
-									if (p.level.GetTile(xx, yy, zz) == Block.air)
+									if (p.level.GetTile(xx, yy, zz) == null)
 									{
 										pos.x = xx; pos.y = yy; pos.z = zz;
 										tempBuffer.Add(pos);
@@ -122,7 +122,7 @@ namespace MCForge.Commands
 						{
 							if (!tempBuffer.Contains(cP))
 							{
-								p.SendBlockchange(cP.x, cP.y, cP.z, Block.air);
+								p.SendBlockchange(cP.x, cP.y, cP.z, null);
 								toRemove.Add(cP);
 							}
 						}
@@ -150,12 +150,12 @@ namespace MCForge.Commands
 
 				foreach (CatchPos cP in buffer)
 				{
-					p.SendBlockchange(cP.x, cP.y, cP.z, Block.air);
+					p.SendBlockchange(cP.x, cP.y, cP.z, null);
 				}
 			}));
 			aimThread.Start();
 		}
-		public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
+		public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
 		{
 			if (!p.staticCommands)
 			{
@@ -170,7 +170,7 @@ namespace MCForge.Commands
 			List<CatchPos> allBlocks = new List<CatchPos>();
 			CatchPos pos;
 
-			if (p.modeType != Block.air)
+			if (p.modeType != null)
 				type = p.modeType;
 
 			Thread gunThread = new Thread(new ThreadStart(delegate
@@ -208,7 +208,7 @@ namespace MCForge.Commands
 						if (by == Block.Zero)
 							break;
 
-						if (by != Block.air && !allBlocks.Contains(lookedAt))
+						if (by != null && !allBlocks.Contains(lookedAt))
 						{
 							if (p.level.physics < 2 || bp.ending <= 0)
 							{
@@ -270,7 +270,7 @@ namespace MCForge.Commands
 					by = p.level.GetTile(pos.x, pos.y, pos.z);
 					if (total > 3)
 					{
-						if (by != Block.air && !allBlocks.Contains(pos))
+						if (by != null && !allBlocks.Contains(pos))
 						{
 							if (p.level.physics < 2 || bp.ending <= 0)
 							{
@@ -345,7 +345,7 @@ namespace MCForge.Commands
 
 						if (previous.Count > 12)
 						{
-							p.level.Blockchange(previous[0].x, previous[0].y, previous[0].z, Block.air);
+							p.level.Blockchange(previous[0].x, previous[0].y, previous[0].z, null);
 							previous.Remove(previous[0]);
 						}
 						Thread.Sleep(100);
@@ -354,7 +354,7 @@ namespace MCForge.Commands
 
 				foreach (CatchPos pos1 in previous)
 				{
-					p.level.Blockchange(pos1.x, pos1.y, pos1.z, Block.air);
+					p.level.Blockchange(pos1.x, pos1.y, pos1.z, null);
 					Thread.Sleep(100);
 				}
 			}));

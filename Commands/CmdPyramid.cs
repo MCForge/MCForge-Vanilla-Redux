@@ -42,7 +42,7 @@ namespace MCForge.Commands
                 int pos = message.IndexOf(' ');
                 string t = message.Substring(0, pos).ToLower();
                 string s = message.Substring(pos + 1).ToLower();
-                ushort type = Block.Ushort(t);
+                ushort? type = Block.Ushort(t);
                 if (type == Block.maxblocks) { Player.SendMessage(p, "There is no block \"" + t + "\"."); wait = 1; return; }
                 if (!Block.canPlace(p, type)) { Player.SendMessage(p, "Cannot place that."); wait = 1; return; }
                 SolidType solid;
@@ -59,7 +59,7 @@ namespace MCForge.Commands
             {
                 SolidType solid = SolidType.hollow;
                 message = message.ToLower();
-                ushort type; unchecked { type = (byte)-1; }
+                ushort? type; unchecked { type = (byte)-1; }
                 p.pyramidblock = "stone";
                 if (message == "solid") { solid = SolidType.solid; }
                 else if (message == "hollow") { solid = SolidType.hollow; }
@@ -93,7 +93,7 @@ namespace MCForge.Commands
         {
             Player.SendMessage(p, "/pyramid [type] <solid/hollow/reverse> - create a pyramid of blocks.");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -105,7 +105,7 @@ namespace MCForge.Commands
             p.pyramidy1 = bp.z;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -562,7 +562,7 @@ namespace MCForge.Commands
         struct CatchPos
         {
             public SolidType solid;
-            public ushort type;
+            public ushort? type;
             public ushort x, y, z;
         }
         enum SolidType { solid, hollow, reverse };

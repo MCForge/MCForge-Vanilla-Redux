@@ -322,8 +322,8 @@ namespace MCForge
                 y = (ushort)((pos[1] - 64) / 32);
                 z = (ushort)Math.Round((decimal)(pos[2] - 16) / (decimal)32);
 
-                ushort b = Block.Convert(level.GetTile(x, y, z));
-                ushort b1, b2, b3;//, b4;
+                ushort? b = Block.Convert(level.GetTile(x, y, z));
+                ushort? b1, b2, b3;//, b4;
 
                 if (Block.Walkthrough(b) && !jumping)
                 {

@@ -315,7 +315,7 @@ namespace MCForge.Commands
 		}
 
 		#region Cone Blockchanges
-		public void BlockchangeCone(Player p, ushort x, ushort y, ushort z, ushort type)
+		public void BlockchangeCone(Player p, ushort x, ushort y, ushort z, ushort? type)
 		{
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
@@ -325,7 +325,7 @@ namespace MCForge.Commands
 			p.ClearBlockchange();
 			Util.SCOGenerator.Cone(p, x, y, z, height, radius, type);
 		}
-		public void BlockchangeHCone(Player p, ushort x, ushort y, ushort z, ushort type)
+		public void BlockchangeHCone(Player p, ushort x, ushort y, ushort z, ushort? type)
 		{
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
@@ -335,7 +335,7 @@ namespace MCForge.Commands
 			p.ClearBlockchange();
 			Util.SCOGenerator.HCone(p, x, y, z, height, radius, type);
 		}
-		public void BlockchangeICone(Player p, ushort x, ushort y, ushort z, ushort type)
+		public void BlockchangeICone(Player p, ushort x, ushort y, ushort z, ushort? type)
 		{
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
@@ -345,7 +345,7 @@ namespace MCForge.Commands
 			p.ClearBlockchange();
 			Util.SCOGenerator.ICone(p, x, y, z, height, radius, type);
 		}
-		public void BlockchangeHICone(Player p, ushort x, ushort y, ushort z, ushort type)
+		public void BlockchangeHICone(Player p, ushort x, ushort y, ushort z, ushort? type)
 		{
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
@@ -357,7 +357,7 @@ namespace MCForge.Commands
 		}
 		#endregion
 		#region Pyramid Blockchanges
-		public void BlockchangePyramid(Player p, ushort x, ushort y, ushort z, ushort type)
+		public void BlockchangePyramid(Player p, ushort x, ushort y, ushort z, ushort? type)
 		{
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
@@ -367,7 +367,7 @@ namespace MCForge.Commands
 			p.ClearBlockchange();
 			Util.SCOGenerator.Pyramid(p, x, y, z, height, radius, type);
 		}
-		public void BlockchangeHPyramid(Player p, ushort x, ushort y, ushort z, ushort type)
+		public void BlockchangeHPyramid(Player p, ushort x, ushort y, ushort z, ushort? type)
 		{
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
@@ -377,7 +377,7 @@ namespace MCForge.Commands
 			p.ClearBlockchange();
 			Util.SCOGenerator.HPyramid(p, x, y, z, height, radius, type);
 		}
-		public void BlockchangeIPyramid(Player p, ushort x, ushort y, ushort z, ushort type)
+		public void BlockchangeIPyramid(Player p, ushort x, ushort y, ushort z, ushort? type)
 		{
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
@@ -387,7 +387,7 @@ namespace MCForge.Commands
 			p.ClearBlockchange();
 			Util.SCOGenerator.IPyramid(p, x, y, z, height, radius, type);
 		}
-		public void BlockchangeHIPyramid(Player p, ushort x, ushort y, ushort z, ushort type)
+		public void BlockchangeHIPyramid(Player p, ushort x, ushort y, ushort z, ushort? type)
 		{
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
@@ -399,7 +399,7 @@ namespace MCForge.Commands
 		}
 		#endregion
 		#region Sphere Blockchanges
-		public void BlockchangeSphere(Player p, ushort x, ushort y, ushort z, ushort type)
+		public void BlockchangeSphere(Player p, ushort x, ushort y, ushort z, ushort? type)
 		{
 			//int height = p.BcVar[0];
 			int radius = p.BcVar[1];
@@ -409,7 +409,7 @@ namespace MCForge.Commands
 			p.ClearBlockchange();
 			Util.SCOGenerator.Sphere(p, x, y, z, radius, type);
 		}
-		public void BlockchangeHSphere(Player p, ushort x, ushort y, ushort z, ushort type)
+		public void BlockchangeHSphere(Player p, ushort x, ushort y, ushort z, ushort? type)
 		{
 			//int height = p.BcVar[0];
 			int radius = p.BcVar[1];
@@ -421,7 +421,7 @@ namespace MCForge.Commands
 		}
 		#endregion
 		#region Special Blockchanges
-		public void BlockchangeVolcano(Player p, ushort x, ushort y, ushort z, ushort type)
+		public void BlockchangeVolcano(Player p, ushort x, ushort y, ushort z, ushort? type)
 		{
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];

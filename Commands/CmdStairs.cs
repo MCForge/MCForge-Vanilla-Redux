@@ -40,7 +40,7 @@ namespace MCForge.Commands
         {
             Player.SendMessage(p, "/stairs - Creates a spiral staircase the height you want.");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -56,7 +56,7 @@ namespace MCForge.Commands
             c = a; a = b; b = c;
         }
 
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);

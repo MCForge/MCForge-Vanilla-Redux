@@ -130,14 +130,14 @@ namespace MCForge
             ushort y = flagLocation[1];
             ushort z = flagLocation[2];
 
-            if (mapOn.GetTile(x, (ushort)(y - 1), z) == Block.air)
+            if (mapOn.GetTile(x, (ushort)(y - 1), z) == null)
             {
                 flagLocation[1] = (ushort)(flagLocation[1] - 1);
             }
 
             mapOn.Blockchange(tfb.x, tfb.y, tfb.z, tfb.type);
-            mapOn.Blockchange(tfb.x, (ushort)(tfb.y + 1), tfb.z, Block.air);
-            mapOn.Blockchange(tfb.x, (ushort)(tfb.y + 2), tfb.z, Block.air);
+            mapOn.Blockchange(tfb.x, (ushort)(tfb.y + 1), tfb.z, null);
+            mapOn.Blockchange(tfb.x, (ushort)(tfb.y + 2), tfb.z, null);
 
             if (holdingFlag == null)
             {
@@ -178,7 +178,7 @@ namespace MCForge
 
         }
 
-        public static ushort GetColorBlock(char color)
+        public static ushort? GetColorBlock(char color)
         {
             if (color == '2')
                 return Block.green;
@@ -195,10 +195,10 @@ namespace MCForge
             if (color == 'f')
                 return Block.white;
             else
-                return Block.air;
+                return null;
         }
 
-        public struct CatchPos { public ushort x, y, z; public ushort type; }
+        public struct CatchPos { public ushort x, y, z; public ushort? type; }
         public struct Spawn { public ushort x, y, z, rotx, roty; }
     }
 }

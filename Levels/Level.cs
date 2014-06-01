@@ -147,7 +147,7 @@ namespace MCForge
                         {
                             switch (GetTile(x, y, z))
                             {
-                                case Block.air:
+                                case null:
                                 case Block.mushroom:
                                 case Block.glass:
                                 case Block.leaf:
@@ -483,7 +483,7 @@ namespace MCForge
             IntToPos(b, out x, out y, out z);
             return GetTile(x, y, z);
         }
-        public void SetTile(int b, ushort type)
+        public void SetTile(int b, ushort? type)
         {
             if (blocks == null) return;
             if (b >= blocks.Length) return;
@@ -491,7 +491,7 @@ namespace MCForge
             blocks[b] = type;
             //blockchanges[x + width * z + width * height * y] = pName;
         }
-        public void SetTile(ushort x, ushort y, ushort z, ushort type)
+        public void SetTile(ushort x, ushort y, ushort z, ushort? type)
         {
             if (blocks == null) return;
             if (!InBound(x, y, z)) return;
@@ -526,7 +526,7 @@ namespace MCForge
         }
 
 
-        public void Blockchange(Player p, ushort x, ushort y, ushort z, ushort type, bool addaction = true)
+        public void Blockchange(Player p, ushort x, ushort y, ushort z, ushort? type, bool addaction = true)
         {
             string errorLocation = "start";
         retry:
@@ -819,7 +819,7 @@ namespace MCForge
                 Server.s.Log("Failed to save level properties!");
             }
         }
-        public void Blockchange(int b, ushort type, bool overRide = false, string extraInfo = "")
+        public void Blockchange(int b, ushort? type, bool overRide = false, string extraInfo = "")
         //Block change made by physics
         {
             if (b < 0) return;
@@ -879,7 +879,7 @@ namespace MCForge
                 SetTile(b, type);
             }
         }
-        public void Blockchange(ushort x, ushort y, ushort z, ushort type, bool overRide = false, string extraInfo = "")
+        public void Blockchange(ushort x, ushort y, ushort z, ushort? type, bool overRide = false, string extraInfo = "")
         //Block change made by physics
         {
             if (x < 0 || y < 0 || z < 0) return;
@@ -905,7 +905,7 @@ namespace MCForge
                 {
                     UndoPos uP;
                     uP.location = PosToInt(x, y, z);
-                    uP.newType = type;
+                    uP.newType = (ushort?)type;
                     uP.oldType = b;
                     uP.timePerformed = DateTime.Now;
 
@@ -948,7 +948,7 @@ namespace MCForge
             return !ListCheck.Exists(Check => Check.b == b);
         }
 
-        public void skipChange(ushort x, ushort y, ushort z, ushort type)
+        public void skipChange(ushort x, ushort y, ushort z, ushort? type)
         {
             if (x < 0 || y < 0 || z < 0) return;
             if (x >= width || y >= depth || z >= height) return;
@@ -1707,7 +1707,7 @@ namespace MCForge
                                                   {
                                                       int currentLoop = 0;
                                                       if (!foundInfo.Contains("wait"))
-                                                          if (blocks[C.b] == Block.air) C.extraInfo = "";
+                                                          if (blocks[C.b] == null) C.extraInfo = "";
 
                                                       bool wait = false;
                                                       int waitnum = 0;
@@ -1743,42 +1743,42 @@ namespace MCForge
                                                               storedInt = IntOffset(C.b, -1, 0, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, Block.air, false,
+                                                                  AddUpdate(storedInt, null, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 1, 0, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, Block.air, false,
+                                                                  AddUpdate(storedInt, null, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, 1, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, Block.air, false,
+                                                                  AddUpdate(storedInt, null, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, -1, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, Block.air, false,
+                                                                  AddUpdate(storedInt, null, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, 0, 1);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, Block.air, false,
+                                                                  AddUpdate(storedInt, null, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, 0, -1);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, Block.air, false,
+                                                                  AddUpdate(storedInt, null, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
@@ -1939,7 +1939,7 @@ namespace MCForge
                                                   {
                                                       int currentLoop = 0;
                                                       if (!foundInfo.Contains("wait"))
-                                                          if (blocks[C.b] == Block.air) C.extraInfo = "";
+                                                          if (blocks[C.b] == null) C.extraInfo = "";
 
                                                       bool drop = false;
                                                       int dropnum = 0;
@@ -2022,42 +2022,42 @@ namespace MCForge
                                                               storedInt = IntOffset(C.b, -1, 0, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, Block.air, false,
+                                                                  AddUpdate(storedInt, null, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 1, 0, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, Block.air, false,
+                                                                  AddUpdate(storedInt, null, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, 1, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, Block.air, false,
+                                                                  AddUpdate(storedInt, null, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, -1, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, Block.air, false,
+                                                                  AddUpdate(storedInt, null, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, 0, 1);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, Block.air, false,
+                                                                  AddUpdate(storedInt, null, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, 0, -1);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, Block.air, false,
+                                                                  AddUpdate(storedInt, null, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
@@ -2121,7 +2121,7 @@ namespace MCForge
                                                               {
                                                                   if (!ListUpdate.Exists(Update => Update.b == C.b))
                                                                   {
-                                                                      AddUpdate(C.b, Block.air);
+                                                                      AddUpdate(C.b, null);
                                                                       C.extraInfo = "";
                                                                       drop = false;
                                                                   }
@@ -2139,7 +2139,7 @@ namespace MCForge
                                                               }
                                                           if (drop)
                                                               if (rand.Next(1, 100) <= dropnum)
-                                                                  if (GetTile(x, (ushort)(y - 1), z) == Block.air ||
+                                                                  if (GetTile(x, (ushort)(y - 1), z) == null||
                                                                       GetTile(x, (ushort)(y - 1), z) == Block.lava ||
                                                                       GetTile(x, (ushort)(y - 1), z) == Block.water)
                                                                   {
@@ -2151,7 +2151,7 @@ namespace MCForge
                                                                                   PosToInt(x, (ushort)(y - 1), z),
                                                                                   blocks[C.b], false, C.extraInfo))
                                                                           {
-                                                                              AddUpdate(C.b, Block.air);
+                                                                              AddUpdate(C.b, null);
                                                                               C.extraInfo = "";
                                                                           }
                                                                       }
@@ -2163,7 +2163,7 @@ namespace MCForge
                                                       int newNum;
                                                       switch (blocks[C.b])
                                                       {
-                                                          case Block.air: //Placed air
+                                                          case null: //Placed air
                                                               //initialy checks if block is valid
                                                               PhysAir(PosToInt((ushort)(x + 1), y, z));
                                                               PhysAir(PosToInt((ushort)(x - 1), y, z));
@@ -2342,7 +2342,7 @@ namespace MCForge
                                                                       }
                                                                       else
                                                                       {
-                                                                          AddUpdate(C.b, Block.air);
+                                                                          AddUpdate(C.b, null);
                                                                           //was placed near sponge
                                                                           if (C.extraInfo.IndexOf("wait") == -1)
                                                                               C.time = 255;
@@ -2382,7 +2382,7 @@ namespace MCForge
                                                                       }
                                                                       else
                                                                       {
-                                                                          AddUpdate(C.b, Block.air);
+                                                                          AddUpdate(C.b, null);
                                                                           //was placed near sponge
                                                                       }
 
@@ -2402,7 +2402,7 @@ namespace MCForge
 
                                                               switch (GetTile(x, (ushort)(y - 1), z))
                                                               {
-                                                                  case Block.air:
+                                                                  case null:
                                                                       AddUpdate(PosToInt(x, (ushort)(y - 1), z),
                                                                                 Block.WaterDown);
                                                                       if (C.extraInfo.IndexOf("wait") == -1) C.time = 255;
@@ -2440,7 +2440,7 @@ namespace MCForge
 
                                                               switch (GetTile(x, (ushort)(y - 1), z))
                                                               {
-                                                                  case Block.air:
+                                                                  case null:
                                                                       AddUpdate(PosToInt(x, (ushort)(y - 1), z),
                                                                                 Block.LavaDown);
                                                                       if (C.extraInfo.IndexOf("wait") == -1) C.time = 255;
@@ -2483,7 +2483,7 @@ namespace MCForge
                                                               switch (GetTile(x, (ushort)(y - 1), z))
                                                               {
                                                                   case Block.WaterDown:
-                                                                  case Block.air:
+                                                                  case null:
                                                                       if (rand.Next(1, 10) > 7)
                                                                           AddUpdate(PosToInt(x, (ushort)(y - 1), z),
                                                                                     Block.air_flood_down);
@@ -2506,7 +2506,7 @@ namespace MCForge
                                                               switch (GetTile(x, (ushort)(y - 1), z))
                                                               {
                                                                   case Block.LavaDown:
-                                                                  case Block.air:
+                                                                  case null:
                                                                       if (rand.Next(1, 10) > 7)
                                                                           AddUpdate(PosToInt(x, (ushort)(y - 1), z),
                                                                                     Block.air_flood_down);
@@ -2597,7 +2597,7 @@ namespace MCForge
                                                                       }
                                                                       else
                                                                       {
-                                                                          AddUpdate(C.b, Block.air);
+                                                                          AddUpdate(C.b, null);
                                                                           //was placed near sponge
                                                                           if (C.extraInfo.IndexOf("wait") == -1)
                                                                               C.time = 255;
@@ -2631,7 +2631,7 @@ namespace MCForge
                                                                       }
                                                                       else
                                                                       {
-                                                                          AddUpdate(C.b, Block.air);
+                                                                          AddUpdate(C.b, null);
                                                                           //was placed near sponge
                                                                       }
 
@@ -2661,35 +2661,35 @@ namespace MCForge
                                                                   storedRand = rand.Next(1, 18);
 
                                                                   if (storedRand <= 3 &&
-                                                                      GetTile((ushort)(x - 1), y, z) == Block.air)
+                                                                      GetTile((ushort)(x - 1), y, z) == null)
                                                                       AddUpdate(PosToInt((ushort)(x - 1), y, z),
                                                                                 Block.fire);
                                                                   else if (storedRand <= 6 &&
-                                                                           GetTile((ushort)(x + 1), y, z) == Block.air)
+                                                                           GetTile((ushort)(x + 1), y, z) == null)
                                                                       AddUpdate(PosToInt((ushort)(x + 1), y, z),
                                                                                 Block.fire);
                                                                   else if (storedRand <= 9 &&
                                                                            GetTile(x, (ushort)(y - 1), z) ==
-                                                                           Block.air)
+                                                                           null)
                                                                       AddUpdate(
                                                                           PosToInt(x, (ushort)(y - 1), z),
                                                                           Block.fire);
                                                                   else if (storedRand <= 12 &&
                                                                            GetTile(x, (ushort)(y + 1), z) ==
-                                                                           Block.air)
+                                                                           null)
                                                                       AddUpdate(
                                                                           PosToInt(x, (ushort)(y + 1), z),
                                                                           Block.fire);
                                                                   else if (storedRand <= 15 &&
                                                                            GetTile(x, y, (ushort)(z - 1)) ==
-                                                                           Block.air)
+                                                                           null)
                                                                       AddUpdate(
                                                                           PosToInt(x, y,
                                                                                    (ushort)(z - 1)),
                                                                           Block.fire);
                                                                   else if (storedRand <= 18 &&
                                                                            GetTile(x, y, (ushort)(z + 1)) ==
-                                                                           Block.air)
+                                                                           null)
                                                                       AddUpdate(
                                                                           PosToInt(x, y,
                                                                                    (ushort)(z + 1)),
@@ -2700,10 +2700,10 @@ namespace MCForge
                                                                   Block.LavaKill(GetTile((ushort)(x - 1), y,
                                                                                          (ushort)(z - 1))))
                                                               {
-                                                                  if (GetTile((ushort)(x - 1), y, z) == Block.air)
+                                                                  if (GetTile((ushort)(x - 1), y, z) == null)
                                                                       AddUpdate(PosToInt((ushort)(x - 1), y, z),
                                                                                 Block.fire);
-                                                                  if (GetTile(x, y, (ushort)(z - 1)) == Block.air)
+                                                                  if (GetTile(x, y, (ushort)(z - 1)) == null)
                                                                       AddUpdate(PosToInt(x, y, (ushort)(z - 1)),
                                                                                 Block.fire);
                                                               }
@@ -2711,10 +2711,10 @@ namespace MCForge
                                                                   Block.LavaKill(GetTile((ushort)(x + 1), y,
                                                                                          (ushort)(z - 1))))
                                                               {
-                                                                  if (GetTile((ushort)(x + 1), y, z) == Block.air)
+                                                                  if (GetTile((ushort)(x + 1), y, z) == null)
                                                                       AddUpdate(PosToInt((ushort)(x + 1), y, z),
                                                                                 Block.fire);
-                                                                  if (GetTile(x, y, (ushort)(z - 1)) == Block.air)
+                                                                  if (GetTile(x, y, (ushort)(z - 1)) == null)
                                                                       AddUpdate(PosToInt(x, y, (ushort)(z - 1)),
                                                                                 Block.fire);
                                                               }
@@ -2722,10 +2722,10 @@ namespace MCForge
                                                                   Block.LavaKill(GetTile((ushort)(x - 1), y,
                                                                                          (ushort)(z + 1))))
                                                               {
-                                                                  if (GetTile((ushort)(x - 1), y, z) == Block.air)
+                                                                  if (GetTile((ushort)(x - 1), y, z) == null)
                                                                       AddUpdate(PosToInt((ushort)(x - 1), y, z),
                                                                                 Block.fire);
-                                                                  if (GetTile(x, y, (ushort)(z + 1)) == Block.air)
+                                                                  if (GetTile(x, y, (ushort)(z + 1)) == null)
                                                                       AddUpdate(PosToInt(x, y, (ushort)(z + 1)),
                                                                                 Block.fire);
                                                               }
@@ -2733,10 +2733,10 @@ namespace MCForge
                                                                   Block.LavaKill(GetTile((ushort)(x + 1), y,
                                                                                          (ushort)(z + 1))))
                                                               {
-                                                                  if (GetTile((ushort)(x + 1), y, z) == Block.air)
+                                                                  if (GetTile((ushort)(x + 1), y, z) == null)
                                                                       AddUpdate(PosToInt((ushort)(x + 1), y, z),
                                                                                 Block.fire);
-                                                                  if (GetTile(x, y, (ushort)(z + 1)) == Block.air)
+                                                                  if (GetTile(x, y, (ushort)(z + 1)) == null)
                                                                       AddUpdate(PosToInt(x, y, (ushort)(z + 1)),
                                                                                 Block.fire);
                                                               }
@@ -2744,10 +2744,10 @@ namespace MCForge
                                                                   Block.LavaKill(GetTile(x, (ushort)(y - 1),
                                                                                          (ushort)(z - 1))))
                                                               {
-                                                                  if (GetTile(x, (ushort)(y - 1), z) == Block.air)
+                                                                  if (GetTile(x, (ushort)(y - 1), z) == null)
                                                                       AddUpdate(PosToInt(x, (ushort)(y - 1), z),
                                                                                 Block.fire);
-                                                                  if (GetTile(x, y, (ushort)(z - 1)) == Block.air)
+                                                                  if (GetTile(x, y, (ushort)(z - 1)) == null)
                                                                       AddUpdate(PosToInt(x, y, (ushort)(z - 1)),
                                                                                 Block.fire);
                                                               }
@@ -2758,10 +2758,10 @@ namespace MCForge
                                                                   Block.LavaKill(GetTile(x, (ushort)(y + 1),
                                                                                          (ushort)(z - 1))))
                                                               {
-                                                                  if (GetTile(x, (ushort)(y + 1), z) == Block.air)
+                                                                  if (GetTile(x, (ushort)(y + 1), z) == null)
                                                                       AddUpdate(PosToInt(x, (ushort)(y + 1), z),
                                                                                 Block.fire);
-                                                                  if (GetTile(x, y, (ushort)(z - 1)) == Block.air)
+                                                                  if (GetTile(x, y, (ushort)(z - 1)) == null)
                                                                       AddUpdate(PosToInt(x, y, (ushort)(z - 1)),
                                                                                 Block.fire);
                                                               }
@@ -2769,10 +2769,10 @@ namespace MCForge
                                                                   Block.LavaKill(GetTile(x, (ushort)(y - 1),
                                                                                          (ushort)(z + 1))))
                                                               {
-                                                                  if (GetTile(x, (ushort)(y - 1), z) == Block.air)
+                                                                  if (GetTile(x, (ushort)(y - 1), z) == null)
                                                                       AddUpdate(PosToInt(x, (ushort)(y - 1), z),
                                                                                 Block.fire);
-                                                                  if (GetTile(x, y, (ushort)(z + 1)) == Block.air)
+                                                                  if (GetTile(x, y, (ushort)(z + 1)) == null)
                                                                       AddUpdate(PosToInt(x, y, (ushort)(z + 1)),
                                                                                 Block.fire);
                                                               }
@@ -2780,10 +2780,10 @@ namespace MCForge
                                                                   Block.LavaKill(GetTile(x, (ushort)(y + 1),
                                                                                          (ushort)(z + 1))))
                                                               {
-                                                                  if (GetTile(x, (ushort)(y + 1), z) == Block.air)
+                                                                  if (GetTile(x, (ushort)(y + 1), z) == null)
                                                                       AddUpdate(PosToInt(x, (ushort)(y + 1), z),
                                                                                 Block.fire);
-                                                                  if (GetTile(x, y, (ushort)(z + 1)) == Block.air)
+                                                                  if (GetTile(x, y, (ushort)(z + 1)) == null)
                                                                       AddUpdate(PosToInt(x, y, (ushort)(z + 1)),
                                                                                 Block.fire);
                                                               }
@@ -2791,10 +2791,10 @@ namespace MCForge
                                                                   Block.LavaKill(GetTile((ushort)(x - 1),
                                                                                          (ushort)(y - 1), z)))
                                                               {
-                                                                  if (GetTile(x, (ushort)(y - 1), z) == Block.air)
+                                                                  if (GetTile(x, (ushort)(y - 1), z) == null)
                                                                       AddUpdate(PosToInt(x, (ushort)(y - 1), z),
                                                                                 Block.fire);
-                                                                  if (GetTile((ushort)(x - 1), y, z) == Block.air)
+                                                                  if (GetTile((ushort)(x - 1), y, z) == null)
                                                                       AddUpdate(PosToInt((ushort)(x - 1), y, z),
                                                                                 Block.fire);
                                                               }
@@ -2802,10 +2802,10 @@ namespace MCForge
                                                                   Block.LavaKill(GetTile((ushort)(x - 1),
                                                                                          (ushort)(y + 1), z)))
                                                               {
-                                                                  if (GetTile(x, (ushort)(y + 1), z) == Block.air)
+                                                                  if (GetTile(x, (ushort)(y + 1), z) == null)
                                                                       AddUpdate(PosToInt(x, (ushort)(y + 1), z),
                                                                                 Block.fire);
-                                                                  if (GetTile((ushort)(x - 1), y, z) == Block.air)
+                                                                  if (GetTile((ushort)(x - 1), y, z) == null)
                                                                       AddUpdate(PosToInt((ushort)(x - 1), y, z),
                                                                                 Block.fire);
                                                               }
@@ -2813,10 +2813,10 @@ namespace MCForge
                                                                   Block.LavaKill(GetTile((ushort)(x + 1),
                                                                                          (ushort)(y - 1), z)))
                                                               {
-                                                                  if (GetTile(x, (ushort)(y - 1), z) == Block.air)
+                                                                  if (GetTile(x, (ushort)(y - 1), z) == null)
                                                                       AddUpdate(PosToInt(x, (ushort)(y - 1), z),
                                                                                 Block.fire);
-                                                                  if (GetTile((ushort)(x + 1), y, z) == Block.air)
+                                                                  if (GetTile((ushort)(x + 1), y, z) == null)
                                                                       AddUpdate(PosToInt((ushort)(x + 1), y, z),
                                                                                 Block.fire);
                                                               }
@@ -2824,10 +2824,10 @@ namespace MCForge
                                                                   Block.LavaKill(GetTile((ushort)(x + 1),
                                                                                          (ushort)(y + 1), z)))
                                                               {
-                                                                  if (GetTile(x, (ushort)(y + 1), z) == Block.air)
+                                                                  if (GetTile(x, (ushort)(y + 1), z) == null)
                                                                       AddUpdate(PosToInt(x, (ushort)(y + 1), z),
                                                                                 Block.fire);
-                                                                  if (GetTile((ushort)(x + 1), y, z) == Block.air)
+                                                                  if (GetTile((ushort)(x + 1), y, z) == null)
                                                                       AddUpdate(PosToInt((ushort)(x + 1), y, z),
                                                                                 Block.fire);
                                                               }
@@ -2891,7 +2891,7 @@ namespace MCForge
                                                                       AddUpdate(C.b, Block.obsidian);
                                                                       C.extraInfo = "drop 63 dissipate 10";
                                                                   }
-                                                                  else if (storedRand <= 8) AddUpdate(C.b, Block.air);
+                                                                  else if (storedRand <= 8) AddUpdate(C.b, null);
                                                                   else C.time = 3;
                                                               }
 
@@ -2924,7 +2924,7 @@ namespace MCForge
                                                                   {
                                                                       case 0:
                                                                           if (GetTile((ushort)(x - 1), y, z) ==
-                                                                              Block.air)
+                                                                              null)
                                                                           {
                                                                               if (
                                                                                   AddUpdate(
@@ -2935,7 +2935,7 @@ namespace MCForge
                                                                           break;
                                                                       case 1:
                                                                           if (GetTile((ushort)(x + 1), y, z) ==
-                                                                              Block.air)
+                                                                              null)
                                                                           {
                                                                               if (
                                                                                   AddUpdate(
@@ -2946,7 +2946,7 @@ namespace MCForge
                                                                           break;
                                                                       case 2:
                                                                           if (GetTile(x, (ushort)(y - 1), z) ==
-                                                                              Block.air)
+                                                                              null)
                                                                           {
                                                                               if (
                                                                                   AddUpdate(
@@ -2957,7 +2957,7 @@ namespace MCForge
                                                                           break;
                                                                       case 3:
                                                                           if (GetTile(x, (ushort)(y + 1), z) ==
-                                                                              Block.air)
+                                                                              null)
                                                                           {
                                                                               if (
                                                                                   AddUpdate(
@@ -2968,7 +2968,7 @@ namespace MCForge
                                                                           break;
                                                                       case 4:
                                                                           if (GetTile(x, y, (ushort)(z - 1)) ==
-                                                                              Block.air)
+                                                                              null)
                                                                           {
                                                                               if (
                                                                                   AddUpdate(
@@ -2979,7 +2979,7 @@ namespace MCForge
                                                                           break;
                                                                       case 5:
                                                                           if (GetTile(x, y, (ushort)(z + 1)) ==
-                                                                              Block.air)
+                                                                              null)
                                                                           {
                                                                               if (
                                                                                   AddUpdate(
@@ -3137,7 +3137,7 @@ namespace MCForge
                                                                   }
                                                                   else
                                                                   {
-                                                                      AddUpdate(C.b, Block.air);
+                                                                      AddUpdate(C.b, null);
                                                                       //was placed near sponge
                                                                       C.time = 255;
                                                                   }
@@ -3168,7 +3168,7 @@ namespace MCForge
                                                                                blocks[C.b]);
                                                                   }
                                                                   else
-                                                                      AddUpdate(C.b, Block.air);
+                                                                      AddUpdate(C.b, null);
                                                                   //was placed near sponge
 
                                                                   C.time = 255;
@@ -3424,7 +3424,7 @@ namespace MCForge
                                                               //Normal
                                                               else
                                                               {
-                                                                  if (physics < 3) Blockchange(x, y, z, Block.air);
+                                                                  if (physics < 3) Blockchange(x, y, z, null);
 
                                                                   if (physics >= 3)
                                                                   {
@@ -3445,13 +3445,13 @@ namespace MCForge
                                                                   }
                                                                   else
                                                                   {
-                                                                      Blockchange(x, y, z, Block.air);
+                                                                      Blockchange(x, y, z, null);
                                                                   }
                                                               }
                                                               break;
 
                                                           case Block.bigtnt:
-                                                              if (physics < 3) Blockchange(x, y, z, Block.air);
+                                                              if (physics < 3) Blockchange(x, y, z, null);
 
                                                               if (physics >= 3)
                                                               {
@@ -3498,12 +3498,12 @@ namespace MCForge
                                                               }
                                                               else
                                                               {
-                                                                  Blockchange(x, y, z, Block.air);
+                                                                  Blockchange(x, y, z, null);
                                                               }
                                                               break;
 
                                                           case Block.nuketnt:
-                                                              if (physics < 3) Blockchange(x, y, z, Block.air);
+                                                              if (physics < 3) Blockchange(x, y, z, null);
 
                                                               if (physics >= 3)
                                                               {
@@ -3550,12 +3550,12 @@ namespace MCForge
                                                               }
                                                               else
                                                               {
-                                                                  Blockchange(x, y, z, Block.air);
+                                                                  Blockchange(x, y, z, null);
                                                               }
                                                               break;
 
                                                           case Block.tntexplosion:
-                                                              if (rand.Next(1, 11) <= 7) AddUpdate(C.b, Block.air);
+                                                              if (rand.Next(1, 11) <= 7) AddUpdate(C.b, null);
                                                               break;
 
                                                           case Block.train:
@@ -3582,7 +3582,7 @@ namespace MCForge
                                                                                       (ushort)(z + cz)) == Block.red &&
                                                                               (GetTile((ushort)(x + cx),
                                                                                        (ushort)(y + cy),
-                                                                                       (ushort)(z + cz)) == Block.air ||
+                                                                                       (ushort)(z + cz)) == null||
                                                                                GetTile((ushort)(x + cx),
                                                                                        (ushort)(y + cy),
                                                                                        (ushort)(z + cz)) == Block.water) &&
@@ -3593,7 +3593,7 @@ namespace MCForge
                                                                                            (ushort)(y + cy),
                                                                                            (ushort)(z + cz)),
                                                                                   Block.train);
-                                                                              AddUpdate(PosToInt(x, y, z), Block.air);
+                                                                              AddUpdate(PosToInt(x, y, z), null);
                                                                               AddUpdate(IntOffset(C.b, 0, -1, 0),
                                                                                         Block.obsidian, true,
                                                                                         "wait 5 revert " +
@@ -3608,7 +3608,7 @@ namespace MCForge
                                                                                       (ushort)(z + cz)) == Block.op_air &&
                                                                               (GetTile((ushort)(x + cx),
                                                                                        (ushort)(y + cy),
-                                                                                       (ushort)(z + cz)) == Block.air ||
+                                                                                       (ushort)(z + cz)) == null||
                                                                                GetTile((ushort)(x + cx),
                                                                                        (ushort)(y + cy),
                                                                                        (ushort)(z + cz)) == Block.water) &&
@@ -3619,7 +3619,7 @@ namespace MCForge
                                                                                            (ushort)(y + cy),
                                                                                            (ushort)(z + cz)),
                                                                                   Block.train);
-                                                                              AddUpdate(PosToInt(x, y, z), Block.air);
+                                                                              AddUpdate(PosToInt(x, y, z), null);
                                                                               AddUpdate(IntOffset(C.b, 0, -1, 0),
                                                                                         Block.glass, true,
                                                                                         "wait 5 revert " +
@@ -3635,7 +3635,7 @@ namespace MCForge
                                                               C.time++;
                                                               if (C.time < 3) break;
 
-                                                              if (GetTile(x, (ushort)(y - 1), z) == Block.air)
+                                                              if (GetTile(x, (ushort)(y - 1), z) == null)
                                                                   AddUpdate(PosToInt(x, (ushort)(y - 1), z),
                                                                             Block.magma);
                                                               else if (GetTile(x, (ushort)(y - 1), z) != Block.magma)
@@ -3699,7 +3699,7 @@ namespace MCForge
                                                           case Block.geyser:
                                                               C.time++;
 
-                                                              if (GetTile(x, (ushort)(y - 1), z) == Block.air)
+                                                              if (GetTile(x, (ushort)(y - 1), z) == null)
                                                                   AddUpdate(PosToInt(x, (ushort)(y - 1), z),
                                                                             Block.geyser);
                                                               else if (GetTile(x, (ushort)(y - 1), z) != Block.geyser)
@@ -3777,13 +3777,13 @@ namespace MCForge
                                                               switch (rand.Next(1, 15))
                                                               {
                                                                   case 1:
-                                                                      if (GetTile(x, (ushort)(y - 1), z) == Block.air)
+                                                                      if (GetTile(x, (ushort)(y - 1), z) == null)
                                                                           AddUpdate(PosToInt(x, (ushort)(y - 1), z),
                                                                                     blocks[C.b]);
                                                                       else goto case 3;
                                                                       break;
                                                                   case 2:
-                                                                      if (GetTile(x, (ushort)(y + 1), z) == Block.air)
+                                                                      if (GetTile(x, (ushort)(y + 1), z) == null)
                                                                           AddUpdate(PosToInt(x, (ushort)(y + 1), z),
                                                                                     blocks[C.b]);
                                                                       else goto case 6;
@@ -3793,7 +3793,7 @@ namespace MCForge
                                                                   case 5:
                                                                       switch (GetTile((ushort)(x - 1), y, z))
                                                                       {
-                                                                          case Block.air:
+                                                                          case null:
                                                                               AddUpdate(PosToInt((ushort)(x - 1), y, z),
                                                                                         blocks[C.b]);
                                                                               break;
@@ -3810,7 +3810,7 @@ namespace MCForge
                                                                   case 8:
                                                                       switch (GetTile((ushort)(x + 1), y, z))
                                                                       {
-                                                                          case Block.air:
+                                                                          case null:
                                                                               AddUpdate(PosToInt((ushort)(x + 1), y, z),
                                                                                         blocks[C.b]);
                                                                               break;
@@ -3827,7 +3827,7 @@ namespace MCForge
                                                                   case 11:
                                                                       switch (GetTile(x, y, (ushort)(z - 1)))
                                                                       {
-                                                                          case Block.air:
+                                                                          case null:
                                                                               AddUpdate(PosToInt(x, y, (ushort)(z - 1)),
                                                                                         blocks[C.b]);
                                                                               break;
@@ -3842,7 +3842,7 @@ namespace MCForge
                                                                   default:
                                                                       switch (GetTile(x, y, (ushort)(z + 1)))
                                                                       {
-                                                                          case Block.air:
+                                                                          case null:
                                                                               AddUpdate(PosToInt(x, y, (ushort)(z + 1)),
                                                                                         blocks[C.b]);
                                                                               break;
@@ -3855,7 +3855,7 @@ namespace MCForge
                                                                       }
                                                                       break;
                                                               }
-                                                              AddUpdate(C.b, Block.air);
+                                                              AddUpdate(C.b, null);
                                                               C.time = 255;
 
                                                               break;
@@ -3916,7 +3916,7 @@ namespace MCForge
                                                                                       (x +
                                                                                        Math.Sign((foundPlayer.pos[0] / 32) -
                                                                                                  x)), y, z);
-                                                                              if (GetTile(newNum) == Block.air)
+                                                                              if (GetTile(newNum) == null)
                                                                                   if (IntOffset(newNum, -1, 0, 0) ==
                                                                                       Block.grass ||
                                                                                       IntOffset(newNum, -1, 0, 0) ==
@@ -3939,7 +3939,7 @@ namespace MCForge
                                                                                                  Math.Sign(
                                                                                                      (foundPlayer.pos[1] /
                                                                                                       32) - y)), z);
-                                                                              if (GetTile(newNum) == Block.air)
+                                                                              if (GetTile(newNum) == null)
                                                                                   if (newNum > 0)
                                                                                   {
                                                                                       if (IntOffset(newNum, 0, 1, 0) ==
@@ -3947,7 +3947,7 @@ namespace MCForge
                                                                                           IntOffset(newNum, 0, 1, 0) ==
                                                                                           Block.dirt &&
                                                                                           IntOffset(newNum, 0, 2, 0) ==
-                                                                                          Block.air)
+                                                                                          null)
                                                                                           if (AddUpdate(newNum,
                                                                                                         blocks[C.b]))
                                                                                               goto removeSelf_Snake;
@@ -3959,7 +3959,7 @@ namespace MCForge
                                                                                           IntOffset(newNum, 0, -2, 0) ==
                                                                                           Block.dirt &&
                                                                                           IntOffset(newNum, 0, -1, 0) ==
-                                                                                          Block.air)
+                                                                                          null)
                                                                                           if (AddUpdate(newNum,
                                                                                                         blocks[C.b]))
                                                                                               goto removeSelf_Snake;
@@ -3980,7 +3980,7 @@ namespace MCForge
                                                                                                  Math.Sign(
                                                                                                      (foundPlayer.pos[2] /
                                                                                                       32) - z)));
-                                                                              if (GetTile(newNum) == Block.air)
+                                                                              if (GetTile(newNum) == null)
                                                                                   if (IntOffset(newNum, 0, 0, -1) ==
                                                                                       Block.grass ||
                                                                                       IntOffset(newNum, 0, 0, -1) ==
@@ -4007,19 +4007,19 @@ namespace MCForge
                                                                           oldNum = PosToInt(x, y, z);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              Block.air && GetTile(newNum) == Block.air)
+                                                                              null&& GetTile(newNum) == null)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
-                                                                          else if (GetTile(newNum) == Block.air &&
+                                                                          else if (GetTile(newNum) == null&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   Block.air)
+                                                                                   null)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              Block.air &&
+                                                                              null&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              Block.air)
+                                                                              null)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true; //Not used...
 
@@ -4027,7 +4027,7 @@ namespace MCForge
                                                                           {
                                                                               AddUpdate(IntOffset(oldNum, 0, 0, 0),
                                                                                         Block.snaketail, true,
-                                                                                        string.Format("wait 5 revert {0}", Block.air));
+                                                                                        string.Format("wait 5 revert {0}", null));
                                                                               goto removeSelf_Snake;
                                                                           }
 
@@ -4043,19 +4043,19 @@ namespace MCForge
                                                                           oldNum = PosToInt(x, y, z);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              Block.air && GetTile(newNum) == Block.air)
+                                                                              null&& GetTile(newNum) == null)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
-                                                                          else if (GetTile(newNum) == Block.air &&
+                                                                          else if (GetTile(newNum) == null&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   Block.air)
+                                                                                   null)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              Block.air &&
+                                                                              null&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              Block.air)
+                                                                              null)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true;
 
@@ -4080,19 +4080,19 @@ namespace MCForge
                                                                           oldNum = PosToInt(x, y, z);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              Block.air && GetTile(newNum) == Block.air)
+                                                                              null&& GetTile(newNum) == null)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
-                                                                          else if (GetTile(newNum) == Block.air &&
+                                                                          else if (GetTile(newNum) == null&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   Block.air)
+                                                                                   null)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              Block.air &&
+                                                                              null&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              Block.air)
+                                                                              null)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true;
 
@@ -4117,19 +4117,19 @@ namespace MCForge
                                                                           oldNum = PosToInt(x, y, z);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              Block.air && GetTile(newNum) == Block.air)
+                                                                              null&& GetTile(newNum) == null)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
-                                                                          else if (GetTile(newNum) == Block.air &&
+                                                                          else if (GetTile(newNum) == null&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   Block.air)
+                                                                                   null)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              Block.air &&
+                                                                              null&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              Block.air)
+                                                                              null)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true;
 
@@ -4151,7 +4151,7 @@ namespace MCForge
 
                                                           removeSelf_Snake:
                                                               if (!InnerChange)
-                                                                  AddUpdate(C.b, Block.air);
+                                                                  AddUpdate(C.b, null);
                                                               break;
 
                                                               #endregion
@@ -4207,7 +4207,7 @@ namespace MCForge
                                                                                       (x +
                                                                                        Math.Sign((foundPlayer.pos[0] / 32) -
                                                                                                  x)), y, z);
-                                                                              if (GetTile(newNum) == Block.air)
+                                                                              if (GetTile(newNum) == null)
                                                                                   if (AddUpdate(newNum, blocks[C.b]))
                                                                                       goto removeSelf;
                                                                           }
@@ -4226,7 +4226,7 @@ namespace MCForge
                                                                                                  Math.Sign(
                                                                                                      (foundPlayer.pos[1] /
                                                                                                       32) - y)), z);
-                                                                              if (GetTile(newNum) == Block.air)
+                                                                              if (GetTile(newNum) == null)
                                                                                   if (AddUpdate(newNum, blocks[C.b]))
                                                                                       goto removeSelf;
                                                                           }
@@ -4245,7 +4245,7 @@ namespace MCForge
                                                                                                  Math.Sign(
                                                                                                      (foundPlayer.pos[2] /
                                                                                                       32) - z)));
-                                                                              if (GetTile(newNum) == Block.air)
+                                                                              if (GetTile(newNum) == null)
                                                                                   if (AddUpdate(newNum, blocks[C.b]))
                                                                                       goto removeSelf;
                                                                           }
@@ -4264,7 +4264,7 @@ namespace MCForge
                                                                   {
                                                                       case 1:
                                                                           if (GetTile(x, (ushort)(y - 1), z) ==
-                                                                              Block.air)
+                                                                              null)
                                                                               if (
                                                                                   AddUpdate(
                                                                                       PosToInt(x, (ushort)(y - 1), z),
@@ -4273,7 +4273,7 @@ namespace MCForge
                                                                           else goto case 3;
                                                                       case 2:
                                                                           if (GetTile(x, (ushort)(y + 1), z) ==
-                                                                              Block.air)
+                                                                              null)
                                                                               if (
                                                                                   AddUpdate(
                                                                                       PosToInt(x, (ushort)(y + 1), z),
@@ -4284,7 +4284,7 @@ namespace MCForge
                                                                       case 4:
                                                                       case 5:
                                                                           if (GetTile((ushort)(x - 1), y, z) ==
-                                                                              Block.air)
+                                                                              null)
                                                                               if (
                                                                                   AddUpdate(
                                                                                       PosToInt((ushort)(x - 1), y, z),
@@ -4295,7 +4295,7 @@ namespace MCForge
                                                                       case 7:
                                                                       case 8:
                                                                           if (GetTile((ushort)(x + 1), y, z) ==
-                                                                              Block.air)
+                                                                              null)
                                                                               if (
                                                                                   AddUpdate(
                                                                                       PosToInt((ushort)(x + 1), y, z),
@@ -4306,7 +4306,7 @@ namespace MCForge
                                                                       case 10:
                                                                       case 11:
                                                                           if (GetTile(x, y, (ushort)(z - 1)) ==
-                                                                              Block.air)
+                                                                              null)
                                                                               if (
                                                                                   AddUpdate(
                                                                                       PosToInt(x, y, (ushort)(z - 1)),
@@ -4319,7 +4319,7 @@ namespace MCForge
                                                                       case 14:
                                                                       default:
                                                                           if (GetTile(x, y, (ushort)(z + 1)) ==
-                                                                              Block.air)
+                                                                              null)
                                                                               if (
                                                                                   AddUpdate(
                                                                                       PosToInt(x, y, (ushort)(z + 1)),
@@ -4332,7 +4332,7 @@ namespace MCForge
 
                                                           removeSelf:
                                                               if (!InnerChange)
-                                                                  AddUpdate(C.b, Block.air);
+                                                                  AddUpdate(C.b, null);
                                                               break;
 
                                                               #endregion
@@ -4806,7 +4806,7 @@ namespace MCForge
                                                                                   GetTile((ushort)(x - cx),
                                                                                           (ushort)(y - cy),
                                                                                           (ushort)(z - cz)) ==
-                                                                                  Block.air ||
+                                                                                  null||
                                                                                   GetTile((ushort)(x - cx),
                                                                                           (ushort)(y - cy),
                                                                                           (ushort)(z - cz)) ==
@@ -4843,7 +4843,7 @@ namespace MCForge
                                                           case Block.firework:
                                                               if (GetTile(x, (ushort)(y - 1), z) == Block.lavastill)
                                                               {
-                                                                  if (GetTile(x, (ushort)(y + 1), z) == Block.air)
+                                                                  if (GetTile(x, (ushort)(y + 1), z) == null)
                                                                   {
                                                                       if ((depth / 100) * 80 < y) mx = rand.Next(1, 20);
                                                                       else mx = 5;
@@ -4862,7 +4862,7 @@ namespace MCForge
                                                                               AddUpdate(PosToInt(x, y, z),
                                                                                         Block.lavastill, false,
                                                                                         "wait 1 dissipate 100");
-                                                                              // AddUpdate(PosToInt(x, (ushort)(y - 1), z), Block.air);
+                                                                              // AddUpdate(PosToInt(x, (ushort)(y - 1), z), null);
                                                                               C.extraInfo = "wait 1 dissipate 100";
                                                                               break;
                                                                           }
@@ -4883,11 +4883,11 @@ namespace MCForge
 
                                                               #region ZOMBIE
 
-                                                              if (GetTile(x, (ushort)(y - 1), z) == Block.air)
+                                                              if (GetTile(x, (ushort)(y - 1), z) == null)
                                                               {
                                                                   AddUpdate(C.b, Block.zombiehead);
                                                                   AddUpdate(IntOffset(C.b, 0, -1, 0), blocks[C.b]);
-                                                                  AddUpdate(IntOffset(C.b, 0, 1, 0), Block.air);
+                                                                  AddUpdate(IntOffset(C.b, 0, 1, 0), null);
                                                                   break;
                                                               }
 
@@ -4940,22 +4940,22 @@ namespace MCForge
 
                                                                               if (
                                                                                   GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                                  Block.air &&
-                                                                                  GetTile(newNum) == Block.air)
+                                                                                  null&&
+                                                                                  GetTile(newNum) == null)
                                                                                   newNum = IntOffset(newNum, 0, -1, 0);
-                                                                              else if (GetTile(newNum) == Block.air &&
+                                                                              else if (GetTile(newNum) == null&&
                                                                                        GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                       Block.air)
+                                                                                       null)
                                                                               {
                                                                               }
 
                                                                               else if (
                                                                                   GetTile(IntOffset(newNum, 0, 2,
                                                                                                     0)) ==
-                                                                                  Block.air &&
+                                                                                  null&&
                                                                                   GetTile(IntOffset(newNum, 0, 1,
                                                                                                     0)) ==
-                                                                                  Block.air)
+                                                                                  null)
                                                                                   newNum = IntOffset(newNum, 0,
                                                                                                      1, 0);
                                                                               else skip = true;
@@ -4988,22 +4988,22 @@ namespace MCForge
 
                                                                               if (
                                                                                   GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                                  Block.air &&
-                                                                                  GetTile(newNum) == Block.air)
+                                                                                  null&&
+                                                                                  GetTile(newNum) == null)
                                                                                   newNum = IntOffset(newNum, 0, -1, 0);
-                                                                              else if (GetTile(newNum) == Block.air &&
+                                                                              else if (GetTile(newNum) == null&&
                                                                                        GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                       Block.air)
+                                                                                       null)
                                                                               {
                                                                               }
 
                                                                               else if (
                                                                                   GetTile(IntOffset(newNum, 0, 2,
                                                                                                     0)) ==
-                                                                                  Block.air &&
+                                                                                  null&&
                                                                                   GetTile(IntOffset(newNum, 0, 1,
                                                                                                     0)) ==
-                                                                                  Block.air)
+                                                                                  null)
                                                                                   newNum = IntOffset(newNum, 0,
                                                                                                      1, 0);
                                                                               else skip = true;
@@ -5046,19 +5046,19 @@ namespace MCForge
                                                                           newNum = IntOffset(C.b, -1, 0, 0);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              Block.air && GetTile(newNum) == Block.air)
+                                                                              null&& GetTile(newNum) == null)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
-                                                                          else if (GetTile(newNum) == Block.air &&
+                                                                          else if (GetTile(newNum) == null&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   Block.air)
+                                                                                   null)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              Block.air &&
+                                                                              null&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              Block.air)
+                                                                              null)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true;
 
@@ -5082,19 +5082,19 @@ namespace MCForge
                                                                           newNum = IntOffset(C.b, 1, 0, 0);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              Block.air && GetTile(newNum) == Block.air)
+                                                                              null&& GetTile(newNum) == null)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
-                                                                          else if (GetTile(newNum) == Block.air &&
+                                                                          else if (GetTile(newNum) == null&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   Block.air)
+                                                                                   null)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              Block.air &&
+                                                                              null&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              Block.air)
+                                                                              null)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true;
 
@@ -5118,19 +5118,19 @@ namespace MCForge
                                                                           newNum = IntOffset(C.b, 0, 0, 1);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              Block.air && GetTile(newNum) == Block.air)
+                                                                              null&& GetTile(newNum) == null)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
-                                                                          else if (GetTile(newNum) == Block.air &&
+                                                                          else if (GetTile(newNum) == null&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   Block.air)
+                                                                                   null)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              Block.air &&
+                                                                              null&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              Block.air)
+                                                                              null)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true;
 
@@ -5154,19 +5154,19 @@ namespace MCForge
                                                                           newNum = IntOffset(C.b, 0, 0, -1);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              Block.air && GetTile(newNum) == Block.air)
+                                                                              null&& GetTile(newNum) == null)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
-                                                                          else if (GetTile(newNum) == Block.air &&
+                                                                          else if (GetTile(newNum) == null&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   Block.air)
+                                                                                   null)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              Block.air &&
+                                                                              null&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              Block.air)
+                                                                              null)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true;
 
@@ -5188,8 +5188,8 @@ namespace MCForge
                                                           removeSelf_zomb:
                                                               if (!InnerChange)
                                                               {
-                                                                  AddUpdate(C.b, Block.air);
-                                                                  AddUpdate(IntOffset(C.b, 0, 1, 0), Block.air);
+                                                                  AddUpdate(C.b, null);
+                                                                  AddUpdate(IntOffset(C.b, 0, 1, 0), null);
                                                               }
                                                               break;
 
@@ -5291,7 +5291,7 @@ namespace MCForge
             }
         }
 
-        private bool AddUpdate(int b, int type, bool overRide = false, string extraInfo = "")
+        private bool AddUpdate(int b, ushort? type, bool overRide = false, string extraInfo = "")
         {
             try
             {
@@ -5392,7 +5392,7 @@ namespace MCForge
         }
 
         //================================================================================================================
-        private void PhysWater(int b, ushort type)
+        private void PhysWater(int b, ushort? type)
         {
             if (b == -1)
             {
@@ -5509,7 +5509,7 @@ namespace MCForge
         }
 
         //================================================================================================================
-        private void PhysLava(int b, ushort type)
+        private void PhysLava(int b, ushort? type)
         {
             if (b == -1)
             {
@@ -5672,7 +5672,7 @@ namespace MCForge
         }
 
         //================================================================================================================
-        private bool PhysSand(int b, ushort type) //also does gravel
+        private bool PhysSand(int b, ushort? type) //also does gravel
         {
             if (b == -1 || physics == 0) return false;
             if (physics == 5) return false;
@@ -5878,7 +5878,7 @@ namespace MCForge
         }
 
         //================================================================================================================
-        private void PhysAirFlood(int b, ushort type)
+        private void PhysAirFlood(int b, ushort? type)
         {
             if (b == -1)
             {
@@ -5895,23 +5895,23 @@ namespace MCForge
             if (!random)
             {
                 b = GetTile((ushort)(x + 1), y, z);
-                if (b == Block.air || b == Block.waterstill) Blockchange((ushort)(x + 1), y, z, newBlock);
+                if (b == null|| b == Block.waterstill) Blockchange((ushort)(x + 1), y, z, newBlock);
                 b = GetTile((ushort)(x - 1), y, z);
-                if (b == Block.air || b == Block.waterstill) Blockchange((ushort)(x - 1), y, z, newBlock);
+                if (b == null|| b == Block.waterstill) Blockchange((ushort)(x - 1), y, z, newBlock);
                 b = GetTile(x, y, (ushort)(z + 1));
-                if (b == Block.air || b == Block.waterstill) Blockchange(x, y, (ushort)(z + 1), newBlock);
+                if (b == null|| b == Block.waterstill) Blockchange(x, y, (ushort)(z + 1), newBlock);
                 b = GetTile(x, y, (ushort)(z - 1));
-                if (b == Block.air || b == Block.waterstill) Blockchange(x, y, (ushort)(z - 1), newBlock);
+                if (b == null|| b == Block.waterstill) Blockchange(x, y, (ushort)(z - 1), newBlock);
             }
             else
             {
-                if (GetTile((ushort)(x + 1), y, z) == Block.air && randNum.Next(1, 10) < 3)
+                if (GetTile((ushort)(x + 1), y, z) == null&& randNum.Next(1, 10) < 3)
                     Blockchange((ushort)(x + 1), y, z, newBlock);
-                if (GetTile((ushort)(x - 1), y, z) == Block.air && randNum.Next(1, 10) < 3)
+                if (GetTile((ushort)(x - 1), y, z) == null&& randNum.Next(1, 10) < 3)
                     Blockchange((ushort)(x - 1), y, z, newBlock);
-                if (GetTile(x, y, (ushort)(z + 1)) == Block.air && randNum.Next(1, 10) < 3)
+                if (GetTile(x, y, (ushort)(z + 1)) == null&& randNum.Next(1, 10) < 3)
                     Blockchange(x, y, (ushort)(z + 1), newBlock);
-                if (GetTile(x, y, (ushort)(z - 1)) == Block.air && randNum.Next(1, 10) < 3)
+                if (GetTile(x, y, (ushort)(z - 1)) == null&& randNum.Next(1, 10) < 3)
                     Blockchange(x, y, (ushort)(z - 1), newBlock);
             }
         }
@@ -5932,8 +5932,8 @@ namespace MCForge
         //================================================================================================================
         private bool PhysLeaf(int b)
         {
-            ushort type, dist = 4;
-            int i, xx, yy, zz;
+            ushort? type, dist = 4;
+            int? i, xx, yy, zz;
             ushort x, y, z;
             IntToPos(b, out x, out y, out z);
 
@@ -6035,12 +6035,12 @@ namespace MCForge
             ushort x, y, z;
             IntToPos(b, out x, out y, out z);
 
-            if (GetTile((ushort)(x + 1), y, z) == Block.air) dir++;
-            if (GetTile((ushort)(x - 1), y, z) == Block.air) dir++;
-            if (up && GetTile(x, (ushort)(y + 1), z) == Block.air) dir++;
-            if (down && GetTile(x, (ushort)(y - 1), z) == Block.air) dir++;
-            if (GetTile(x, y, (ushort)(z + 1)) == Block.air) dir++;
-            if (GetTile(x, y, (ushort)(z - 1)) == Block.air) dir++;
+            if (GetTile((ushort)(x + 1), y, z) == null) dir++;
+            if (GetTile((ushort)(x - 1), y, z) == null) dir++;
+            if (up && GetTile(x, (ushort)(y + 1), z) == null) dir++;
+            if (down && GetTile(x, (ushort)(y - 1), z) == null) dir++;
+            if (GetTile(x, y, (ushort)(z + 1)) == null) dir++;
+            if (GetTile(x, y, (ushort)(z - 1)) == null) dir++;
 
             return dir;
         }
@@ -6154,12 +6154,12 @@ namespace MCForge
                                     {
                                         if (physics == 5)
                                         {
-                                            Blockchange(x, y, z, Block.air);
+                                            Blockchange(x, y, z, null);
                                             return;
                                         }
                                         int b1 = IntOffset(C.b, xx * 3, yy * 3, zz * 3);
                                         int b2 = IntOffset(C.b, xx * 2, yy * 2, zz * 2);
-                                        bool unblocked = blocks[b1] == Block.air && blocks[b2] == Block.air &&
+                                        bool unblocked = blocks[b1] == null&& blocks[b2] == null&&
                                                          !ListUpdate.Exists(Update => Update.b == b1) &&
                                                          !ListUpdate.Exists(Update => Update.b == b2);
                                         if (unblocked)
@@ -6172,12 +6172,12 @@ namespace MCForge
                                     {
                                         if (physics == 5)
                                         {
-                                            Blockchange(x, y, z, Block.air);
+                                            Blockchange(x, y, z, null);
                                             return;
                                         }
                                         int b1 = IntOffset(C.b, xx, yy + 1, zz);
                                         int b2 = IntOffset(C.b, xx, yy + 2, zz);
-                                        bool unblocked = blocks[b1] == Block.air && blocks[b2] == Block.air &&
+                                        bool unblocked = blocks[b1] == null&& blocks[b2] == null&&
                                                          !ListUpdate.Exists(Update => Update.b == b1) &&
                                                          !ListUpdate.Exists(Update => Update.b == b2);
                                         if (unblocked)
@@ -6190,7 +6190,7 @@ namespace MCForge
                                     {
                                         if (physics == 5)
                                         {
-                                            Blockchange(x, y, z, Block.air);
+                                            Blockchange(x, y, z, null);
                                             return;
                                         }
                                         MakeExplosion((ushort)(x + xx), (ushort)(y + yy), (ushort)(z + zz), 0);
@@ -6226,7 +6226,7 @@ namespace MCForge
 
             if (Block.tDoor(blocks[foundInt]))
             {
-                AddUpdate(foundInt, Block.air, false, "wait 16 door 1 revert " + blocks[foundInt].ToString());
+                AddUpdate(foundInt, null, false, "wait 16 door 1 revert " + blocks[foundInt].ToString());
             }
 
             if (Block.odoor(blocks[foundInt]) != Block.Zero) AddUpdate(foundInt, Block.odoor(blocks[foundInt]), true);
@@ -6255,7 +6255,7 @@ namespace MCForge
                             }
                             else if (b != Block.smalltnt && b != Block.bigtnt && b != Block.nuketnt)
                             {
-                                if (CheckForExplosionZone != null && b != Block.air)
+                                if (CheckForExplosionZone != null && b != null)
                                 {
                                     if (CheckForExplosionZone.InZone((ushort)xx, (ushort)yy, (ushort)zz, false))
                                     {
@@ -6265,7 +6265,7 @@ namespace MCForge
                                 if (rand.Next(1, 11) <= 4)
                                     AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.tntexplosion);
                                 else if (rand.Next(1, 11) <= 8)
-                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.air);
+                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), null);
                                 else
                                     AddCheck(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), "drop 50 dissipate 8");
                             }
@@ -6286,7 +6286,7 @@ namespace MCForge
                         if (rand.Next(1, 10) < 7)
                             if (Block.Convert(b) != Block.tnt)
                             {
-                                if (CheckForExplosionZone != null && b != Block.air)
+                                if (CheckForExplosionZone != null && b != null)
                                 {
                                     if (CheckForExplosionZone.InZone((ushort)xx, (ushort)yy, (ushort)zz, false))
                                     {
@@ -6296,7 +6296,7 @@ namespace MCForge
                                 if (rand.Next(1, 11) <= 4)
                                     AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.tntexplosion);
                                 else if (rand.Next(1, 11) <= 8)
-                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.air);
+                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), null);
                                 else
                                     AddCheck(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), "drop 50 dissipate 8");
                             }
@@ -6318,7 +6318,7 @@ namespace MCForge
                         if (rand.Next(1, 10) < 3)
                             if (Block.Convert(b) != Block.tnt)
                             {
-                                if (CheckForExplosionZone != null && b != Block.air)
+                                if (CheckForExplosionZone != null && b != null)
                                 {
                                     if (CheckForExplosionZone.InZone((ushort)xx, (ushort)yy, (ushort)zz, false))
                                     {
@@ -6328,7 +6328,7 @@ namespace MCForge
                                 if (rand.Next(1, 11) <= 4)
                                     AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.tntexplosion);
                                 else if (rand.Next(1, 11) <= 8)
-                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.air);
+                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), null);
                                 else
                                     AddCheck(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), "drop 50 dissipate 8");
                             }
@@ -6355,12 +6355,12 @@ namespace MCForge
             storedRand1 = rand.Next(21, 36);
             storedRand2 = rand.Next(21, 36);
             // Not using override, since override = true makes it more likely that a colored block will be generated with no extraInfo, because it sets a Check for that position with no extraInfo.
-            AddUpdate(PosToInt(x, y, z), Block.air);
+            AddUpdate(PosToInt(x, y, z), null);
 
             for (xx = (ushort)(x - (size + 1)); xx <= (ushort)(x + (size + 1)); ++xx)
                 for (yy = (ushort)(y - (size + 1)); yy <= (ushort)(y + (size + 1)); ++yy)
                     for (zz = (ushort)(z - (size + 1)); zz <= (ushort)(z + (size + 1)); ++zz)
-                        if (GetTile(xx, yy, zz) == Block.air)
+                        if (GetTile(xx, yy, zz) == null)
                             if (rand.Next(1, 40) < 2)
                                 AddUpdate(PosToInt(xx, yy, zz),
                                           (byte)
@@ -6375,16 +6375,16 @@ namespace MCForge
             var bufferfiniteWater = new List<int>();
             var bufferfiniteWaterList = new List<Pos>();
 
-            if (GetTile(x, (ushort)(y - 1), z) == Block.air)
+            if (GetTile(x, (ushort)(y - 1), z) == null)
             {
                 AddUpdate(PosToInt(x, (ushort)(y - 1), z), blocks[C.b], false, C.extraInfo);
-                AddUpdate(C.b, Block.air);
+                AddUpdate(C.b, null);
                 C.extraInfo = "";
             }
             else if (GetTile(x, (ushort)(y - 1), z) == Block.waterstill ||
                      GetTile(x, (ushort)(y - 1), z) == Block.lavastill)
             {
-                AddUpdate(C.b, Block.air);
+                AddUpdate(C.b, null);
                 C.extraInfo = "";
             }
             else
@@ -6414,19 +6414,19 @@ namespace MCForge
                 foreach (int i in bufferfiniteWater)
                 {
                     pos = bufferfiniteWaterList[i];
-                    if (GetTile(pos.x, (ushort)(y - 1), pos.z) == Block.air &&
-                        GetTile(pos.x, y, pos.z) == Block.air)
+                    if (GetTile(pos.x, (ushort)(y - 1), pos.z) == null&&
+                        GetTile(pos.x, y, pos.z) == null)
                     {
                         if (pos.x < x) pos.x = (ushort)(Math.Floor((double)(pos.x + x) / 2));
                         else pos.x = (ushort)(Math.Ceiling((double)(pos.x + x) / 2));
                         if (pos.z < z) pos.z = (ushort)(Math.Floor((double)(pos.z + z) / 2));
                         else pos.z = (ushort)(Math.Ceiling((double)(pos.z + z) / 2));
 
-                        if (GetTile(pos.x, y, pos.z) == Block.air)
+                        if (GetTile(pos.x, y, pos.z) == null)
                         {
                             if (AddUpdate(PosToInt(pos.x, y, pos.z), blocks[C.b], false, C.extraInfo))
                             {
-                                AddUpdate(C.b, Block.air);
+                                AddUpdate(C.b, null);
                                 C.extraInfo = "";
                                 break;
                             }
@@ -6450,7 +6450,7 @@ namespace MCForge
             public DateTime TimePerformed;
             public bool deleted;
             public string name;
-            public ushort type;
+            public ushort? type;
             public ushort x, y, z;
         }
 
@@ -6567,9 +6567,9 @@ public class Update
 {
     public int b;
     public string extraInfo = "";
-    public ushort type;
+    public ushort? type;
 
-    public Update(int b, ushort type, string extraInfo = "")
+    public Update(int b, ushort? type, string extraInfo = "")
     {
         this.b = b;
         this.type = type;

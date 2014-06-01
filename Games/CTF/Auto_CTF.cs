@@ -86,7 +86,7 @@ namespace MCForge
         public ushort spawnx = 0;
         public ushort spawny = 0;
         public ushort spawnz = 0;
-        public ushort block;
+        public ushort? block;
         public void SendToSpawn(Level mainlevel, Auto_CTF game, Player p1)
         {
             Random rand = new Random();
@@ -95,7 +95,7 @@ namespace MCForge
                 ushort xx = (ushort)(rand.Next(0, mainlevel.width));
                 ushort yy = (ushort)(rand.Next(0, mainlevel.depth));
                 ushort zz = (ushort)(rand.Next(0, mainlevel.height));
-                while (mainlevel.GetTile(xx, yy, zz) != Block.air && game.OnSide((ushort)(zz * 32), this))
+                while (mainlevel.GetTile(xx, yy, zz) != null && game.OnSide((ushort)(zz * 32), this))
                 {
                     xx = (ushort)(rand.Next(0, mainlevel.width));
                     yy = (ushort)(rand.Next(0, mainlevel.depth));
@@ -484,7 +484,7 @@ namespace MCForge
             Thread.Sleep(2000);
             LoadMap(nextmap);
         }
-        void Player_PlayerBlockChange(Player p, ushort x, ushort y, ushort z, ushort type)
+        void Player_PlayerBlockChange(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             if (started)
             {
@@ -494,17 +494,17 @@ namespace MCForge
                     Player.SendMessage(p, "You are not on a team!");
                     Plugin.CancelPlayerEvent(PlayerEvents.BlockChange, p);
                 }
-                if (p.level == mainlevel && blueteam.members.Contains(p) && x == redbase.x && y == redbase.y && z == redbase.z && mainlevel.GetTile(redbase.x, redbase.y, redbase.z) != Block.air)
+                if (p.level == mainlevel && blueteam.members.Contains(p) && x == redbase.x && y == redbase.y && z == redbase.z && mainlevel.GetTile(redbase.x, redbase.y, redbase.z) != null)
                 {
                     Player.GlobalMessageLevel(mainlevel, blueteam.color + p.name + " took the " + redteam.color + " red team's FLAG!");
                     GetPlayer(p).hasflag = true;
                 }
-                if (p.level == mainlevel && redteam.members.Contains(p) && x == bluebase.x && y == bluebase.y && z == bluebase.z && mainlevel.GetTile(bluebase.x, bluebase.y, bluebase.z) != Block.air)
+                if (p.level == mainlevel && redteam.members.Contains(p) && x == bluebase.x && y == bluebase.y && z == bluebase.z && mainlevel.GetTile(bluebase.x, bluebase.y, bluebase.z) != null)
                 {
                     Player.GlobalMessageLevel(mainlevel, redteam.color + p.name + " took the " + blueteam.color + " blue team's FLAG");
                     GetPlayer(p).hasflag = true;
                 }
-                if (p.level == mainlevel && blueteam.members.Contains(p) && x == bluebase.x && y == bluebase.y && z == bluebase.z && mainlevel.GetTile(bluebase.x, bluebase.y, bluebase.z) != Block.air)
+                if (p.level == mainlevel && blueteam.members.Contains(p) && x == bluebase.x && y == bluebase.y && z == bluebase.z && mainlevel.GetTile(bluebase.x, bluebase.y, bluebase.z) != null)
                 {
                     if (GetPlayer(p).hasflag)
                     {
@@ -529,7 +529,7 @@ namespace MCForge
                         Plugin.CancelPlayerEvent(PlayerEvents.BlockChange, p);
                     }
                 }
-                if (p.level == mainlevel && redteam.members.Contains(p) && x == redbase.x && y == redbase.y && z == redbase.z && mainlevel.GetTile(redbase.x, redbase.y, redbase.z) != Block.air)
+                if (p.level == mainlevel && redteam.members.Contains(p) && x == redbase.x && y == redbase.y && z == redbase.z && mainlevel.GetTile(redbase.x, redbase.y, redbase.z) != null)
                 {
                     if (GetPlayer(p).hasflag)
                     {

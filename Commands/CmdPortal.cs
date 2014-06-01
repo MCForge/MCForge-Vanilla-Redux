@@ -75,7 +75,7 @@ namespace MCForge.Commands
             Player.SendMessage(p, "/portal show - Shows portals, green = in, red = out.");
         }
 
-        public void EntryChange(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void EntryChange(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             portalPos bp = (portalPos)p.blockchangeObject;
@@ -105,7 +105,7 @@ namespace MCForge.Commands
                 Player.SendMessage(p, "&aEntry block placed. &cRed block for exit");
             }
         }
-        public void ExitChange(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void ExitChange(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -138,7 +138,7 @@ namespace MCForge.Commands
             bp.port.Clear(); p.blockchangeObject = bp; p.Blockchange += EntryChange;
         }
 
-        public struct portalPos { public List<portPos> port; public ushort type; public bool Multi; }
+        public struct portalPos { public List<portPos> port; public ushort? type; public bool Multi; }
         public struct portPos { public ushort x, y, z; public string portMapName; }
 
         public void showPortals(Player p)
@@ -165,7 +165,7 @@ namespace MCForge.Commands
                 for (i = 0; i < Portals.Rows.Count; i++)
                 {
                     if (Portals.Rows[i]["ExitMap"].ToString() == p.level.name)
-                        p.SendBlockchange((ushort)Portals.Rows[i]["ExitX"], (ushort)Portals.Rows[i]["ExitY"], (ushort)Portals.Rows[i]["ExitZ"], Block.air);
+                        p.SendBlockchange((ushort)Portals.Rows[i]["ExitX"], (ushort)Portals.Rows[i]["ExitY"], (ushort)Portals.Rows[i]["ExitZ"], null);
 
                     p.SendBlockchange((ushort)Portals.Rows[i]["EntryX"], (ushort)Portals.Rows[i]["EntryY"], (ushort)Portals.Rows[i]["EntryZ"], p.level.GetTile((ushort)Portals.Rows[i]["EntryX"], (ushort)Portals.Rows[i]["EntryY"], (ushort)Portals.Rows[i]["EntryZ"]));
                 }

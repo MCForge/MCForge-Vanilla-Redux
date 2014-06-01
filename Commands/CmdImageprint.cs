@@ -102,7 +102,7 @@ namespace MCForge.Commands
             p.ClearBlockchange();
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange1);
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -111,7 +111,7 @@ namespace MCForge.Commands
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
             ushort b = p.level.GetTile(x, y, z);
@@ -288,7 +288,7 @@ namespace MCForge.Commands
                         }
 
                         //ALPHA HANDLING (REAL HARD STUFF, YO)
-                        if (colblock.a < 20) colblock.type = Block.air;
+                        if (colblock.a < 20) colblock.type = null;
 
                         FindReference.placeBlock(p.level, p, colblock.x, colblock.y, colblock.z, colblock.type);
                     }
