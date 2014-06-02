@@ -569,7 +569,8 @@ namespace MCForge
 
         public void AddNotchTree(Level Lvl, ushort x, ushort y, ushort z, Random Rand, bool blockChange = false, bool overwrite = true, Player p = null)
         {
-            ushort dist, tile;
+            ushort dist;
+            ushort? tile;
             byte height = (byte)Rand.Next(3, 7);
             byte top = (byte)(height - 2);
             short xx, yy, zz;
@@ -639,7 +640,8 @@ namespace MCForge
 
         public void AddNotchSwampTree(Level Lvl, ushort x, ushort y, ushort z, Random Rand, bool blockChange = false, bool overwrite = true, Player p = null)
         {
-            ushort dist, tile;
+            ushort dist;
+            ushort? tile;
             byte height = (byte)Rand.Next(4, 8);
             byte top = (byte)(height - 2);
             short xx, yy, zz;
@@ -739,7 +741,7 @@ namespace MCForge
 
         private bool TreeCheck(Level Lvl, ushort x, ushort z, ushort y, short dist)         //return true if tree is near
         {
-            ushort foundTile;
+            ushort? foundTile;
             for (short xx = (short)-dist; xx <= +dist; ++xx)
             {
                 for (short yy = (short)-dist; yy <= +dist; ++yy)

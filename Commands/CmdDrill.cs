@@ -53,7 +53,7 @@ namespace MCForge.Commands
         {
             if (!p.staticCommands) p.ClearBlockchange();
             CatchPos cpos = (CatchPos)p.blockchangeObject;
-            ushort oldType = p.level.GetTile(x, y, z);
+            ushort? oldType = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, oldType);
 
             int diffX = 0, diffZ = 0;

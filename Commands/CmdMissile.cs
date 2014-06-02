@@ -162,7 +162,7 @@ namespace MCForge.Commands
 				p.ClearBlockchange();
 				p.aiming = false;
 			}
-			ushort by = p.level.GetTile(x, y, z);
+			ushort? by = p.level.GetTile(x, y, z);
 			p.SendBlockchange(x, y, z, by);
 			Pos bp = (Pos)p.blockchangeObject;
 

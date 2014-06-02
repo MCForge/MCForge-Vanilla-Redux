@@ -172,7 +172,7 @@ namespace MCForge.Commands
         
         public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
-            ushort by = p.level.GetTile(x, y, z);
+            ushort? by = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, by);
             Pos bp = (Pos)p.blockchangeObject;
 

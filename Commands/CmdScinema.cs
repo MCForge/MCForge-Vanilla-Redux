@@ -73,7 +73,7 @@ namespace MCForge.Commands
         {
             p.ClearBlockchange();
             //com(p, "get the type of the changed block");
-            ushort b = p.level.GetTile(x, y, z);
+            ushort? b = p.level.GetTile(x, y, z);
             //com(p, "undo the change2");
             p.SendBlockchange(x, y, z, b);
             //com(p, "blockundone making Catchpos bp");
@@ -98,7 +98,7 @@ namespace MCForge.Commands
         {
             p.ClearBlockchange();
             //com(p, "get the type of the changed block");
-            ushort b = p.level.GetTile(x, y, z);
+            ushort? b = p.level.GetTile(x, y, z);
             //com(p, "undo the change");
             p.SendBlockchange(x, y, z, b);
             //getting the startpos of copy stored in blockchangeobject

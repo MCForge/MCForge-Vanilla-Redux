@@ -204,7 +204,7 @@ namespace MCForge.Commands
         {
             p.ClearBlockchange();
             //com(p, "get the type of the changed block");
-            ushort b = p.level.GetTile(x, y, z);
+            ushort? b = p.level.GetTile(x, y, z);
             //com(p, "undo the change2");
             p.SendBlockchange(x, y, z, b);
             //now we have to load the stuff from the temp string

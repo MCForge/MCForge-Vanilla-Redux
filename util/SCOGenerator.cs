@@ -51,7 +51,7 @@ namespace MCForge.Util
 						{
 							try
 							{
-								ushort that = p.level.GetTile((ushort)(x + j), (ushort)((y + k) + num), (ushort)(z + m));
+								ushort? that = p.level.GetTile((ushort)(x + j), (ushort)((y + k) + num), (ushort)(z + m));
 								if (that == 0)
 								{
 									p.level.Blockchange(p, (ushort)(x + j), (ushort)((y + k) + num), (ushort)(z + m), 0x12);
@@ -135,7 +135,7 @@ namespace MCForge.Util
 
 								if (x2 <= l.width && y2 <= l.depth && z2 <= l.length)
 								{
-									ushort that = l.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
+									ushort? that = l.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
 
 									if (that != 7)
 									{
@@ -179,7 +179,7 @@ namespace MCForge.Util
 
 								if (x2 <= l.width && y2 <= l.depth && z2 <= l.length)
 								{
-									ushort that = l.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
+									ushort? that = l.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
 
 									if (that != 7)
 									{
@@ -234,7 +234,7 @@ namespace MCForge.Util
 
 							if (pointradius <= currentradius)
 							{
-                                ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                                ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 								if (ctile == 0)
 								{
                                     Player.CopyPos temp = new Player.CopyPos();
@@ -296,7 +296,7 @@ namespace MCForge.Util
 
 							if (pointradius <= currentradius && pointradius >= (currentradius - 1))
 							{
-                                ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                                ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 								if (ctile == 0)
 								{
                                     Player.CopyPos temp = new Player.CopyPos();
@@ -358,7 +358,7 @@ namespace MCForge.Util
 
 							if (pointradius <= currentradius)
 							{
-                                ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                                ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 								if (ctile == 0)
 								{
                                     Player.CopyPos temp = new Player.CopyPos();
@@ -419,7 +419,7 @@ namespace MCForge.Util
 
 							if (pointradius <= currentradius && pointradius >= (currentradius - 1))
 							{
-                                ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                                ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 								if (ctile == 0)
 								{
                                     Player.CopyPos temp = new Player.CopyPos();
@@ -479,7 +479,7 @@ namespace MCForge.Util
 							if (absx > currentradius) continue;
 							if (absz > currentradius) continue;
 
-                            ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                            ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 							if (ctile == 0)
 							{
                                 Player.CopyPos temp = new Player.CopyPos();
@@ -537,7 +537,7 @@ namespace MCForge.Util
 							if (absx > currentradius || absz > currentradius) continue;
 							if (absx < (currentradius - 1) && absz < (currentradius - 1)) continue;
 
-                            ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                            ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 							if (ctile == 0)
 							{
                                 Player.CopyPos temp = new Player.CopyPos();
@@ -595,7 +595,7 @@ namespace MCForge.Util
 							if (absx > currentradius) continue;
 							if (absz > currentradius) continue;
 
-                            ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                            ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 							if (ctile == 0)
 							{
                                 Player.CopyPos temp = new Player.CopyPos();
@@ -653,7 +653,7 @@ namespace MCForge.Util
 							if (absx > currentradius || absz > currentradius) continue;
 							if (absx < (currentradius - 1) && absz < (currentradius - 1)) continue;
 
-                            ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                            ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 							if (ctile == 0)
 							{
                                 Player.CopyPos temp = new Player.CopyPos();
@@ -698,7 +698,7 @@ namespace MCForge.Util
 								ushort z2 = (ushort)(z + m);
                                 if (x2 <= p.level.width && y2 <= p.level.depth && z2 <= p.level.length)
 								{
-                                    ushort that = p.level.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
+                                    ushort? that = p.level.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
 									if (that != 7)
 									{
                                         Player.CopyPos temp = new Player.CopyPos();
@@ -742,7 +742,7 @@ namespace MCForge.Util
 								ushort z2 = (ushort)(z + m);
                                 if (x2 <= p.level.width && y2 <= p.level.depth && z2 <= p.level.length)
 								{
-                                    ushort that = p.level.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
+                                    ushort? that = p.level.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
 									if (that != 7)
 									{
                                         Player.CopyPos temp = new Player.CopyPos();
@@ -804,7 +804,7 @@ namespace MCForge.Util
 
 							if (pointradius <= currentradius && pointradius >= (currentradius - 1))
 							{
-								ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+								ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 								if (ctile == 0)
 								{
                                     Player.CopyPos temp = new Player.CopyPos();
@@ -818,7 +818,7 @@ namespace MCForge.Util
 							}
 							else if (pointradius <= currentradius)
 							{
-								ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+								ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 								if (ctile == 0)
 								{
                                     Player.CopyPos temp = new Player.CopyPos();

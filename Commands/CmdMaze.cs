@@ -50,7 +50,7 @@ namespace MCForge.Commands
         public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
-            ushort b = p.level.GetTile(x, y, z);
+            ushort? b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             p.blockchangeObject = new CatchPos(x, y, z);
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
@@ -58,7 +58,7 @@ namespace MCForge.Commands
         public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
-            ushort b = p.level.GetTile(x, y, z);
+            ushort? b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             Player.SendMessage(p, "Generating maze... this could take a while");
             CatchPos first = (CatchPos)p.blockchangeObject;

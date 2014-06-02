@@ -40,7 +40,7 @@ namespace MCForge.Commands
             }
             catch { }
             wait = 0;
-            if (number > 2) { Help(p); wait = 1;  return; }
+            if (number > 2) { Help(p); wait = 1; return; }
             if (number == 2)
             {
                 int pos = message.IndexOf(' ');
@@ -107,7 +107,7 @@ namespace MCForge.Commands
         public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
-            ushort b = p.level.GetTile(x, y, z);
+            ushort? b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos bp = (CatchPos)p.blockchangeObject;
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
@@ -259,13 +259,13 @@ namespace MCForge.Commands
                 {
                     Player.SendMessage(p, "Tried to cuboid " + buffer.Count + " blocks, but your limit is " + p.group.maxBlocks + ".");
                     Player.SendMessage(p, "Executed cuboid up to limit.");
-                                 
+
                     wait = 2;
                 }
                 else
                 {
                     Player.SendMessage(p, buffer.Count.ToString() + " blocks.");
-                    
+
                 }
                 wait = 2;
                 if (p.staticCommands) p.Blockchange += new Player.BlockchangeEventHandler(Blockchange1);
