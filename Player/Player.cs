@@ -2873,8 +2873,9 @@ rot = new byte[2] { rotx, roty };*/
         //TODO: Figure a way to SendPos without changing rotation
         public void SendDie(byte id) { SendRaw(0x0C, new byte[1] { id }); }
         public void SendBlockchange(ushort x, ushort y, ushort z, ushort? type) {
+            if (type == null) { type = 0; }
             if ( x < 0 || y < 0 || z < 0 ) return;
-            if(type > Block.maxblocks && type != null)
+            if(type > Block.maxblocks)
             {
                 this.SendMessage("The server was not able to detect your held block, please try again!");
                 return;
