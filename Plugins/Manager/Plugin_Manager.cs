@@ -258,9 +258,9 @@ namespace MCForge
             /*
              ===Load Internal Plugins===
              */
-            CTF.Setup temp = new CTF.Setup();
-            temp.Load(true);
-            Plugin.all_simple.Add(temp);
+        //    CTF.Setup temp = new CTF.Setup();
+         //   temp.Load(true);
+         //   Plugin.all_simple.Add(temp);
         }
         #endregion
     }

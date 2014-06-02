@@ -2874,7 +2874,7 @@ rot = new byte[2] { rotx, roty };*/
         public void SendDie(byte id) { SendRaw(0x0C, new byte[1] { id }); }
         public void SendBlockchange(ushort x, ushort y, ushort z, ushort? type) {
             if ( x < 0 || y < 0 || z < 0 ) return;
-            if(type > Block.maxblocks)
+            if(type > Block.maxblocks && type != null)
             {
                 this.SendMessage("The server was not able to detect your held block, please try again!");
                 return;

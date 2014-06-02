@@ -35,10 +35,10 @@ namespace MCForge
                 return;
             }
             if ((message != null && String.IsNullOrEmpty(message))) { Help(p); return; }
-            if (message == "start")
-            {
+            //if (message == "start")
+            //{
                 //Prevent null errors :/
-                if (Server.ctf == null)
+            /*    if (Server.ctf == null)
                 {
                     Player.SendMessage(p, "Starting CTF..");
                     Server.ctf = new Auto_CTF();
@@ -70,7 +70,7 @@ namespace MCForge
                 }
                 else
                     Server.ctf.Stop();
-            }
+            }*/
         }
         public override void Help(Player p)
         {

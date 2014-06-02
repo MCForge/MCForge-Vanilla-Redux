@@ -105,9 +105,8 @@ namespace MCForge
         //Other
         public static bool higherranktp = true;
         public static bool agreetorulesonentry = false;
-        public static bool UseCTF = false;
+        public static bool UseCTF = true;
         public static bool ServerSetupFinished = false;
-        public static Auto_CTF ctf = null;
         public static PlayerList bannedIP;
         public static PlayerList whiteList;
         public static PlayerList ircControllers;
@@ -1021,9 +1020,6 @@ namespace MCForge
                         Server.lava.Start();
                     if (Server.startZombieModeOnStartup)
                         Server.zombie.StartGame(1, 0);
-                    //This doesnt use the main map
-                    if (Server.UseCTF)
-                        ctf = new Auto_CTF();
                 }
                 catch (Exception e) { Server.ErrorLog(e); }
                 BlockQueue.Start();

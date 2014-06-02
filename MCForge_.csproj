@@ -146,7 +146,6 @@
     <Compile Include="GUI\Eco\EconomyWindow.Designer.cs">
       <DependentUpon>EconomyWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Games\CTF\Setup.cs" />
     <Compile Include="Games\TntWarsGame.cs" />
     <Compile Include="GUI\Isocat.cs" />
     <Compile Include="GUI\PortTools.cs">
@@ -329,7 +328,6 @@
     <Compile Include="Commands\CmdPLoad.cs" />
     <Compile Include="Commands\CmdPUnload.cs" />
     <Compile Include="Commands\CommandOtherPerms.cs" />
-    <Compile Include="Games\CTF\Auto_CTF.cs" />
     <Compile Include="IRC\GlobalChatBot.cs" />
     <Compile Include="Games\CountdownGame.cs" />
     <Compile Include="Player\Economy.cs" />

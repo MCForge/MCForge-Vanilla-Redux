@@ -488,14 +488,14 @@ namespace MCForge
             if (blocks == null) return;
             if (b >= blocks.Length) return;
             if (b < 0) return;
-            blocks[b] = (ushort)type;
+            blocks[b] = (ushort?)type;
             //blockchanges[x + width * z + width * height * y] = pName;
         }
         public void SetTile(ushort x, ushort y, ushort z, ushort? type)
         {
             if (blocks == null) return;
             if (!InBound(x, y, z)) return;
-            blocks[PosToInt(x, y, z)] = (ushort)type;
+            blocks[PosToInt(x, y, z)] = (ushort?)type;
             //blockchanges[x + width * z + width * height * y] = pName;
         }
 
@@ -725,7 +725,7 @@ namespace MCForge
                 errorLocation = "Setting tile";
                 p.loginBlocks++;
                 p.overallBlocks++;
-                SetTile(x, y, z, type); //Updates server level blocks
+                SetTile(x, y, z, (ushort?)type); //Updates server level blocks
 
                 errorLocation = "Growing grass";
                 if (GetTile(x, (ushort)(y - 1), z) == Block.grass && GrassDestroy && !Block.LightPass(type))

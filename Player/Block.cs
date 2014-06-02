@@ -1185,7 +1185,7 @@ namespace MCForge
         {
             switch (type)
             {
-                case null: return "air";
+                case 0: return "air";
                 case 1: return "stone";
                 case 2: return "grass";
                 case 3: return "dirt";
@@ -1953,7 +1953,7 @@ namespace MCForge
                 case fishlavashark: return obsidian;
 
                 default:
-                    if (b < 66) return b; else return 22;
+                    if (b < 66 || b == null) return b; else return 22;
             }
         }
 
