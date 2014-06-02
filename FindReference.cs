@@ -21,12 +21,12 @@ namespace MCForge
 {
     internal static class FindReference
     {
-        public static ushort writeLetter(Player p, char c, ushort x, ushort y, ushort z, ushort b, int direction)
+        public static ushort? writeLetter(Player p, char c, ushort x, ushort y, ushort z, ushort? b, int direction)
         {
             return writeLetter(p.level, p, c, x, y, z, b, direction);
         }
 
-        public static ushort writeLetter(Level l, Player p, char c, ushort x, ushort y, ushort z, ushort b, int directionToGo)
+        public static ushort? writeLetter(Level l, Player p, char c, ushort x, ushort y, ushort z, ushort? b, int directionToGo)
         {
             switch (c)
             {

@@ -488,14 +488,14 @@ namespace MCForge
             if (blocks == null) return;
             if (b >= blocks.Length) return;
             if (b < 0) return;
-            blocks[b] = type;
+            blocks[b] = (ushort)type;
             //blockchanges[x + width * z + width * height * y] = pName;
         }
         public void SetTile(ushort x, ushort y, ushort z, ushort? type)
         {
             if (blocks == null) return;
             if (!InBound(x, y, z)) return;
-            blocks[PosToInt(x, y, z)] = type;
+            blocks[PosToInt(x, y, z)] = (ushort)type;
             //blockchanges[x + width * z + width * height * y] = pName;
         }
 
@@ -845,7 +845,7 @@ namespace MCForge
                 {
                     UndoPos uP;
                     uP.location = b;
-                    uP.newType = type;
+                    uP.newType = (ushort)type;
                     uP.oldType = bb;
                     uP.timePerformed = DateTime.Now;
 
@@ -905,7 +905,7 @@ namespace MCForge
                 {
                     UndoPos uP;
                     uP.location = PosToInt(x, y, z);
-                    uP.newType = (ushort?)type;
+                    uP.newType = (ushort)type;
                     uP.oldType = b;
                     uP.timePerformed = DateTime.Now;
 
@@ -2099,12 +2099,12 @@ namespace MCForge
                                                                   {
                                                                       if (blocks[C.b] == Block.darkpink)
                                                                           AddUpdate(C.b, Block.red);
-                                                                      else AddUpdate(C.b, (blocks[C.b] + 1));
+                                                                      else AddUpdate(C.b, (ushort?)(blocks[C.b] + 1));
                                                                   }
                                                               }
                                                               else
                                                               {
-                                                                  AddUpdate(C.b, rand.Next(21, 33));
+                                                                  AddUpdate((int)C.b, (ushort?)rand.Next(21, 33));
                                                               }
                                                           }
                                                       else

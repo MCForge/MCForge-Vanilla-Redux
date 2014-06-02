@@ -250,7 +250,7 @@ namespace MCForge {
         //Movement
         public ushort oldBlock = 0;
         public ushort deathCount = 0;
-        public ushort deathBlock;
+        public ushort? deathblock;
 
         //Games
         public DateTime lastDeath = DateTime.Now;
@@ -1585,7 +1585,7 @@ namespace MCForge {
                     break;
 
                 default:
-                    level.Blockchange(this, x, y, z, (byte)( null ));
+                    level.Blockchange(this, x, y, z, (ushort?)( null ));
                     break;
             }
             if ( ( level.physics == 0 || level.physics == 5 ) && level.GetTile(x, (ushort)( y - 1 ), z) == 3 ) level.Blockchange(this, x, (ushort)( y - 1 ), z, 2);
@@ -1720,15 +1720,15 @@ cliprot = rot;
             if ( oldBlock != (ushort)( x + y + z ) ) {
                 if ( Block.Convert(b) == null ) {
                     deathCount++;
-                    deathBlock = null;
+                    deathblock = null;
                     return;
                 }
                 else {
-                    if ( deathCount > level.fall && deathBlock == null ) {
-                        HandleDeath(deathBlock);
+                    if ( deathCount > level.fall && deathblock == null ) {
+                        HandleDeath(deathblock);
                         deathCount = 0;
                     }
-                    else if ( deathBlock != Block.water ) {
+                    else if ( deathblock != Block.water ) {
                         deathCount = 0;
                     }
                 }
@@ -1740,9 +1740,9 @@ cliprot = rot;
                 case Block.lava:
                 case Block.lavastill:
                     deathCount++;
-                    deathBlock = Block.water;
+                    deathblock = Block.water;
                     if ( deathCount > level.drown * 200 ) {
-                        HandleDeath(deathBlock);
+                        HandleDeath(deathblock);
                         deathCount = 0;
                     }
                     break;
@@ -1784,7 +1784,7 @@ cliprot = rot;
             else if ( Block.Death(b) ) HandleDeath(b); else if ( Block.Death(b1) ) HandleDeath(b1);
         }
 
-        public void HandleDeath(ushort b, string customMessage = "", bool explode = false) {
+        public void HandleDeath(ushort? b, string customMessage = "", bool explode = false) {
             ushort x = (ushort)( pos[0] / 32 );
             ushort y = (ushort)( pos[1] / 32 );
             ushort z = (ushort)( pos[2] / 32 );

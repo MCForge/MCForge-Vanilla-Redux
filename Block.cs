@@ -1957,7 +1957,7 @@ namespace MCForge
             }
         }
 
-        public static ushort ConvertCPE(ushort b)
+        public static ushort? ConvertCPE(ushort? b)
         {
             switch (b)
             {

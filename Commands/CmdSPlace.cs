@@ -30,7 +30,7 @@ namespace MCForge.Commands
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Builder; } }
         private ushort distance, interval;
-        private ushort? blocktype = (byte)1;
+        private ushort? blocktype = (ushort?)1;
         public CmdSPlace() { }
 
         public override void Use(Player p, string message)
@@ -73,7 +73,7 @@ namespace MCForge.Commands
         public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
-            ushort b = p.level.GetTile(x, y, z);
+            ushort? b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos bp = (CatchPos)p.blockchangeObject;
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
@@ -83,7 +83,7 @@ namespace MCForge.Commands
         {
             type = p.bindings[(int)type];
             p.ClearBlockchange();
-            ushort b = p.level.GetTile(x, y, z);
+            ushort? b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos cpos = (CatchPos)p.blockchangeObject;
             if (x == cpos.x && z == cpos.z) { Player.SendMessage(p, "No direction was selected"); return; }
@@ -104,7 +104,7 @@ namespace MCForge.Commands
                 else
                 {
                     p.level.Blockchange(p, (ushort)(cpos.x - (distance - 1)), cpos.y, cpos.z, blocktype);
-                    p.level.Blockchange(p, (ushort)cpos.x, (ushort)cpos.y, (ushort?)cpos.z, (ushort)b = blocktype);
+                    p.level.Blockchange(p, (ushort)cpos.x, (ushort)cpos.y, (ushort)cpos.z, (ushort?)(b = blocktype));
                     if (interval > 0)
                     {
                         for (ushort offset = interval; cpos.x - (distance - 1) < cpos.x - offset; offset += interval)

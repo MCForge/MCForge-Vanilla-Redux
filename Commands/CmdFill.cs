@@ -95,9 +95,9 @@ namespace MCForge.Commands
             {
                 p.ClearBlockchange();
                 CatchPos cpos = (CatchPos)p.blockchangeObject;
-                if (cpos.type == Block.Zero) cpos.type = p.bindings[type];
+                if (cpos.type == Block.Zero) cpos.type = (ushort?)p.bindings[(int)type];
 
-                ushort oldType = p.level.GetTile(x, y, z);
+                ushort? oldType = p.level.GetTile(x, y, z);
                 p.SendBlockchange(x, y, z, oldType);
 
                 if (cpos.type == oldType) { Player.SendMessage(p, "Cannot fill with the same type."); return; }
@@ -159,7 +159,7 @@ namespace MCForge.Commands
 
         int deep;
         List<Pos> fromWhere = new List<Pos>();
-        public void FloodFill(Player p, ushort x, ushort y, ushort z, ushort b, ushort oldType, FillType fillType, ref ushort[] blocks, ref List<Pos> buffer)
+        public void FloodFill(Player p, ushort x, ushort y, ushort z, ushort? b, ushort? oldType, FillType fillType, ref ushort[] blocks, ref List<Pos> buffer)
         {
             try
             {

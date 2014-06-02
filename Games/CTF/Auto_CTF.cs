@@ -719,7 +719,7 @@ namespace MCForge
                 }
             }
         }
-        void Player_PlayerDeath(Player p, ushort deathblock)
+        void Player_PlayerDeath(Player p, ushort? deathblock)
         {
             if (started)
             {

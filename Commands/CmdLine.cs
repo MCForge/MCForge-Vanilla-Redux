@@ -134,7 +134,7 @@ namespace MCForge.Commands
             ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos cpos = (CatchPos)p.blockchangeObject;
-            if (cpos.type == Block.Zero) type = p.bindings[type]; else type = cpos.type;
+            if (cpos.type == Block.Zero) type = p.bindings[(int)type]; else type = cpos.type;
             List<CatchPos> buffer = new List<CatchPos>();
             CatchPos pos = new CatchPos();
 

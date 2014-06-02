@@ -116,10 +116,10 @@ namespace MCForge.Commands
         public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
-            ushort b = p.level.GetTile(x, y, z);
+            ushort? b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos cpos = (CatchPos)p.blockchangeObject;
-            unchecked { if (cpos.type != (byte)-1) type = cpos.type; else type = p.bindings[type]; }
+            unchecked { if (cpos.type != (byte)-1) type = cpos.type; else type = p.bindings[(int)type]; }
             List<Pos> buffer = new List<Pos>();
 
             ushort xx; ushort yy; ushort zz;

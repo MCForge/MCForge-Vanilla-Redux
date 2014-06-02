@@ -1,23 +1,39 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Player/Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Levels/BlockQueue.cs">
     <Files>
-      <File FileName="Player/Player.cs" Line="296" Column="5" />
-      <File FileName="Util/Extensions.cs" Line="1" Column="1" />
-      <File FileName="Util/ExtrasCollection.cs" Line="1" Column="1" />
+      <File FileName="Player/Player.cs" Line="224" Column="9" />
       <File FileName="Server.cs" Line="309" Column="1" />
-      <File FileName="Properties.cs" Line="476" Column="44" />
+      <File FileName="Properties.cs" Line="476" Column="23" />
       <File FileName="MySQL.cs" Line="67" Column="12" />
       <File FileName="Player/PlayerBot.cs" Line="1" Column="1" />
-      <File FileName="Commands/CmdWhois.cs" Line="49" Column="199" />
-      <File FileName="Levels/Level.cs" Line="125" Column="65" />
-      <File FileName="Commands/CmdNewLvl.cs" Line="1" Column="1" />
+      <File FileName="Commands/CmdWhois.cs" Line="49" Column="168" />
+      <File FileName="Levels/Level.cs" Line="2166" Column="59" />
+      <File FileName="Commands/CmdNewLvl.cs" Line="2" Column="2" />
+      <File FileName="Commands/CmdSPlace.cs" Line="86" Column="20" />
+      <File FileName="Games/CTF/Auto_CTF.cs" Line="722" Column="50" />
+      <File FileName="Player/Player.Events.cs" Line="166" Column="61" />
+      <File FileName="Commands/CmdWrite.cs" Line="57" Column="36" />
+      <File FileName="GUI/Isocat.cs" Line="117" Column="26" />
+      <File FileName="Levels/BlockQueue.cs" Line="71" Column="49" />
+      <File FileName="Block.cs" Line="1960" Column="49" />
+      <File FileName="Commands/CmdCopy.cs" Line="263" Column="52" />
+      <File FileName="Commands/CmdCuboid.cs" Line="122" Column="98" />
+      <File FileName="Commands/CmdFill.cs" Line="162" Column="78" />
+      <File FileName="FindReference.cs" Line="29" Column="30" />
+      <File FileName="Commands/CmdMegaboid.cs" Line="104" Column="98" />
+      <File FileName="Commands/CmdLine.cs" Line="137" Column="65" />
+      <File FileName="Commands/CmdImageprint.cs" Line="153" Column="34" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="MCForge_" expanded="True">
-            <Node name="Commands" selected="True" />
+            <Node name="Commands" expanded="True" />
+            <Node name="Levels" expanded="True">
+              <Node name="BlockQueue.cs" selected="True" />
+            </Node>
+            <Node name="Player" expanded="True" />
           </Node>
         </State>
       </Pad>

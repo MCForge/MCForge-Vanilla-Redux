@@ -23,7 +23,7 @@ using System.Net;
 using System.Threading;
 namespace MCForge.Commands
 {
-    public class CmdImageprint : Command
+    public sealed class CmdImageprint : Command
     {
         public override string name { get { return "imageprint"; } }
         public override string shortcut { get { return "img"; } }
@@ -105,7 +105,7 @@ namespace MCForge.Commands
         public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
-            ushort b = p.level.GetTile(x, y, z);
+            ushort? b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos bp = (CatchPos)p.blockchangeObject;
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
@@ -114,7 +114,7 @@ namespace MCForge.Commands
         public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
         {
             p.ClearBlockchange();
-            ushort b = p.level.GetTile(x, y, z);
+            ushort? b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
 
             Bitmap myBitmap = new Bitmap("extra/images/" + bitmaplocation + ".bmp"); 
@@ -224,7 +224,7 @@ namespace MCForge.Commands
                         {
                             for (int j = 0; j < distance.Length; j++) // Calculate distances between the colors in the image and the set referance colors, and store them.
                             {
-                                distance[j] = Math.Sqrt(Math.Pow((colblock.r - refCol[j].r), 2) + Math.Pow((colblock.b - refCol[j].b), 2) + Math.Pow((colblock.g - refCol[j].g), 2));
+                                distance[j] = Math.Sqrt((Math.Pow((colblock.r - refCol[j].r), 2) + Math.Pow(colblock.b - refCol[j].b)), 2) + Math.Pow((colblock.g - refCol[j].g), 2);
                             }
 
                             position = 0;
