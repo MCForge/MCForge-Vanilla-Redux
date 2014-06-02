@@ -103,7 +103,7 @@ namespace MCForge.Commands
                 if (cpos.type == oldType) { Player.SendMessage(p, "Cannot fill with the same type."); return; }
                 if (!Block.canPlace(p, oldType) && !Block.BuildIn(oldType)) { Player.SendMessage(p, "Cannot fill with that."); return; }
 
-                ushort[] mapBlocks = new ushort[p.level.blocks.Length];
+                ushort?[] mapBlocks = new ushort?[p.level.blocks.Length];
                 List<Pos> buffer = new List<Pos>();
                 p.level.blocks.CopyTo(mapBlocks, 0);
 
@@ -159,7 +159,7 @@ namespace MCForge.Commands
 
         int deep;
         List<Pos> fromWhere = new List<Pos>();
-        public void FloodFill(Player p, ushort x, ushort y, ushort z, ushort? b, ushort? oldType, FillType fillType, ref ushort[] blocks, ref List<Pos> buffer)
+        public void FloodFill(Player p, ushort x, ushort y, ushort z, ushort? b, ushort? oldType, FillType fillType, ref ushort?[] blocks, ref List<Pos> buffer)
         {
             try
             {
@@ -237,7 +237,7 @@ namespace MCForge.Commands
             } catch (Exception e) { Server.ErrorLog(e); }
         }
 
-        public ushort GetTile(ushort x, ushort y, ushort z, Level l, ushort[] blocks)
+        public ushort? GetTile(ushort x, ushort y, ushort z, Level l, ushort?[] blocks)
         {
             //if (PosToInt(x, y, z) >= blocks.Length) { return null; }
             //Avoid internal overflow

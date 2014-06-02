@@ -156,8 +156,8 @@ namespace MCForge.Commands
 
         struct CatchPos
         {
-            public List<ushort> oldType;
-            public ushort newType;
+            public List<ushort?> oldType;
+            public ushort? newType;
             public ushort x, y, z;
         }
 

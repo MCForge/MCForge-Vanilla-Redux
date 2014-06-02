@@ -165,6 +165,7 @@ namespace MCForge
                 //    for (ushort y = 0; y < Level.depth; y++)
                 //        for (ushort z = 0; z < Level.height; z++)
                 //            convertedBlocks[Level.PosToInt(x, y, z)] = Block.Convert(Level.GetTile(x, y, z));
+                
                 fixed (ushort* bpx = Level.blocks)
                 {
                     fixed (ushort* tp = Tiles)

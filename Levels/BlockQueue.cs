@@ -68,7 +68,7 @@ namespace MCForge
 
         public static void Addblock(Player P, ushort X, ushort Y, ushort Z, ushort? type)
         {
-            b.x = X; b.y = Y; b.z = Z; b.type = Type; b.p = P;
+            b.x = X; b.y = Y; b.z = Z; b.type = type; b.p = P;
             P.level.blockqueue.Add(b);
         }
 

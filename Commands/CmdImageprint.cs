@@ -224,7 +224,7 @@ namespace MCForge.Commands
                         {
                             for (int j = 0; j < distance.Length; j++) // Calculate distances between the colors in the image and the set referance colors, and store them.
                             {
-                                distance[j] = Math.Sqrt((Math.Pow((colblock.r - refCol[j].r), 2) + Math.Pow(colblock.b - refCol[j].b)), 2) + Math.Pow((colblock.g - refCol[j].g), 2);
+                                distance[j] = Math.Sqrt((Math.Pow((UshortToInt(colblock.r) - UshortToInt(refCol[j].r)), 2)) + Math.Pow(UshortToInt(colblock.b) - UshortToInt(refCol[j].b), 2) + Math.Pow((UshortToInt(colblock.g) - UshortToInt(refCol[j].g)), 2));
                             }
 
                             position = 0;
@@ -310,6 +310,12 @@ namespace MCForge.Commands
                 Player.SendMessage(p, "Finished printing image using " + printType);
             })); printThread.Start();
         }
+
+        public static int UshortToInt(ushort? a)
+        {
+            return (int)(a == null ? 0 : a);
+        }
+
         public override void Help(Player p)
         {
             Player.SendMessage(p, "/imageprint <switch> <localfile> - Print local file in extra/images/ folder.  Must be type .bmp, type filename without extension.");

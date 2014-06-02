@@ -96,7 +96,7 @@ namespace MCForge
         public bool ai = true;
         public bool backedup;
         public List<BlockPos> blockCache = new List<BlockPos>();
-        public ushort[] blocks;
+        public ushort?[] blocks;
 
         public bool cancelsave1;
         public bool cancelunload;
@@ -232,7 +232,7 @@ namespace MCForge
             }
 
             name = n;
-            blocks = new ushort[width * depth * height];
+            blocks = new ushort?[width * depth * height];
             ZoneList = new List<Zone>();
 
             var half = (ushort)(depth / 2);
@@ -358,7 +358,7 @@ namespace MCForge
 
         public void CopyBlocks(byte[] source, int offset)
         {
-            blocks = new ushort[width * depth * height];
+            blocks = new ushort?[width * depth * height];
             Array.Copy(source, offset, blocks, 0, blocks.Length);
 
             for (int i = 0; i < blocks.Length; i++)
@@ -469,7 +469,7 @@ namespace MCForge
             tempCache.Clear();
         }
 
-        public ushort GetTile(ushort x, ushort y, ushort z)
+        public ushort? GetTile(ushort x, ushort y, ushort z)
         {
             if (blocks == null) return Block.Zero;
             //if (PosToInt(x, y, z) >= blocks.Length) { return null; }
@@ -477,7 +477,7 @@ namespace MCForge
             return !InBound(x, y, z) ? Block.Zero : blocks[PosToInt(x, y, z)];
         }
 
-        public ushort GetTile(int b)
+        public ushort? GetTile(int b)
         {
             ushort x = 0, y = 0, z = 0;
             IntToPos(b, out x, out y, out z);
@@ -535,7 +535,7 @@ namespace MCForge
                 if (x < 0 || y < 0 || z < 0) return;
                 if (x >= width || y >= depth || z >= height) return;
 
-                ushort b = GetTile(x, y, z);
+                ushort? b = GetTile(x, y, z);
 
                 errorLocation = "Block rank checking";
                 if (!Block.AllowBreak(b))
@@ -824,7 +824,7 @@ namespace MCForge
         {
             if (b < 0) return;
             if (b >= blocks.Length) return;
-            ushort bb = GetTile(b);
+            ushort? bb = GetTile(b);
 
             try
             {
@@ -884,7 +884,7 @@ namespace MCForge
         {
             if (x < 0 || y < 0 || z < 0) return;
             if (x >= width || y >= depth || z >= height) return;
-            ushort b = GetTile(x, y, z);
+            ushort? b = GetTile(x, y, z);
 
             try
             {
@@ -1012,11 +1012,17 @@ namespace MCForge
                                 if (blocks[i] < 57)
                                 //CHANGED THIS TO INCOPARATE SOME MORE SPACE THAT I NEEDED FOR THE door_orange_air ETC.
                                 {
-                                    BitConverter.GetBytes(blocks[i]).CopyTo(level, (i * 2));
+                                    if(blocks[i] != null)
+                                        BitConverter.GetBytes((ushort)blocks[i]).CopyTo(level, (i * 2));
+                                    else
+                                        BitConverter.GetBytes((ushort)0).CopyTo(level, (i * 2));
                                 }
                                 else
                                 {
-                                    BitConverter.GetBytes(Block.SaveConvert(blocks[i])).CopyTo(level, (i * 2));
+                                    if (Block.SaveConvert(blocks[i]) != null)
+                                        BitConverter.GetBytes((ushort)Block.SaveConvert(blocks[i])).CopyTo(level, (i * 2));
+                                    else
+                                        BitConverter.GetBytes((ushort)0).CopyTo(level, (i * 2));
                                 }
                             }
                             gs.Write(level, 0, level.Length);
@@ -3349,11 +3355,7 @@ namespace MCForge
                                                                           if (C.time < 7)
                                                                           {
                                                                               C.time += 1;
-                                                                              Blockchange(x, (ushort)(y + 1), z,
-                                                                                          GetTile(x, (ushort)(y + 1), z) ==
-                                                                                          Block.lavastill
-                                                                                              ? Block.air
-                                                                                              : Block.lavastill);
+                                                                              Blockchange(x, (ushort)(y + 1), z, GetTile(x, (ushort)(y + 1), z) == Block.lavastill ? (ushort?)null : Block.lavastill);
                                                                           }
                                                                           else ExplodeDistance = 2;
                                                                           break;
@@ -3365,7 +3367,7 @@ namespace MCForge
                                                                               Blockchange(x, (ushort)(y + 1), z,
                                                                                           GetTile(x, (ushort)(y + 1), z) ==
                                                                                           Block.lavastill
-                                                                                              ? Block.air
+                                                                                              ? (ushort?)null
                                                                                               : Block.lavastill);
                                                                           }
                                                                           else ExplodeDistance = 2;
@@ -3378,7 +3380,7 @@ namespace MCForge
                                                                               Blockchange(x, (ushort)(y + 1), z,
                                                                                           GetTile(x, (ushort)(y + 1), z) ==
                                                                                           Block.lavastill
-                                                                                              ? Block.air
+                                                                                              ? (ushort?)null
                                                                                               : Block.lavastill);
                                                                           }
                                                                           else
@@ -3394,7 +3396,7 @@ namespace MCForge
                                                                               Blockchange(x, (ushort)(y + 1), z,
                                                                                           GetTile(x, (ushort)(y + 1), z) ==
                                                                                           Block.lavastill
-                                                                                              ? Block.air
+                                                                                              ? (ushort?)null
                                                                                               : Block.lavastill);
                                                                           }
                                                                           else
@@ -3436,7 +3438,7 @@ namespace MCForge
                                                                           Blockchange(x, (ushort)(y + 1), z,
                                                                                       GetTile(x, (ushort)(y + 1), z) ==
                                                                                       Block.lavastill
-                                                                                          ? Block.air
+                                                                                          ? (ushort?)null
                                                                                           : Block.lavastill);
                                                                           break;
                                                                       }
@@ -3463,32 +3465,32 @@ namespace MCForge
                                                                       Blockchange(x, (ushort)(y + 1), z,
                                                                                   GetTile(x, (ushort)(y + 1), z) ==
                                                                                   Block.lavastill
-                                                                                      ? Block.air
+                                                                                      ? (ushort?)null
                                                                                       : Block.lavastill);
                                                                       Blockchange(x, (ushort)(y - 1), z,
                                                                                   GetTile(x, (ushort)(y - 1), z) ==
                                                                                   Block.lavastill
-                                                                                      ? Block.air
+                                                                                      ? (ushort?)null
                                                                                       : Block.lavastill);
                                                                       Blockchange((ushort)(x + 1), y, z,
                                                                                   GetTile((ushort)(x + 1), y, z) ==
                                                                                   Block.lavastill
-                                                                                      ? Block.air
+                                                                                      ? (ushort?)null
                                                                                       : Block.lavastill);
                                                                       Blockchange((ushort)(x - 1), y, z,
                                                                                   GetTile((ushort)(x - 1), y, z) ==
                                                                                   Block.lavastill
-                                                                                      ? Block.air
+                                                                                      ? (ushort?)null
                                                                                       : Block.lavastill);
                                                                       Blockchange(x, y, (ushort)(z + 1),
                                                                                   GetTile(x, y, (ushort)(z + 1)) ==
                                                                                   Block.lavastill
-                                                                                      ? Block.air
+                                                                                      ? (ushort?)null
                                                                                       : Block.lavastill);
                                                                       Blockchange(x, y, (ushort)(z - 1),
                                                                                   GetTile(x, y, (ushort)(z - 1)) ==
                                                                                   Block.lavastill
-                                                                                      ? Block.air
+                                                                                      ? (ushort?)null
                                                                                       : Block.lavastill);
 
                                                                       break;
@@ -3515,32 +3517,32 @@ namespace MCForge
                                                                       Blockchange(x, (ushort)(y + 2), z,
                                                                                   GetTile(x, (ushort)(y + 2), z) ==
                                                                                   Block.lavastill
-                                                                                      ? Block.air
+                                                                                      ? (ushort?)null
                                                                                       : Block.lavastill);
                                                                       Blockchange(x, (ushort)(y - 2), z,
                                                                                   GetTile(x, (ushort)(y - 2), z) ==
                                                                                   Block.lavastill
-                                                                                      ? Block.air
+                                                                                      ? (ushort?)null
                                                                                       : Block.lavastill);
                                                                       Blockchange((ushort)(x + 1), y, z,
                                                                                   GetTile((ushort)(x + 1), y, z) ==
                                                                                   Block.lavastill
-                                                                                      ? Block.air
+                                                                                      ? (ushort?)null
                                                                                       : Block.lavastill);
                                                                       Blockchange((ushort)(x - 1), y, z,
                                                                                   GetTile((ushort)(x - 1), y, z) ==
                                                                                   Block.lavastill
-                                                                                      ? Block.air
+                                                                                      ? (ushort?)null
                                                                                       : Block.lavastill);
                                                                       Blockchange(x, y, (ushort)(z + 1),
                                                                                   GetTile(x, y, (ushort)(z + 1)) ==
                                                                                   Block.lavastill
-                                                                                      ? Block.air
+                                                                                      ? (ushort?)null
                                                                                       : Block.lavastill);
                                                                       Blockchange(x, y, (ushort)(z - 1),
                                                                                   GetTile(x, y, (ushort)(z - 1)) ==
                                                                                   Block.lavastill
-                                                                                      ? Block.air
+                                                                                      ? (ushort?)null
                                                                                       : Block.lavastill);
 
                                                                       break;
@@ -4063,8 +4065,7 @@ namespace MCForge
                                                                           {
                                                                               AddUpdate(IntOffset(oldNum, 0, 0, 0),
                                                                                         Block.snaketail, true,
-                                                                                        "wait 5 revert " +
-                                                                                        Block.air.ToString());
+                                                                                        "wait 5 revert 0");
                                                                               goto removeSelf_Snake;
                                                                           }
 
@@ -4100,8 +4101,7 @@ namespace MCForge
                                                                           {
                                                                               AddUpdate(IntOffset(oldNum, 0, 0, 0),
                                                                                         Block.snaketail, true,
-                                                                                        "wait 5 revert " +
-                                                                                        Block.air.ToString());
+                                                                                        "wait 5 revert 0");
                                                                               goto removeSelf_Snake;
                                                                           }
 
@@ -4137,8 +4137,7 @@ namespace MCForge
                                                                           {
                                                                               AddUpdate(IntOffset(oldNum, 0, 0, 0),
                                                                                         Block.snaketail, true,
-                                                                                        "wait 5 revert " +
-                                                                                        Block.air.ToString());
+                                                                                        "wait 5 revert 0");
                                                                               goto removeSelf_Snake;
                                                                           }
 
@@ -5891,7 +5890,7 @@ namespace MCForge
         private void PhysFall(ushort newBlock, ushort x, ushort y, ushort z, bool random)
         {
             var randNum = new Random();
-            ushort b;
+            ushort? b;
             if (!random)
             {
                 b = GetTile((ushort)(x + 1), y, z);
@@ -6052,7 +6051,7 @@ namespace MCForge
         {
             if (C.time == 0)
             {
-                ushort foundBlock;
+                ushort? foundBlock;
 
                 foundBlock = Block.odoor(GetTile(IntOffset(C.b, -1, 0, 0)));
                 if (foundBlock == blocks[C.b])
@@ -6149,7 +6148,7 @@ namespace MCForge
                             {
                                 for (int zz = -1; zz <= 1; zz++)
                                 {
-                                    ushort b = GetTile(IntOffset(C.b, xx, yy, zz));
+                                    ushort? b = GetTile(IntOffset(C.b, xx, yy, zz));
                                     if (b == Block.rocketstart)
                                     {
                                         if (physics == 5)
@@ -6215,7 +6214,7 @@ namespace MCForge
         public void PhysDoor(ushort x, ushort y, ushort z, bool instaUpdate)
         {
             int foundInt = PosToInt(x, y, z);
-            ushort FoundAir = Block.DoorAirs(blocks[foundInt]);
+            ushort? FoundAir = Block.DoorAirs(blocks[foundInt]);
 
             if (FoundAir != 0)
             {
@@ -6237,7 +6236,7 @@ namespace MCForge
             //DateTime start = DateTime.Now;
             int xx, yy, zz;
             var rand = new Random();
-            ushort b;
+            ushort? b;
 
             if (physics < 2 && force == false) return;
             if (physics == 5 && force == false) return;
@@ -6461,8 +6460,8 @@ namespace MCForge
         public struct UndoPos
         {
             public int location;
-            public ushort newType;
-            public ushort oldType;
+            public ushort? newType;
+            public ushort? oldType;
             public DateTime timePerformed;
         }
 

@@ -359,8 +359,8 @@ namespace MCForge {
             y = (ushort)Math.Round((decimal)( ( ( y * 32 ) + 4 ) / 32 ));
             z = (ushort)( p.pos[2] / 32 );
 
-            ushort b = p.level.GetTile(x, y, z);
-            ushort b1 = p.level.GetTile(x, (ushort)( y - 1 ), z);
+            ushort? b = p.level.GetTile(x, y, z);
+            ushort? b1 = p.level.GetTile(x, (ushort)( y - 1 ), z);
 
             if ( Block.Walkthrough(Block.Convert(b)) && Block.Walkthrough(Block.Convert(b1)) ) {
                 return false;
@@ -1252,7 +1252,7 @@ namespace MCForge {
                 return;
             }
 
-            ushort b = level.GetTile(x, y, z);
+            ushort? b = level.GetTile(x, y, z);
             if ( b == Block.Zero ) { return; }
             if ( jailed || !agreed ) { SendBlockchange(x, y, z, b); return; }
             if ( level.name.Contains("Museum " + Server.DefaultColor) && Blockchange == null ) {
@@ -1419,7 +1419,7 @@ namespace MCForge {
             }
         }
 
-        public void HandlePortal(Player p, ushort x, ushort y, ushort z, ushort b) {
+        public void HandlePortal(Player p, ushort x, ushort y, ushort z, ushort? b) {
             try {
                 //safe against SQL injections because no user input is given here
                 DataTable Portals = Database.fillData("SELECT * FROM `Portals" + level.name + "` WHERE EntryX=" + (int)x + " AND EntryY=" + (int)y + " AND EntryZ=" + (int)z);
@@ -1451,7 +1451,7 @@ namespace MCForge {
         }
 
 
-        public void HandleMsgBlock(Player p, ushort x, ushort y, ushort z, ushort b) {
+        public void HandleMsgBlock(Player p, ushort x, ushort y, ushort z, ushort? b) {
             try {
                 //safe against SQL injections because no user input is given here
                 DataTable Messages = Database.fillData("SELECT * FROM `Messages" + level.name + "` WHERE X=" + (int)x + " AND Y=" + (int)y + " AND Z=" + (int)z);
@@ -1486,7 +1486,7 @@ namespace MCForge {
             return group.Permission < LevelPermission.Operator;
         }
 
-        private void deleteBlock(ushort b, ushort? type, ushort x, ushort y, ushort z) {
+        private void deleteBlock(ushort? b, ushort? type, ushort x, ushort y, ushort z) {
             Random rand = new Random();
             int mx, mz;
 
@@ -1554,8 +1554,8 @@ namespace MCForge {
 
                         if ( 192 <= rot[1] && rot[1] <= 196 || 60 <= rot[1] && rot[1] <= 64 ) { newX = 0; newZ = 0; }
 
-                        ushort b1 = level.GetTile((ushort)( x + newX * 2 ), (ushort)( y + newY * 2 ), (ushort)( z + newZ * 2 ));
-                        ushort b2 = level.GetTile((ushort)( x + newX ), (ushort)( y + newY ), (ushort)( z + newZ ));
+                        ushort? b1 = level.GetTile((ushort)( x + newX * 2 ), (ushort)( y + newY * 2 ), (ushort)( z + newZ * 2 ));
+                        ushort? b2 = level.GetTile((ushort)( x + newX ), (ushort)( y + newY ), (ushort)( z + newZ ));
                         if ( b1 == null && b2 == null && level.CheckClear((ushort)( x + newX * 2 ), (ushort)( y + newY * 2 ), (ushort)( z + newZ * 2 )) && level.CheckClear((ushort)( x + newX ), (ushort)( y + newY ), (ushort)( z + newZ )) ) {
                             level.Blockchange((ushort)( x + newX * 2 ), (ushort)( y + newY * 2 ), (ushort)( z + newZ * 2 ), Block.rockethead);
                             level.Blockchange((ushort)( x + newX ), (ushort)( y + newY ), (ushort)( z + newZ ), Block.fire);
@@ -1569,8 +1569,8 @@ namespace MCForge {
                     }
                     if ( level.physics != 0 ) {
                         mx = rand.Next(0, 2); mz = rand.Next(0, 2);
-                        ushort b1 = level.GetTile((ushort)( x + mx - 1 ), (ushort)( y + 2 ), (ushort)( z + mz - 1 ));
-                        ushort b2 = level.GetTile((ushort)( x + mx - 1 ), (ushort)( y + 1 ), (ushort)( z + mz - 1 ));
+                        ushort? b1 = level.GetTile((ushort)( x + mx - 1 ), (ushort)( y + 2 ), (ushort)( z + mz - 1 ));
+                        ushort? b2 = level.GetTile((ushort)( x + mx - 1 ), (ushort)( y + 1 ), (ushort)( z + mz - 1 ));
                         if ( b1 == null && b2 == null && level.CheckClear((ushort)( x + mx - 1 ), (ushort)( y + 2 ), (ushort)( z + mz - 1 )) && level.CheckClear((ushort)( x + mx - 1 ), (ushort)( y + 1 ), (ushort)( z + mz - 1 )) ) {
                             level.Blockchange((ushort)( x + mx - 1 ), (ushort)( y + 2 ), (ushort)( z + mz - 1 ), Block.firework);
                             level.Blockchange((ushort)( x + mx - 1 ), (ushort)( y + 1 ), (ushort)( z + mz - 1 ), Block.lavastill, false, "wait 1 dissipate 100");
@@ -1591,7 +1591,7 @@ namespace MCForge {
             if ( ( level.physics == 0 || level.physics == 5 ) && level.GetTile(x, (ushort)( y - 1 ), z) == 3 ) level.Blockchange(this, x, (ushort)( y - 1 ), z, 2);
         }
 
-        public void placeBlock(ushort b, ushort? type, ushort x, ushort y, ushort z) {
+        public void placeBlock(ushort? b, ushort? type, ushort x, ushort y, ushort z) {
             if ( Block.odoor(b) != Block.Zero ) { SendMessage("oDoor here!"); return; }
 
             switch ( blockAction ) {
@@ -1715,8 +1715,8 @@ cliprot = rot;
         }
 
         public void RealDeath(ushort x, ushort y, ushort z) {
-            ushort b = level.GetTile(x, (ushort)( y - 2 ), z);
-            ushort b1 = level.GetTile(x, y, z);
+            ushort? b = level.GetTile(x, (ushort)( y - 2 ), z);
+            ushort? b1 = level.GetTile(x, y, z);
             if ( oldBlock != (ushort)( x + y + z ) ) {
                 if ( Block.Convert(b) == null ) {
                     deathCount++;
@@ -1755,8 +1755,8 @@ cliprot = rot;
         public void CheckBlock(ushort x, ushort y, ushort z) {
             y = (ushort)Math.Round((decimal)( ( ( y * 32 ) + 4 ) / 32 ));
 
-            ushort b = this.level.GetTile(x, y, z);
-            ushort b1 = this.level.GetTile(x, (ushort)( (int)y - 1 ), z);
+            ushort? b = this.level.GetTile(x, y, z);
+            ushort? b1 = this.level.GetTile(x, (ushort)( (int)y - 1 ), z);
 
             if ( Block.Mover(b) || Block.Mover(b1) ) {
                 if ( Block.DoorAirs(b) != 0 )

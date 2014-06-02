@@ -320,7 +320,7 @@ namespace MCForge.Commands
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
 
-			ushort b = p.level.GetTile(x, y, z);
+			ushort? b = p.level.GetTile(x, y, z);
 			p.SendBlockchange(x, y, z, b);
 			p.ClearBlockchange();
 			Util.SCOGenerator.Cone(p, x, y, z, height, radius, type);
@@ -330,7 +330,7 @@ namespace MCForge.Commands
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
 
-			ushort b = p.level.GetTile(x, y, z);
+			ushort? b = p.level.GetTile(x, y, z);
 			p.SendBlockchange(x, y, z, b);
 			p.ClearBlockchange();
 			Util.SCOGenerator.HCone(p, x, y, z, height, radius, type);
@@ -340,7 +340,7 @@ namespace MCForge.Commands
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
 
-			ushort b = p.level.GetTile(x, y, z);
+			ushort? b = p.level.GetTile(x, y, z);
 			p.SendBlockchange(x, y, z, b);
 			p.ClearBlockchange();
 			Util.SCOGenerator.ICone(p, x, y, z, height, radius, type);
@@ -350,7 +350,7 @@ namespace MCForge.Commands
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
 
-			ushort b = p.level.GetTile(x, y, z);
+			ushort? b = p.level.GetTile(x, y, z);
 			p.SendBlockchange(x, y, z, b);
 			p.ClearBlockchange();
 			Util.SCOGenerator.HICone(p, x, y, z, height, radius, type);
@@ -362,7 +362,7 @@ namespace MCForge.Commands
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
 
-			ushort b = p.level.GetTile(x, y, z);
+			ushort? b = p.level.GetTile(x, y, z);
 			p.SendBlockchange(x, y, z, b);
 			p.ClearBlockchange();
 			Util.SCOGenerator.Pyramid(p, x, y, z, height, radius, type);
@@ -372,7 +372,7 @@ namespace MCForge.Commands
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
 
-			ushort b = p.level.GetTile(x, y, z);
+			ushort? b = p.level.GetTile(x, y, z);
 			p.SendBlockchange(x, y, z, b);
 			p.ClearBlockchange();
 			Util.SCOGenerator.HPyramid(p, x, y, z, height, radius, type);
@@ -382,7 +382,7 @@ namespace MCForge.Commands
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
 
-			ushort b = p.level.GetTile(x, y, z);
+			ushort? b = p.level.GetTile(x, y, z);
 			p.SendBlockchange(x, y, z, b);
 			p.ClearBlockchange();
 			Util.SCOGenerator.IPyramid(p, x, y, z, height, radius, type);
@@ -392,7 +392,7 @@ namespace MCForge.Commands
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
 
-			ushort b = p.level.GetTile(x, y, z);
+			ushort? b = p.level.GetTile(x, y, z);
 			p.SendBlockchange(x, y, z, b);
 			p.ClearBlockchange();
 			Util.SCOGenerator.HIPyramid(p, x, y, z, height, radius, type);
@@ -404,7 +404,7 @@ namespace MCForge.Commands
 			//int height = p.BcVar[0];
 			int radius = p.BcVar[1];
 
-			ushort b = p.level.GetTile(x, y, z);
+			ushort? b = p.level.GetTile(x, y, z);
 			p.SendBlockchange(x, y, z, b);
 			p.ClearBlockchange();
 			Util.SCOGenerator.Sphere(p, x, y, z, radius, type);
@@ -414,7 +414,7 @@ namespace MCForge.Commands
 			//int height = p.BcVar[0];
 			int radius = p.BcVar[1];
 
-			ushort b = p.level.GetTile(x, y, z);
+			ushort? b = p.level.GetTile(x, y, z);
 			p.SendBlockchange(x, y, z, b);
 			p.ClearBlockchange();
 			Util.SCOGenerator.HSphere(p, x, y, z, radius, type);
@@ -426,7 +426,7 @@ namespace MCForge.Commands
 			int height = p.BcVar[0];
 			int radius = p.BcVar[1];
 
-			ushort b = p.level.GetTile(x, y, z);
+			ushort? b = p.level.GetTile(x, y, z);
 			p.SendBlockchange(x, y, z, b);
 			p.ClearBlockchange();
 			Util.SCOGenerator.Volcano(p, x, y, z, height, radius);

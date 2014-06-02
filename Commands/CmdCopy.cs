@@ -1,20 +1,25 @@
 /*
-	Copyright 2010 MCSharp team (Modified for use with MCZall/MCLawl/MCForge)
-	
-	Dual-licensed under the	Educational Community License, Version 2.0 and
-	the GNU General Public License, Version 3 (the "Licenses"); you may
-	not use this file except in compliance with the Licenses. You may
-	obtain a copy of the Licenses at
-	
-	http://www.opensource.org/licenses/ecl2.php
-	http://www.gnu.org/licenses/gpl-3.0.html
-	
-	Unless required by applicable law or agreed to in writing,
-	software distributed under the Licenses are distributed on an "AS IS"
-	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-	or implied. See the Licenses for the specific language governing
-	permissions and limitations under the Licenses.
+Copyright (C) 2010-2013 David Mitchell
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 */
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -61,7 +66,7 @@ namespace MCForge.Commands
                 return;
             }
             CatchPos cpos;
-            cpos.ignoreTypes = new List<ushort>();
+            cpos.ignoreTypes = new List<ushort?>();
             cpos.type = 0;
             p.copyoffset[0] = 0; p.copyoffset[1] = 0; p.copyoffset[2] = 0;
             allowoffset = (message.IndexOf('@'));
@@ -205,24 +210,33 @@ namespace MCForge.Commands
                     return;
                 }
                 message = message.Remove(message.Length - 1);
-                ushort?[] cnt = new byte[p.CopyBuffer.Count * 7];
+                ushort?[] cnt = new ushort?[p.CopyBuffer.Count * 7];
                 int k = 0;
                 for (int i = 0; i < p.CopyBuffer.Count; i++)
                 {
                     BitConverter.GetBytes(p.CopyBuffer[i].x).CopyTo(cnt, 0 + k);
                     BitConverter.GetBytes(p.CopyBuffer[i].y).CopyTo(cnt, 2 + k);
                     BitConverter.GetBytes(p.CopyBuffer[i].z).CopyTo(cnt, 4 + k);
-                    cnt[6 + k] = (ushort?)p.CopyBuffer[i].type;  //BitConverter.GetBytes(p.CopyBuffer[i].type).CopyTo(cnt, 6 + k);
+                    cnt[6 + k] = p.CopyBuffer[i].type;  //BitConverter.GetBytes(p.CopyBuffer[i].type).CopyTo(cnt, 6 + k);
                     k = k + 7;
                 }
-                cnt = cnt.GZip();
+                byte[] tmp = new byte[cnt.Length * 2];
+                for (int i = 0; i < cnt.Length * 2; ++i)
+                {
+                    if(cnt[i] != null)
+                        BitConverter.GetBytes((ushort)cnt[i]).CopyTo(tmp, (i * 2));
+                    else
+                        BitConverter.GetBytes(0).CopyTo(tmp, (i * 2));
+                }
+                tmp = tmp.GZip();
+                //cnt = cnt.GZip();
                 if (!message.StartsWith("http://", true, System.Globalization.CultureInfo.CurrentCulture)) message = "http://" + message;
                 try
                 {
                     string savefile = "temp" + p.name + new Random().Next(999) + ".cpy";
                     using (FileStream fs = new FileStream(savefile, FileMode.Create))
                     {
-                        fs.Write(cnt, 0, cnt.Length);
+                        fs.Write(tmp, 0, tmp.Length);
                     }
                     using (System.Net.WebClient webup = new System.Net.WebClient())
                     {
@@ -243,7 +257,7 @@ namespace MCForge.Commands
                 if (Directory.GetFiles("extra/savecopy/" + p.name).Length > 14) { Player.SendMessage(p, "You can only save 15 copy's. /copy delete some."); return; }
                 using (FileStream fs = new FileStream("extra/savecopy/" + p.name + "/" + message + ".cpy", FileMode.Create))
                 {
-                    byte[] cnt = new byte[p.CopyBuffer.Count * 7];
+                    ushort?[] cnt = new ushort?[p.CopyBuffer.Count * 7];
                     int k = 0;
                     for (int i = 0; i < p.CopyBuffer.Count; i++)
                     {
@@ -253,8 +267,15 @@ namespace MCForge.Commands
                         cnt[6 + k] = p.CopyBuffer[i].type;  //BitConverter.GetBytes(p.CopyBuffer[i].type).CopyTo(cnt, 6 + k);
                         k = k + 7;
                     }
-                    cnt = cnt.GZip();
-                    fs.Write(cnt, 0, cnt.Length);
+                    byte[] tmp = new byte[cnt.Length * 2]; for (int i = 0; i < cnt.Length * 2; ++i)
+                    {
+                        if(cnt[i] != null)
+                            BitConverter.GetBytes((ushort)cnt[i]).CopyTo(tmp, (i * 2));
+                        else
+                            BitConverter.GetBytes(0).CopyTo(tmp, (i * 2));
+                    }
+                    //cnt = cnt.GZip();
+                    fs.Write(tmp, 0, tmp.Length);
                     fs.Flush();
                     fs.Close();
                 }
@@ -297,7 +318,7 @@ namespace MCForge.Commands
             p.CopyBuffer.Clear();
             using (FileStream fs = new FileStream("extra/savecopy/" + p.name + "/" + message + ".cpy", FileMode.Open))
             {
-                ushort?[] cnt = new ushort?[fs.Length];
+                byte[] cnt = new byte[fs.Length];
                 fs.Read(cnt, 0, (int)fs.Length);
                 cnt = cnt.Decompress();
                 int k = 0;
@@ -317,7 +338,7 @@ namespace MCForge.Commands
             Player.CopyPos pos; pos.x = x; pos.y = y; pos.z = z; pos.type = type;
             p.CopyBuffer.Add(pos);
         }
-        struct CatchPos { public ushort x, y, z; public int type; public List<ushort> ignoreTypes; }
+        struct CatchPos { public ushort x, y, z; public int type; public List<ushort?> ignoreTypes; }
     }
 
     public class CmdCopyLoadNet : Command

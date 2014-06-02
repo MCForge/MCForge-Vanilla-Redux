@@ -1982,7 +1982,7 @@ namespace MCForge
             }
         }
 
-        public static ushort SaveConvert(ushort b)
+        public static ushort? SaveConvert(ushort? b)
         {
             switch (b)
             {
@@ -2034,7 +2034,7 @@ namespace MCForge
                 default: return b;
             }
         }
-        public static ushort DoorAirs(ushort b)
+        public static ushort? DoorAirs(ushort? b)
         {
             switch (b)
             {
@@ -2064,7 +2064,7 @@ namespace MCForge
             }
         }
 
-        public static bool tDoor(ushort b)
+        public static bool tDoor(ushort? b)
         {
             switch (b)
             {
@@ -2086,7 +2086,7 @@ namespace MCForge
             return false;
         }
 
-        public static ushort odoor(ushort b)
+        public static ushort? odoor(ushort? b)
         {
             switch (b)
             {
