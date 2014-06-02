@@ -165,75 +165,78 @@ namespace MCForge
                 //    for (ushort y = 0; y < Level.depth; y++)
                 //        for (ushort z = 0; z < Level.height; z++)
                 //            convertedBlocks[Level.PosToInt(x, y, z)] = Block.Convert(Level.GetTile(x, y, z));
-                
-                fixed (ushort* bpx = Level.blocks)
-                {
-                    fixed (ushort* tp = Tiles)
-                    {
-                        fixed (ushort* stp = ShadowTiles)
-                        {
-                            bp = bpx;
-                            while (z < Level.depth)
-                            {
-                                block = GetBlock(x, y, z);
-                                if (block != 0)
-                                {
+                ushort[] tmpb = new ushort[Level.blocks.Length];
+                for (int i = 0; i < Level.blocks.Length; ++i)
+                    tmpb[i] = (ushort)(Level.blocks[i] == null ? 0 : Level.blocks[i]);
 
-                                    switch (Rot)
+                    fixed (ushort* bpx = tmpb)
+                    {
+                        fixed (ushort* tp = Tiles)
+                        {
+                            fixed (ushort* stp = ShadowTiles)
+                            {
+                                bp = bpx;
+                                while (z < Level.depth)
+                                {
+                                    block = GetBlock(x, y, z);
+                                    if (block != 0)
                                     {
-                                        case 0: ctp = (z >= Level.shadows[x, y] ? tp : stp); break;
-                                        case 1: ctp = (z >= Level.shadows[dimX1 - y, x] ? tp : stp); break;
-                                        case 2: ctp = (z >= Level.shadows[dimX1 - x, dimY1 - y] ? tp : stp); break;
-                                        case 3: ctp = (z >= Level.shadows[y, dimY1 - x] ? tp : stp); break;
+
+                                        switch (Rot)
+                                        {
+                                            case 0: ctp = (z >= Level.shadows[x, y] ? tp : stp); break;
+                                            case 1: ctp = (z >= Level.shadows[dimX1 - y, x] ? tp : stp); break;
+                                            case 2: ctp = (z >= Level.shadows[dimX1 - x, dimY1 - y] ? tp : stp); break;
+                                            case 3: ctp = (z >= Level.shadows[y, dimY1 - x] ? tp : stp); break;
+                                        }
+
+                                        int blockRight, blockLeft, blockUp;
+
+                                        if (x != (Rot == 1 || Rot == 3 ? dimY1 : dimX1)) blockRight = GetBlock(x + 1, y, z);
+                                        else blockRight = 0;
+                                        if (y != (Rot == 1 || Rot == 3 ? dimX1 : dimY1)) blockLeft = GetBlock(x, y + 1, z);
+                                        else blockLeft = 0;
+                                        if (z != Level.depth - 1) blockUp = GetBlock(x, y, z + 1);
+                                        else blockUp = 0;
+
+                                        if (blockUp == 0 || blockLeft == 0 || blockRight == 0 || // air
+                                            blockUp == 8 || blockLeft == 8 || blockRight == 8 || // water
+                                            blockUp == 9 || blockLeft == 9 || blockRight == 9 || // water
+                                            (block != 20 && (blockUp == 20 || blockLeft == 20 || blockRight == 20)) || // glass
+                                            blockUp == 18 || blockLeft == 18 || blockRight == 18 || // foliage
+                                            blockLeft == 44 || blockRight == 44 || // step
+
+                                            blockUp == 10 || blockLeft == 10 || blockRight == 10 || // lava
+                                            blockUp == 11 || blockLeft == 11 || blockRight == 11 || // lava
+
+                                            blockUp == 37 || blockLeft == 37 || blockRight == 37 || // flower
+                                            blockUp == 38 || blockLeft == 38 || blockRight == 38 || // flower
+                                            blockUp == 6 || blockLeft == 6 || blockRight == 6 || // tree
+                                            blockUp == 39 || blockLeft == 39 || blockRight == 39 || // mushroom
+                                            blockUp == 40 || blockLeft == 40 || blockRight == 40) // mushroom
+                                            BlendTile();
                                     }
 
-                                    int blockRight, blockLeft, blockUp;
-
-                                    if (x != (Rot == 1 || Rot == 3 ? dimY1 : dimX1)) blockRight = GetBlock(x + 1, y, z);
-                                    else blockRight = 0;
-                                    if (y != (Rot == 1 || Rot == 3 ? dimX1 : dimY1)) blockLeft = GetBlock(x, y + 1, z);
-                                    else blockLeft = 0;
-                                    if (z != Level.depth - 1) blockUp = GetBlock(x, y, z + 1);
-                                    else blockUp = 0;
-
-                                    if (blockUp == 0 || blockLeft == 0 || blockRight == 0 || // air
-                                        blockUp == 8 || blockLeft == 8 || blockRight == 8 || // water
-                                        blockUp == 9 || blockLeft == 9 || blockRight == 9 || // water
-                                        (block != 20 && (blockUp == 20 || blockLeft == 20 || blockRight == 20)) || // glass
-                                        blockUp == 18 || blockLeft == 18 || blockRight == 18 || // foliage
-                                        blockLeft == 44 || blockRight == 44 || // step
-
-                                        blockUp == 10 || blockLeft == 10 || blockRight == 10 || // lava
-                                        blockUp == 11 || blockLeft == 11 || blockRight == 11 || // lava
-
-                                        blockUp == 37 || blockLeft == 37 || blockRight == 37 || // flower
-                                        blockUp == 38 || blockLeft == 38 || blockRight == 38 || // flower
-                                        blockUp == 6 || blockLeft == 6 || blockRight == 6 || // tree
-                                        blockUp == 39 || blockLeft == 39 || blockRight == 39 || // mushroom
-                                        blockUp == 40 || blockLeft == 40 || blockRight == 40) // mushroom
-                                        BlendTile();
-                                }
-
-                                x++;
-                                if (x == (Rot == 1 || Rot == 3 ? dimY : dimX))
-                                {
-                                    y++;
-                                    x = 0;
-                                }
-                                if (y == (Rot == 1 || Rot == 3 ? dimX : dimY))
-                                {
-                                    z++;
-                                    y = 0;
-                                    if (worker != null && z % 4 == 0)
+                                    x++;
+                                    if (x == (Rot == 1 || Rot == 3 ? dimY : dimX))
                                     {
-                                        if (worker.CancellationPending) return null;
-                                        worker.ReportProgress((z * 100) / Level.depth);
+                                        y++;
+                                        x = 0;
+                                    }
+                                    if (y == (Rot == 1 || Rot == 3 ? dimX : dimY))
+                                    {
+                                        z++;
+                                        y = 0;
+                                        if (worker != null && z % 4 == 0)
+                                        {
+                                            if (worker.CancellationPending) return null;
+                                            worker.ReportProgress((z * 100) / Level.depth);
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
 
                 int xMin = 0, xMax = imageWidth - 1, yMin = 0, yMax = imageHeight - 1;
                 bool cont = true;

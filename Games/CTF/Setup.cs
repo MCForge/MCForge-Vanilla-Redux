@@ -244,8 +244,8 @@ namespace MCForge.CTF
         public int rx = 0;
         public int ry = 0;
         public int rz = 0;
-        public ushort blue;
-        public ushort red;
+        public ushort? blue;
+        public ushort? red;
         public int bluex;
         public int bluey;
         public int bluez;
