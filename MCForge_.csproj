@@ -113,8 +113,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoSaver.cs" />
-    <Compile Include="Ban.cs" />
+    <Compile Include="Server\AutoSaver.cs" />
+    <Compile Include="Server\Ban.cs" />
     <Compile Include="Commands\CmdC4.cs" />
     <Compile Include="Commands\CmdGcaccept.cs" />
     <Compile Include="Commands\CmdGcbanlistupdate.cs" />
@@ -127,7 +127,7 @@
     <Compile Include="Commands\CmdTntWars.cs" />
     <Compile Include="Commands\CmdWeather.cs" />
     <Compile Include="Commands\CommandKeywords.cs" />
-    <Compile Include="Donators.cs" />
+    <Compile Include="Player\Donators.cs" />
     <Compile Include="GUI\ColoredTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -165,7 +165,7 @@
     <Compile Include="GUI\Win32\Natives.cs" />
     <Compile Include="GUI\Win32\RECT.cs" />
     <Compile Include="GUI\Win32\Utils.cs" />
-    <Compile Include="HTTPGet.cs" />
+    <Compile Include="Server\HTTPGet.cs" />
     <Compile Include="Levels\Texture_Settings.cs" />
     <Compile Include="Player\MojangAccount.cs" />
     <Compile Include="Player\Packet.cs" />
@@ -193,7 +193,7 @@
     <Compile Include="Plugins\ServerEvents\OnServerErrorEvent.cs" />
     <Compile Include="Plugins\ServerEvents\OnServerLogEvent.cs" />
     <Compile Include="Plugins\Utils\Priority.cs" />
-    <Compile Include="Translate.cs" />
+    <Compile Include="Server\Translate.cs" />
     <Compile Include="Commands\CmdAscend.cs" />
     <Compile Include="Commands\CmdBanEdit.cs" />
     <Compile Include="Commands\CmdDescend.cs" />
@@ -204,8 +204,8 @@
     <Compile Include="Commands\CmdTranslate.cs" />
     <Compile Include="Commands\CmdVIP.cs" />
     <Compile Include="Commands\CmdBlockSpeed.cs" />
-    <Compile Include="DatabaseTransactionHelper.cs" />
-    <Compile Include="Database.cs" />
+    <Compile Include="Database\DatabaseTransactionHelper.cs" />
+    <Compile Include="Database\Database.cs" />
     <Compile Include="Commands\CmdServer.cs" />
     <Compile Include="Commands\CmdAdminChat.cs" />
     <Compile Include="Commands\CmdAgree.cs" />
@@ -307,7 +307,7 @@
     <Compile Include="Commands\CmdCopyLVL.cs" />
     <Compile Include="Commands\CmdDemote.cs" />
     <Compile Include="Commands\CmdDrill.cs" />
-    <Compile Include="Awards.cs" />
+    <Compile Include="Player\Awards.cs" />
     <Compile Include="Commands\CmdAward.cs" />
     <Compile Include="Commands\CmdAwards.cs" />
     <Compile Include="Commands\CmdAwardMod.cs" />
@@ -330,10 +330,10 @@
     <Compile Include="Commands\CmdPUnload.cs" />
     <Compile Include="Commands\CommandOtherPerms.cs" />
     <Compile Include="Games\CTF\Auto_CTF.cs" />
-    <Compile Include="GlobalChatBot.cs" />
+    <Compile Include="IRC\GlobalChatBot.cs" />
     <Compile Include="Games\CountdownGame.cs" />
-    <Compile Include="Economy.cs" />
-    <Compile Include="ForgeBot.cs" />
+    <Compile Include="Player\Economy.cs" />
+    <Compile Include="IRC\ForgeBot.cs" />
     <Compile Include="GUI\EditText.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -342,24 +342,24 @@
     </Compile>
     <Compile Include="Games\LavaSurvival.cs" />
     <Compile Include="Levels\BlockQueue.cs" />
-    <Compile Include="MySQLTransactionHelper.cs" />
-    <Compile Include="OmniBan.cs" />
+    <Compile Include="Database\MySQLTransactionHelper.cs" />
+    <Compile Include="Player\OmniBan.cs" />
     <Compile Include="Player\Player.Events.cs" />
     <Compile Include="Plugins\Utils\Events.cs" />
     <Compile Include="Plugins\Manager\Plugin_Manager.cs" />
     <Compile Include="Plugins\Manager\Plugin_Simple.cs" />
-    <Compile Include="ScriptingVB.cs" />
-    <Compile Include="Checktimer.cs" />
+    <Compile Include="Server\ScriptingVB.cs" />
+    <Compile Include="Player\Checktimer.cs" />
     <Compile Include="Service References\TranslateService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="UPnP.cs" />
-    <Compile Include="SQLite.cs" />
-    <Compile Include="SQLiteTransactionHelper.cs" />
-    <Compile Include="FindReference.cs" />
-    <Compile Include="Color.cs" />
+    <Compile Include="Server\UPnP.cs" />
+    <Compile Include="Database\SQLite.cs" />
+    <Compile Include="Database\SQLiteTransactionHelper.cs" />
+    <Compile Include="Player\FindReference.cs" />
+    <Compile Include="Server\Color.cs" />
     <Compile Include="Commands\CmdBotAdd.cs" />
     <Compile Include="Commands\CmdBotRemove.cs" />
     <Compile Include="Commands\CmdBotSummon.cs" />
@@ -514,35 +514,35 @@
     </Compile>
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\ConvertDAT.cs" />
-    <Compile Include="MySQL.cs" />
+    <Compile Include="Database\MySQL.cs" />
     <Compile Include="Player\Team.cs" />
     <Compile Include="Player\Group.cs" />
     <Compile Include="GUI\Program.cs" />
     <Compile Include="Levels\MapGenerator.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="Misc.cs" />
+    <Compile Include="Server\Logger.cs" />
+    <Compile Include="Player\Misc.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\PlayerBot.cs" />
     <Compile Include="Player\PlayerList.cs" />
-    <Compile Include="ProfanityFilter.cs">
+    <Compile Include="Server\ProfanityFilter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties.cs" />
+    <Compile Include="Server\Properties.cs" />
     <Compile Include="GUI\Window.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\Window.Designer.cs">
       <DependentUpon>Window.cs</DependentUpon>
     </Compile>
-    <Compile Include="Scripting.cs" />
-    <Compile Include="Server.cs" />
-    <Compile Include="ServerSettings.cs" />
-    <Compile Include="Updater.cs" />
+    <Compile Include="Server\Scripting.cs" />
+    <Compile Include="Server\Server.cs" />
+    <Compile Include="Server\ServerSettings.cs" />
+    <Compile Include="Server\Updater.cs" />
     <Compile Include="GUI\AutoScrollTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="VIP.cs" />
-    <Compile Include="Warp.cs" />
+    <Compile Include="Player\VIP.cs" />
+    <Compile Include="Player\Warp.cs" />
     <Compile Include="Games\ZombieGame.cs" />
     <EmbeddedResource Include="GUI\Eco\EcoLevelWindow.resx">
       <DependentUpon>EcoLevelWindow.cs</DependentUpon>
@@ -624,12 +624,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Heart.cs" />
+    <Compile Include="Server\Heart.cs" />
     <Compile Include="Commands\CmdLoadBytes.cs" />
     <Compile Include="Heartbeat\ClassiCubeBeat.cs" />
     <Compile Include="Heartbeat\IBeat.cs" />
     <Compile Include="Heartbeat\MinecraftBeat.cs" />
-    <Compile Include="Block.cs" />
+    <Compile Include="Player\Block.cs" />
     <Compile Include="Games\EXPLevel.cs" />
   </ItemGroup>
   <ItemGroup>

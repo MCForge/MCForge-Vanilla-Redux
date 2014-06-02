@@ -44,7 +44,9 @@ namespace MCForge
                 "&public=" + Server.pub +
                 "&version=7" +
                 "&salt=" + Server.salt2 +
-                "&users=" + Player.players.Count;
+                "&users=" + Player.players.Count +
+                "&software=MCForge-Redux";
+                   
         }
         public void OnResponse(string line)
         {
