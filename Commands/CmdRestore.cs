@@ -66,12 +66,12 @@ namespace MCForge.Commands
                         return;
                     }
                 }
-                Server.s.Log(@Server.backupLocation + "/" + lvl.name + "/" + text[0] + "/" + lvl.name + ".lvl");
-                if (File.Exists(@Server.backupLocation + "/" + lvl.name + "/" + text[0] + "/" + lvl.name + ".lvl"))
+                Server.s.Log(@Server.backupLocation + "/" + lvl.name + "/" + text[0] + "/" + lvl.name + ".mcf");
+                if (File.Exists(@Server.backupLocation + "/" + lvl.name + "/" + text[0] + "/" + lvl.name + ".mcf"))
                 {
                     try
                     {
-                        File.Copy(@Server.backupLocation + "/" + lvl.name + "/" + text[0] + "/" + lvl.name + ".lvl", "levels/" + lvl.name + ".lvl", true);
+                        File.Copy(@Server.backupLocation + "/" + lvl.name + "/" + text[0] + "/" + lvl.name + ".mcf", "levels/" + lvl.name + ".mcf", true);
                         Level temp = Level.Load(lvl.name);
                         temp.StartPhysics();
                         if (temp != null)
@@ -93,7 +93,7 @@ namespace MCForge.Commands
                         else
                         {
                             Server.s.Log("Restore nulled");
-                            File.Copy("levels/" + lvl.name + ".lvl.backup", "levels/" + lvl.name + ".lvl", true);
+                            File.Copy("levels/" + lvl.name + ".lvl.backup", "levels/" + lvl.name + ".mcf", true);
                         }
 
                     }

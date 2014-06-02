@@ -961,7 +961,7 @@ namespace MCForge
             //if (season.started)
             //    season.Stop(this);
             if (blocks == null) return;
-            string path = "levels/" + name + ".lvl";
+            string path = "levels/" + name + ".mcf";
             if (LevelSave != null)
                 LevelSave(this);
             OnLevelSaveEvent.Call(this);
@@ -1129,8 +1129,8 @@ namespace MCForge
                 }
                 Directory.CreateDirectory(path);
 
-                string BackPath = string.Format("{0}/{1}.lvl", path, name);
-                string current = string.Format("levels/{0}.lvl", name);
+                string BackPath = string.Format("{0}/{1}.mcf", path, name);
+                string current = string.Format("levels/{0}.mcf", name);
                 try
                 {
                     File.Copy(current, BackPath, true);
@@ -1179,7 +1179,7 @@ namespace MCForge
             }
             CreateLeveldb(givenName);
 
-            string path = string.Format("levels/{0}.lvl", bite ? "byte/" + givenName : givenName);
+            string path = string.Format("levels/{0}.mcf", bite ? "byte/" + givenName : givenName);
             if (File.Exists(path))
             {
                 FileStream fs = File.OpenRead(path);

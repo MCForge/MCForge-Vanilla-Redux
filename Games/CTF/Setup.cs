@@ -142,8 +142,8 @@ namespace MCForge.CTF
             File.WriteAllLines("CTF/maps.config", config.ToArray());
             config.Clear();
             if (!Directory.Exists("CTF/maps")) Directory.CreateDirectory("CTF/maps");
-            if (File.Exists("CTF/maps/" + cache[p].current.name + ".lvl")) File.Delete("CTF/maps/" + cache[p].current.name + ".lvl");
-            File.Copy("levels/" + cache[p].current.name + ".lvl", "CTF/maps/" + cache[p].current.name + ".lvl");
+            if (File.Exists("CTF/maps/" + cache[p].current.name + ".mcf")) File.Delete("CTF/maps/" + cache[p].current.name + ".mcf");
+            File.Copy("levels/" + cache[p].current.name + ".mcf", "CTF/maps/" + cache[p].current.name + ".mcf");
         }
         void chatuse(Player p, string message)
         {

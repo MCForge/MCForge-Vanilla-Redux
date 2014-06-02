@@ -35,7 +35,7 @@ namespace MCForge.Commands
         {
             if (message == "") { Help(p); return; }
             {
-                if (!File.Exists("levels/" + message + ".lvl"))
+                if (!File.Exists("levels/" + message + ".mcf"))
                 {
                     Player.SendMessage(p, "The specified level does not exist!");
                     return;

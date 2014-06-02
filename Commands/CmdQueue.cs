@@ -60,10 +60,10 @@ namespace MCForge.Commands
                 {
                     bool yes = false;
                     DirectoryInfo di = new DirectoryInfo("levels/");
-                    FileInfo[] fi = di.GetFiles("*.lvl");
+                    FileInfo[] fi = di.GetFiles("*.mcf");
                     foreach (FileInfo file in fi)
                     {
-                        if (file.Name.Replace(".lvl", "").ToLower().Equals(s.ToLower()))
+                        if (file.Name.Replace(".mcf", "").ToLower().Equals(s.ToLower()))
                         {
                             yes = true;
                         }

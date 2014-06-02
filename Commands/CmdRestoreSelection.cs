@@ -31,7 +31,7 @@ namespace MCForge.Commands
         public override void Use(Player p, string message)
         {
             if (message != "")
-                if (File.Exists(@Server.backupLocation + "/" + p.level.name + "/" + message + "/" + p.level.name + ".lvl"))
+                if (File.Exists(@Server.backupLocation + "/" + p.level.name + "/" + message + "/" + p.level.name + ".mcf"))
                 {
                     try
                     {
@@ -60,7 +60,7 @@ namespace MCForge.Commands
             p.ClearBlockchange();
             p.SendBlockchange(x, y, z, p.level.GetTile(x, y, z));
             CatchPos cpos = (CatchPos)p.blockchangeObject;
-            FileStream fs = File.OpenRead(@Server.backupLocation + "/" + p.level.name + "/" + cpos.backup + "/" + p.level.name + ".lvl");
+            FileStream fs = File.OpenRead(@Server.backupLocation + "/" + p.level.name + "/" + cpos.backup + "/" + p.level.name + ".mcf");
             GZipStream gs = new GZipStream(fs, CompressionMode.Decompress);
             byte[] ver = new byte[2];
             gs.Read(ver, 0, ver.Length);

@@ -224,9 +224,9 @@ namespace MCForge
                 }
             }
             Command.all.Find("unload").Use(null, "ctf");
-            if (File.Exists("levels/ctf.lvl"))
-                File.Delete("levels/ctf.lvl");
-            File.Copy("CTF/maps/" + mapname + ".lvl", "levels/ctf.lvl");
+            if (File.Exists("levels/ctf.mcf"))
+                File.Delete("levels/ctf.mcf");
+            File.Copy("CTF/maps/" + mapname + ".mcf", "levels/ctf.mcf");
             Command.all.Find("load").Use(null, "ctf");
             mainlevel = Level.Find("ctf");
         }

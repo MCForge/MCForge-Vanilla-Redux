@@ -134,7 +134,7 @@ namespace MCForge.Commands
                 }
                 else if (Server.AutoLoad)
                 {
-                    if (!File.Exists("levels/" + message + ".lvl"))
+                    if (!File.Exists("levels/" + message + ".mcf"))
                         Player.SendMessage(p, "Level \"" + message + "\" doesn't exist!");
                     else if (Level.Find(message) != null || Level.CheckLoadOnGoto(message))
                     {

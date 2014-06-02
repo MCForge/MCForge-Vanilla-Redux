@@ -843,7 +843,7 @@ namespace MCForge.Gui {
                     MessageBox.Show("Level Creation Failed. Are  you sure you didn't leave a box empty?");
                 }
 
-                if ( File.Exists("levels/" + nametxtbox.Text + ".lvl") ) {
+                if ( File.Exists("levels/" + nametxtbox.Text + ".mcf") ) {
                     MessageBox.Show("Created Level");
                     try {
                         UnloadedlistUpdate();
@@ -979,9 +979,9 @@ namespace MCForge.Gui {
                 UnloadedList.Items.Clear();
 
                 string name;
-                FileInfo[] fi = new DirectoryInfo("levels/").GetFiles("*.lvl");
+                FileInfo[] fi = new DirectoryInfo("levels/").GetFiles("*.mcf");
                 foreach ( FileInfo file in fi ) {
-                    name = file.Name.Replace(".lvl", "");
+                    name = file.Name.Replace(".mcf", "");
                     if ( Level.Find(name.ToLower()) == null )
                         UnloadedList.Items.Add(name);
                 }

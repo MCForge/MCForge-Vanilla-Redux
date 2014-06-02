@@ -71,7 +71,7 @@ namespace MCForge.Commands
                     }
                 }
 
-                if (!File.Exists("levels/" + message + ".lvl"))
+                if (!File.Exists("levels/" + message + ".mcf"))
                 {
                     Player.SendMessage(p, "Level \"" + message + "\" doesn't exist!"); return;
                 }
@@ -82,13 +82,13 @@ namespace MCForge.Commands
                 {
                     if (File.Exists("levels/" + message + ".lvl.backup"))
                     {
-                        if (File.Exists("levels/" + message + ".lvl"))
+                        if (File.Exists("levels/" + message + ".mcf"))
                         {
                             Server.s.Log(message + ".lvl file is corrupt. Deleting and replacing with " + message + ".lvl.backup file.");
-                            File.Delete("levels/" + message + ".lvl");
+                            File.Delete("levels/" + message + ".mcf");
                         }
                         Server.s.Log("Attempting to load backup");
-                        File.Copy("levels/" + message + ".lvl.backup", "levels/" + message + ".lvl", true);
+                        File.Copy("levels/" + message + ".lvl.backup", "levels/" + message + ".mcf", true);
                         level = Level.Load(message);
                         if (level == null)
                         {
@@ -98,7 +98,7 @@ namespace MCForge.Commands
                             {
                                 int backupNumber = Directory.GetDirectories(backupPath + "/" + message).Length;
                                 Server.s.Log("Attempting to load latest backup, number " + backupNumber + " instead.");
-                                File.Copy(backupPath + "/" + message + "/" + backupNumber + "/" + message + ".lvl", "levels/" + message + ".lvl", true);
+                                File.Copy(backupPath + "/" + message + "/" + backupNumber + "/" + message + ".mcf", "levels/" + message + ".mcf", true);
                                 level = Level.Load(message);
                                 if (level == null)
                                 {

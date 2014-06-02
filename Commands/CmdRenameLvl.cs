@@ -41,14 +41,14 @@ namespace MCForge.Commands
 
             string newName = message.Split(' ')[1];
 
-            if (File.Exists("levels/" + newName + ".lvl")) { Player.SendMessage(p, "Level already exists."); return; }
+            if (File.Exists("levels/" + newName + ".mcf")) { Player.SendMessage(p, "Level already exists."); return; }
             if (foundLevel == Server.mainLevel) { Player.SendMessage(p, "Cannot rename the main level."); return; }
 
             foundLevel.Unload();
 
             try
             {
-                File.Move("levels/" + foundLevel.name + ".lvl", "levels/" + newName + ".lvl");
+                File.Move("levels/" + foundLevel.name + ".mcf", "levels/" + newName + ".mcf");
                 File.Move("levels/" + foundLevel.name + ".lvl.backup", "levels/" + newName + ".lvl.backup");
 
                 try
@@ -71,10 +71,10 @@ namespace MCForge.Commands
                         foundLevelDir = @Server.backupLocation + "/" + foundLevel.name + "/" + i + "/";
                         newNameDir = @Server.backupLocation + "/" + newName + "/" + i + "/";
 
-                        if (File.Exists(foundLevelDir + foundLevel.name + ".lvl"))
+                        if (File.Exists(foundLevelDir + foundLevel.name + ".mcf"))
                         {
                             Directory.CreateDirectory(newNameDir);
-                            File.Move(foundLevelDir + foundLevel.name + ".lvl", newNameDir + newName + ".lvl");
+                            File.Move(foundLevelDir + foundLevel.name + ".mcf", newNameDir + newName + ".mcf");
                             if (DirectoryEmpty(foundLevelDir))
                                 Directory.Delete(foundLevelDir);
                         }

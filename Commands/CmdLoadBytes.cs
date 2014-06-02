@@ -76,7 +76,7 @@ namespace MCForge.Commands
                     }
                 }
 
-                if (!File.Exists("levels/byte/" + message + ".lvl"))
+                if (!File.Exists("levels/byte/" + message + ".mcf"))
                 {
                     Player.SendMessage(p, "Level \"" + message + "\" doesn't exist!"); return;
                 }

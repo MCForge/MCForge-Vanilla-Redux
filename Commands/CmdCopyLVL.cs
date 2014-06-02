@@ -58,7 +58,7 @@ namespace MCForge.Commands
                 return;
             }
             try {
-                File.Copy("levels/" + msg1 + ".lvl", "levels/" + msg2 + ".lvl");
+                File.Copy("levels/" + msg1 + ".mcf", "levels/" + msg2 + ".mcf");
                 File.Copy("levels/level properties/" + msg1 + ".properties", "levels/level properties/" + msg1 + ".properties", false);
 
             } catch (System.IO.FileNotFoundException) {

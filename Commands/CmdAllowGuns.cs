@@ -93,7 +93,7 @@ namespace MCForge.Commands
                 if (message != "")
                 {
                     foundLevel = Level.Find(message);
-                    if (!File.Exists("levels/" + message + ".lvl"))
+                    if (!File.Exists("levels/" + message + ".mcf"))
                     {
                         Player.SendMessage(p, "&9The level, &c" + message + " &9does not exist!"); return;
                     }
@@ -134,7 +134,7 @@ namespace MCForge.Commands
                 }
                 Level foundLevel;
                 foundLevel = Level.Find(message);
-                if (!File.Exists("levels/" + message + ".lvl"))
+                if (!File.Exists("levels/" + message + ".mcf"))
                 {
                     Player.SendMessage(p, "The level, " + message + " does not exist!"); return;
                 }

@@ -383,7 +383,7 @@ namespace MCForge
                 {
                     ArrayList al = new ArrayList();
                     DirectoryInfo di = new DirectoryInfo("levels/");
-                    FileInfo[] fi = di.GetFiles("*.lvl");
+                    FileInfo[] fi = di.GetFiles("*.mcf");
                     foreach (FileInfo fil in fi)
                     {
                         al.Add(fil.Name.Split('.')[0]);

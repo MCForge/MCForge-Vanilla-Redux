@@ -48,16 +48,16 @@ namespace MCForge.Commands
                 }
 
                 DirectoryInfo di = new DirectoryInfo("levels/");
-                FileInfo[] fi = di.GetFiles("*.lvl");
+                FileInfo[] fi = di.GetFiles("*.mcf");
                 foreach (Level l in Server.levels) { levels.Add(l.name.ToLower()); }
 
                 if (maxMaps == 0)
                 {
                     foreach (FileInfo file in fi)
                     {
-                        if (!levels.Contains(file.Name.Replace(".lvl", "").ToLower()))
+                        if (!levels.Contains(file.Name.Replace(".mcf", "").ToLower()))
                         {
-                            string level = file.Name.Replace(".lvl", "");
+                            string level = file.Name.Replace(".mcf", "");
                             string visit = GetLoadOnGoto(level) && p.group.Permission >= GetPerVisitPermission(level) ? "%aYes" : "%cNo";
                             unloadedLevels += ", " + Group.findPerm(GetPerBuildPermission(level)).color + level + " &b[" + visit + "&b]";
                         }
@@ -78,9 +78,9 @@ namespace MCForge.Commands
                     Player.SendMessage(p, "Unloaded levels [Accessible] (" + currentNum + " to " + maxMaps + "):");
                     for (int i = currentNum; i < maxMaps; i++)
                     {
-                        if (!levels.Contains(fi[i].Name.Replace(".lvl", "").ToLower()))
+                        if (!levels.Contains(fi[i].Name.Replace(".mcf", "").ToLower()))
                         {
-                            string level = fi[i].Name.Replace(".lvl", "");
+                            string level = fi[i].Name.Replace(".mcf", "");
                             string visit = GetLoadOnGoto(level) && p.group.Permission >= GetPerVisitPermission(level) ? "%aYes" : "%cNo";
                             unloadedLevels += ", " + Group.findPerm(GetPerBuildPermission(level)).color + level + " &b[" + visit + "&b]";
                         }

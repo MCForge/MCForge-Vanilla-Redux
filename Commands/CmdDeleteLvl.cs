@@ -43,7 +43,7 @@ namespace MCForge.Commands {
             try {
                 if (!Directory.Exists("levels/deleted")) Directory.CreateDirectory("levels/deleted");
 
-                if (File.Exists("levels/" + message + ".lvl")) {
+                if (File.Exists("levels/" + message + ".mcf")) {
 
                     using (StreamReader reader = new StreamReader("levels/level properties/" + message + ".properties")) {
                         string line;
@@ -59,13 +59,13 @@ namespace MCForge.Commands {
                         }
                     }
 
-                    if (File.Exists("levels/deleted/" + message + ".lvl")) {
+                    if (File.Exists("levels/deleted/" + message + ".mcf")) {
                         int currentNum = 0;
-                        while (File.Exists("levels/deleted/" + message + currentNum + ".lvl")) currentNum++;
+                        while (File.Exists("levels/deleted/" + message + currentNum + ".mcf")) currentNum++;
 
-                        File.Move("levels/" + message + ".lvl", "levels/deleted/" + message + currentNum + ".lvl");
+                        File.Move("levels/" + message + ".mcf", "levels/deleted/" + message + currentNum + ".mcf");
                     } else {
-                        File.Move("levels/" + message + ".lvl", "levels/deleted/" + message + ".lvl");
+                        File.Move("levels/" + message + ".mcf", "levels/deleted/" + message + ".mcf");
                     }
                     Player.SendMessage(p, "Created backup.");
 

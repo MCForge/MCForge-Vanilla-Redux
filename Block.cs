@@ -1185,7 +1185,7 @@ namespace MCForge
         {
             switch (type)
             {
-                case 0: return "air";
+                case null: return "air";
                 case 1: return "stone";
                 case 2: return "grass";
                 case 3: return "dirt";

@@ -684,7 +684,7 @@ namespace MCForge
                     levels = new List<Level>(maps);
                     MapGen = new MapGenerator();
 
-                    if (File.Exists("levels/" + level + ".lvl"))
+                    if (File.Exists("levels/" + level + ".mcf"))
                     {
                         mainLevel = Level.Load(level);
                         mainLevel.unload = false;
@@ -693,7 +693,7 @@ namespace MCForge
                             if (File.Exists("levels/" + level + ".lvl.backup"))
                             {
                                 Log("Attempting to load backup of " + level + ".");
-                                File.Copy("levels/" + level + ".lvl.backup", "levels/" + level + ".lvl", true);
+                                File.Copy("levels/" + level + ".lvl.backup", "levels/" + level + ".mcf", true);
                                 mainLevel = Level.Load(level);
                                 if (mainLevel == null)
                                 {

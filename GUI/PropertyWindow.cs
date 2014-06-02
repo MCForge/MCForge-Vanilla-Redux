@@ -1562,10 +1562,10 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
                 }
                 if ( noUseList ) {
                     string name;
-                    FileInfo[] fi = new DirectoryInfo("levels/").GetFiles("*.lvl");
+                    FileInfo[] fi = new DirectoryInfo("levels/").GetFiles("*.mcf");
                     foreach ( FileInfo file in fi ) {
                         try {
-                            name = file.Name.Replace(".lvl", "");
+                            name = file.Name.Replace(".mcf", "");
                             if ( name.ToLower() != Server.mainLevel.name && !Server.lava.HasMap(name) )
                                 lsMapNoUse.Items.Add(name);
                         }

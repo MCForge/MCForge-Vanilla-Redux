@@ -87,9 +87,9 @@ namespace MCForge.Commands
 			{
 				if (par == "ADD")
 				{
-					if ((File.Exists(@"levels\" + p.name.ToLower() + ".lvl")) || (File.Exists(@"levels\" + p.name.ToLower() + "00.lvl")))
+					if ((File.Exists(@"levels\" + p.name.ToLower() + ".mcf")) || (File.Exists(@"levels\" + p.name.ToLower() + "00.mcf")))
 					{
-						if (!File.Exists(@"levels\" + p.name.ToLower() + "2.lvl"))
+						if (!File.Exists(@"levels\" + p.name.ToLower() + "2.mcf"))
 						{
 							Player.SendMessage(p, p.color + p.name + Server.DefaultColor + " you already have a map, let me create a second one for you.");
 							string mType;
@@ -297,7 +297,7 @@ namespace MCForge.Commands
 			 * I need to figure out how to add a system to do this with the players second map.
 			 */
 			string r = "";
-			if (File.Exists(Directory.GetCurrentDirectory() + "\\levels\\" + p.name.ToLower() + "00.lvl"))
+			if (File.Exists(Directory.GetCurrentDirectory() + "\\levels\\" + p.name.ToLower() + "00.mcf"))
 			{
 				r = p.name.ToLower() + "00";
 			}
@@ -305,7 +305,7 @@ namespace MCForge.Commands
 			{
 				r = p.name.ToLower();
 			}
-			if (Ext == true) { r = r + ".lvl"; }
+			if (Ext == true) { r = r + ".mcf"; }
 			return r;
 		}
 
