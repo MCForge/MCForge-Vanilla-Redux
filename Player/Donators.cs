@@ -41,7 +41,7 @@ namespace MCForge
             using (var client = new WebClient())
             {
                 client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(DownloadString);
-                client.DownloadStringAsync(new Uri("http://update.mcforge.org/donators.txt"));
+                client.DownloadStringAsync(new Uri("http://mcforge.org/Update/donators.txt"));
             }
         }
 

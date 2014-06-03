@@ -1,8 +1,12 @@
-v6.0.0
+v6.0.0/6.0.1
 -New
-  -Added full CPE (Other than EmoteFix) support, also adding /setmodel and /weather
+  -Added full CPE support, also adding /setmodel and /weather
   -Mass Cleanup
   -Took out Obsolete tags as the software itself relied on olsolete methods
+  -Changed Map Format to .mcf due to the new Map Format (Removed Block.air and made it null, and changed everythem to ushorts/ushort?s)
+  -Removed CTF for a better one coming soon
+  -Added /lb to load MCLawl formatted maps, you need to change it from .lvl to .fcm first
+  -Got web support working (mcforge.org)
 
 v5.5.12
 -New:

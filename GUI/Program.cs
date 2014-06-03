@@ -43,11 +43,11 @@ namespace MCForge_.Gui
         public static string parent = Path.GetFileName(Assembly.GetEntryAssembly().Location);
         public static string parentfullpath = Assembly.GetEntryAssembly().Location;
         public static string parentfullpathdir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-        private static string CurrentVersionFile = "http://update.mcforge.org/current_version.txt";
-        private static string DLLLocation = "http://update.mcforge.org/dll/MCForge_.dll";
-        private static string ChangelogLocation = "http://update.mcforge.org/changelog.txt";
-        private static string EXELocation = "http://update.mcforge.org/MCForge.exe";
-        //private static string RevisionList = "http://update.mcforge.org/revs.txt";
+        private static string CurrentVersionFile = "http://mcforge.org/Update/current_version.txt";
+        private static string DLLLocation = "http://mcforge.org/Update/MCForge_.dll";
+        private static string ChangelogLocation = "http://mcforge.org/Update/changelog.txt";
+        private static string EXELocation = "http://mcforge.org/Update/MCForge.exe";
+        //private static string RevisionList = "http://mcforge.org/Update/revs.txt";
         //private static string HeartbeatAnnounce = "http://www.mcforge.org/hbannounce.php";
 
         [DllImport("kernel32")]

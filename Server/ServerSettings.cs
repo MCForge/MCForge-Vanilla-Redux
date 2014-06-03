@@ -26,9 +26,9 @@ namespace MCForge {
         /// </summary>
 		public const string UrlsUrl = "http://server.mcforge.org/urls.txt";
 
-		private static string _RevisionList = "http://www.update.mcforge.org/revs.txt";
+		private static string _RevisionList = "http://www.mcforge.org/Update/revs.txt";
 		private static string _HeartbeatAnnounce = "http://server.mcforge.org/hbannounce.php";
-		private static string _ArchivePath = "http://www.update.mcforge.org/archives/exe/";
+		private static string _ArchivePath = "http://www.mcforge.org/Update/archives/exe/";
 
 		static ServerSettings() {
 			using ( var client = new WebClient() ) {

@@ -318,11 +318,12 @@ namespace MCForge {
         public bool verifiedName;
 
         //CPE
-        public bool extension = false;
+        public static bool emotefix = false;
         public string appName;
         public int extensionCount;
         public List<string> extensions = new List<string>();
         public int customBlockSupportLevel;
+        public bool extension;
 
         public struct OfflinePlayer {
             public string name, color, title, titleColor;
@@ -895,7 +896,6 @@ namespace MCForge {
                 }
 
                 if ( version != Server.version ) { Kick("Wrong version!"); return; }
-                if (type == 0x42) { extension = true; }
 
                 foreach ( Player p in players ) {
                     if ( p.name == name ) {
@@ -905,25 +905,29 @@ namespace MCForge {
                         else { Kick("Already logged in!"); return; }
                     }
                 }
-
-                if (extension)
+                if (type == 0x42)
                 {
-                    SendExtInfo(12);
-                    SendExtEntry("ClickDistance", 1);
-                    SendExtEntry("CustomBlocks", 1);
-                    SendExtEntry("HeldBlock", 1);
-                    SendExtEntry("TextHotKey", 1);
-                    SendExtEntry("ExtPlayerList", 1);
-                    SendExtEntry("EnvColors", 1);
-                    SendExtEntry("SelectionCuboid", 1);
-                    SendExtEntry("BlockPermissions", 1);
-                    SendExtEntry("ChangeModel", 1);
-                    SendExtEntry("EnvMapAppearance", 1);
-                    SendExtEntry("EnvWeatherType", 1);
-                    SendExtEntry("HackControl", 1);
-
-                    SendCustomBlockSupportLevel(1);
-                }
+                    extension = true;
+                    SendExtInfo(13);
+                    if (extensions.Contains("EmoteFix"))
+                    {
+                        emotefix = true;
+                        SendExtEntry("EmoteFix", 1);
+                    }
+                        SendExtEntry("ClickDistance", 1);
+                        SendExtEntry("CustomBlocks", 1);
+                        SendExtEntry("HeldBlock", 1);
+                        SendExtEntry("TextHotKey", 1);
+                        SendExtEntry("ExtPlayerList", 1);
+                        SendExtEntry("EnvColors", 1);
+                        SendExtEntry("SelectionCuboid", 1);
+                        SendExtEntry("BlockPermissions", 1);
+                        SendExtEntry("ChangeModel", 1);
+                        SendExtEntry("EnvMapAppearance", 1);
+                        SendExtEntry("EnvWeatherType", 1);
+                        SendExtEntry("HackControl", 1);
+                        SendCustomBlockSupportLevel(1);
+                    }
 
                 try { left.Remove(name.ToLower()); }
                 catch { }
@@ -2780,13 +2784,13 @@ return;
             SendRaw(0, buffer);
         }
         public void SendMap() {
-            if ( level.blocks == null ) return;
+            if (level.blocks == null) return;
             try {
                 byte[] buffer = new byte[level.blocks.Length + 4];
                 BitConverter.GetBytes(IPAddress.HostToNetworkOrder(level.blocks.Length)).CopyTo(buffer, 0);
                 //ushort xx; ushort yy; ushort zz;
             for ( int i = 0; i < level.blocks.Length; ++i ) {
-                if ( extension ) {
+                if ( extension == false){
                     buffer[4 + i] = (byte)Block.Convert( level.blocks[i] );
                 } else {
                     buffer[4 + i] = (byte)Block.Convert( Block.ConvertCPE( level.blocks[i] ) );
@@ -2886,7 +2890,7 @@ rot = new byte[2] { rotx, roty };*/
             HTNO(x).CopyTo(buffer, 0);
             HTNO(y).CopyTo(buffer, 2);
             HTNO(z).CopyTo(buffer, 4);
-            if ( extension ) {
+            if ( extension == true ) {
                 buffer[6] = (byte)Block.Convert( type );
             } else {
                 buffer[6] = (byte)Block.Convert( Block.ConvertCPE( type ) );

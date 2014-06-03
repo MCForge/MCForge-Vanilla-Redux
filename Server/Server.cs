@@ -424,7 +424,7 @@ namespace MCForge
                     {
                         using (WebClient WEB = new WebClient())
                         {
-                            WEB.DownloadFile("http://update.mcforge.org/MySql.Data.dll", "MySql.Data.dll");
+                            WEB.DownloadFile("http://mcforge.org/Update/MySql.Data.dll", "MySql.Data.dll");
                         }
                         if (File.Exists("MySql.Data.dll"))
                         {
@@ -443,7 +443,7 @@ namespace MCForge
                     {
                         using (WebClient WEB = new WebClient())
                         {
-                            WEB.DownloadFile("http://update.mcforge.org/System.Data.SQLite.dll", "System.Data.SQLite.dll");
+                            WEB.DownloadFile("http://mcforge.org/Update/System.Data.SQLite.dll", "System.Data.SQLite.dll");
                         }
                         if (File.Exists("System.Data.SQLite.dll"))
                         {
@@ -481,7 +481,7 @@ namespace MCForge
                 	{
                 		using (WebClient WEB = new WebClient())
                 		{
-                			WEB.DownloadFile("http://update.mcforge.org/oldf/Newtonsoft.Json.dll", "Newtonsoft.Json.dll");
+                			WEB.DownloadFile("http://mcforge.org/Update/oldf/Newtonsoft.Json.dll", "Newtonsoft.Json.dll");
                 		}
                 		if (File.Exists("Newtonsoft.Json.dll"))
                 		{
@@ -1281,7 +1281,7 @@ namespace MCForge
                 gcnamebans.Clear();
                 JArray jason; //jason plz (troll)
                 using (var client = new WebClient()) {
-                    jason = JArray.Parse(client.DownloadString("http://update.mcforge.org/gcbanned.txt"));
+                    jason = JArray.Parse(client.DownloadString("http://mcforge.org/Update/gcbanned.txt"));
                 }
                 foreach (JObject ban in jason) {
                     if((string)ban["banned_isIp"] == "0")
@@ -1309,7 +1309,7 @@ namespace MCForge
                 gcmods.Clear();
                 using (WebClient web = new WebClient())
                 {
-                    string[] result = web.DownloadString("http://update.mcforge.org/devs.txt").Split(new string[] { Environment.NewLine, "\n" }, StringSplitOptions.None);
+                    string[] result = web.DownloadString("http://mcforge.org/Update/devs.txt").Split(new string[] { Environment.NewLine, "\n" }, StringSplitOptions.None);
                     foreach (string line in result)
                     {
                         string type = line.Split(':')[0].ToLower();
@@ -1327,10 +1327,10 @@ namespace MCForge
                 devs.Clear();
                 mods.Clear();
                 gcmods.Clear();
-                devs.Add("Hetal+");
+           /*     devs.Add("Hetal+");
                 devs.Add("Erickilla+");
                 devs.Add("Rayne+");
-                mods.Add("ScevenSins+");
+                mods.Add("ScevenSins+");*/
 
             }
         }

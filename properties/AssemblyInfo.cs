@@ -21,12 +21,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MCForge")]
-[assembly: AssemblyDescription("Minecraft Classic Custom Server Software")]
+[assembly: AssemblyTitle("MCForge-Redux")]
+[assembly: AssemblyDescription("Minecraft Classic/ClassiCube Custom Server Software")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MCForge")]
-[assembly: AssemblyCopyright("Copyright © 2011")]
+[assembly: AssemblyProduct("MCForge-Redux")]
+[assembly: AssemblyCopyright("Copyright © 2014")]
 [assembly: AssemblyTrademark("Forging the Way")]
 //[assembly: AssemblyDevs("MCForge Development Team")]
 
@@ -37,7 +37,7 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("24d9085c-78ba-4f53-b69c-f2b52153683f")]
 
-[assembly: AssemblyVersion("6.0.0")]
+[assembly: AssemblyVersion("6.0.1")]
 
 // Version information for an assembly consists of the following four values:
 //

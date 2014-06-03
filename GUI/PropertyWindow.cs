@@ -1469,7 +1469,7 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
                     Directory.CreateDirectory("extra/images");
                 if ( !File.Exists( "extra/images/mcpony.png" ) ) {
                     using ( WebClient WEB = new WebClient () ) {
-                        WEB.DownloadFileAsync ( new Uri ( "http://update.mcforge.org/images/mcpony.png" ), "extra/images/mcpony.png" );
+                        WEB.DownloadFileAsync ( new Uri ( "http://mcforge.org/Update/images/mcpony.png" ), "extra/images/mcpony.png" );
                         WEB.DownloadFileCompleted += ( ea, args ) => {
                                                          if ( File.Exists ( "extra/images/mcpony.png" ) ) {
                                                              Image img = Image.FromFile ( "extra/images/mcpony.png" );

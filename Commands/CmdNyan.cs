@@ -40,7 +40,7 @@ namespace MCForge.Commands
                 try
                 {
                     using (WebClient WEB = new WebClient())
-                        WEB.DownloadFile("http://update.mcforge.org/copy/nyancat.copy", "extra/copy/nyancat.copy");
+                        WEB.DownloadFile("http://mcforge.org/Update/copy/nyancat.copy", "extra/copy/nyancat.copy");
                 }
                 catch
                 {

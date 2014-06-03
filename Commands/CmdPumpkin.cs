@@ -39,7 +39,7 @@ namespace MCForge.Commands
                 try
                 {
                     using (WebClient WEB = new WebClient())
-                        WEB.DownloadFile("http://www.update.mcforge.org/copy/pumpkin.copy", "extra/copy/pumpkin.copy");
+                        WEB.DownloadFile("http://www.mcforge.org/Update/copy/pumpkin.copy", "extra/copy/pumpkin.copy");
                 }
                 catch
                 {
