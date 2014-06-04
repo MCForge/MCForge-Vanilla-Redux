@@ -77,7 +77,7 @@ namespace MCForge.Commands
                                     if (p != null) if (who.group.Permission >= p.group.Permission) { Player.SendMessage(p, "Cannot lock down someone of equal or greater rank."); return; }
                                     if (who.level != p.level) Command.all.Find("goto").Use(who, p.level.name);
                                     who.jailed = false;
-                                    Player.GlobalMessage(who.color + who.name + Server.DefaultColor + " has been unlocked!", true);
+                                    Player.GlobalMessage(Player.MessageType.Chat, who.color + who.name + Server.DefaultColor + " has been unlocked!", true);
                                     return;
                                 }
                                 else Player.SendMessage(p, "The player " + param[1] + " is not locked down."); return;

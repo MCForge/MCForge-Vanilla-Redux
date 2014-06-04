@@ -258,7 +258,7 @@ namespace MCForge {
         public DateTime lastDeath = DateTime.Now;
 
         public byte blockAction; //0-Nothing 1-solid 2-lava 3-water 4-active_lava 5 Active_water 6 OpGlass 7 BluePort 8 OrangePort
-        public ushort modeType;
+        public ushort? modeType;
         public ushort?[] bindings = new ushort?[(ushort)128];
         public string[] cmdBind = new string[10];
         public string[] messageBind = new string[10];
@@ -2603,9 +2603,9 @@ return;
 
         public static void SendMessage(Player p, string message) {
             if ( p == null ) { Server.s.Log(message); return; }
-            SendMessage(p, message, true);
+            SendMessage(p, MessageType.Chat, message, true);
         }
-        public static void SendMessage(Player p, string message, bool colorParse) {
+        public static void SendMessage(Player p, MessageType type, string message, bool colorParse) {
             if ( p == null ) {
                 if ( storeHelp ) {
                     storedHelp += message + "\r\n";
@@ -2620,7 +2620,22 @@ return;
                 return;
             }
             
-            p.SendMessage(p.id, Server.DefaultColor + message, colorParse);
+            p.SendMessage(p.id, type, Server.DefaultColor + message, colorParse);
+        }
+
+        public void SendMessage(string message) {
+            SendMessage(message, true);
+        }
+        public void SendMessage(string message, bool colorParse) {
+            if ( this == null ) { Server.s.Log(message); return; }
+            unchecked { SendMessage(this.id, MessageType.Chat, Server.DefaultColor + message, colorParse); }
+        }
+        public void SendChat(Player p, string message) {
+            if ( this == null ) { Server.s.Log(message); return; }
+            Player.SendMessage(p, message);
+        }
+        public void SendMessage(byte id, string message) {
+            SendMessage(id, MessageType.Chat, message, true);
         }
 
         public enum MessageType
@@ -2634,21 +2649,8 @@ return;
             BottomRight3 = (byte)13,
             Announcement = (byte)100
         }
-        public void SendMessage(string message) {
-            SendMessage(message, true);
-        }
-        public void SendMessage(string message, bool colorParse) {
-            if ( this == null ) { Server.s.Log(message); return; }
-            unchecked { SendMessage(this.id, Server.DefaultColor + message, colorParse); }
-        }
-        public void SendChat(Player p, string message) {
-            if ( this == null ) { Server.s.Log(message); return; }
-            Player.SendMessage(p, message);
-        }
-        public void SendMessage(byte id, string message) {
-            SendMessage(id, message, true);
-        }
-        public void SendMessage(byte id, string message, bool colorParse) {
+
+        public void SendMessage(byte id, MessageType type, string message, bool colorParse) {
             if ( this == null ) { Server.s.Log(message); return; }
             if ( ZoneSpam.AddSeconds(2) > DateTime.Now && message.Contains("This zone belongs to ") ) return;
 
@@ -2830,7 +2832,6 @@ return;
         }
         public void SendMap() {
             if (level.blocks == null) return;
-            Server.s.Log("Blocks are not null");
             try {
                 byte[] buffer = new byte[level.blocks.Length + 4];
                 BitConverter.GetBytes(IPAddress.HostToNetworkOrder(level.blocks.Length)).CopyTo(buffer, 0);
@@ -2842,7 +2843,6 @@ return;
                     buffer[4 + i] = (byte)Block.Convert( Block.ConvertCPE( level.blocks[i] ) );
                 }
 				}
-            Server.s.Log("SendRaw (2) sent");
                 SendRaw(2);
                 buffer = buffer.GZip();
                 int number = (int)Math.Ceiling(( (double)buffer.Length ) / 1024);
@@ -2855,10 +2855,8 @@ return;
                     Buffer.BlockCopy(buffer, length, tempbuffer, 0, buffer.Length - length);
                     buffer = tempbuffer;
                     send[1026] = (byte)( i * 100 / number );
-                    Server.s.Log("Things Calculated");
                     //send[1026] = (byte)(100 - (i * 100 / number)); // Backwards progress lololol...
                     SendRaw(3, send);
-                    Server.s.Log("SendRaw (3) sent");
                     if ( ip == "127.0.0.1" ) { }
                     else if ( Server.updateTimer.Interval > 1000 ) Thread.Sleep(100);
                     else Thread.Sleep(10);
@@ -2867,7 +2865,6 @@ return;
                 HTNO((short)level.depth).CopyTo(buffer, 2);
                 HTNO((short)level.height).CopyTo(buffer, 4);
                 SendRaw(4, buffer);
-                Server.s.Log("SendRaw (4) sent");
                 Loading = false;
 
                 if ( OnSendMap != null )
@@ -3627,21 +3624,26 @@ changed |= 4;*/
             });
         }
         public static void GlobalMessage(string message) {
-            GlobalMessage(message, false);
+            GlobalMessage(MessageType.Chat, message, false);
         }
-        public static void GlobalMessage(string message, bool global) {
+        public static void GlobalMessage(MessageType type, string message, bool global) {
             if ( !global )
                 //message = message.Replace("%", "&");
                 message = EscapeColours(message);
             players.ForEach(delegate(Player p) {
                 if ( p.level.worldChat && p.Chatroom == null && ( !global || !p.muteGlobal ) ) {
-                    Player.SendMessage(p, message, !global);
+                    Player.SendMessage(p, type, message, !global);
                 }
             });
         }
         public static void GlobalMessageLevel(Level l, string message) {
-            players.ForEach(delegate(Player p) { if ( p.level == l && p.Chatroom == null ) Player.SendMessage(p, message); });
+            players.ForEach(delegate(Player p) { if ( p.level == l && p.Chatroom == null ) Player.SendMessage(p, MessageType.Chat, message, true); });
         }
+
+        public static void GlobalMessageLevel( Level l, MessageType type, string message ) {
+            players.ForEach( delegate( Player p ) { if ( p.level == l && p.Chatroom == null ) Player.SendMessage( p, type, message, true ); } );
+        }
+
         public static void GlobalMessageOps(string message) {
             try {
                 players.ForEach(delegate(Player p) {

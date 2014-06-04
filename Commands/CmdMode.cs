@@ -48,7 +48,7 @@ namespace MCForge.Commands
             }
             else
             {
-                ushort b = Block.Ushort(message);
+                ushort? b = Block.Ushort(message);
                 if (b == Block.Zero) { Player.SendMessage(p, "Could not find block given."); return; }
                 if (b == null) { Player.SendMessage(p, "Cannot use Air Mode."); return; }
                 if (p.allowTnt == false)

@@ -191,8 +191,6 @@ namespace MCForge.Commands
             p.ClearBlockchange();
             ushort? b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
-            CatchPos cpos = (CatchPos)p.blockchangeObject;
-
 
             p.copyoffset[0] = (p.copystart[0] - x);
             p.copyoffset[1] = (p.copystart[1] - y);

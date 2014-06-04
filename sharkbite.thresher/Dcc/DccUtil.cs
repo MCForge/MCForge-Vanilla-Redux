@@ -44,7 +44,7 @@ namespace Sharkbite.Irc
 		/// <returns>An instance of IPAddress.</returns>
 		public static IPAddress LocalHost() 
 		{
-			IPHostEntry localhost = Dns.Resolve( Dns.GetHostName() );
+			IPHostEntry localhost = Dns.GetHostEntry( Dns.GetHostName() );
 			return localhost.AddressList[0];
 		}
 		/// <summary>

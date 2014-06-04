@@ -339,7 +339,7 @@ namespace MCForge
                 if(GUI.GuiEvent != null)
                 GUI.GuiEvents.GlobalChatEvent(this, "> " + user.Nick + ": " + message); }
             catch { Server.s.Log(">[Global] " + user.Nick + ": " + message); }*/
-            Player.GlobalMessage(String.Format("{0}>[Global] {1}: &f{2}", Server.GlobalChatColor, user.Nick, Server.profanityFilter ? ProfanityFilter.Parse(message) : message), true);
+            Player.GlobalMessage(Player.MessageType.Chat, String.Format("{0}>[Global] {1}: &f{2}", Server.GlobalChatColor, user.Nick, Server.profanityFilter ? ProfanityFilter.Parse(message) : message), true);
         }
 
         void Listener_OnRegistered()
