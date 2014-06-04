@@ -933,6 +933,7 @@ namespace MCForge {
                         emotefix = true;
                         SendExtEntry("EmoteFix", 1);
                     }
+                        SendExtEntry("MessageTypes", 1);
                         SendExtEntry("ClickDistance", 1);
                         SendExtEntry("CustomBlocks", 1);
                         SendExtEntry("HeldBlock", 1);
@@ -1094,6 +1095,14 @@ namespace MCForge {
                     if ( pB.level == level )
                         SendSpawn(pB.id, pB.color + pB.name, pB.pos[0], pB.pos[1], pB.pos[2], pB.rot[0], pB.rot[1]);
                 }
+                Player.players.ForEach(delegate(Player p)
+                {
+                    if (p != this)
+                    {
+                        p.SendExtAddPlayerName(id, name, group, color + name);
+                    }
+                    SendExtAddPlayerName(p.id, p.name, p.group, p.color + p.name);
+                });
             }
             catch ( Exception e ) {
                 Server.ErrorLog(e);
@@ -2613,6 +2622,18 @@ return;
             
             p.SendMessage(p.id, Server.DefaultColor + message, colorParse);
         }
+
+        public enum MessageType
+        {
+            Chat = (byte)0,
+            Status1 = (byte)1,
+            Status2 = (byte)2,
+            Status3 = (byte)3,
+            BottomRight1 = (byte)11,
+            BottomRight2 = (byte)12,
+            BottomRight3 = (byte)13,
+            Announcement = (byte)100
+        }
         public void SendMessage(string message) {
             SendMessage(message, true);
         }
@@ -2868,6 +2889,7 @@ return;
         public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty) {
             //pos = new ushort[3] { x, y, z }; // This could be remove and not effect the server :/
             //rot = new byte[2] { rotx, roty };
+            name = name.TrimEnd('+');
             byte[] buffer = new byte[73]; buffer[0] = id;
             StringFormat(name, 64).CopyTo(buffer, 1);
             HTNO(x).CopyTo(buffer, 65);
@@ -2971,21 +2993,33 @@ rot = new byte[2] { rotx, roty };*/
             buffer[132] = mods;
             SendRaw(21, buffer);
         }
-        public void SendAddPlayerName(byte id, string name, string listname, string groupname, byte grouprank)
+        public void SendExtAddPlayerName(short id, string name, Group grp, string displayname = "")
         {
             byte[] buffer = new byte[195];
-            HTNO((short)id).CopyTo(buffer, 0);
+            HTNO(id).CopyTo(buffer, 0);
             StringFormat(name, 64).CopyTo(buffer, 2);
-            StringFormat(listname, 64).CopyTo(buffer, 66);
-            StringFormat(groupname, 64).CopyTo(buffer, 130);
-            buffer[194] = grouprank;
-            SendRaw(22, buffer);
+            if (displayname == "") { displayname = name; }
+            StringFormat(displayname, 64).CopyTo(buffer, 66);
+            StringFormat(grp.color + grp.name.ToUpper() + "s:", 64).CopyTo(buffer, 130);
+            buffer[194] = (byte)grp.Permission.GetHashCode();
+            SendRaw(0x16, buffer);
         }
-        public void SendDeletePlayerName(byte id)
+
+        public void SendExtAddEntity(byte id, string name, string displayname = "")
+        {
+            byte[] buffer = new byte[129];
+            buffer[0] = id;
+            StringFormat(name, 64).CopyTo(buffer, 1);
+            if (displayname == "") { displayname = name; }
+            StringFormat(displayname, 64).CopyTo(buffer, 65);
+            SendRaw(0x17, buffer);
+        }
+
+        public void SendExtRemovePlayerName(short id)
         {
             byte[] buffer = new byte[2];
-            HTNO((short)id).CopyTo(buffer, 0);
-            SendRaw(24, buffer);
+            HTNO(id).CopyTo(buffer, 0);
+            SendRaw(0x18, buffer);
         }
         public void SendEnvSetColor(byte type, short r, short g, short b)
         {
@@ -3853,6 +3887,13 @@ changed |= 4;*/
                     catch ( Exception e ) { Server.ErrorLog(e); }
 
                     players.Remove(this);
+                    players.ForEach(delegate(Player p)
+                    {
+                        if (p != this)
+                        {
+                            p.SendExtRemovePlayerName(this.id);
+                        }
+                    });
                     Server.s.PlayerListUpdate();
                     try {
                         left.Add(this.name.ToLower(), this.ip);
