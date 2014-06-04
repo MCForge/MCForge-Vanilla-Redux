@@ -33,7 +33,7 @@ namespace MCForge
 		/// <param name="reason">The reason for the ban</param>
 		/// <param name="stealth">bool, to check if the ban is a stealth ban.</param>
 		/// <param name="oldrank">The rank the who player used to have.</param>
-		public static void Banplayer(Player p, string who, string reason, bool stealth, string oldrank, bool UsingID, string ID)
+		public static void Banplayer(Player p, string who, string reason, bool stealth, string oldrank, bool UsingID, int ID)
 		{
 			// Getting date and time.
 			string dayname = DateTime.Now.DayOfWeek.ToString();
@@ -52,17 +52,17 @@ namespace MCForge
 			string stealthn;
 			if (stealth) stealthn = "true";
 			else stealthn = "false";
-            if (!UsingID) ID = "0";
+            if (!UsingID) ID = 0;
 			if (reason == "") reason = "&c-";
-			Write(player, who.ToLower(), reason, stealthn, datetime, oldrank);
+			Write(player, who.ToLower(), reason, stealthn, datetime, oldrank, ID);
 		}
-		static void Write(string pl, string whol, string reasonl, string stealthstr, string datetimel, string oldrankl)
+		static void Write(string pl, string whol, string reasonl, string stealthstr, string datetimel, string oldrankl, int ID)
 		{
 			if (!File.Exists("text/bans.txt"))
 			{
 				File.CreateText("text/bans.txt").Close();
 			}
-			File.AppendAllText("text/bans.txt", pl + " " + whol + " " + reasonl + " " + stealthstr + " " + datetimel + " " + oldrankl + "\r\n");
+			File.AppendAllText("text/bans.txt", pl + " " + whol + " " + reasonl + " " + stealthstr + " " + datetimel + " " + oldrankl + ID + " \r\n");
 		}
         /// <summary>
         /// Checks if there's a ban record found with the specified username
@@ -78,6 +78,17 @@ namespace MCForge
 			}
 			return false;
 		}
+        public static bool IsbannedID(string ID)
+        {
+            foreach (string line in File.ReadAllLines("text/bans.txt"))
+            {
+                if (line.Split(' ')[6] == ID)
+                {
+                    return (bool)true;
+                }
+            }
+            return (bool)false;
+        }
         /// <summary>
         /// Gives info about the ban
         /// </summary>
@@ -86,7 +97,7 @@ namespace MCForge
 		public static string[] Getbandata(string who)
 		{
 			who = who.ToLower();
-			string bannedby = "", reason = "", timedate = "", oldrank = "", stealth = "";
+            string bannedby = "", reason = "", timedate = "", oldrank = "", stealth = "", ID = "";
 			foreach (string line in File.ReadAllLines("text/bans.txt"))
 			{
 				if (line.Split(' ')[1] == who)
@@ -96,6 +107,7 @@ namespace MCForge
 					stealth = line.Split(' ')[3];
 					timedate = line.Split(' ')[4];
 					oldrank = line.Split(' ')[5];
+                    ID = line.Split(' ')[6];
 				}
 			}
 			string[] end = { bannedby, reason, timedate, oldrank, stealth };

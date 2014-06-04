@@ -90,9 +90,9 @@ namespace MCForge.Commands {
                         Player.GlobalMessage(message + " &f(offline)" + Server.DefaultColor + " was &8banned" + Server.DefaultColor + " by console.");
                     }
                     Group.findPerm(LevelPermission.Banned).playerList.Add(message);
-                    if (!p.UsingID)
+                    if (who == null || who.UsingID)
                     {
-                        Ban.Banplayer(p, message.ToLower(), reason, stealth, oldgroup, false, "0");
+                        Ban.Banplayer(p, message.ToLower(), reason, stealth, oldgroup, false, 0);
                     }
                     else
                     {
@@ -131,12 +131,14 @@ namespace MCForge.Commands {
                     Player.GlobalDie(who, false);
                     Player.GlobalSpawn(who, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1], false);
                     Group.findPerm(LevelPermission.Banned).playerList.Add(who.name);
-                    if (!p.UsingID)
+                    if (!who.UsingID || who == null)
                     {
-                        Ban.Banplayer(p, who.name.ToLower(), reason, stealth, oldgroup, false, "0");
+                        Ban.Banplayer(p, who.name.ToLower(), reason, stealth, oldgroup, false, 0);
                     }
                     else
                     {
+                        if (p == null) { Server.s.Log("This player cannot be banned by the console, kick him and then ban him while he is offline", false); return; }
+                        if (who != null && who.UsingID)
                         Ban.Banplayer(p, who.name.ToLower(), reason, stealth, oldgroup, true, p.ID);
                     }
 

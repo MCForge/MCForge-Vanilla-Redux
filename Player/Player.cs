@@ -78,8 +78,7 @@ namespace MCForge {
         public string name;
 		public bool identified = false;
         public bool UsingID = false;
-        public string ID = "";
-        public string realName;
+        public int ID = 0;
         public int warn = 0;
         public byte id;
         public int userID = -1;
@@ -767,10 +766,7 @@ namespace MCForge {
                                
                                 json = JObject.Parse(client.DownloadString("http://www.classicube.net/api/player/" + name.ToLower()));
                             }
-                            foreach (JProperty id in json.Children())
-                            {
-                                ID = (string)id["id"];
-                            }
+                            ID = (int)json.SelectToken("id");
                             UsingID = true;
                         }
                         catch (Exception e)
@@ -891,7 +887,7 @@ namespace MCForge {
                                 return;
                             }
                         } else {
-                            if (Ban.Isbanned(name) || Ban.Isbanned(name)) {
+                            if (UsingID && Ban.IsbannedID(ID.ToString()) || !UsingID && Ban.Isbanned(name)) {
                                 string[] data = Ban.Getbandata(name);
                                 Kick("You were banned for \"" + data[1] + "\" by " + data[0]);
                             } else
@@ -1215,8 +1211,14 @@ namespace MCForge {
                     }
                 } else { File.Create("ranks/muted.txt").Close(); }
             } catch { muted = false; }
-
-            Server.s.Log(name + " [" + ip + "] has joined the server.");
+            if (!UsingID)
+            {
+                Server.s.Log(name + " [" + ip + "] + has joined the server.");
+            }
+            else
+            {
+                Server.s.Log(name + " [" + ip + "]" + "(" + ID + ") + has joined the server.");
+            }
 
             if ( Server.zombie.ZombieStatus() != 0 ) { Player.SendMessage(this, "There is a Zombie Survival game currently in-progress! Join it by typing /g " + Server.zombie.currentLevelName); }
         }

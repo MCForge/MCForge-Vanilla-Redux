@@ -114,7 +114,7 @@ namespace MCForge
         public static PlayerList ignored;
 
         // The MCForge Developer List
-        internal static readonly List<string> devs = new List<string>(new string[] { "Hetal+", "EricKilla+", "Rayne+" });
+        internal static readonly List<string> devs = new List<string>();
         public static List<string> Devs { get { return new List<string>(devs); } }
         //The MCForge Moderation List
         internal static readonly List<string> mods = new List<string>();

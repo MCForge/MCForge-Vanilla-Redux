@@ -1,5 +1,7 @@
-v6.0.0/6.0.1
+v6.0.0/6.0.1/6.0.2
 -New
+  -Fixed SendMap() bug
+  -Added ID Ban support for ClassiCube users
   -Added full CPE support, also adding /setmodel and /weather
   -Mass Cleanup
   -Took out Obsolete tags as the software itself relied on olsolete methods
