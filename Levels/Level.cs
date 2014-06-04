@@ -2911,24 +2911,24 @@ namespace MCForge
                                                               break;
 
                                                           case Block.finiteFaucet:
-                                                              var bufferfinitefaucet = new List<int>();
+                                                              var bufferfinitefaucet = new List<ushort?>();
 
-                                                              for (int i = 0; i < 6; ++i) bufferfinitefaucet.Add(i);
+                                                              for (ushort? i = 0; i < 6; ++i) bufferfinitefaucet.Add(i);
 
                                                               for (int k = bufferfinitefaucet.Count - 1; k > 1; --k)
                                                               {
                                                                   int randIndx = rand.Next(k);
-                                                                  int temp = bufferfinitefaucet[k];
+                                                                  ushort? temp = bufferfinitefaucet[k];
                                                                   bufferfinitefaucet[k] = bufferfinitefaucet[randIndx];
                                                                   // move random num to end of list.
                                                                   bufferfinitefaucet[randIndx] = temp;
                                                               }
 
-                                                              foreach (int i in bufferfinitefaucet)
+                                                              foreach (ushort? i in bufferfinitefaucet)
                                                               {
                                                                   switch (i)
                                                                   {
-                                                                      case 0:
+                                                                      case null:
                                                                           if (GetTile((ushort)(x - 1), y, z) ==
                                                                               null)
                                                                           {
@@ -5406,7 +5406,7 @@ namespace MCForge
 
             switch (blocks[b])
             {
-                case 0:
+                case null:
                     if (!PhysSpongeCheck(b))
                     {
                         AddUpdate(b, type);
@@ -5466,7 +5466,7 @@ namespace MCForge
 
             switch (blocks[b])
             {
-                case 0:
+                case null:
                     if (!PhysSpongeCheck(b))
                     {
                         return true;
@@ -5528,7 +5528,7 @@ namespace MCForge
             } // Adv physics destroys cloth
             switch (blocks[b])
             {
-                case 0:
+                case null:
                     if (!PhysSpongeCheck(b, true)) AddUpdate(b, type);
                     break;
 
@@ -5592,7 +5592,7 @@ namespace MCForge
             } // Adv physics destroys cloth
             switch (blocks[b])
             {
-                case 0:
+                case null:
                     return true;
 
                 case 8: //hit active_water
@@ -5687,7 +5687,7 @@ namespace MCForge
                 {
                     switch (blocks[tempb])
                     {
-                        case 0: //air lava water
+                        case null: //air lava water
                         case 8:
                         case 10:
                             moved = true;

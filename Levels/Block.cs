@@ -677,7 +677,7 @@ namespace MCForge
             {
                 if (givenBlock == b.type)
                 {
-                    if ((b.lowestRank <= givenPerm && !b.disallow.Contains(givenPerm)) || b.allow.Contains(givenPerm)) return true;
+                    if ((b.lowestRank <= givenPerm && !b.disallow.Contains(givenPerm)) || b.allow.Contains(givenPerm) || b == null) return true;
                     return false;
                 }
             }
@@ -911,6 +911,7 @@ namespace MCForge
 
             switch (Block.Convert(type))
             {
+                case null:
                 case water:
                 case lava:
                 case waterstill:
@@ -1185,7 +1186,7 @@ namespace MCForge
         {
             switch (type)
             {
-                case 0: return "air";
+                case null: return "air";
                 case 1: return "stone";
                 case 2: return "grass";
                 case 3: return "dirt";
@@ -1758,6 +1759,7 @@ namespace MCForge
         {
             switch (b)
             {
+                case null: return 0;
                 case flagbase: return mushroom; //CTF Flagbase
                 case 100: return (ushort)20; //Op_glass
                 case 101: return (ushort)49; //Opsidian

@@ -26,12 +26,14 @@ namespace MCForge
 		/// <summary>
 		/// with Ban you can check the info about someone's ban, find out if there's info about someone, and add / remove someone to the baninfo (NOT THE BANNED.TXT !)
 		/// </summary>
+        /// <param name="lastnick">The last nick of the player (If connecting from ClassiCube.net)</param>
+        /// <param name="id">The ID of the player banned</param>
 		/// <param name="p">The player who executed the command</param>
 		/// <param name="who">The player that's banned</param>
 		/// <param name="reason">The reason for the ban</param>
 		/// <param name="stealth">bool, to check if the ban is a stealth ban.</param>
 		/// <param name="oldrank">The rank the who player used to have.</param>
-		public static void Banplayer(Player p, string who, string reason, bool stealth, string oldrank)
+		public static void Banplayer(Player p, string who, string reason, bool stealth, string oldrank, bool UsingID, string ID)
 		{
 			// Getting date and time.
 			string dayname = DateTime.Now.DayOfWeek.ToString();
@@ -45,11 +47,12 @@ namespace MCForge
 			// checking if p = player or console
 			string player;
 			if (p == null) player = "Console";
-			else player = p.name.ToLower();
+            else player = p.name.ToLower();
 			// Checking stealth
 			string stealthn;
 			if (stealth) stealthn = "true";
 			else stealthn = "false";
+            if (!UsingID) ID = "0";
 			if (reason == "") reason = "&c-";
 			Write(player, who.ToLower(), reason, stealthn, datetime, oldrank);
 		}

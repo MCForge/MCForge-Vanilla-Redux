@@ -90,7 +90,14 @@ namespace MCForge.Commands {
                         Player.GlobalMessage(message + " &f(offline)" + Server.DefaultColor + " was &8banned" + Server.DefaultColor + " by console.");
                     }
                     Group.findPerm(LevelPermission.Banned).playerList.Add(message);
-                    Ban.Banplayer(p, message.ToLower(), reason, stealth, oldgroup);
+                    if (!p.UsingID)
+                    {
+                        Ban.Banplayer(p, message.ToLower(), reason, stealth, oldgroup, false, "0");
+                    }
+                    else
+                    {
+                        Ban.Banplayer(p, message.ToLower(), reason, stealth, oldgroup, true, p.ID);
+                    }
                 } else {
                     if (!Player.ValidName(who.name)) {
                         Player.SendMessage(p, "Invalid name \"" + who.name + "\".");
@@ -124,7 +131,15 @@ namespace MCForge.Commands {
                     Player.GlobalDie(who, false);
                     Player.GlobalSpawn(who, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1], false);
                     Group.findPerm(LevelPermission.Banned).playerList.Add(who.name);
-                    Ban.Banplayer(p, who.name.ToLower(), reason, stealth, oldgroup);
+                    if (!p.UsingID)
+                    {
+                        Ban.Banplayer(p, who.name.ToLower(), reason, stealth, oldgroup, false, "0");
+                    }
+                    else
+                    {
+                        Ban.Banplayer(p, who.name.ToLower(), reason, stealth, oldgroup, true, p.ID);
+                    }
+
                 }
                 Group.findPerm(LevelPermission.Banned).playerList.Save();
 

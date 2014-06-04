@@ -24,6 +24,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Newtonsoft.Json.Linq;
 using MCForge.SQL;
 
 namespace MCForge {
@@ -76,6 +77,8 @@ namespace MCForge {
         public string time;
         public string name;
 		public bool identified = false;
+        public bool UsingID = false;
+        public string ID = "";
         public string realName;
         public int warn = 0;
         public byte id;
@@ -434,7 +437,7 @@ namespace MCForge {
                             catch { }
                         }
                         else {
-                            Server.s.Log("Could not find Welcome.txt. Using default.");
+                            Server.s.Log("Could not find welcome.txt. Using default.");
                             File.WriteAllText("text/welcome.txt", "Welcome to my server!");
                             SendMessage("Welcome to my server!");
                         }
@@ -754,10 +757,30 @@ namespace MCForge {
                     if ( verify == BitConverter.ToString(md5.ComputeHash(enc.GetBytes(Server.salt + truename))).Replace("-", "").ToLower().TrimStart('0') ) {
 						identified = true;
                         }
-					if ( verify == BitConverter.ToString(md5.ComputeHash(enc.GetBytes(Server.salt2 + truename))).Replace("-", "").ToLower())
-					{
-						identified = true;
-						name += "+";
+                    if (verify == BitConverter.ToString(md5.ComputeHash(enc.GetBytes(Server.salt2 + truename))).Replace("-", "").ToLower())
+                    {
+                        JObject json;
+                        try
+                        {
+                            using (var client = new WebClient())
+                            {
+                               
+                                json = JObject.Parse(client.DownloadString("http://www.classicube.net/api/player/" + name.ToLower()));
+                            }
+                            foreach (JProperty id in json.Children())
+                            {
+                                ID = (string)id["id"];
+                            }
+                            UsingID = true;
+                        }
+                        catch (Exception e)
+                        {
+                            Server.ErrorLog(e);
+                            Server.s.Log("Could not get Player's ID, going with name bans!");
+                            UsingID = false;
+                        }
+                        identified = true;
+                        name += "+";
                     }
 					if ( IPInPrivateRange(ip) ) {
 						identified = true;
@@ -941,7 +964,7 @@ namespace MCForge {
                 if ( disconnected ) return;
 
                 loggedIn = true;
-                id = FreeId();
+                this.id = FreeId();
 
                 lock ( players )
                     players.Add(this);
@@ -1376,8 +1399,7 @@ namespace MCForge {
                 SendBlockchange(x, y, z, b);
                 return;
             }
-
-            if ( !Block.canPlace(this, b) && !Block.BuildIn(b) && !Block.AllowBreak(b) ) {
+            if ( !Block.canPlace(this, b) && !Block.BuildIn(b) && !Block.AllowBreak(b)) {
                 SendMessage("Cannot build here!");
                 SendBlockchange(x, y, z, b);
                 return;
@@ -2785,6 +2807,7 @@ return;
         }
         public void SendMap() {
             if (level.blocks == null) return;
+            Server.s.Log("Blocks are not null");
             try {
                 byte[] buffer = new byte[level.blocks.Length + 4];
                 BitConverter.GetBytes(IPAddress.HostToNetworkOrder(level.blocks.Length)).CopyTo(buffer, 0);
@@ -2796,6 +2819,7 @@ return;
                     buffer[4 + i] = (byte)Block.Convert( Block.ConvertCPE( level.blocks[i] ) );
                 }
 				}
+            Server.s.Log("SendRaw (2) sent");
                 SendRaw(2);
                 buffer = buffer.GZip();
                 int number = (int)Math.Ceiling(( (double)buffer.Length ) / 1024);
@@ -2808,8 +2832,10 @@ return;
                     Buffer.BlockCopy(buffer, length, tempbuffer, 0, buffer.Length - length);
                     buffer = tempbuffer;
                     send[1026] = (byte)( i * 100 / number );
+                    Server.s.Log("Things Calculated");
                     //send[1026] = (byte)(100 - (i * 100 / number)); // Backwards progress lololol...
                     SendRaw(3, send);
+                    Server.s.Log("SendRaw (3) sent");
                     if ( ip == "127.0.0.1" ) { }
                     else if ( Server.updateTimer.Interval > 1000 ) Thread.Sleep(100);
                     else Thread.Sleep(10);
@@ -2818,6 +2844,7 @@ return;
                 HTNO((short)level.depth).CopyTo(buffer, 2);
                 HTNO((short)level.height).CopyTo(buffer, 4);
                 SendRaw(4, buffer);
+                Server.s.Log("SendRaw (4) sent");
                 Loading = false;
 
                 if ( OnSendMap != null )
