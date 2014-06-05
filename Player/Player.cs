@@ -27,8 +27,10 @@ using System.Threading;
 using Newtonsoft.Json.Linq;
 using MCForge.SQL;
 
-namespace MCForge {
-    public sealed partial class Player : IDisposable {
+namespace MCForge
+{
+    public sealed partial class Player : IDisposable
+    {
         /// <summary>
         /// List of all server players.
         /// </summary>
@@ -76,7 +78,7 @@ namespace MCForge {
         public bool disconnected = false;
         public string time;
         public string name;
-		public bool identified = false;
+        public bool identified = false;
         public bool UsingID = false;
         public int ID = 0;
         public int warn = 0;
@@ -227,11 +229,13 @@ namespace MCForge {
         public bool copyAir = false;
         public int[] copyoffset = new int[3] { 0, 0, 0 };
         public ushort[] copystart = new ushort[3] { 0, 0, 0 };
-        
-        public bool Mojangaccount {
-        	get {
-        		return truename.Contains('@');
-        	}
+
+        public bool Mojangaccount
+        {
+            get
+            {
+                return truename.Contains('@');
+            }
         }
 
         //Undo
@@ -271,7 +275,7 @@ namespace MCForge {
 
         public ushort[] pos = new ushort[] { 0, 0, 0 };
         ushort[] oldpos = new ushort[] { 0, 0, 0 };
-       // ushort[] basepos = new ushort[] { 0, 0, 0 };
+        // ushort[] basepos = new ushort[] { 0, 0, 0 };
         public byte[] rot = new byte[] { 0, 0 };
         byte[] oldrot = new byte[] { 0, 0 };
 
@@ -320,6 +324,45 @@ namespace MCForge {
         public bool verifiedName;
 
         //CPE
+        const string SelectionBoxExtName = "SelectionBoxExt";
+        const int SelectionBoxExtVersion = 1;
+        const string CustomBlocksExtName = "CustomBlocks";
+        const int CustomBlocksExtVersion = 1;
+        const byte CustomBlocksLevel = 1;
+        const string ClickDistanceExtName = "ClickDistance";
+        const int ClickDistanceExtVersion = 1;
+        const string EnvColorsExtName = "EnvColors";
+        const int EnvColorsExtVersion = 1;
+        const string ChangeModelExtName = "ChangeModel";
+        const int ChangeModelExtVersion = 1;
+        const string EnvMapAppearanceExtName = "EnvMapAppearance";
+        const int EnvMapAppearanceExtVersion = 1;
+        const string HeldBlockExtName = "HeldBlock";
+        const int HeldBlockExtVersion = 1;
+        const string ExtPlayerListExtName = "ExtPlayerList";
+        const int ExtPlayerListExtVersion = 1;
+        const string SelectionCuboidExtName = "SelectionCuboid";
+        const int SelectionCuboidExtVersion = 1;
+        const string MessageTypesExtName = "MessageTypes";
+        const int MessageTypesExtVersion = 1;
+        const string EnvWeatherTypeExtName = "EnvWeatherType";
+        const int EnvWeatherTypeExtVersion = 1;
+        const string HackControlExtName = "HackControl";
+        const int HackControlExtVersion = 1;
+
+        // Note: if more levels are added, change UsesCustomBlocks from bool to int
+        public bool SelectionBoxExt { get; set; }
+        public bool UsesCustomBlocks { get; set; }
+        public bool SupportsClickDistance = false;
+        public bool SupportsEnvColors = false;
+        public bool SupportsChangeModel = false;
+        public bool SupportsEnvMapAppearance = false;
+        public bool SupportsEnvWeatherType = false;
+        public bool SupportsHeldBlock = false;
+        public bool SupportsExtPlayerList = false;
+        public bool SupportsSelectionCuboid = false;
+        public bool SupportsMessageTypes = false;
+        public bool SupportsHackControl = false;
         public static bool emotefix = false;
         public string appName;
         public int extensionCount;
@@ -327,7 +370,8 @@ namespace MCForge {
         public int customBlockSupportLevel;
         public bool extension;
 
-        public struct OfflinePlayer {
+        public struct OfflinePlayer
+        {
             public string name, color, title, titleColor;
             public int money;
             //need moar? add moar! just make sure you adjust Player.FindOffline() method
@@ -342,30 +386,34 @@ namespace MCForge {
             public OfflinePlayer(string nm, string clr, string tl, string tlclr, int mon) { name = nm; color = clr; title = tl; titleColor = tlclr; money = mon; }
         }
 
-        public static string CheckPlayerStatus(Player p) {
-            if ( p.hidden )
+        public static string CheckPlayerStatus(Player p)
+        {
+            if (p.hidden)
                 return "hidden";
-            if ( Server.afkset.Contains(p.name) )
+            if (Server.afkset.Contains(p.name))
                 return "afk";
             return "active";
         }
         public bool Readgcrules = false;
         public DateTime Timereadgcrules = DateTime.MinValue;
-        public bool CheckIfInsideBlock() {
+        public bool CheckIfInsideBlock()
+        {
             return CheckIfInsideBlock(this);
         }
 
-        public static bool CheckIfInsideBlock(Player p) {
+        public static bool CheckIfInsideBlock(Player p)
+        {
             ushort x, y, z;
-            x = (ushort)( p.pos[0] / 32 );
-            y = (ushort)( p.pos[1] / 32 );
-            y = (ushort)Math.Round((decimal)( ( ( y * 32 ) + 4 ) / 32 ));
-            z = (ushort)( p.pos[2] / 32 );
+            x = (ushort)(p.pos[0] / 32);
+            y = (ushort)(p.pos[1] / 32);
+            y = (ushort)Math.Round((decimal)(((y * 32) + 4) / 32));
+            z = (ushort)(p.pos[2] / 32);
 
             ushort? b = p.level.GetTile(x, y, z);
-            ushort? b1 = p.level.GetTile(x, (ushort)( y - 1 ), z);
+            ushort? b1 = p.level.GetTile(x, (ushort)(y - 1), z);
 
-            if ( Block.Walkthrough(Block.Convert(b)) && Block.Walkthrough(Block.Convert(b1)) ) {
+            if (Block.Walkthrough(Block.Convert(b)) && Block.Walkthrough(Block.Convert(b1)))
+            {
                 return false;
             }
             return Block.Convert(b) != Block.Zero && Block.Convert(b) != Block.op_air;
@@ -379,8 +427,10 @@ namespace MCForge {
         public NetworkStream Stream;
         public BinaryReader Reader;
 
-        public Player(Socket s) {
-            try {
+        public Player(Socket s)
+        {
+            try
+            {
                 socket = s;
                 ip = socket.RemoteEndPoint.ToString().Split(':')[0];
 
@@ -391,26 +441,32 @@ namespace MCForge {
 
                 Server.s.Log(ip + " connected to the server.");
 
-                for ( byte i = 0; i < 128; ++i ) bindings[i] = i;
+                for (byte i = 0; i < 128; ++i) bindings[i] = i;
 
                 socket.BeginReceive(tempbuffer, 0, tempbuffer.Length, SocketFlags.None, new AsyncCallback(Receive), this);
-                timespent.Elapsed += delegate {
-                    if ( !Loading ) {
-                        try {
+                timespent.Elapsed += delegate
+                {
+                    if (!Loading)
+                    {
+                        try
+                        {
                             int Days = Convert.ToInt32(time.Split(' ')[0]);
                             int Hours = Convert.ToInt32(time.Split(' ')[1]);
                             int Minutes = Convert.ToInt32(time.Split(' ')[2]);
                             int Seconds = Convert.ToInt32(time.Split(' ')[3]);
                             Seconds++;
-                            if ( Seconds >= 60 ) {
+                            if (Seconds >= 60)
+                            {
                                 Minutes++;
                                 Seconds = 0;
                             }
-                            if ( Minutes >= 60 ) {
+                            if (Minutes >= 60)
+                            {
                                 Hours++;
                                 Minutes = 0;
                             }
-                            if ( Hours >= 24 ) {
+                            if (Hours >= 24)
+                            {
                                 Days++;
                                 Hours = 0;
                             }
@@ -420,22 +476,28 @@ namespace MCForge {
                     }
                 };
                 timespent.Start();
-                loginTimer.Elapsed += delegate {
-                    if ( !Loading ) {
+                loginTimer.Elapsed += delegate
+                {
+                    if (!Loading)
+                    {
                         loginTimer.Stop();
-                        if ( File.Exists("text/welcome.txt") ) {
-                            try {
-                                using ( StreamReader wm = File.OpenText("text/welcome.txt") ) {
+                        if (File.Exists("text/welcome.txt"))
+                        {
+                            try
+                            {
+                                using (StreamReader wm = File.OpenText("text/welcome.txt"))
+                                {
                                     List<string> welcome = new List<string>();
-                                    while ( !wm.EndOfStream )
+                                    while (!wm.EndOfStream)
                                         welcome.Add(wm.ReadLine());
-                                    foreach ( string w in welcome )
+                                    foreach (string w in welcome)
                                         SendMessage(w);
                                 }
                             }
                             catch { }
                         }
-                        else {
+                        else
+                        {
                             Server.s.Log("Could not find welcome.txt. Using default.");
                             File.WriteAllText("text/welcome.txt", "Welcome to my server!");
                             SendMessage("Welcome to my server!");
@@ -448,11 +510,14 @@ namespace MCForge {
                 pingTimer.Elapsed += delegate { SendPing(); };
                 pingTimer.Start();
 
-                extraTimer.Elapsed += delegate {
+                extraTimer.Elapsed += delegate
+                {
                     extraTimer.Stop();
 
-                    try {
-                        if ( !Group.Find("Nobody").commands.Contains("inbox") && !Group.Find("Nobody").commands.Contains("send") ) {
+                    try
+                    {
+                        if (!Group.Find("Nobody").commands.Contains("inbox") && !Group.Find("Nobody").commands.Contains("send"))
+                        {
                             //safe against SQL injections because no user input is given here
                             DataTable Inbox = Database.fillData("SELECT * FROM `Inbox" + name + "`", true);
 
@@ -461,52 +526,60 @@ namespace MCForge {
                         }
                     }
                     catch { }
-                    if ( Server.updateTimer.Interval > 1000 ) SendMessage("Lowlag mode is currently &aON.");
-                    try {
-                        if ( !Group.Find("Nobody").commands.Contains("pay") && !Group.Find("Nobody").commands.Contains("give") && !Group.Find("Nobody").commands.Contains("take") ) SendMessage("You currently have &a" + money + Server.DefaultColor + " " + Server.moneys);
+                    if (Server.updateTimer.Interval > 1000) SendMessage("Lowlag mode is currently &aON.");
+                    try
+                    {
+                        if (!Group.Find("Nobody").commands.Contains("pay") && !Group.Find("Nobody").commands.Contains("give") && !Group.Find("Nobody").commands.Contains("take")) SendMessage("You currently have &a" + money + Server.DefaultColor + " " + Server.moneys);
                     }
                     catch { }
                     SendMessage("You have modified &a" + overallBlocks + Server.DefaultColor + " blocks!");
-                    if ( players.Count == 1 )
+                    if (players.Count == 1)
                         SendMessage("There is currently &a" + players.Count + " player online.");
                     else
                         SendMessage("There are currently &a" + players.Count + " players online.");
-                    try {
-                        if ( !Group.Find("Nobody").commands.Contains("award") && !Group.Find("Nobody").commands.Contains("awards") && !Group.Find("Nobody").commands.Contains("awardmod") ) SendMessage("You have " + Awards.awardAmount(name) + " awards.");
+                    try
+                    {
+                        if (!Group.Find("Nobody").commands.Contains("award") && !Group.Find("Nobody").commands.Contains("awards") && !Group.Find("Nobody").commands.Contains("awardmod")) SendMessage("You have " + Awards.awardAmount(name) + " awards.");
                     }
                     catch { }
-                    try {
+                    try
+                    {
                         ZombieGame.alive.Remove(this);
                         ZombieGame.infectd.Remove(this);
                     }
                     catch { }
-                    if ( Server.lava.active ) SendMessage("There is a &aLava Survival " + Server.DefaultColor + "game active! Join it by typing /ls go");
+                    if (Server.lava.active) SendMessage("There is a &aLava Survival " + Server.DefaultColor + "game active! Join it by typing /ls go");
                     extraTimer.Dispose();
                 };
 
-                afkTimer.Elapsed += delegate {
-                    if ( name == "" ) return;
+                afkTimer.Elapsed += delegate
+                {
+                    if (name == "") return;
 
-                    if ( Server.afkset.Contains(name) ) {
+                    if (Server.afkset.Contains(name))
+                    {
                         afkCount = 0;
-                        if ( Server.afkkick > 0 && group.Permission < Server.afkkickperm )
-                            if ( afkStart.AddMinutes(Server.afkkick) < DateTime.Now )
+                        if (Server.afkkick > 0 && group.Permission < Server.afkkickperm)
+                            if (afkStart.AddMinutes(Server.afkkick) < DateTime.Now)
                                 Kick("Auto-kick, AFK for " + Server.afkkick + " minutes");
-                        if ( ( oldpos[0] != pos[0] || oldpos[1] != pos[1] || oldpos[2] != pos[2] ) && ( oldrot[0] != rot[0] || oldrot[1] != rot[1] ) )
+                        if ((oldpos[0] != pos[0] || oldpos[1] != pos[1] || oldpos[2] != pos[2]) && (oldrot[0] != rot[0] || oldrot[1] != rot[1]))
                             Command.all.Find("afk").Use(this, "");
                     }
-                    else {
-                        if ( oldpos[0] == pos[0] && oldpos[1] == pos[1] && oldpos[2] == pos[2] && oldrot[0] == rot[0] && oldrot[1] == rot[1] )
+                    else
+                    {
+                        if (oldpos[0] == pos[0] && oldpos[1] == pos[1] && oldpos[2] == pos[2] && oldrot[0] == rot[0] && oldrot[1] == rot[1])
                             afkCount++;
                         else
                             afkCount = 0;
 
-                        if ( afkCount > Server.afkminutes * 30 ) {
-                            if ( name != null && !String.IsNullOrEmpty(name.Trim()) ) {
+                        if (afkCount > Server.afkminutes * 30)
+                        {
+                            if (name != null && !String.IsNullOrEmpty(name.Trim()))
+                            {
                                 Command.all.Find("afk").Use(this, "auto: Not moved for " + Server.afkminutes + " minutes");
-                                if ( AFK != null )
+                                if (AFK != null)
                                     AFK(this);
-                                if ( ONAFK != null )
+                                if (ONAFK != null)
                                     ONAFK(this);
                                 OnPlayerAFKEvent.Call(this);
                                 afkCount = 0;
@@ -514,21 +587,23 @@ namespace MCForge {
                         }
                     }
                 };
-                resetSpamCount.Elapsed += delegate {
-                    if ( consecutivemessages > 0 )
+                resetSpamCount.Elapsed += delegate
+                {
+                    if (consecutivemessages > 0)
                         consecutivemessages = 0;
                 };
                 resetSpamCount.Start();
 
-                if ( Server.afkminutes > 0 ) afkTimer.Start();
+                if (Server.afkminutes > 0) afkTimer.Start();
 
                 connections.Add(this);
             }
-            catch ( Exception e ) { Kick("Login failed!"); Server.ErrorLog(e); }
+            catch (Exception e) { Kick("Login failed!"); Server.ErrorLog(e); }
         }
 
 
-        public void save() {
+        public void save()
+        {
             //safe against SQL injects because no user input is provided
             string commandString =
                 "UPDATE Players SET IP='" + ip + "'" +
@@ -540,21 +615,24 @@ namespace MCForge {
                 ", totalKicked=" + totalKicked +
                 ", TimeSpent='" + time +
                 "' WHERE Name='" + name + "'";
-            if ( MySQLSave != null )
+            if (MySQLSave != null)
                 MySQLSave(this, commandString);
             OnMySQLSaveEvent.Call(this, commandString);
-            if ( cancelmysql ) {
+            if (cancelmysql)
+            {
                 cancelmysql = false;
                 return;
             }
-            if ( !Server.useMySQL )
+            if (!Server.useMySQL)
                 SQLite.executeQuery(commandString);
             else
                 MySQL.executeQuery(commandString);
 
-            try {
-                if ( !smileySaved ) {
-                    if ( parseSmiley )
+            try
+            {
+                if (!smileySaved)
+                {
+                    if (parseSmiley)
                         emoteList.RemoveAll(s => s == name);
                     else
                         emoteList.Add(name);
@@ -563,63 +641,76 @@ namespace MCForge {
                     smileySaved = true;
                 }
             }
-            catch ( Exception e ) {
+            catch (Exception e)
+            {
                 Server.ErrorLog(e);
             }
-            try {
-            	SaveUndo();
-            } catch (Exception e) {
-            	Server.s.Log("Error saving undo data.");
-            	Server.ErrorLog(e);
+            try
+            {
+                SaveUndo();
+            }
+            catch (Exception e)
+            {
+                Server.s.Log("Error saving undo data.");
+                Server.ErrorLog(e);
             }
         }
 
         #region == INCOMING ==
-        static void Receive(IAsyncResult result) {
+        static void Receive(IAsyncResult result)
+        {
             //Server.s.Log(result.AsyncState.ToString());
             Player p = (Player)result.AsyncState;
-            if ( p.disconnected || p.socket == null )
+            if (p.disconnected || p.socket == null)
                 return;
-            try {
+            try
+            {
                 int length = p.socket.EndReceive(result);
-                if ( length == 0 ) { p.Disconnect(); return; }
+                if (length == 0) { p.Disconnect(); return; }
 
                 byte[] b = new byte[p.buffer.Length + length];
                 Buffer.BlockCopy(p.buffer, 0, b, 0, p.buffer.Length);
                 Buffer.BlockCopy(p.tempbuffer, 0, b, p.buffer.Length, length);
 
                 p.buffer = p.HandleMessage(b);
-                if ( p.dontmindme && p.buffer.Length == 0 ) {
+                if (p.dontmindme && p.buffer.Length == 0)
+                {
                     Server.s.Log("Disconnected");
                     p.socket.Close();
                     p.disconnected = true;
                     return;
                 }
-                if ( !p.disconnected )
+                if (!p.disconnected)
                     p.socket.BeginReceive(p.tempbuffer, 0, p.tempbuffer.Length, SocketFlags.None,
                                           new AsyncCallback(Receive), p);
             }
-            catch ( SocketException ) {
+            catch (SocketException)
+            {
                 p.Disconnect();
             }
-            catch ( ObjectDisposedException ) {
+            catch (ObjectDisposedException)
+            {
                 // Player is no longer connected, socket was closed
                 // Mark this as disconnected and remove them from active connection list
                 Player.SaveUndo(p);
-                if ( connections.Contains(p) )
+                if (connections.Contains(p))
                     connections.Remove(p);
                 p.disconnected = true;
             }
-            catch ( Exception e ) {
+            catch (Exception e)
+            {
                 Server.ErrorLog(e);
                 p.Kick("Error!");
             }
         }
-        byte[] HandleMessage(byte[] buffer) {
-            try {
+        byte[] HandleMessage(byte[] buffer)
+        {
+            try
+            {
                 int length = 0; byte msg = buffer[0];
                 // Get the length of the message by checking the first byte
-                switch (msg) {
+                switch (msg)
+                {
                     //For wom
                     case (byte)'G':
                         level.textures.ServeCfg(this, buffer);
@@ -658,7 +749,8 @@ namespace MCForge {
                             Server.s.Log(Encoding.UTF8.GetString(buffer, 0, buffer.Length));
                         return new byte[0];
                 }
-                if (buffer.Length > length) {
+                if (buffer.Length > length)
+                {
                     byte[] message = new byte[length];
                     Buffer.BlockCopy(buffer, 1, message, 0, length);
 
@@ -668,7 +760,8 @@ namespace MCForge {
                     buffer = tempbuffer;
 
                     // Thread thread = null;
-                    switch (msg) {
+                    switch (msg)
+                    {
                         case 0:
                             HandleLogin(message);
                             break;
@@ -704,59 +797,60 @@ namespace MCForge {
                         return new byte[0];
                 }
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Server.ErrorLog(e);
             }
             return buffer;
         }
 
-        void HandleExtInfo(byte[] message)
+        public void HandleExtInfo(byte[] message)
         {
             appName = enc.GetString(message, 0, 64).Trim();
             extensionCount = message[65];
         }
 
-        void HandleExtEntry(byte[] message)
+        public void HandleExtEntry(byte[] message)
         {
+            Server.s.Log(message + "Supported")
             extensions.Add(enc.GetString(message, 0, 64).Trim());
         }
 
-        void HandleCustomBlockSupportLevel(byte[] message)
+        public void HandleCustomBlockSupportLevel(byte[] message)
         {
             customBlockSupportLevel = message[0];
         }
 
-        void HandleLogin(byte[] message) {
-            try {
+        void HandleLogin(byte[] message)
+        {
+            try
+            {
                 //byte[] message = (byte[])m;
-                if ( loggedIn )
+                if (loggedIn)
                     return;
 
                 byte version = message[0];
                 name = enc.GetString(message, 1, 64).Trim();
                 truename = name;
-				if (Server.omniban.CheckPlayer(this)) { Kick(Server.omniban.kickMsg); return; } //deprecated
-                if (name.Split('@').Length > 1) 
+                if (Server.omniban.CheckPlayer(this)) { Kick(Server.omniban.kickMsg); return; } //deprecated
+                if (name.Split('@').Length > 1)
                 {
-                	name = name.Split('@')[0];
-                	if (!MojangAccount.HasID(truename))
-                		MojangAccount.AddUser(truename);
-                	name += "_" + MojangAccount.GetID(truename);
+                    name = name.Split('@')[0];
+                    if (!MojangAccount.HasID(truename))
+                        MojangAccount.AddUser(truename);
+                    name += "_" + MojangAccount.GetID(truename);
                 }
                 string verify = enc.GetString(message, 65, 32).Trim();
                 ushort? type = message[129];
 
                 //Forge Protection Check
-                isDev = Server.Devs.Contains(name.ToLower());
-                isMod = Server.Mods.Contains(name.ToLower());
-                isGCMod = Server.GCmods.Contains(name.ToLower());
-                isStaff = isDev || isMod || isGCMod;
-                isProtected = Server.forgeProtection == ForgeProtection.Mod && (isMod || isDev) ? true : Server.forgeProtection == ForgeProtection.Dev && isDev ? true : false;
                 verifiedName = Server.verify ? true : false;
-                if ( Server.verify ) {
-                    if ( verify == BitConverter.ToString(md5.ComputeHash(enc.GetBytes(Server.salt + truename))).Replace("-", "").ToLower().TrimStart('0') ) {
-						identified = true;
-                        }
+                if (Server.verify)
+                {
+                    if (verify == BitConverter.ToString(md5.ComputeHash(enc.GetBytes(Server.salt + truename))).Replace("-", "").ToLower().TrimStart('0'))
+                    {
+                        identified = true;
+                    }
                     if (verify == BitConverter.ToString(md5.ComputeHash(enc.GetBytes(Server.salt2 + truename))).Replace("-", "").ToLower())
                     {
                         JObject json;
@@ -764,7 +858,7 @@ namespace MCForge {
                         {
                             using (var client = new WebClient())
                             {
-                               
+
                                 json = JObject.Parse(client.DownloadString("http://www.classicube.net/api/player/" + name.ToLower()));
                             }
                             ID = (int)json.SelectToken("id");
@@ -779,39 +873,55 @@ namespace MCForge {
                         identified = true;
                         name += "+";
                     }
-					if ( IPInPrivateRange(ip) ) {
-						identified = true;
-					}
-					if (identified == false) { 
-						Kick("Login failed! Try again."); return;
-					}
-				}
-                try {
+                    if (IPInPrivateRange(ip))
+                    {
+                        identified = true;
+                    }
+                    if (identified == false)
+                    {
+                        Kick("Login failed! Try again."); return;
+                    }
+                    isDev = Server.Devs.Contains(name.ToLower());
+                    isMod = Server.Mods.Contains(name.ToLower());
+                    isGCMod = Server.GCmods.Contains(name.ToLower());
+                    isStaff = isDev || isMod || isGCMod;
+                    isProtected = Server.forgeProtection == ForgeProtection.Mod && (isMod || isDev) ? true : Server.forgeProtection == ForgeProtection.Dev && isDev ? true : false;
+                }
+                try
+                {
                     Server.TempBan tBan = Server.tempBans.Find(tB => tB.name.ToLower() == name.ToLower());
-                    
-                    if ( tBan.allowedJoin < DateTime.Now ) {
+
+                    if (tBan.allowedJoin < DateTime.Now)
+                    {
                         Server.tempBans.Remove(tBan);
                     }
-                    else if (!isDev && !isMod) {
+                    else if (!isDev && !isMod)
+                    {
                         Kick("You're still banned (temporary ban)!");
                     }
                 }
                 catch { }
 
                 // Whitelist check.
-                if ( Server.useWhitelist) {
-                    if ( Server.verify ) {
-                        if ( Server.whiteList.Contains(name) ) {
+                if (Server.useWhitelist)
+                {
+                    if (Server.verify)
+                    {
+                        if (Server.whiteList.Contains(name))
+                        {
                             onWhitelist = true;
                         }
                     }
-                    else {
+                    else
+                    {
                         // Verify Names is off. Gotta check the hard way.
                         Database.AddParams("@IP", ip);
                         DataTable ipQuery = Database.fillData("SELECT Name FROM Players WHERE IP = @IP");
 
-                        if ( ipQuery.Rows.Count > 0 ) {
-                            if ( ipQuery.Rows.Contains(name) && Server.whiteList.Contains(name) ) {
+                        if (ipQuery.Rows.Count > 0)
+                        {
+                            if (ipQuery.Rows.Contains(name) && Server.whiteList.Contains(name))
+                            {
                                 onWhitelist = true;
                             }
                         }
@@ -822,13 +932,17 @@ namespace MCForge {
                 }
 
                 //premium check
-                if ( Server.PremiumPlayersOnly && !isDev && !isMod ) {
-                    using ( WebClient Client = new WebClient() ) {
+                if (Server.PremiumPlayersOnly && !isDev && !isMod)
+                {
+                    using (WebClient Client = new WebClient())
+                    {
                         int tries = 0;
-                        while ( tries++ < 3 ) {
-                            try {
+                        while (tries++ < 3)
+                        {
+                            try
+                            {
                                 bool haspaid = Convert.ToBoolean(Client.DownloadString("http://www.minecraft.net/haspaid.jsp?user=" + name));
-                                if ( !haspaid )
+                                if (!haspaid)
                                     Kick("Sorry, this is a premium server only!");
                                 break;
                             }
@@ -837,60 +951,81 @@ namespace MCForge {
                     }
                 }
 
-                if ( File.Exists("ranks/ignore/" + this.name + ".txt") ) {
-                    try {
+                if (File.Exists("ranks/ignore/" + this.name + ".txt"))
+                {
+                    try
+                    {
                         string[] checklines = File.ReadAllLines("ranks/ignore/" + this.name + ".txt");
-                        foreach ( string checkline in checklines ) {
+                        foreach (string checkline in checklines)
+                        {
                             this.listignored.Add(checkline);
                         }
                         File.Delete("ranks/ignore/" + this.name + ".txt");
                     }
-                    catch {
+                    catch
+                    {
                         Server.s.Log("Failed to load ignore list for: " + this.name);
                     }
                 }
 
-                if ( File.Exists("ranks/ignore/GlobalIgnore.xml") ) {
-                    try {
+                if (File.Exists("ranks/ignore/GlobalIgnore.xml"))
+                {
+                    try
+                    {
                         string[] searchxmls = File.ReadAllLines("ranks/ignore/GlobalIgnore.xml");
-                        foreach ( string searchxml in searchxmls ) {
+                        foreach (string searchxml in searchxmls)
+                        {
                             globalignores.Add(searchxml);
                         }
-                        foreach ( string ignorer in globalignores ) {
+                        foreach (string ignorer in globalignores)
+                        {
                             Player foundignore = Player.Find(ignorer);
                             foundignore.ignoreglobal = true;
                         }
                         File.Delete("ranks/ignore/GlobalIgnore.xml");
                     }
-                    catch {
+                    catch
+                    {
                         Server.s.Log("Failed to load global ignore list!");
                     }
                 }
                 // ban check
-                if (!isDev && !isMod) {
-                    if (Server.bannedIP.Contains(ip)) {
-                        if (Server.useWhitelist) {
-                            if (!onWhitelist) {
+                if (!isDev && !isMod)
+                {
+                    if (Server.bannedIP.Contains(ip))
+                    {
+                        if (Server.useWhitelist)
+                        {
+                            if (!onWhitelist)
+                            {
                                 Kick(Server.customBanMessage);
                                 return;
                             }
-                        } else {
+                        }
+                        else
+                        {
                             Kick(Server.customBanMessage);
                             return;
                         }
                     }
                     if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Banned))
                     {
-                        if (Server.useWhitelist) {
-                            if (!onWhitelist) {
+                        if (Server.useWhitelist)
+                        {
+                            if (!onWhitelist)
+                            {
                                 Kick(Server.customBanMessage);
                                 return;
                             }
-                        } else {
-                            if (UsingID && Ban.IsbannedID(ID.ToString()) || !UsingID && Ban.Isbanned(name)) {
+                        }
+                        else
+                        {
+                            if (UsingID && Ban.IsbannedID(ID.ToString()) || !UsingID && Ban.Isbanned(name))
+                            {
                                 string[] data = Ban.Getbandata(name);
                                 Kick("You were banned for \"" + data[1] + "\" by " + data[0]);
-                            } else
+                            }
+                            else
                                 Kick(Server.customBanMessage);
                             return;
                         }
@@ -898,15 +1033,18 @@ namespace MCForge {
                 }
 
                 //server maxplayer check
-                if ( !isDev && !isMod && !VIP.Find(this) ) {
+                if (!isDev && !isMod && !VIP.Find(this))
+                {
                     // Check to see how many guests we have
-                    if ( Player.players.Count >= Server.players && !IPInPrivateRange(ip) ) { Kick("Server full!"); return; }
+                    if (Player.players.Count >= Server.players && !IPInPrivateRange(ip)) { Kick("Server full!"); return; }
                     // Code for limiting no. of guests
-                    if ( Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Guest) ) {
+                    if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Guest))
+                    {
                         // Check to see how many guests we have
                         int currentNumOfGuests = Player.players.Count(pl => pl.group.Permission <= LevelPermission.Guest);
-                        if ( currentNumOfGuests >= Server.maxGuests ) {
-                            if ( Server.guestLimitNotify ) GlobalMessageOps("Guest " + this.name + " couldn't log in - too many guests.");
+                        if (currentNumOfGuests >= Server.maxGuests)
+                        {
+                            if (Server.guestLimitNotify) GlobalMessageOps("Guest " + this.name + " couldn't log in - too many guests.");
                             Server.s.Log("Guest " + this.name + " couldn't log in - too many guests.");
                             Kick("Server has reached max number of guests");
                             return;
@@ -914,11 +1052,14 @@ namespace MCForge {
                     }
                 }
 
-                if ( version != Server.version ) { Kick("Wrong version!"); return; }
+                if (version != Server.version) { Kick("Wrong version!"); return; }
 
-                foreach ( Player p in players ) {
-                    if ( p.name == name ) {
-                        if ( Server.verify ) {
+                foreach (Player p in players)
+                {
+                    if (p.name == name)
+                    {
+                        if (Server.verify)
+                        {
                             p.Kick("Someone logged in as you!"); break;
                         }
                         else { Kick("Already logged in!"); return; }
@@ -927,27 +1068,9 @@ namespace MCForge {
                 if (type == 0x42)
                 {
                     extension = true;
-                    SendExtInfo(13);
-                    if (extensions.Contains("EmoteFix"))
-                    {
-                        emotefix = true;
-                        SendExtEntry("EmoteFix", 1);
-                    }
-                        SendExtEntry("MessageTypes", 1);
-                        SendExtEntry("ClickDistance", 1);
-                        SendExtEntry("CustomBlocks", 1);
-                        SendExtEntry("HeldBlock", 1);
-                        SendExtEntry("TextHotKey", 1);
-                        SendExtEntry("ExtPlayerList", 1);
-                        SendExtEntry("EnvColors", 1);
-                        SendExtEntry("SelectionCuboid", 1);
-                        SendExtEntry("BlockPermissions", 1);
-                        SendExtEntry("ChangeModel", 1);
-                        SendExtEntry("EnvMapAppearance", 1);
-                        SendExtEntry("EnvWeatherType", 1);
-                        SendExtEntry("HackControl", 1);
-                        SendCustomBlockSupportLevel(1);
-                    }
+                    HandleExtEntry(message);
+                    extensions.ForEach(s => this.SendExtEntry(s, 1));
+                }
 
                 try { left.Remove(name.ToLower()); }
                 catch { }
@@ -958,12 +1081,12 @@ namespace MCForge {
                 SendMap();
                 Loading = true;
 
-                if ( disconnected ) return;
+                if (disconnected) return;
 
                 loggedIn = true;
                 this.id = FreeId();
 
-                lock ( players )
+                lock (players)
                     players.Add(this);
 
                 connections.Remove(this);
@@ -973,15 +1096,20 @@ namespace MCForge {
                 //Test code to show when people come back with different accounts on the same IP
                 string temp = name + " is lately known as:";
                 bool found = false;
-                if ( !ip.StartsWith("127.0.0.") ) {
-                    foreach ( KeyValuePair<string, string> prev in left ) {
-                        if ( prev.Value == ip ) {
+                if (!ip.StartsWith("127.0.0."))
+                {
+                    foreach (KeyValuePair<string, string> prev in left)
+                    {
+                        if (prev.Value == ip)
+                        {
                             found = true;
                             temp += " " + prev.Key;
                         }
                     }
-                    if ( found ) {
-                        if ( this.group.Permission < Server.adminchatperm || Server.adminsjoinsilent == false ) {
+                    if (found)
+                    {
+                        if (this.group.Permission < Server.adminchatperm || Server.adminsjoinsilent == false)
+                        {
                             GlobalMessageOps(temp);
                             //IRCBot.Say(temp, true); //Tells people in op channel on IRC
                         }
@@ -990,7 +1118,8 @@ namespace MCForge {
                     }
                 }
             }
-            catch ( Exception e ) {
+            catch (Exception e)
+            {
                 Server.ErrorLog(e);
                 Player.GlobalMessage("An error occurred: " + e.Message);
             }
@@ -1000,7 +1129,8 @@ namespace MCForge {
             DataTable playerDb = Database.fillData("SELECT * FROM Players WHERE Name=@Name");
 
 
-            if ( playerDb.Rows.Count == 0 ) {
+            if (playerDb.Rows.Count == 0)
+            {
                 this.prefix = "";
                 this.time = "0 0 0 1";
                 this.title = "";
@@ -1016,34 +1146,43 @@ namespace MCForge {
                 this.timeLogged = DateTime.Now;
                 SendMessage("Welcome " + name + "! This is your first visit.");
                 string query = "INSERT INTO Economy (player, money, total, purchase, payment, salary, fine) VALUES ('" + name + "', " + money + ", 0, '%cNone', '%cNone', '%cNone', '%cNone')";
-                if (Server.useMySQL) {
+                if (Server.useMySQL)
+                {
                     MySQL.executeQuery(String.Format("INSERT INTO Players (Name, IP, FirstLogin, LastLogin, totalLogin, Title, totalDeaths, Money, totalBlocks, totalKicked, TimeSpent) VALUES ('{0}', '{1}', '{2:yyyy-MM-dd HH:mm:ss}', '{3:yyyy-MM-dd HH:mm:ss}', {4}, '{5}', {6}, {7}, {8}, {9}, '{10}')", name, ip, firstLogin, DateTime.Now, totalLogins, prefix, overallDeath, money, loginBlocks, totalKicked, time));
                     MySQL.executeQuery(query);
-                } else {
+                }
+                else
+                {
                     SQLite.executeQuery(String.Format("INSERT INTO Players (Name, IP, FirstLogin, LastLogin, totalLogin, Title, totalDeaths, Money, totalBlocks, totalKicked, TimeSpent) VALUES ('{0}', '{1}', '{2:yyyy-MM-dd HH:mm:ss}', '{3:yyyy-MM-dd HH:mm:ss}', {4}, '{5}', {6}, {7}, {8}, {9}, '{10}')", name, ip, firstLogin, DateTime.Now, totalLogins, prefix, overallDeath, money, loginBlocks, totalKicked, time));
                     SQLite.executeQuery(query);
                 }
             }
-            else {
+            else
+            {
                 totalLogins = int.Parse(playerDb.Rows[0]["totalLogin"].ToString()) + 1;
                 time = playerDb.Rows[0]["TimeSpent"].ToString();
                 userID = int.Parse(playerDb.Rows[0]["ID"].ToString());
                 firstLogin = DateTime.Parse(playerDb.Rows[0]["firstLogin"].ToString());
                 timeLogged = DateTime.Now;
-                if ( playerDb.Rows[0]["Title"].ToString().Trim() != "" ) {
+                if (playerDb.Rows[0]["Title"].ToString().Trim() != "")
+                {
                     string parse = playerDb.Rows[0]["Title"].ToString().Trim().Replace("[", "");
                     title = parse.Replace("]", "");
                 }
-                if ( playerDb.Rows[0]["title_color"].ToString().Trim() != "" ) {
+                if (playerDb.Rows[0]["title_color"].ToString().Trim() != "")
+                {
                     titlecolor = c.Parse(playerDb.Rows[0]["title_color"].ToString().Trim());
                 }
-                else {
+                else
+                {
                     titlecolor = "";
                 }
-                if ( playerDb.Rows[0]["color"].ToString().Trim() != "" ) {
+                if (playerDb.Rows[0]["color"].ToString().Trim() != "")
+                {
                     color = c.Parse(playerDb.Rows[0]["color"].ToString().Trim());
                 }
-                else {
+                else
+                {
                     color = group.color;
                 }
                 overallDeath = int.Parse(playerDb.Rows[0]["TotalDeaths"].ToString());
@@ -1052,47 +1191,55 @@ namespace MCForge {
                 money = Economy.RetrieveEcoStats(this.name).money;
                 totalKicked = int.Parse(playerDb.Rows[0]["totalKicked"].ToString());
                 SendMessage("Welcome back " + color + prefix + name + Server.DefaultColor + "! You've been here " + totalLogins + " times!");
-                if ( Server.muted.Contains(name) ) {
+                if (Server.muted.Contains(name))
+                {
                     muted = true;
                     GlobalMessage(name + " is still muted from the last time they went offline.");
                 }
             }
             SetPrefix();
             playerDb.Dispose();
-            if ( PlayerConnect != null )
+            if (PlayerConnect != null)
                 PlayerConnect(this);
             OnPlayerConnectEvent.Call(this);
 
             DonatorPlayers atribs = Donators.GetDonationAtribs(this); //well there seem to be no donators yet, so for the time being this will stay null
-            if ( atribs != null ) {
+            if (atribs != null)
+            {
                 color = "&" + atribs.Color;
                 title = atribs.Title;
                 SetPrefix();
             }
 
-            if ( Server.server_owner != "" && Server.server_owner.ToLower().Equals(this.name.ToLower()) ) {
-                if ( color == Group.standard.color ) {
+            if (Server.server_owner != "" && Server.server_owner.ToLower().Equals(this.name.ToLower()))
+            {
+                if (color == Group.standard.color)
+                {
                     color = "&c";
                 }
-                if ( title == "" ) {
+                if (title == "")
+                {
                     title = "Owner";
                 }
                 SetPrefix();
             }
 
-            try {
-                ushort x = (ushort)( ( 0.5 + level.spawnx ) * 32 );
-                ushort y = (ushort)( ( 1 + level.spawny ) * 32 );
-                ushort z = (ushort)( ( 0.5 + level.spawnz ) * 32 );
+            try
+            {
+                ushort x = (ushort)((0.5 + level.spawnx) * 32);
+                ushort y = (ushort)((1 + level.spawny) * 32);
+                ushort z = (ushort)((0.5 + level.spawnz) * 32);
                 pos = new ushort[3] { x, y, z }; rot = new byte[2] { level.rotx, level.roty };
 
                 GlobalSpawn(this, x, y, z, rot[0], rot[1], true);
-                foreach ( Player p in players ) {
-                    if ( p.level == level && p != this && !p.hidden )
+                foreach (Player p in players)
+                {
+                    if (p.level == level && p != this && !p.hidden)
                         SendSpawn(p.id, p.color + p.name, p.pos[0], p.pos[1], p.pos[2], p.rot[0], p.rot[1]);
                 }
-                foreach ( PlayerBot pB in PlayerBot.playerbots ) {
-                    if ( pB.level == level )
+                foreach (PlayerBot pB in PlayerBot.playerbots)
+                {
+                    if (pB.level == level)
                         SendSpawn(pB.id, pB.color + pB.name, pB.pos[0], pB.pos[1], pB.pos[2], pB.rot[0], pB.rot[1]);
                 }
                 Player.players.ForEach(delegate(Player p)
@@ -1104,23 +1251,28 @@ namespace MCForge {
                     SendExtAddPlayerName(p.id, p.name, p.group, p.color + p.name);
                 });
             }
-            catch ( Exception e ) {
+            catch (Exception e)
+            {
                 Server.ErrorLog(e);
                 Server.s.Log("Error spawning player \"" + name + "\"");
             }
 
             Loading = false;
 
-            if ( Server.verifyadmins == true ) {
-                if ( this.group.Permission >= Server.verifyadminsrank ) {
+            if (Server.verifyadmins == true)
+            {
+                if (this.group.Permission >= Server.verifyadminsrank)
+                {
                     adminpen = true;
                 }
             }
-            if ( emoteList.Contains(name) ) parseSmiley = false;
-            if ( !Directory.Exists("text/login") ) {
+            if (emoteList.Contains(name)) parseSmiley = false;
+            if (!Directory.Exists("text/login"))
+            {
                 Directory.CreateDirectory("text/login");
             }
-            if ( !File.Exists("text/login/" + this.name + ".txt") ) {
+            if (!File.Exists("text/login/" + this.name + ".txt"))
+            {
                 File.WriteAllText("text/login/" + this.name + ".txt", "joined the server.");
             }
 
@@ -1128,12 +1280,17 @@ namespace MCForge {
             bool gotoJail = false;
             string gotoJailMap = "";
             string gotoJailName = "";
-            try {
-                if (File.Exists("ranks/jailed.txt")) {
-                    using (StreamReader read = new StreamReader("ranks/jailed.txt")) {
+            try
+            {
+                if (File.Exists("ranks/jailed.txt"))
+                {
+                    using (StreamReader read = new StreamReader("ranks/jailed.txt"))
+                    {
                         string line;
-                        while ((line = read.ReadLine()) != null) {
-                            if (line.Split()[0].ToLower() == this.name.ToLower()) {
+                        while ((line = read.ReadLine()) != null)
+                        {
+                            if (line.Split()[0].ToLower() == this.name.ToLower())
+                            {
                                 gotoJail = true;
                                 gotoJailMap = line.Split()[1];
                                 gotoJailName = line.Split()[0];
@@ -1141,55 +1298,72 @@ namespace MCForge {
                             }
                         }
                     }
-                } else { File.Create("ranks/jailed.txt").Close(); }
-            } catch {
+                }
+                else { File.Create("ranks/jailed.txt").Close(); }
+            }
+            catch
+            {
                 gotoJail = false;
             }
-            if (gotoJail) {
-                try {
+            if (gotoJail)
+            {
+                try
+                {
                     Command.all.Find("goto").Use(this, gotoJailMap);
                     Command.all.Find("jail").Use(null, gotoJailName);
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     Kick(e.ToString());
                 }
             }
 
-            if (Server.agreetorulesonentry) {
+            if (Server.agreetorulesonentry)
+            {
                 if (!File.Exists("ranks/agreed.txt"))
                     File.WriteAllText("ranks/agreed.txt", "");
                 var agreedFile = File.ReadAllText("ranks/agreed.txt");
-                if (this.group.Permission == LevelPermission.Guest) {
+                if (this.group.Permission == LevelPermission.Guest)
+                {
                     if (!agreedFile.Contains(this.name.ToLower()))
                         SendMessage("&9You must read the &c/rules&9 and &c/agree&9 to them before you can build and use commands!");
                     else agreed = true;
-                } else { agreed = true; }
-            } else { agreed = true; }
+                }
+                else { agreed = true; }
+            }
+            else { agreed = true; }
 
             string joinm = "&a+ " + this.color + this.prefix + this.name + Server.DefaultColor + " " + File.ReadAllText("text/login/" + this.name + ".txt");
-            if ( this.group.Permission < Server.adminchatperm || Server.adminsjoinsilent == false ) {
-            	if (( Server.guestJoinNotify == true && this.group.Permission <= LevelPermission.Guest ) || this.group.Permission > LevelPermission.Guest) {
-            		Player.players.ForEach(p1 =>
-            		                       {
-            		                       	if (p1.UsingWom)
-            		                       	{
-            		                       		byte[] buffer = new byte[65];
-            		                       		Player.StringFormat("^detail.user.join=" + color + name + c.white, 64).CopyTo(buffer, 1);
-            		                       		p1.SendRaw(13, buffer);
-            		                       		buffer = null;
-            		                       	}
-            		                       	else
-            		                       		Player.SendMessage(p1, joinm);
-            		                       });
-            	}
+            if (this.group.Permission < Server.adminchatperm || Server.adminsjoinsilent == false)
+            {
+                if ((Server.guestJoinNotify == true && this.group.Permission <= LevelPermission.Guest) || this.group.Permission > LevelPermission.Guest)
+                {
+                    Player.players.ForEach(p1 =>
+                    {
+                        if (p1.UsingWom)
+                        {
+                            byte[] buffer = new byte[65];
+                            Player.StringFormat("^detail.user.join=" + color + name + c.white, 64).CopyTo(buffer, 1);
+                            p1.SendRaw(13, buffer);
+                            buffer = null;
+                        }
+                        else
+                            Player.SendMessage(p1, joinm);
+                    });
+                }
             }
-            if ( this.group.Permission >= Server.adminchatperm && Server.adminsjoinsilent == true ) {
+            if (this.group.Permission >= Server.adminchatperm && Server.adminsjoinsilent == true)
+            {
                 this.hidden = true;
                 this.adminchat = true;
             }
-			
-            if ( Server.verifyadmins ) {
-                if ( this.group.Permission >= Server.verifyadminsrank ) {
-                    if ( !Directory.Exists("extra/passwords") || !File.Exists("extra/passwords/" + this.name + ".dat") ) {
+
+            if (Server.verifyadmins)
+            {
+                if (this.group.Permission >= Server.verifyadminsrank)
+                {
+                    if (!Directory.Exists("extra/passwords") || !File.Exists("extra/passwords/" + this.name + ".dat"))
+                    {
                         this.SendMessage("&cPlease set your admin verification password with &a/setpass [Password]!");
                     }
                     else
@@ -1198,28 +1372,37 @@ namespace MCForge {
                     }
                 }
             }
-            try {
+            try
+            {
                 Waypoint.Load(this);
                 //if (Waypoints.Count > 0) { this.SendMessage("Loaded " + Waypoints.Count + " waypoints!"); }
             }
-            catch ( Exception ex ) {
+            catch (Exception ex)
+            {
                 SendMessage("Error loading waypoints!");
                 Server.ErrorLog(ex);
             }
-            try {
-                if (File.Exists("ranks/muted.txt")) {
-                    using (StreamReader read = new StreamReader("ranks/muted.txt")) {
+            try
+            {
+                if (File.Exists("ranks/muted.txt"))
+                {
+                    using (StreamReader read = new StreamReader("ranks/muted.txt"))
+                    {
                         string line;
-                        while ((line = read.ReadLine()) != null) {
-                            if (line.ToLower() == this.name.ToLower()) {
+                        while ((line = read.ReadLine()) != null)
+                        {
+                            if (line.ToLower() == this.name.ToLower())
+                            {
                                 this.muted = true;
                                 Player.SendMessage(this, "!%cYou are still %8muted%c since your last login.");
                                 break;
                             }
                         }
                     }
-                } else { File.Create("ranks/muted.txt").Close(); }
-            } catch { muted = false; }
+                }
+                else { File.Create("ranks/muted.txt").Close(); }
+            }
+            catch { muted = false; }
             if (!UsingID)
             {
                 Server.s.Log(name + " [" + ip + "] + has joined the server.");
@@ -1229,22 +1412,25 @@ namespace MCForge {
                 Server.s.Log(name + " [" + ip + "]" + "(" + ID + ") + has joined the server.");
             }
 
-            if ( Server.zombie.ZombieStatus() != 0 ) { Player.SendMessage(this, "There is a Zombie Survival game currently in-progress! Join it by typing /g " + Server.zombie.currentLevelName); }
+            if (Server.zombie.ZombieStatus() != 0) { Player.SendMessage(this, "There is a Zombie Survival game currently in-progress! Join it by typing /g " + Server.zombie.currentLevelName); }
         }
 
-        public void SetPrefix() { //just change the color name if someone ever decides these titles need different colors O.o I just try to match them with the ranks on mcforge.org
+        public void SetPrefix()
+        { //just change the color name if someone ever decides these titles need different colors O.o I just try to match them with the ranks on mcforge.org
             string viptitle = isDev ? string.Format("{1}[{0}Dev{1}] ", c.Parse("blue"), color) : isMod ? string.Format("{1}[{0}Mod{1}] ", c.Parse("lime"), color) : isGCMod ? string.Format("{1}[{0}GCMod{1}] ", c.Parse("gold"), color) : "";
-            prefix = ( title == "" ) ? "" : ( titlecolor == "" ) ? color + "[" + title + "] " : color + "[" + titlecolor + title + color + "] ";
+            prefix = (title == "") ? "" : (titlecolor == "") ? color + "[" + title + "] " : color + "[" + titlecolor + title + color + "] ";
             prefix = viptitle + prefix;
         }
 
-        void HandleBlockchange(byte[] message) {
+        void HandleBlockchange(byte[] message)
+        {
             int section = 0;
-            try {
+            try
+            {
                 //byte[] message = (byte[])m;
-                if ( !loggedIn )
+                if (!loggedIn)
                     return;
-                if ( CheckBlockSpam() )
+                if (CheckBlockSpam())
                     return;
 
                 section++;
@@ -1254,18 +1440,24 @@ namespace MCForge {
                 byte action = message[6];
                 ushort? type = message[7];
 
-                if ( action == 1 && Server.ZombieModeOn && Server.noPillaring ) {
-                    if ( !referee ) {
-                        if ( lastYblock == y - 1 && lastXblock == x && lastZblock == z ) {
+                if (action == 1 && Server.ZombieModeOn && Server.noPillaring)
+                {
+                    if (!referee)
+                    {
+                        if (lastYblock == y - 1 && lastXblock == x && lastZblock == z)
+                        {
                             blocksStacked++;
                         }
-                        else {
+                        else
+                        {
                             blocksStacked = 0;
                         }
-                        if ( blocksStacked == 2 ) {
+                        if (blocksStacked == 2)
+                        {
                             SendMessage("You are pillaring! Stop before you get kicked!");
                         }
-                        if ( blocksStacked == 4 ) {
+                        if (blocksStacked == 4)
+                        {
                             Command.all.Find("kick").Use(null, name + " No pillaring allowed!");
                         }
                     }
@@ -1277,63 +1469,78 @@ namespace MCForge {
 
                 manualChange(x, y, z, action, type);
             }
-            catch ( Exception e ) {
+            catch (Exception e)
+            {
                 // Don't ya just love it when the server tattles?
                 GlobalMessageOps(name + " has triggered a block change error");
                 GlobalMessageOps(e.GetType().ToString() + ": " + e.Message);
                 Server.ErrorLog(e);
             }
         }
-        public void manualChange(ushort x, ushort y, ushort z, byte action, ushort? type) {
-            if ( type > 65 ) {
+        public void manualChange(ushort x, ushort y, ushort z, byte action, ushort? type)
+        {
+            if (type > 65)
+            {
                 Kick("Unknown block type!");
                 return;
             }
 
             ushort? b = level.GetTile(x, y, z);
-            if ( b == Block.Zero ) { return; }
-            if ( jailed || !agreed ) { SendBlockchange(x, y, z, b); return; }
-            if ( level.name.Contains("Museum " + Server.DefaultColor) && Blockchange == null ) {
+            if (b == Block.Zero) { return; }
+            if (jailed || !agreed) { SendBlockchange(x, y, z, b); return; }
+            if (level.name.Contains("Museum " + Server.DefaultColor) && Blockchange == null)
+            {
                 return;
             }
 
-            if ( !deleteMode ) {
+            if (!deleteMode)
+            {
                 string info = level.foundInfo(x, y, z);
-                if ( info.Contains("wait") ) { return; }
+                if (info.Contains("wait")) { return; }
             }
 
-            if ( !canBuild ) {
+            if (!canBuild)
+            {
                 SendBlockchange(x, y, z, b);
                 return;
             }
 
-            if ( Server.verifyadmins == true ) {
-                if ( this.adminpen == true ) {
+            if (Server.verifyadmins == true)
+            {
+                if (this.adminpen == true)
+                {
                     SendBlockchange(x, y, z, b);
                     this.SendMessage("&cYou must use &a/pass [Password]&c to verify!");
                     return;
                 }
             }
 
-            if ( Server.ZombieModeOn && ( action == 1 || ( action == 0 && this.painting ) ) ) {
-                if ( Server.zombie != null && this.level.name == Server.zombie.currentLevelName ) {
-                    if ( blockCount == 0 ) {
-                        if ( !referee ) {
+            if (Server.ZombieModeOn && (action == 1 || (action == 0 && this.painting)))
+            {
+                if (Server.zombie != null && this.level.name == Server.zombie.currentLevelName)
+                {
+                    if (blockCount == 0)
+                    {
+                        if (!referee)
+                        {
                             SendMessage("You have no blocks left.");
                             SendBlockchange(x, y, z, b); return;
                         }
                     }
 
-                    if ( !referee ) {
+                    if (!referee)
+                    {
                         blockCount--;
-                        if ( blockCount == 40 || blockCount == 30 || blockCount == 20 || blockCount <= 10 && blockCount >= 0 ) {
+                        if (blockCount == 40 || blockCount == 30 || blockCount == 20 || blockCount <= 10 && blockCount >= 0)
+                        {
                             SendMessage("Blocks Left: " + c.maroon + blockCount + Server.DefaultColor);
                         }
                     }
                 }
             }
 
-            if ( Server.lava.active && Server.lava.HasPlayer(this) && Server.lava.IsPlayerDead(this) ) {
+            if (Server.lava.active && Server.lava.HasPlayer(this) && Server.lava.IsPlayerDead(this))
+            {
                 SendMessage("You are out of the round, and cannot build.");
                 SendBlockchange(x, y, z, b);
                 return;
@@ -1349,8 +1556,10 @@ namespace MCForge {
             lastClick[1] = y;
             lastClick[2] = z;
             //bool test2 = false;
-            if ( Blockchange != null ) {
-                if ( Blockchange.Method.ToString().IndexOf("AboutBlockchange") == -1 && !level.name.Contains("Museum " + Server.DefaultColor) ) {
+            if (Blockchange != null)
+            {
+                if (Blockchange.Method.ToString().IndexOf("AboutBlockchange") == -1 && !level.name.Contains("Museum " + Server.DefaultColor))
+                {
                     bP.deleted = true;
                     level.blockCache.Add(bP);
                 }
@@ -1358,24 +1567,28 @@ namespace MCForge {
                 Blockchange(this, x, y, z, type);
                 return;
             }
-            if ( PlayerBlockChange != null )
+            if (PlayerBlockChange != null)
                 PlayerBlockChange(this, x, y, z, type);
             OnBlockChangeEvent.Call(this, x, y, z, type);
-            if ( cancelBlock ) {
+            if (cancelBlock)
+            {
                 cancelBlock = false;
                 return;
             }
 
-            if ( group.Permission == LevelPermission.Banned ) return;
-            if ( group.Permission == LevelPermission.Guest ) {
+            if (group.Permission == LevelPermission.Banned) return;
+            if (group.Permission == LevelPermission.Guest)
+            {
                 int Diff = 0;
 
-                Diff = Math.Abs((int)( pos[0] / 32 ) - x);
-                Diff += Math.Abs((int)( pos[1] / 32 ) - y);
-                Diff += Math.Abs((int)( pos[2] / 32 ) - z);
+                Diff = Math.Abs((int)(pos[0] / 32) - x);
+                Diff += Math.Abs((int)(pos[1] / 32) - y);
+                Diff += Math.Abs((int)(pos[2] / 32) - z);
 
-                if ( Diff > 12 ) {
-                    if ( lastCMD != "click" ) {
+                if (Diff > 12)
+                {
+                    if (lastCMD != "click")
+                    {
                         Server.s.Log(name + " attempted to build with a " + Diff.ToString() + " distance offset");
                         GlobalMessageOps("To Ops &f-" + color + name + "&f- attempted to build with a " + Diff.ToString() + " distance offset");
                         SendMessage("You can't build that far away.");
@@ -1383,9 +1596,12 @@ namespace MCForge {
                     }
                 }
 
-                if ( Server.antiTunnel ) {
-                    if ( !ignoreGrief && !PlayingTntWars ) {
-                        if ( y < level.depth / 2 - Server.maxDepth ) {
+                if (Server.antiTunnel)
+                {
+                    if (!ignoreGrief && !PlayingTntWars)
+                    {
+                        if (y < level.depth / 2 - Server.maxDepth)
+                        {
                             SendMessage("You're not allowed to build this far down!");
                             SendBlockchange(x, y, z, b); return;
                         }
@@ -1393,15 +1609,17 @@ namespace MCForge {
                 }
             }
 
-            if ( b == Block.griefer_stone && group.Permission <= Server.grieferStoneRank && !isDev && !isMod) {
-                if ( grieferStoneWarn < 1 )
+            if (b == Block.griefer_stone && group.Permission <= Server.grieferStoneRank && !isDev && !isMod)
+            {
+                if (grieferStoneWarn < 1)
                     SendMessage("Do not grief! This is your first warning!");
-                else if ( grieferStoneWarn < 2 )
-                    SendMessage("Do NOT grief! Next time you will be " + ( Server.grieferStoneBan ? "banned for 30 minutes" : "kicked" ) + "!");
-                else {
-                    if ( Server.grieferStoneBan )
+                else if (grieferStoneWarn < 2)
+                    SendMessage("Do NOT grief! Next time you will be " + (Server.grieferStoneBan ? "banned for 30 minutes" : "kicked") + "!");
+                else
+                {
+                    if (Server.grieferStoneBan)
                         try { Command.all.Find("tempban").Use(null, name + " 30"); }
-                        catch ( Exception ex ) { Server.ErrorLog(ex); }
+                        catch (Exception ex) { Server.ErrorLog(ex); }
                     else
                         Kick(Server.customGrieferStone ? Server.customGrieferStoneMessage : "Oh noes! You were caught griefing!");
                     return;
@@ -1410,76 +1628,89 @@ namespace MCForge {
                 SendBlockchange(x, y, z, b);
                 return;
             }
-            if ( !Block.canPlace(this, b) && !Block.BuildIn(b) && !Block.AllowBreak(b)) {
+            if (!Block.canPlace(this, b) && !Block.BuildIn(b) && !Block.AllowBreak(b))
+            {
                 SendMessage("Cannot build here!");
                 SendBlockchange(x, y, z, b);
                 return;
             }
 
-            if ( !Block.canPlace(this, type) ) {
+            if (!Block.canPlace(this, type))
+            {
                 SendMessage("You can't place this block type!");
                 SendBlockchange(x, y, z, b);
                 return;
             }
 
-            if ( b >= 200 && b < 220 ) {
+            if (b >= 200 && b < 220)
+            {
                 SendMessage("Block is active, you cant disturb it!");
                 SendBlockchange(x, y, z, b);
                 return;
             }
 
 
-            if ( action > 1 ) { Kick("Unknown block action!"); }
+            if (action > 1) { Kick("Unknown block action!"); }
 
             ushort? oldType = type;
             type = bindings[(int)type];
             //Ignores updating blocks that are the same and send block only to the player
-            if ( b == (byte)( ( painting || action == 1 ) ? type : (byte)0 ) ) {
-                if ( painting || oldType != type ) { SendBlockchange(x, y, z, b); } return;
+            if (b == (byte)((painting || action == 1) ? type : (byte)0))
+            {
+                if (painting || oldType != type) { SendBlockchange(x, y, z, b); } return;
             }
             //else
 
-            if ( !painting && action == 0 ) {
-                if ( !deleteMode ) {
-                    if ( Block.portal(b) ) { HandlePortal(this, x, y, z, b); return; }
-                    if ( Block.mb(b) ) { HandleMsgBlock(this, x, y, z, b); return; }
+            if (!painting && action == 0)
+            {
+                if (!deleteMode)
+                {
+                    if (Block.portal(b)) { HandlePortal(this, x, y, z, b); return; }
+                    if (Block.mb(b)) { HandleMsgBlock(this, x, y, z, b); return; }
                 }
 
                 bP.deleted = true;
                 level.blockCache.Add(bP);
                 deleteBlock(b, type, x, y, z);
             }
-            else {
+            else
+            {
                 bP.deleted = false;
                 level.blockCache.Add(bP);
                 placeBlock(b, type, x, y, z);
             }
         }
 
-        public void HandlePortal(Player p, ushort x, ushort y, ushort z, ushort? b) {
-            try {
+        public void HandlePortal(Player p, ushort x, ushort y, ushort z, ushort? b)
+        {
+            try
+            {
                 //safe against SQL injections because no user input is given here
                 DataTable Portals = Database.fillData("SELECT * FROM `Portals" + level.name + "` WHERE EntryX=" + (int)x + " AND EntryY=" + (int)y + " AND EntryZ=" + (int)z);
 
                 int LastPortal = Portals.Rows.Count - 1;
-                if ( LastPortal > -1 ) {
-                    if ( level.name != Portals.Rows[LastPortal]["ExitMap"].ToString() ) {
-                        if ( level.permissionvisit > this.group.Permission ) {
+                if (LastPortal > -1)
+                {
+                    if (level.name != Portals.Rows[LastPortal]["ExitMap"].ToString())
+                    {
+                        if (level.permissionvisit > this.group.Permission)
+                        {
                             Player.SendMessage(this, "You do not have the adequate rank to visit this map!");
                             return;
                         }
                         ignorePermission = true;
                         Level thisLevel = level;
                         Command.all.Find("goto").Use(this, Portals.Rows[LastPortal]["ExitMap"].ToString());
-                        if ( thisLevel == level ) { Player.SendMessage(p, "The map the portal goes to isn't loaded."); return; }
+                        if (thisLevel == level) { Player.SendMessage(p, "The map the portal goes to isn't loaded."); return; }
                         ignorePermission = false;
                     }
                     else SendBlockchange(x, y, z, b);
 
-                    while ( p.Loading ) { } //Wait for player to spawn in new map
+                    while (p.Loading) { } //Wait for player to spawn in new map
                     Command.all.Find("move").Use(this, this.name + " " + Portals.Rows[LastPortal]["ExitX"].ToString() + " " + Portals.Rows[LastPortal]["ExitY"].ToString() + " " + Portals.Rows[LastPortal]["ExitZ"].ToString());
                 }
-                else {
+                else
+                {
                     Blockchange(this, x, y, z, (byte)0);
                 }
                 Portals.Dispose();
@@ -1488,16 +1719,21 @@ namespace MCForge {
         }
 
 
-        public void HandleMsgBlock(Player p, ushort x, ushort y, ushort z, ushort? b) {
-            try {
+        public void HandleMsgBlock(Player p, ushort x, ushort y, ushort z, ushort? b)
+        {
+            try
+            {
                 //safe against SQL injections because no user input is given here
                 DataTable Messages = Database.fillData("SELECT * FROM `Messages" + level.name + "` WHERE X=" + (int)x + " AND Y=" + (int)y + " AND Z=" + (int)z);
 
                 int LastMsg = Messages.Rows.Count - 1;
-                if ( LastMsg > -1 ) {
+                if (LastMsg > -1)
+                {
                     string message = Messages.Rows[LastMsg]["Message"].ToString().Trim();
-                    if ( message != prevMsg || Server.repeatMessage ) {
-                        if ( message.StartsWith("/") ) {
+                    if (message != prevMsg || Server.repeatMessage)
+                    {
+                        if (message.StartsWith("/"))
+                        {
                             List<string> Message = message.Remove(0, 1).Split(' ').ToList();
                             string command = Message[0];
                             Message.RemoveAt(0);
@@ -1511,7 +1747,8 @@ namespace MCForge {
                     }
                     SendBlockchange(x, y, z, b);
                 }
-                else {
+                else
+                {
                     Blockchange(this, x, y, z, (byte)0);
                 }
                 Messages.Dispose();
@@ -1519,33 +1756,40 @@ namespace MCForge {
             catch { Player.SendMessage(p, "No message was stored."); return; }
         }
 
-        private bool checkOp() {
+        private bool checkOp()
+        {
             return group.Permission < LevelPermission.Operator;
         }
 
-        private void deleteBlock(ushort? b, ushort? type, ushort x, ushort y, ushort z) {
+        private void deleteBlock(ushort? b, ushort? type, ushort x, ushort y, ushort z)
+        {
             Random rand = new Random();
             int mx, mz;
 
-            if ( deleteMode && b != Block.c4det ) { level.Blockchange(this, x, y, z, null); return; }
+            if (deleteMode && b != Block.c4det) { level.Blockchange(this, x, y, z, null); return; }
 
-            if ( Block.tDoor(b) ) { SendBlockchange(x, y, z, b); return; }
-            if ( Block.DoorAirs(b) != 0 ) {
-                if ( level.physics != 0 ) level.Blockchange(x, y, z, Block.DoorAirs(b));
+            if (Block.tDoor(b)) { SendBlockchange(x, y, z, b); return; }
+            if (Block.DoorAirs(b) != 0)
+            {
+                if (level.physics != 0) level.Blockchange(x, y, z, Block.DoorAirs(b));
                 else SendBlockchange(x, y, z, b);
                 return;
             }
-            if ( Block.odoor(b) != Block.Zero ) {
-                if ( b == Block.odoor8 || b == Block.odoor8_air ) {
+            if (Block.odoor(b) != Block.Zero)
+            {
+                if (b == Block.odoor8 || b == Block.odoor8_air)
+                {
                     level.Blockchange(this, x, y, z, Block.odoor(b));
                 }
-                else {
+                else
+                {
                     SendBlockchange(x, y, z, b);
                 }
                 return;
             }
 
-            switch ( b ) {
+            switch (b)
+            {
                 case Block.door_air: //Door_air
                 case Block.door2_air:
                 case Block.door3_air:
@@ -1567,50 +1811,56 @@ namespace MCForge {
                 case Block.door_book_air:
                     break;
                 case Block.rocketstart:
-                    if ( level.physics < 2 || level.physics == 5 ) {
+                    if (level.physics < 2 || level.physics == 5)
+                    {
                         SendBlockchange(x, y, z, b);
                     }
-                    else {
+                    else
+                    {
                         int newZ = 0, newX = 0, newY = 0;
 
                         SendBlockchange(x, y, z, Block.rocketstart);
-                        if ( rot[0] < 48 || rot[0] > ( 256 - 48 ) )
+                        if (rot[0] < 48 || rot[0] > (256 - 48))
                             newZ = -1;
-                        else if ( rot[0] > ( 128 - 48 ) && rot[0] < ( 128 + 48 ) )
+                        else if (rot[0] > (128 - 48) && rot[0] < (128 + 48))
                             newZ = 1;
 
-                        if ( rot[0] > ( 64 - 48 ) && rot[0] < ( 64 + 48 ) )
+                        if (rot[0] > (64 - 48) && rot[0] < (64 + 48))
                             newX = 1;
-                        else if ( rot[0] > ( 192 - 48 ) && rot[0] < ( 192 + 48 ) )
+                        else if (rot[0] > (192 - 48) && rot[0] < (192 + 48))
                             newX = -1;
 
-                        if ( rot[1] >= 192 && rot[1] <= ( 192 + 32 ) )
+                        if (rot[1] >= 192 && rot[1] <= (192 + 32))
                             newY = 1;
-                        else if ( rot[1] <= 64 && rot[1] >= 32 )
+                        else if (rot[1] <= 64 && rot[1] >= 32)
                             newY = -1;
 
-                        if ( 192 <= rot[1] && rot[1] <= 196 || 60 <= rot[1] && rot[1] <= 64 ) { newX = 0; newZ = 0; }
+                        if (192 <= rot[1] && rot[1] <= 196 || 60 <= rot[1] && rot[1] <= 64) { newX = 0; newZ = 0; }
 
-                        ushort? b1 = level.GetTile((ushort)( x + newX * 2 ), (ushort)( y + newY * 2 ), (ushort)( z + newZ * 2 ));
-                        ushort? b2 = level.GetTile((ushort)( x + newX ), (ushort)( y + newY ), (ushort)( z + newZ ));
-                        if ( b1 == null && b2 == null && level.CheckClear((ushort)( x + newX * 2 ), (ushort)( y + newY * 2 ), (ushort)( z + newZ * 2 )) && level.CheckClear((ushort)( x + newX ), (ushort)( y + newY ), (ushort)( z + newZ )) ) {
-                            level.Blockchange((ushort)( x + newX * 2 ), (ushort)( y + newY * 2 ), (ushort)( z + newZ * 2 ), Block.rockethead);
-                            level.Blockchange((ushort)( x + newX ), (ushort)( y + newY ), (ushort)( z + newZ ), Block.fire);
+                        ushort? b1 = level.GetTile((ushort)(x + newX * 2), (ushort)(y + newY * 2), (ushort)(z + newZ * 2));
+                        ushort? b2 = level.GetTile((ushort)(x + newX), (ushort)(y + newY), (ushort)(z + newZ));
+                        if (b1 == null && b2 == null && level.CheckClear((ushort)(x + newX * 2), (ushort)(y + newY * 2), (ushort)(z + newZ * 2)) && level.CheckClear((ushort)(x + newX), (ushort)(y + newY), (ushort)(z + newZ)))
+                        {
+                            level.Blockchange((ushort)(x + newX * 2), (ushort)(y + newY * 2), (ushort)(z + newZ * 2), Block.rockethead);
+                            level.Blockchange((ushort)(x + newX), (ushort)(y + newY), (ushort)(z + newZ), Block.fire);
                         }
                     }
                     break;
                 case Block.firework:
-                    if ( level.physics == 5 ) {
+                    if (level.physics == 5)
+                    {
                         SendBlockchange(x, y, z, b);
                         return;
                     }
-                    if ( level.physics != 0 ) {
+                    if (level.physics != 0)
+                    {
                         mx = rand.Next(0, 2); mz = rand.Next(0, 2);
-                        ushort? b1 = level.GetTile((ushort)( x + mx - 1 ), (ushort)( y + 2 ), (ushort)( z + mz - 1 ));
-                        ushort? b2 = level.GetTile((ushort)( x + mx - 1 ), (ushort)( y + 1 ), (ushort)( z + mz - 1 ));
-                        if ( b1 == null && b2 == null && level.CheckClear((ushort)( x + mx - 1 ), (ushort)( y + 2 ), (ushort)( z + mz - 1 )) && level.CheckClear((ushort)( x + mx - 1 ), (ushort)( y + 1 ), (ushort)( z + mz - 1 )) ) {
-                            level.Blockchange((ushort)( x + mx - 1 ), (ushort)( y + 2 ), (ushort)( z + mz - 1 ), Block.firework);
-                            level.Blockchange((ushort)( x + mx - 1 ), (ushort)( y + 1 ), (ushort)( z + mz - 1 ), Block.lavastill, false, "wait 1 dissipate 100");
+                        ushort? b1 = level.GetTile((ushort)(x + mx - 1), (ushort)(y + 2), (ushort)(z + mz - 1));
+                        ushort? b2 = level.GetTile((ushort)(x + mx - 1), (ushort)(y + 1), (ushort)(z + mz - 1));
+                        if (b1 == null && b2 == null && level.CheckClear((ushort)(x + mx - 1), (ushort)(y + 2), (ushort)(z + mz - 1)) && level.CheckClear((ushort)(x + mx - 1), (ushort)(y + 1), (ushort)(z + mz - 1)))
+                        {
+                            level.Blockchange((ushort)(x + mx - 1), (ushort)(y + 2), (ushort)(z + mz - 1), Block.firework);
+                            level.Blockchange((ushort)(x + mx - 1), (ushort)(y + 1), (ushort)(z + mz - 1), Block.lavastill, false, "wait 1 dissipate 100");
                         }
                     } SendBlockchange(x, y, z, b);
 
@@ -1622,28 +1872,33 @@ namespace MCForge {
                     break;
 
                 default:
-                    level.Blockchange(this, x, y, z, (ushort?)( null ));
+                    level.Blockchange(this, x, y, z, (ushort?)(null));
                     break;
             }
-            if ( ( level.physics == 0 || level.physics == 5 ) && level.GetTile(x, (ushort)( y - 1 ), z) == 3 ) level.Blockchange(this, x, (ushort)( y - 1 ), z, 2);
+            if ((level.physics == 0 || level.physics == 5) && level.GetTile(x, (ushort)(y - 1), z) == 3) level.Blockchange(this, x, (ushort)(y - 1), z, 2);
         }
 
-        public void placeBlock(ushort? b, ushort? type, ushort x, ushort y, ushort z) {
-            if ( Block.odoor(b) != Block.Zero ) { SendMessage("oDoor here!"); return; }
+        public void placeBlock(ushort? b, ushort? type, ushort x, ushort y, ushort z)
+        {
+            if (Block.odoor(b) != Block.Zero) { SendMessage("oDoor here!"); return; }
 
-            switch ( blockAction ) {
+            switch (blockAction)
+            {
                 case 0: //normal
-                    if ( level.physics == 0 || level.physics == 5 ) {
-                        switch ( type ) {
+                    if (level.physics == 0 || level.physics == 5)
+                    {
+                        switch (type)
+                        {
                             case Block.dirt: //instant dirt to grass
-                                if ( Block.LightPass(level.GetTile(x, (ushort)( y + 1 ), z)) ) level.Blockchange(this, x, y, z, (byte)( Block.grass ));
-                                else level.Blockchange(this, x, y, z, (byte)( Block.dirt ));
+                                if (Block.LightPass(level.GetTile(x, (ushort)(y + 1), z))) level.Blockchange(this, x, y, z, (byte)(Block.grass));
+                                else level.Blockchange(this, x, y, z, (byte)(Block.dirt));
                                 break;
                             case Block.staircasestep: //stair handler
-                                if ( level.GetTile(x, (ushort)( y - 1 ), z) == Block.staircasestep ) {
+                                if (level.GetTile(x, (ushort)(y - 1), z) == Block.staircasestep)
+                                {
                                     SendBlockchange(x, y, z, null); //send the air block back only to the user.
                                     //level.Blockchange(this, x, y, z, (byte)(null));
-                                    level.Blockchange(this, x, (ushort)( y - 1 ), z, (byte)( Block.staircasefull ));
+                                    level.Blockchange(this, x, (ushort)(y - 1), z, (byte)(Block.staircasefull));
                                     break;
                                 }
                                 //else
@@ -1654,12 +1909,13 @@ namespace MCForge {
                                 break;
                         }
                     }
-                    else {
+                    else
+                    {
                         level.Blockchange(this, x, y, z, type);
                     }
                     break;
                 case 6:
-                    if ( b == modeType ) { SendBlockchange(x, y, z, b); return; }
+                    if (b == modeType) { SendBlockchange(x, y, z, b); return; }
                     level.Blockchange(this, x, y, z, modeType);
                     break;
                 case 13: //Small TNT
@@ -1678,8 +1934,9 @@ namespace MCForge {
             }
         }
 
-        void HandleInput(object m) {
-            if ( !loggedIn || trainGrab || following != "" || frozen )
+        void HandleInput(object m)
+        {
+            if (!loggedIn || trainGrab || following != "" || frozen)
                 return;
             /*if (CheckIfInsideBlock())
 {
@@ -1688,10 +1945,12 @@ return;
 }*/
 
             byte[] message = (byte[])m;
-      //      byte thisid = message[0];
+            //      byte thisid = message[0];
 
-            if ( this.incountdown == true && CountdownGame.gamestatus == CountdownGameStatus.InProgress && CountdownGame.freezemode == true ) {
-                if ( this.countdownsettemps == true ) {
+            if (this.incountdown == true && CountdownGame.gamestatus == CountdownGameStatus.InProgress && CountdownGame.freezemode == true)
+            {
+                if (this.countdownsettemps == true)
+                {
                     countdowntempx = NTHO(message, 1);
                     Thread.Sleep(100);
                     countdowntempz = NTHO(message, 5);
@@ -1705,28 +1964,33 @@ return;
                 byte roty = message[8];
                 pos = new ushort[3] { x, y, z };
                 rot = new byte[2] { rotx, roty };
-                if ( countdowntempx != NTHO(message, 1) || countdowntempz != NTHO(message, 5) ) {
+                if (countdowntempx != NTHO(message, 1) || countdowntempz != NTHO(message, 5))
+                {
                     unchecked { this.SendPos((byte)-1, pos[0], pos[1], pos[2], rot[0], rot[1]); }
                 }
             }
-            else {
+            else
+            {
                 ushort x = NTHO(message, 1);
                 ushort y = NTHO(message, 3);
                 ushort z = NTHO(message, 5);
 
-                if ( !this.referee && Server.noRespawn && Server.ZombieModeOn ) {
-                    if ( this.pos[0] >= x + 70 || this.pos[0] <= x - 70 ) {
+                if (!this.referee && Server.noRespawn && Server.ZombieModeOn)
+                {
+                    if (this.pos[0] >= x + 70 || this.pos[0] <= x - 70)
+                    {
                         unchecked { SendPos((byte)-1, pos[0], pos[1], pos[2], rot[0], rot[1]); }
                         return;
                     }
-                    if ( this.pos[2] >= z + 70 || this.pos[2] <= z - 70 ) {
+                    if (this.pos[2] >= z + 70 || this.pos[2] <= z - 70)
+                    {
                         unchecked { SendPos((byte)-1, pos[0], pos[1], pos[2], rot[0], rot[1]); }
                         return;
                     }
                 }
-                if ( OnMove != null )
+                if (OnMove != null)
                     OnMove(this, x, y, z);
-                if ( PlayerMove != null )
+                if (PlayerMove != null)
                     PlayerMove(this, x, y, z);
                 PlayerMoveEvent.Call(this, x, y, z);
 
@@ -1735,7 +1999,8 @@ return;
                 if (PlayerRotate != null)
                     PlayerRotate(this, rot);
                 PlayerRotateEvent.Call(this, rot);
-                if ( cancelmove ) {
+                if (cancelmove)
+                {
                     unchecked { SendPos((byte)-1, pos[0], pos[1], pos[2], rot[0], rot[1]); }
                     return;
                 }
@@ -1751,34 +2016,42 @@ cliprot = rot;
             }
         }
 
-        public void RealDeath(ushort x, ushort y, ushort z) {
-            ushort? b = level.GetTile(x, (ushort)( y - 2 ), z);
+        public void RealDeath(ushort x, ushort y, ushort z)
+        {
+            ushort? b = level.GetTile(x, (ushort)(y - 2), z);
             ushort? b1 = level.GetTile(x, y, z);
-            if ( oldBlock != (ushort)( x + y + z ) ) {
-                if ( Block.Convert(b) == null ) {
+            if (oldBlock != (ushort)(x + y + z))
+            {
+                if (Block.Convert(b) == null)
+                {
                     deathCount++;
                     deathblock = null;
                     return;
                 }
-                else {
-                    if ( deathCount > level.fall && deathblock == null ) {
+                else
+                {
+                    if (deathCount > level.fall && deathblock == null)
+                    {
                         HandleDeath(deathblock);
                         deathCount = 0;
                     }
-                    else if ( deathblock != Block.water ) {
+                    else if (deathblock != Block.water)
+                    {
                         deathCount = 0;
                     }
                 }
             }
 
-            switch ( Block.Convert(b1) ) {
+            switch (Block.Convert(b1))
+            {
                 case Block.water:
                 case Block.waterstill:
                 case Block.lava:
                 case Block.lavastill:
                     deathCount++;
                     deathblock = Block.water;
-                    if ( deathCount > level.drown * 200 ) {
+                    if (deathCount > level.drown * 200)
+                    {
                         HandleDeath(deathblock);
                         deathCount = 0;
                     }
@@ -1789,54 +2062,65 @@ cliprot = rot;
             }
         }
 
-        public void CheckBlock(ushort x, ushort y, ushort z) {
-            y = (ushort)Math.Round((decimal)( ( ( y * 32 ) + 4 ) / 32 ));
+        public void CheckBlock(ushort x, ushort y, ushort z)
+        {
+            y = (ushort)Math.Round((decimal)(((y * 32) + 4) / 32));
 
             ushort? b = this.level.GetTile(x, y, z);
-            ushort? b1 = this.level.GetTile(x, (ushort)( (int)y - 1 ), z);
+            ushort? b1 = this.level.GetTile(x, (ushort)((int)y - 1), z);
 
-            if ( Block.Mover(b) || Block.Mover(b1) ) {
-                if ( Block.DoorAirs(b) != 0 )
+            if (Block.Mover(b) || Block.Mover(b1))
+            {
+                if (Block.DoorAirs(b) != 0)
                     level.Blockchange(x, y, z, Block.DoorAirs(b));
-                if ( Block.DoorAirs(b1) != 0 )
-                    level.Blockchange(x, (ushort)( y - 1 ), z, Block.DoorAirs(b1));
+                if (Block.DoorAirs(b1) != 0)
+                    level.Blockchange(x, (ushort)(y - 1), z, Block.DoorAirs(b1));
 
-                if ( ( x + y + z ) != oldBlock ) {
-                    if ( b == Block.air_portal || b == Block.water_portal || b == Block.lava_portal ) {
+                if ((x + y + z) != oldBlock)
+                {
+                    if (b == Block.air_portal || b == Block.water_portal || b == Block.lava_portal)
+                    {
                         HandlePortal(this, x, y, z, b);
                     }
-                    else if ( b1 == Block.air_portal || b1 == Block.water_portal || b1 == Block.lava_portal ) {
-                        HandlePortal(this, x, (ushort)( (int)y - 1 ), z, b1);
+                    else if (b1 == Block.air_portal || b1 == Block.water_portal || b1 == Block.lava_portal)
+                    {
+                        HandlePortal(this, x, (ushort)((int)y - 1), z, b1);
                     }
 
-                    if ( b == Block.MsgAir || b == Block.MsgWater || b == Block.MsgLava ) {
+                    if (b == Block.MsgAir || b == Block.MsgWater || b == Block.MsgLava)
+                    {
                         HandleMsgBlock(this, x, y, z, b);
                     }
-                    else if ( b1 == Block.MsgAir || b1 == Block.MsgWater || b1 == Block.MsgLava ) {
-                        HandleMsgBlock(this, x, (ushort)( (int)y - 1 ), z, b1);
+                    else if (b1 == Block.MsgAir || b1 == Block.MsgWater || b1 == Block.MsgLava)
+                    {
+                        HandleMsgBlock(this, x, (ushort)((int)y - 1), z, b1);
                     }
                 }
             }
-            if ( ( b == Block.tntexplosion || b1 == Block.tntexplosion ) && PlayingTntWars ) { }
-            else if ( Block.Death(b) ) HandleDeath(b); else if ( Block.Death(b1) ) HandleDeath(b1);
+            if ((b == Block.tntexplosion || b1 == Block.tntexplosion) && PlayingTntWars) { }
+            else if (Block.Death(b)) HandleDeath(b); else if (Block.Death(b1)) HandleDeath(b1);
         }
 
-        public void HandleDeath(ushort? b, string customMessage = "", bool explode = false) {
-            ushort x = (ushort)( pos[0] / 32 );
-            ushort y = (ushort)( pos[1] / 32 );
-            ushort z = (ushort)( pos[2] / 32 );
-            if ( OnDeath != null )
+        public void HandleDeath(ushort? b, string customMessage = "", bool explode = false)
+        {
+            ushort x = (ushort)(pos[0] / 32);
+            ushort y = (ushort)(pos[1] / 32);
+            ushort z = (ushort)(pos[2] / 32);
+            if (OnDeath != null)
                 OnDeath(this, b);
-            if ( PlayerDeath != null )
+            if (PlayerDeath != null)
                 PlayerDeath(this, b);
             OnPlayerDeathEvent.Call(this, b);
-            if ( Server.lava.active && Server.lava.HasPlayer(this) && Server.lava.IsPlayerDead(this) )
+            if (Server.lava.active && Server.lava.HasPlayer(this) && Server.lava.IsPlayerDead(this))
                 return;
-            if ( lastDeath.AddSeconds(2) < DateTime.Now ) {
+            if (lastDeath.AddSeconds(2) < DateTime.Now)
+            {
 
-                if ( level.Killer && !invincible ) {
+                if (level.Killer && !invincible)
+                {
 
-                    switch ( b ) {
+                    switch (b)
+                    {
                         case Block.tntexplosion: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " &cblew into pieces.", false); break;
                         case Block.deathair: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " walked into &cnerve gas and suffocated.", false); break;
                         case Block.deathwater:
@@ -1858,15 +2142,16 @@ cliprot = rot;
                         case Block.Zero: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was &cterminated", false); break;
                         case Block.fishlavashark: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was eaten by a ... LAVA SHARK?!", false); break;
                         case Block.rock:
-                            if ( explode ) level.MakeExplosion(x, y, z, 1);
+                            if (explode) level.MakeExplosion(x, y, z, 1);
                             GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
                             break;
                         case Block.stone:
-                            if ( explode ) level.MakeExplosion(x, y, z, 1);
+                            if (explode) level.MakeExplosion(x, y, z, 1);
                             GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
                             break;
                     }
-                    if ( team != null && this.level.ctfmode ) {
+                    if (team != null && this.level.ctfmode)
+                    {
                         //if (carryingFlag)
                         //{
                         // level.ctfgame.DropFlag(this, hasflag);
@@ -1874,27 +2159,32 @@ cliprot = rot;
                         team.SpawnPlayer(this);
                         //this.health = 100;
                     }
-                    else if ( CountdownGame.playersleftlist.Contains(this) ) {
+                    else if (CountdownGame.playersleftlist.Contains(this))
+                    {
                         CountdownGame.Death(this);
                         Command.all.Find("spawn").Use(this, "");
                     }
-                    else if ( PlayingTntWars ) {
+                    else if (PlayingTntWars)
+                    {
                         TntWarsKillStreak = 0;
                         TntWarsScoreMultiplier = 1f;
                     }
-                    else if ( Server.lava.active && Server.lava.HasPlayer(this) ) {
-                        if ( !Server.lava.IsPlayerDead(this) ) {
+                    else if (Server.lava.active && Server.lava.HasPlayer(this))
+                    {
+                        if (!Server.lava.IsPlayerDead(this))
+                        {
                             Server.lava.KillPlayer(this);
                             Command.all.Find("spawn").Use(this, "");
                         }
                     }
-                    else {
+                    else
+                    {
                         Command.all.Find("spawn").Use(this, "");
                         overallDeath++;
                     }
 
-                    if ( Server.deathcount )
-                        if ( overallDeath > 0 && overallDeath % 10 == 0 ) GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " has died &3" + overallDeath + " times", false);
+                    if (Server.deathcount)
+                        if (overallDeath > 0 && overallDeath % 10 == 0) GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " has died &3" + overallDeath + " times", false);
                 }
                 lastDeath = DateTime.Now;
 
@@ -1941,20 +2231,22 @@ try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.waterstill); } catch { }
 
         void SendWomUsers()
         {
-        	Player.players.ForEach(delegate(Player p)
-			                       {
-			                       	if (p != this)
-			                       	{
-			                       		byte[] buffer = new byte[65];
-			                       		Player.StringFormat("^detail.user.here=" + p.color + p.name, 64).CopyTo(buffer, 1);
-			                       		SendRaw(13, buffer);
-			                       		buffer = null;
-			                       	}
-			                       });
+            Player.players.ForEach(delegate(Player p)
+            {
+                if (p != this)
+                {
+                    byte[] buffer = new byte[65];
+                    Player.StringFormat("^detail.user.here=" + p.color + p.name, 64).CopyTo(buffer, 1);
+                    SendRaw(13, buffer);
+                    buffer = null;
+                }
+            });
         }
-        void HandleChat(byte[] message) {
-            try {
-                if ( !loggedIn ) return;
+        void HandleChat(byte[] message)
+        {
+            try
+            {
+                if (!loggedIn) return;
 
                 //byte[] message = (byte[])m;
                 string text = enc.GetString(message, 1, 64).Trim();
@@ -1962,21 +2254,24 @@ try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.waterstill); } catch { }
                 text = text.Trim('\0');
 
                 // handles the /womid client message, which displays the WoM version
-                if ( text.Truncate(6) == "/womid" ) {
-                	string version = (text.Length <= 21 ? text.Substring(text.IndexOf(' ') + 1) : text.Substring(7, 15));
-                	Player.GlobalMessage(c.red + "[INFO] " + color + name + "%f is using wom client");
-                	Player.GlobalMessage(c.red + "[INFO] %fVersion: " + version);
-                	Server.s.Log(c.red + "[INFO] " + color + name + "%f is using wom client");
-                	Server.s.Log(c.red + "[INFO] %fVersion: " + version);
+                if (text.Truncate(6) == "/womid")
+                {
+                    string version = (text.Length <= 21 ? text.Substring(text.IndexOf(' ') + 1) : text.Substring(7, 15));
+                    Player.GlobalMessage(c.red + "[INFO] " + color + name + "%f is using wom client");
+                    Player.GlobalMessage(c.red + "[INFO] %fVersion: " + version);
+                    Server.s.Log(c.red + "[INFO] " + color + name + "%f is using wom client");
+                    Server.s.Log(c.red + "[INFO] %fVersion: " + version);
                     UsingWom = true;
                     WoMVersion = version.Split('-')[1];
                     SendWomUsers();
                     return;
                 }
 
-                if ( MessageHasBadColorCodes(this, text) ) return;
-                if ( storedMessage != "" ) {
-                    if ( !text.EndsWith(">") && !text.EndsWith("<") ) {
+                if (MessageHasBadColorCodes(this, text)) return;
+                if (storedMessage != "")
+                {
+                    if (!text.EndsWith(">") && !text.EndsWith("<"))
+                    {
                         text = storedMessage.Replace("|>|", " ").Replace("|<|", "") + text;
                         storedMessage = "";
                     }
@@ -1994,23 +2289,26 @@ try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.waterstill); } catch { }
                     SendMessage(c.teal + "Partial message: " + c.white + storedMessage.Replace("|<|", "").Replace("|>|", " "));
                     return;
                 }
-                if ( Regex.IsMatch(text, "%[^a-fA-F0-9]") )//This causes all players to crash!
+                if (Regex.IsMatch(text, "%[^a-fA-F0-9]"))//This causes all players to crash!
                 {
                     SendMessage(this, "You're not allowed to send that message!");
                     return;
                 }
 
                 text = Regex.Replace(text, @"\s\s+", " ");
-                if ( text.Any(ch => ch < 32 || ch >= 127 || ch == '&') ) {
+                if (text.Any(ch => ch < 32 || ch >= 127 || ch == '&'))
+                {
                     Kick("Illegal character in chat message!");
                     return;
                 }
-                if ( text.Length == 0 )
+                if (text.Length == 0)
                     return;
                 afkCount = 0;
 
-                if ( text != "/afk" ) {
-                    if ( Server.afkset.Contains(this.name) ) {
+                if (text != "/afk")
+                {
+                    if (Server.afkset.Contains(this.name))
+                    {
                         Server.afkset.Remove(this.name);
                         Player.GlobalMessage("-" + this.color + this.name + Server.DefaultColor + "- is no longer AFK");
                         //IRCBot.Say(this.name + " is no longer AFK");
@@ -2021,21 +2319,25 @@ try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.waterstill); } catch { }
                 // and in chat it will appear as
                 // /Command
                 // Suggested by McMrCat
-                if ( text.StartsWith("//") ) {
+                if (text.StartsWith("//"))
+                {
                     text = text.Remove(0, 1);
                     goto hello;
                 }
                 //This will make / = /repeat
                 //For lazy people :P
-                if ( text == "/" ) {
+                if (text == "/")
+                {
                     HandleCommand("repeat", "");
                     return;
                 }
-                if ( text[0] == '/' || text[0] == '!' ) {
+                if (text[0] == '/' || text[0] == '!')
+                {
                     text = text.Remove(0, 1);
 
                     int pos = text.IndexOf(' ');
-                    if ( pos == -1 ) {
+                    if (pos == -1)
+                    {
                         HandleCommand(text.ToLower(), "");
                         return;
                     }
@@ -2046,64 +2348,78 @@ try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.waterstill); } catch { }
                 }
             hello:
                 // People who are muted can't speak or vote
-                if ( muted ) { this.SendMessage("You are muted."); return; } //Muted: Only allow commands
+                if (muted) { this.SendMessage("You are muted."); return; } //Muted: Only allow commands
 
                 // Lava Survival map vote recorder
-                if ( Server.lava.HasPlayer(this) && Server.lava.HasVote(text.ToLower()) ) {
-                    if ( Server.lava.AddVote(this, text.ToLower()) ) {
+                if (Server.lava.HasPlayer(this) && Server.lava.HasVote(text.ToLower()))
+                {
+                    if (Server.lava.AddVote(this, text.ToLower()))
+                    {
                         SendMessage("Your vote for &5" + text.ToLower().Capitalize() + Server.DefaultColor + " has been placed. Thanks!");
                         Server.lava.map.ChatLevelOps(name + " voted for &5" + text.ToLower().Capitalize() + Server.DefaultColor + ".");
                         return;
                     }
-                    else {
+                    else
+                    {
                         SendMessage("&cYou already voted!");
                         return;
                     }
                 }
 
                 //CmdVoteKick core vote recorder
-                if ( Server.voteKickInProgress && text.Length == 1 ) {
-                    if ( text.ToLower() == "y" ) {
+                if (Server.voteKickInProgress && text.Length == 1)
+                {
+                    if (text.ToLower() == "y")
+                    {
                         this.voteKickChoice = VoteKickChoice.Yes;
                         SendMessage("Thanks for voting!");
                         return;
                     }
-                    if ( text.ToLower() == "n" ) {
+                    if (text.ToLower() == "n")
+                    {
                         this.voteKickChoice = VoteKickChoice.No;
                         SendMessage("Thanks for voting!");
                         return;
                     }
                 }
-                
+
                 // Put this after vote collection so that people can vote even when chat is moderated
-                if ( Server.chatmod && !this.voice ) { this.SendMessage("Chat moderation is on, you cannot speak."); return; }
+                if (Server.chatmod && !this.voice) { this.SendMessage("Chat moderation is on, you cannot speak."); return; }
 
                 // Filter out bad words
-                if ( Server.profanityFilter == true ) {
+                if (Server.profanityFilter == true)
+                {
                     text = ProfanityFilter.Parse(text);
                 }
 
-                if ( Server.checkspam == true ) {
+                if (Server.checkspam == true)
+                {
                     //if (consecutivemessages == 0)
                     //{
                     // consecutivemessages++;
                     //}
-                    if ( Player.lastMSG == this.name ) {
+                    if (Player.lastMSG == this.name)
+                    {
                         consecutivemessages++;
                     }
-                    else {
+                    else
+                    {
                         consecutivemessages--;
                     }
 
-                    if ( this.consecutivemessages >= Server.spamcounter ) {
+                    if (this.consecutivemessages >= Server.spamcounter)
+                    {
                         int total = Server.mutespamtime;
                         Command.all.Find("mute").Use(null, this.name);
                         Player.GlobalMessage(this.name + " has been &0muted &efor spamming!");
-                        muteTimer.Elapsed += delegate {
+                        muteTimer.Elapsed += delegate
+                        {
                             total--;
-                            if ( total <= 0 ) {
+                            if (total <= 0)
+                            {
                                 muteTimer.Stop();
-                                if ( this.muted == true ) {
+                                if (this.muted == true)
+                                {
                                     Command.all.Find("mute").Use(null, this.name);
                                 }
                                 this.consecutivemessages = 0;
@@ -2116,40 +2432,47 @@ try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.waterstill); } catch { }
                 }
                 Player.lastMSG = this.name;
 
-                if ( text.Length >= 2 && text[0] == '@' && text[1] == '@' ) {
+                if (text.Length >= 2 && text[0] == '@' && text[1] == '@')
+                {
                     text = text.Remove(0, 2);
-                    if ( text.Length < 1 ) { SendMessage("No message entered"); return; }
+                    if (text.Length < 1) { SendMessage("No message entered"); return; }
                     SendChat(this, Server.DefaultColor + "[<] Console: &f" + text);
                     Server.s.Log("[>] " + this.name + ": " + text);
                     return;
                 }
-                if ( text[0] == '@' || whisper ) {
+                if (text[0] == '@' || whisper)
+                {
                     string newtext = text;
-                    if ( text[0] == '@' ) newtext = text.Remove(0, 1).Trim();
+                    if (text[0] == '@') newtext = text.Remove(0, 1).Trim();
 
-                    if ( whisperTo == "" ) {
+                    if (whisperTo == "")
+                    {
                         int pos = newtext.IndexOf(' ');
-                        if ( pos != -1 ) {
+                        if (pos != -1)
+                        {
                             string to = newtext.Substring(0, pos);
                             string msg = newtext.Substring(pos + 1);
                             HandleQuery(to, msg); return;
                         }
-                        else {
+                        else
+                        {
                             SendMessage("No message entered");
                             return;
                         }
                     }
-                    else {
+                    else
+                    {
                         HandleQuery(whisperTo, newtext);
                         return;
                     }
                 }
-                if ( text[0] == '#' || opchat ) {
+                if (text[0] == '#' || opchat)
+                {
                     string newtext = text;
-                    if ( text[0] == '#' ) newtext = text.Remove(0, 1).Trim();
+                    if (text[0] == '#') newtext = text.Remove(0, 1).Trim();
 
                     GlobalMessageOps("To Ops &f-" + color + name + "&f- " + newtext);
-                    if ( group.Permission < Server.opchatperm && !isStaff )
+                    if (group.Permission < Server.opchatperm && !isStaff)
                         SendMessage("To Ops &f-" + color + name + "&f- " + newtext);
                     Server.s.Log("(OPs): " + name + ": " + newtext);
                     //Server.s.OpLog("(OPs): " + name + ": " + newtext);
@@ -2157,35 +2480,41 @@ try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.waterstill); } catch { }
                     Server.IRC.Say(name + ": " + newtext, true);
                     return;
                 }
-                if ( text[0] == '+' || adminchat ) {
+                if (text[0] == '+' || adminchat)
+                {
                     string newtext = text;
-                    if ( text[0] == '+' ) newtext = text.Remove(0, 1).Trim();
+                    if (text[0] == '+') newtext = text.Remove(0, 1).Trim();
 
                     GlobalMessageAdmins("To Admins &f-" + color + name + "&f- " + newtext); //to make it easy on remote
-                    if ( group.Permission < Server.adminchatperm && !isStaff )
+                    if (group.Permission < Server.adminchatperm && !isStaff)
                         SendMessage("To Admins &f-" + color + name + "&f- " + newtext);
                     Server.s.Log("(Admins): " + name + ": " + newtext);
                     Server.IRC.Say(name + ": " + newtext, true);
                     return;
                 }
 
-                if ( InGlobalChat ) {
+                if (InGlobalChat)
+                {
                     Command.all.Find("global").Use(this, text); //Didn't want to rewrite the whole command... you lazy bastard :3
                     return;
                 }
 
-                if ( text[0] == ':' ) {
-                    if ( PlayingTntWars ) {
+                if (text[0] == ':')
+                {
+                    if (PlayingTntWars)
+                    {
                         string newtext = text;
-                        if ( text[0] == ':' ) newtext = text.Remove(0, 1).Trim();
+                        if (text[0] == ':') newtext = text.Remove(0, 1).Trim();
                         TntWarsGame it = TntWarsGame.GetTntWarsGame(this);
-                        if ( it.GameMode == TntWarsGame.TntWarsGameMode.TDM ) {
+                        if (it.GameMode == TntWarsGame.TntWarsGameMode.TDM)
+                        {
                             TntWarsGame.player pl = it.FindPlayer(this);
-                            foreach ( TntWarsGame.player p in it.Players ) {
-                                if ( pl.Red && p.Red ) SendMessage(p.p, "To Team " + c.red + "-" + color + name + c.red + "- " + Server.DefaultColor + newtext);
-                                if ( pl.Blue && p.Blue ) SendMessage(p.p, "To Team " + c.blue + "-" + color + name + c.blue + "- " + Server.DefaultColor + newtext);
+                            foreach (TntWarsGame.player p in it.Players)
+                            {
+                                if (pl.Red && p.Red) SendMessage(p.p, "To Team " + c.red + "-" + color + name + c.red + "- " + Server.DefaultColor + newtext);
+                                if (pl.Blue && p.Blue) SendMessage(p.p, "To Team " + c.blue + "-" + color + name + c.blue + "- " + Server.DefaultColor + newtext);
                             }
-                            Server.s.Log("[TNT Wars] [TeamChat (" + ( pl.Red ? "Red" : "Blue" ) + ") " + name + " " + newtext);
+                            Server.s.Log("[TNT Wars] [TeamChat (" + (pl.Red ? "Red" : "Blue") + ") " + name + " " + newtext);
                             return;
                         }
                     }
@@ -2204,8 +2533,10 @@ Player.SendMessage(p, "(" + team.teamstring + ") " + this.color + this.name + ":
 }
 return;
 }*/
-                if ( this.joker ) {
-                    if ( File.Exists("text/joker.txt") ) {
+                if (this.joker)
+                {
+                    if (File.Exists("text/joker.txt"))
+                    {
                         Server.s.Log("<JOKER>: " + this.name + ": " + text);
                         Player.GlobalMessageOps(Server.DefaultColor + "<&aJ&bO&cK&5E&9R" + Server.DefaultColor + ">: " + this.color + this.name + ":&f " + text);
                         FileInfo jokertxt = new FileInfo("text/joker.txt");
@@ -2214,13 +2545,14 @@ return;
                         Random rnd = new Random();
                         int i = 0;
 
-                        while ( !( stRead.Peek() == -1 ) )
+                        while (!(stRead.Peek() == -1))
                             lines.Add(stRead.ReadLine());
 
                         stRead.Close();
                         stRead.Dispose();
 
-                        if ( lines.Count > 0 ) {
+                        if (lines.Count > 0)
+                        {
                             i = rnd.Next(lines.Count);
                             text = lines[i];
                         }
@@ -2231,150 +2563,179 @@ return;
                 }
 
                 //chatroom stuff
-                if ( this.Chatroom != null ) {
+                if (this.Chatroom != null)
+                {
                     ChatRoom(this, text, true, this.Chatroom);
                     return;
                 }
 
-                if ( !level.worldChat ) {
+                if (!level.worldChat)
+                {
                     Server.s.Log("<" + name + ">[level] " + text);
                     GlobalChatLevel(this, text, true);
                     return;
                 }
 
-                if ( text[0] == '%' ) {
+                if (text[0] == '%')
+                {
                     string newtext = text;
-                    if ( !Server.worldChat ) {
+                    if (!Server.worldChat)
+                    {
                         newtext = text.Remove(0, 1).Trim();
                         GlobalChatWorld(this, newtext, true);
                     }
-                    else {
+                    else
+                    {
                         GlobalChat(this, newtext);
                     }
                     Server.s.Log("<" + name + "> " + newtext);
                     //IRCBot.Say("<" + name + "> " + newtext);
-                    if ( OnChat != null )
+                    if (OnChat != null)
                         OnChat(this, text);
-                    if ( PlayerChat != null )
+                    if (PlayerChat != null)
                         PlayerChat(this, text);
                     OnPlayerChatEvent.Call(this, text);
                     return;
                 }
                 Server.s.Log("<" + name + "> " + text);
-                if ( OnChat != null )
+                if (OnChat != null)
                     OnChat(this, text);
-                if ( PlayerChat != null )
+                if (PlayerChat != null)
                     PlayerChat(this, text);
                 OnPlayerChatEvent.Call(this, text);
-                if ( cancelchat ) {
+                if (cancelchat)
+                {
                     cancelchat = false;
                     return;
                 }
-                if ( Server.worldChat ) {
+                if (Server.worldChat)
+                {
                     GlobalChat(this, text);
                 }
-                else {
+                else
+                {
                     GlobalChatLevel(this, text, true);
                 }
 
                 //IRCBot.Say(name + ": " + text);
             }
-            catch ( Exception e ) { Server.ErrorLog(e); Player.GlobalMessage("An error occurred: " + e.Message); }
+            catch (Exception e) { Server.ErrorLog(e); Player.GlobalMessage("An error occurred: " + e.Message); }
         }
-        public void HandleCommand(string cmd, string message) {
-            try {
-                if ( Server.verifyadmins ) {
-                    if ( cmd.ToLower() == "setpass" ) {
+        public void HandleCommand(string cmd, string message)
+        {
+            try
+            {
+                if (Server.verifyadmins)
+                {
+                    if (cmd.ToLower() == "setpass")
+                    {
                         Command.all.Find(cmd).Use(this, message);
                         Server.s.CommandUsed(this.name + " used /setpass");
                         return;
                     }
-                    if ( cmd.ToLower() == "pass" ) {
+                    if (cmd.ToLower() == "pass")
+                    {
                         Command.all.Find(cmd).Use(this, message);
                         Server.s.CommandUsed(this.name + " used /pass");
                         return;
                     }
                 }
-                if ( Server.agreetorulesonentry ) {
-                    if ( cmd.ToLower() == "agree" ) {
+                if (Server.agreetorulesonentry)
+                {
+                    if (cmd.ToLower() == "agree")
+                    {
                         Command.all.Find(cmd).Use(this, String.Empty);
                         Server.s.CommandUsed(this.name + " used /agree");
                         return;
                     }
-                    if ( cmd.ToLower() == "rules" ) {
+                    if (cmd.ToLower() == "rules")
+                    {
                         Command.all.Find(cmd).Use(this, String.Empty);
                         Server.s.CommandUsed(this.name + " used /rules");
                         return;
                     }
-                    if ( cmd.ToLower() == "disagree" ) {
+                    if (cmd.ToLower() == "disagree")
+                    {
                         Command.all.Find(cmd).Use(this, String.Empty);
                         Server.s.CommandUsed(this.name + " used /disagree");
                         return;
                     }
                 }
 
-                if ( cmd == String.Empty ) { SendMessage("No command entered."); return; }
+                if (cmd == String.Empty) { SendMessage("No command entered."); return; }
 
-                if ( Server.agreetorulesonentry && !agreed ) {
-                        SendMessage("You must read /rules then agree to them with /agree!");
-                        return;
+                if (Server.agreetorulesonentry && !agreed)
+                {
+                    SendMessage("You must read /rules then agree to them with /agree!");
+                    return;
                 }
-                if ( jailed ) {
+                if (jailed)
+                {
                     SendMessage("You cannot use any commands while jailed.");
                     return;
                 }
-                if ( Server.verifyadmins ) {
-                    if ( this.adminpen ) {
+                if (Server.verifyadmins)
+                {
+                    if (this.adminpen)
+                    {
                         this.SendMessage("&cYou must use &a/pass [Password]&c to verify!");
                         return;
                     }
                 }
 
-                if ( cmd.ToLower() == "care" ) { SendMessage("Dmitchell94 now loves you with all his heart."); return; }
-                if ( cmd.ToLower() == "facepalm" ) { SendMessage("Fenderrock87's bot army just simultaneously facepalm'd at your use of this command."); return; }
-                if ( cmd.ToLower() == "alpaca" ) { SendMessage("Leitrean's Alpaca Army just raped your woman and pillaged your villages!"); return; }
+                if (cmd.ToLower() == "care") { SendMessage("Dmitchell94 now loves you with all his heart."); return; }
+                if (cmd.ToLower() == "facepalm") { SendMessage("Fenderrock87's bot army just simultaneously facepalm'd at your use of this command."); return; }
+                if (cmd.ToLower() == "alpaca") { SendMessage("Leitrean's Alpaca Army just raped your woman and pillaged your villages!"); return; }
                 //DO NOT REMOVE THE TWO COMMANDS BELOW, /PONY AND /RAINBOWDASHLIKESCOOLTHINGS. -EricKilla
-                if ( cmd.ToLower() == "pony" ) {
-                    if ( ponycount < 2 ) {
+                if (cmd.ToLower() == "pony")
+                {
+                    if (ponycount < 2)
+                    {
                         GlobalMessage(this.color + this.name + Server.DefaultColor + " just so happens to be a proud brony! Everyone give " + this.color + this.name + Server.DefaultColor + " a brohoof!");
                         ponycount += 1;
                     }
-                    else {
+                    else
+                    {
                         SendMessage("You have used this command 2 times. You cannot use it anymore! Sorry, Brony!");
                     }
-                    if ( OnBecomeBrony != null )
+                    if (OnBecomeBrony != null)
                         OnBecomeBrony(this);
                     return;
                 }
-                if ( cmd.ToLower() == "rainbowdashlikescoolthings" ) {
-                    if ( rdcount < 2 ) {
+                if (cmd.ToLower() == "rainbowdashlikescoolthings")
+                {
+                    if (rdcount < 2)
+                    {
                         GlobalMessage("&1T&2H&3I&4S &5S&6E&7R&8V&9E&aR &bJ&cU&dS&eT &fG&0O&1T &22&30 &4P&CE&7R&DC&EE&9N&1T &5C&6O&7O&8L&9E&aR&b!");
                         rdcount += 1;
                     }
-                    else {
+                    else
+                    {
                         SendMessage("You have used this command 2 times. You cannot use it anymore! Sorry, Brony!");
                     }
-                    if ( OnSonicRainboom != null )
+                    if (OnSonicRainboom != null)
                         OnSonicRainboom(this);
                     return;
                 }
 
-                if ( CommandHasBadColourCodes(this, message) )
+                if (CommandHasBadColourCodes(this, message))
                     return;
                 string foundShortcut = Command.all.FindShort(cmd);
-                if ( foundShortcut != "" ) cmd = foundShortcut;
-                if ( OnCommand != null )
+                if (foundShortcut != "") cmd = foundShortcut;
+                if (OnCommand != null)
                     OnCommand(cmd, this, message);
-                if ( PlayerCommand != null )
+                if (PlayerCommand != null)
                     PlayerCommand(cmd, this, message);
                 OnPlayerCommandEvent.Call(cmd, this, message);
-                if ( cancelcommand ) {
+                if (cancelcommand)
+                {
                     cancelcommand = false;
                     return;
                 }
-                try {
+                try
+                {
                     int foundCb = int.Parse(cmd);
-                    if ( messageBind[foundCb] == null ) { SendMessage("No CMD is stored on /" + cmd); return; }
+                    if (messageBind[foundCb] == null) { SendMessage("No CMD is stored on /" + cmd); return; }
                     message = messageBind[foundCb] + " " + message;
                     message = message.TrimEnd(' ');
                     cmd = cmdBind[foundCb];
@@ -2383,51 +2744,66 @@ return;
 
                 Command command = Command.all.Find(cmd);
                 //Group old = null;
-                if ( command != null ) {
+                if (command != null)
+                {
                     //this part checks if MCForge staff are able to USE protection commands
                     /*if (isProtected && Server.ProtectOver.Contains(cmd.ToLower())) {
                         old = Group.findPerm(this.group.Permission);
                         this.group = Group.findPerm(LevelPermission.Nobody);
                     }*/
 
-                    if (Player.CommandProtected(cmd.ToLower(), message)) {
+                    if (Player.CommandProtected(cmd.ToLower(), message))
+                    {
                         SendMessage("Cannot use command, player has protection level: " + Server.forgeProtection);
                         Server.s.CommandUsed(name + " used /" + cmd + " " + message);
                         return;
                     }
 
-                    if ( group.CanExecute(command)) {
-                        if ( cmd != "repeat" ) lastCMD = cmd + " " + message;
-                        if ( level.name.Contains("Museum " + Server.DefaultColor) ) {
-                            if ( !command.museumUsable ) {
+                    if (group.CanExecute(command))
+                    {
+                        if (cmd != "repeat") lastCMD = cmd + " " + message;
+                        if (level.name.Contains("Museum " + Server.DefaultColor))
+                        {
+                            if (!command.museumUsable)
+                            {
                                 SendMessage("Cannot use this command while in a museum!");
                                 return;
                             }
                         }
-                        if ( this.joker == true || this.muted == true ) {
-                            if ( cmd.ToLower() == "me" ) {
+                        if (this.joker == true || this.muted == true)
+                        {
+                            if (cmd.ToLower() == "me")
+                            {
                                 SendMessage("Cannot use /me while muted or jokered.");
                                 return;
                             }
                         }
-                        if ( cmd.ToLower() != "setpass" || cmd.ToLower() != "pass" ) {
+                        if (cmd.ToLower() != "setpass" || cmd.ToLower() != "pass")
+                        {
                             Server.s.CommandUsed(name + " used /" + cmd + " " + message);
                         }
 
-                        try { //opstats patch (since 5.5.11)
-                            if (Server.opstats.Contains(cmd.ToLower()) || (cmd.ToLower() == "review" && message.ToLower() == "next" && Server.reviewlist.Count > 0)) {
+                        try
+                        { //opstats patch (since 5.5.11)
+                            if (Server.opstats.Contains(cmd.ToLower()) || (cmd.ToLower() == "review" && message.ToLower() == "next" && Server.reviewlist.Count > 0))
+                            {
                                 Database.AddParams("@Time", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                                 Database.AddParams("@Name", name);
                                 Database.AddParams("@Cmd", cmd);
                                 Database.AddParams("@Cmdmsg", message);
                                 Database.executeQuery("INSERT INTO Opstats (Time, Name, Cmd, Cmdmsg) VALUES (@Time, @Name, @Cmd, @Cmdmsg)");
                             }
-                        } catch { }
+                        }
+                        catch { }
 
-                        this.commThread = new Thread(new ThreadStart(delegate {
-                            try {
+                        this.commThread = new Thread(new ThreadStart(delegate
+                        {
+                            try
+                            {
                                 command.Use(this, message);
-                            } catch (Exception e) {
+                            }
+                            catch (Exception e)
+                            {
                                 Server.ErrorLog(e);
                                 Player.SendMessage(this, "An error occured when using the command!");
                                 Player.SendMessage(this, e.GetType().ToString() + ": " + e.Message);
@@ -2438,13 +2814,16 @@ return;
                     }
                     else { SendMessage("You are not allowed to use \"" + cmd + "\"!"); }
                 }
-                else if ( Block.Ushort(cmd.ToLower()) != Block.Zero ) {
+                else if (Block.Ushort(cmd.ToLower()) != Block.Zero)
+                {
                     HandleCommand("mode", cmd.ToLower());
                 }
-                else {
+                else
+                {
                     bool retry = true;
 
-                    switch ( cmd.ToLower() ) { //Check for command switching
+                    switch (cmd.ToLower())
+                    { //Check for command switching
                         case "guest": message = message + " " + cmd.ToLower(); cmd = "setrank"; break;
                         case "builder": message = message + " " + cmd.ToLower(); cmd = "setrank"; break;
                         case "advbuilder":
@@ -2479,21 +2858,26 @@ return;
                         default: retry = false; break; //Unknown command, then
                     }
 
-                    if ( retry ) HandleCommand(cmd, message);
+                    if (retry) HandleCommand(cmd, message);
                     else SendMessage("Unknown command \"" + cmd + "\"!");
                 }
             }
-            catch ( Exception e ) { Server.ErrorLog(e); SendMessage("Command failed."); }
+            catch (Exception e) { Server.ErrorLog(e); SendMessage("Command failed."); }
         }
-        void HandleQuery(string to, string message) {
+        void HandleQuery(string to, string message)
+        {
             Player p = Find(to);
-            if ( p == this ) { SendMessage("Trying to talk to yourself, huh?"); return; }
-            if ( p == null ) { SendMessage("Could not find player."); return; }
-            if ( p.hidden ) { if ( this.hidden == false ) { Player.SendMessage(p, "Could not find player."); } }
-            if ( p.ignoreglobal == true ) {
-                if ( Server.globalignoreops == false ) {
-                    if ( this.group.Permission >= Server.opchatperm ) {
-                        if ( p.group.Permission < this.group.Permission ) {
+            if (p == this) { SendMessage("Trying to talk to yourself, huh?"); return; }
+            if (p == null) { SendMessage("Could not find player."); return; }
+            if (p.hidden) { if (this.hidden == false) { Player.SendMessage(p, "Could not find player."); } }
+            if (p.ignoreglobal == true)
+            {
+                if (Server.globalignoreops == false)
+                {
+                    if (this.group.Permission >= Server.opchatperm)
+                    {
+                        if (p.group.Permission < this.group.Permission)
+                        {
                             Server.s.Log(name + " @" + p.name + ": " + message);
                             SendChat(this, Server.DefaultColor + "[<] " + p.color + p.prefix + p.name + ": &f" + message);
                             SendChat(p, "&9[>] " + this.color + this.prefix + this.name + ": &f" + message);
@@ -2505,14 +2889,17 @@ return;
                 SendChat(this, Server.DefaultColor + "[<] " + p.color + p.prefix + p.name + ": &f" + message);
                 return;
             }
-            foreach ( string ignored2 in p.listignored ) {
-                if ( ignored2 == this.name ) {
+            foreach (string ignored2 in p.listignored)
+            {
+                if (ignored2 == this.name)
+                {
                     Server.s.Log(name + " @" + p.name + ": " + message);
                     SendChat(this, Server.DefaultColor + "[<] " + p.color + p.prefix + p.name + ": &f" + message);
                     return;
                 }
             }
-            if ( p != null && !p.hidden || p.hidden && this.group.Permission >= p.group.Permission ) {
+            if (p != null && !p.hidden || p.hidden && this.group.Permission >= p.group.Permission)
+            {
                 Server.s.Log(name + " @" + p.name + ": " + message);
                 SendChat(this, Server.DefaultColor + "[<] " + p.color + p.prefix + p.name + ": &f" + message);
                 SendChat(p, "&9[>] " + this.color + this.prefix + this.name + ": &f" + message);
@@ -2521,26 +2908,32 @@ return;
         }
         #endregion
         #region == OUTGOING ==
-        public void SendRaw(int id) {
+        public void SendRaw(int id)
+        {
             SendRaw(id, new byte[0]);
         }
-        public void SendRaw(int id, byte send) {
+        public void SendRaw(int id, byte send)
+        {
             SendRaw(id, new byte[] { send });
         }
-        public void SendRaw(int id, byte[] send) {
+        public void SendRaw(int id, byte[] send)
+        {
             // Abort if socket has been closed
-            if ( socket == null || !socket.Connected )
+            if (socket == null || !socket.Connected)
                 return;
             byte[] buffer = new byte[send.Length + 1];
             buffer[0] = (byte)id;
-            for ( int i = 0; i < send.Length; i++ ) {
+            for (int i = 0; i < send.Length; i++)
+            {
                 buffer[i + 1] = send[i];
             }
-            try {
+            try
+            {
                 socket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, delegate(IAsyncResult result) { }, null);
                 buffer = null;
             }
-            catch ( SocketException ) {
+            catch (SocketException)
+            {
                 buffer = null;
                 Disconnect();
 #if DEBUG
@@ -2548,7 +2941,7 @@ return;
 #endif
             }
         }
-        
+
         /// <summary>
         /// Send the client a sound/music
         /// THIS ONLY WORKS WITH CLIENTS USING OpenClassic
@@ -2561,10 +2954,12 @@ return;
         /// <param name="y">The Y coord to play the sound at (only for soundeffects)</param>
         /// <param name="z">The Z coord to play the sound at (only for soundeffects)</param>
         /// <param name="loop">Wether the music should loop (only for music)</param>
-        public void SendSound(string filepath, float volume, float pitch, bool isMusic, float x, float y, float z, bool loop) {
+        public void SendSound(string filepath, float volume, float pitch, bool isMusic, float x, float y, float z, bool loop)
+        {
             if (!isUsingOpenClassic)
                 return;
-            if (!sounds.ContainsKey(filepath)) {
+            if (!sounds.ContainsKey(filepath))
+            {
                 string id = Path.GetRandomFileName().Replace(".", "");
                 string url = (IsLocalIpAddress(ip) ? ip : Server.IP) + ":" + Server.port + "/" + filepath;
                 sounds.Add(filepath, id + "~" + url);
@@ -2587,12 +2982,13 @@ return;
             tosend1[85] = ((loop && isMusic) ? (byte)1 : (byte)0);
             SendRaw(23, tosend1);
         }
-        
+
         /// <summary>
         /// Tell the client to stop playing the sound
         /// </summary>
         /// <param name="filepath">The filepath of the sound</param>
-        public void StopSound(string filepath) {
+        public void StopSound(string filepath)
+        {
             if (!sounds.ContainsKey(filepath))
                 return;
             byte[] idb = new byte[64];
@@ -2601,17 +2997,22 @@ return;
             SendRaw(24, idb);
         }
 
-        public static void SendMessage(Player p, string message) {
-            if ( p == null ) { Server.s.Log(message); return; }
+        public static void SendMessage(Player p, string message)
+        {
+            if (p == null) { Server.s.Log(message); return; }
             SendMessage(p, MessageType.Chat, message, true);
         }
-        public static void SendMessage(Player p, MessageType type, string message, bool colorParse) {
-            if ( p == null ) {
-                if ( storeHelp ) {
+        public static void SendMessage(Player p, MessageType type, string message, bool colorParse)
+        {
+            if (p == null)
+            {
+                if (storeHelp)
+                {
                     storedHelp += message + "\r\n";
                 }
-                else {
-                    if ( !Server.irc || String.IsNullOrEmpty(Server.IRC.usedCmd) )
+                else
+                {
+                    if (!Server.irc || String.IsNullOrEmpty(Server.IRC.usedCmd))
                         Server.s.Log(message);
                     else
                         Server.IRC.Pm(Server.IRC.usedCmd, message);
@@ -2619,29 +3020,33 @@ return;
                 }
                 return;
             }
-            
-            p.SendMessage(p.id, type, Server.DefaultColor + message, colorParse);
+
+            p.SendMessage(type, Server.DefaultColor + message, colorParse);
         }
 
-        public void SendMessage(string message) {
+        public void SendMessage(string message)
+        {
             SendMessage(message, true);
         }
-        public void SendMessage(string message, bool colorParse) {
-            if ( this == null ) { Server.s.Log(message); return; }
-            unchecked { SendMessage(this.id, MessageType.Chat, Server.DefaultColor + message, colorParse); }
+        public void SendMessage(string message, bool colorParse)
+        {
+            if (this == null) { Server.s.Log(message); return; }
+            unchecked { SendMessage(MessageType.Chat, Server.DefaultColor + message, colorParse); }
         }
-        public void SendChat(Player p, string message) {
-            if ( this == null ) { Server.s.Log(message); return; }
+        public void SendChat(Player p, string message)
+        {
+            if (this == null) { Server.s.Log(message); return; }
             Player.SendMessage(p, message);
         }
-        public void SendMessage(byte id, string message) {
-            SendMessage(id, MessageType.Chat, message, true);
+        public void SendMessage(byte id, string message)
+        {
+            SendMessage(MessageType.Chat, message, true);
         }
 
         public enum MessageType
         {
             Chat = (byte)0,
-            Status1 = (byte)1,
+       //     Status1 = (byte)1,
             Status2 = (byte)2,
             Status3 = (byte)3,
             BottomRight1 = (byte)11,
@@ -2650,35 +3055,39 @@ return;
             Announcement = (byte)100
         }
 
-        public void SendMessage(byte id, MessageType type, string message, bool colorParse) {
-            if ( this == null ) { Server.s.Log(message); return; }
-            if ( ZoneSpam.AddSeconds(2) > DateTime.Now && message.Contains("This zone belongs to ") ) return;
+        public void SendMessage(MessageType type, string message, bool colorParse)
+        {
+            if (this == null) { Server.s.Log(message); return; }
+            if (ZoneSpam.AddSeconds(2) > DateTime.Now && message.Contains("This zone belongs to ")) return;
 
             byte[] buffer = new byte[65];
-            unchecked { buffer[0] = id; }
+            unchecked { buffer[0] = (byte)type; }
 
             StringBuilder sb = new StringBuilder(message);
 
-            if ( colorParse ) {
-                for ( int i = 0; i < 10; i++ ) {
+            if (colorParse)
+            {
+                for (int i = 0; i < 10; i++)
+                {
                     sb.Replace("%" + i, "&" + i);
                     sb.Replace("&" + i + " &", " &");
                 }
-                for ( char ch = 'a'; ch <= 'f'; ch++ ) {
+                for (char ch = 'a'; ch <= 'f'; ch++)
+                {
                     sb.Replace("%" + ch, "&" + ch);
                     sb.Replace("&" + ch + " &", " &");
                 }
                 // Begin fix to replace all invalid color codes typed in console or chat with "."
-                for ( char ch = (char)0; ch <= (char)47; ch++ ) // Characters that cause clients to disconnect
+                for (char ch = (char)0; ch <= (char)47; ch++) // Characters that cause clients to disconnect
                     sb.Replace("&" + ch, String.Empty);
-                for ( char ch = (char)58; ch <= (char)96; ch++ ) // Characters that cause clients to disconnect
+                for (char ch = (char)58; ch <= (char)96; ch++) // Characters that cause clients to disconnect
                     sb.Replace("&" + ch, String.Empty);
-                for ( char ch = (char)103; ch <= (char)127; ch++ ) // Characters that cause clients to disconnect
+                for (char ch = (char)103; ch <= (char)127; ch++) // Characters that cause clients to disconnect
                     sb.Replace("&" + ch, String.Empty);
                 // End fix
             }
 
-            if ( Server.dollardollardollar )
+            if (Server.dollardollardollar)
                 sb.Replace("$name", "$" + name);
             else
                 sb.Replace("$name", name);
@@ -2686,7 +3095,7 @@ return;
             sb.Replace("$time", DateTime.Now.ToString("HH:mm:ss"));
             sb.Replace("$ip", ip);
             sb.Replace("$serverip", IsLocalIpAddress(ip) ? ip : Server.IP);
-            if ( colorParse ) sb.Replace("$color", color);
+            if (colorParse) sb.Replace("$color", color);
             sb.Replace("$rank", group.name);
             sb.Replace("$level", level.name);
             sb.Replace("$deaths", overallDeath.ToString());
@@ -2699,16 +3108,20 @@ return;
             sb.Replace("$banned", Player.GetBannedCount().ToString());
             sb.Replace("$irc", Server.ircServer + " > " + Server.ircChannel);
 
-            foreach ( var customReplacement in Server.customdollars ) {
-                if ( !customReplacement.Key.StartsWith("//") ) {
-                    try {
+            foreach (var customReplacement in Server.customdollars)
+            {
+                if (!customReplacement.Key.StartsWith("//"))
+                {
+                    try
+                    {
                         sb.Replace(customReplacement.Key, customReplacement.Value);
                     }
                     catch { }
                 }
             }
 
-            if ( Server.parseSmiley && parseSmiley ) {
+            if (Server.parseSmiley && parseSmiley)
+            {
                 sb.Replace(":)", "(darksmile)");
                 sb.Replace(":D", "(smile)");
                 sb.Replace("<3", "(heart)");
@@ -2757,96 +3170,113 @@ return;
             if (HasBadColorCodes(message))
                 return;
             int totalTries = 0;
-            if ( MessageRecieve != null )
+            if (MessageRecieve != null)
                 MessageRecieve(this, message);
-            if ( OnMessageRecieve != null )
+            if (OnMessageRecieve != null)
                 OnMessageRecieve(this, message);
             OnMessageRecieveEvent.Call(this, message);
-            if ( cancelmessage ) {
+            if (cancelmessage)
+            {
                 cancelmessage = false;
                 return;
             }
-        retryTag: try {
-                foreach ( string line in Wordwrap(message) ) {
+        retryTag: try
+            {
+                foreach (string line in Wordwrap(message))
+                {
                     string newLine = line;
-                    if ( newLine.TrimEnd(' ')[newLine.TrimEnd(' ').Length - 1] < '!' ) {
+                    if (newLine.TrimEnd(' ')[newLine.TrimEnd(' ').Length - 1] < '!')
+                    {
                         newLine += '\'';
                     }
 
-                    if ( HasBadColorCodes(newLine) )
+                    if (HasBadColorCodes(newLine))
                         continue;
 
                     StringFormat(newLine, 64).CopyTo(buffer, 1);
                     SendRaw(13, buffer);
                 }
             }
-            catch ( Exception e ) {
+            catch (Exception e)
+            {
                 message = "&f" + message;
                 totalTries++;
-                if ( totalTries < 10 ) goto retryTag;
+                if (totalTries < 10) goto retryTag;
                 else Server.ErrorLog(e);
             }
         }
 
-        public void SendMotd() {
+        public void SendMotd()
+        {
             byte[] buffer = new byte[130];
             buffer[0] = (byte)8;
             StringFormat(Server.name, 64).CopyTo(buffer, 1);
 
-            if ( Server.UseTextures )
-                StringFormat("&0cfg=" + ( IsLocalIpAddress(ip) ? ip : Server.IP ) + ":" + Server.port + "/" + level.name + "~motd", 64).CopyTo(buffer, 65);
-            else {
-                if ( !String.IsNullOrEmpty(group.MOTD) ) StringFormat(group.MOTD, 64).CopyTo(buffer, 65);
+            if (Server.UseTextures)
+                StringFormat("&0cfg=" + (IsLocalIpAddress(ip) ? ip : Server.IP) + ":" + Server.port + "/" + level.name + "~motd", 64).CopyTo(buffer, 65);
+            else
+            {
+                if (!String.IsNullOrEmpty(group.MOTD)) StringFormat(group.MOTD, 64).CopyTo(buffer, 65);
                 else StringFormat(Server.motd, 64).CopyTo(buffer, 65);
             }
 
-            if ( Block.canPlace(this, Block.blackrock) )
+            if (Block.canPlace(this, Block.blackrock))
                 buffer[129] = 100;
             else
                 buffer[129] = 0;
-            if ( OnSendMOTD != null ) {
+            if (OnSendMOTD != null)
+            {
                 OnSendMOTD(this, buffer);
             }
             SendRaw(0, buffer);
 
         }
 
-        public void SendUserMOTD() {
+        public void SendUserMOTD()
+        {
             byte[] buffer = new byte[130];
-           // Random rand = new Random();
+            // Random rand = new Random();
             buffer[0] = Server.version;
-            if ( UsingWom && ( level.textures.enabled || level.motd == "texture" ) && group.Permission >= level.textures.LowestRank.Permission ) { StringFormat(Server.name, 64).CopyTo(buffer, 1); StringFormat("&0cfg=" + ( IsLocalIpAddress(ip) ? ip : Server.IP ) + ":" + Server.port + "/" + level.name, 64).CopyTo(buffer, 65); }
-            if ( level.motd == "ignore" ) {
+            if (UsingWom && (level.textures.enabled || level.motd == "texture") && group.Permission >= level.textures.LowestRank.Permission) { StringFormat(Server.name, 64).CopyTo(buffer, 1); StringFormat("&0cfg=" + (IsLocalIpAddress(ip) ? ip : Server.IP) + ":" + Server.port + "/" + level.name, 64).CopyTo(buffer, 65); }
+            if (level.motd == "ignore")
+            {
                 StringFormat(Server.name, 64).CopyTo(buffer, 1);
-                if ( !String.IsNullOrEmpty(group.MOTD) ) StringFormat(group.MOTD, 64).CopyTo(buffer, 65);
+                if (!String.IsNullOrEmpty(group.MOTD)) StringFormat(group.MOTD, 64).CopyTo(buffer, 65);
                 else StringFormat(Server.motd, 64).CopyTo(buffer, 65);
             }
 
             else StringFormat(level.motd, 128).CopyTo(buffer, 1);
 
-            if ( Block.canPlace(this.group.Permission, Block.blackrock) )
+            if (Block.canPlace(this.group.Permission, Block.blackrock))
                 buffer[129] = 100;
             else
                 buffer[129] = 0;
             SendRaw(0, buffer);
         }
-        public void SendMap() {
+        public void SendMap()
+        {
             if (level.blocks == null) return;
-            try {
+            try
+            {
                 byte[] buffer = new byte[level.blocks.Length + 4];
                 BitConverter.GetBytes(IPAddress.HostToNetworkOrder(level.blocks.Length)).CopyTo(buffer, 0);
                 //ushort xx; ushort yy; ushort zz;
-            for ( int i = 0; i < level.blocks.Length; ++i ) {
-                if ( extension == false){
-                    buffer[4 + i] = (byte)Block.Convert( level.blocks[i] );
-                } else {
-                    buffer[4 + i] = (byte)Block.Convert( Block.ConvertCPE( level.blocks[i] ) );
+                for (int i = 0; i < level.blocks.Length; ++i)
+                {
+                    if (extension == false)
+                    {
+                        buffer[4 + i] = (byte)Block.Convert(level.blocks[i]);
+                    }
+                    else
+                    {
+                        buffer[4 + i] = (byte)Block.Convert(Block.ConvertCPE(level.blocks[i]));
+                    }
                 }
-				}
                 SendRaw(2);
                 buffer = buffer.GZip();
-                int number = (int)Math.Ceiling(( (double)buffer.Length ) / 1024);
-                for ( int i = 1; buffer.Length > 0; ++i ) {
+                int number = (int)Math.Ceiling(((double)buffer.Length) / 1024);
+                for (int i = 1; buffer.Length > 0; ++i)
+                {
                     short length = (short)Math.Min(buffer.Length, 1024);
                     byte[] send = new byte[1027];
                     HTNO(length).CopyTo(send, 0);
@@ -2854,11 +3284,11 @@ return;
                     byte[] tempbuffer = new byte[buffer.Length - length];
                     Buffer.BlockCopy(buffer, length, tempbuffer, 0, buffer.Length - length);
                     buffer = tempbuffer;
-                    send[1026] = (byte)( i * 100 / number );
+                    send[1026] = (byte)(i * 100 / number);
                     //send[1026] = (byte)(100 - (i * 100 / number)); // Backwards progress lololol...
                     SendRaw(3, send);
-                    if ( ip == "127.0.0.1" ) { }
-                    else if ( Server.updateTimer.Interval > 1000 ) Thread.Sleep(100);
+                    if (ip == "127.0.0.1") { }
+                    else if (Server.updateTimer.Interval > 1000) Thread.Sleep(100);
                     else Thread.Sleep(10);
                 } buffer = new byte[6];
                 HTNO((short)level.width).CopyTo(buffer, 0);
@@ -2867,15 +3297,17 @@ return;
                 SendRaw(4, buffer);
                 Loading = false;
 
-                if ( OnSendMap != null )
+                if (OnSendMap != null)
                     OnSendMap(this, buffer);
             }
-            catch ( Exception ex ) {
+            catch (Exception ex)
+            {
                 Command.all.Find("goto").Use(this, Server.mainLevel.name);
                 SendMessage("There was an error sending the map data, you have been sent to the main level.");
                 Server.ErrorLog(ex);
             }
-            finally {
+            finally
+            {
                 //if (derp) SendMessage("Something went derp when sending the map data, you should return to the main level.");
                 //DateTime start = DateTime.Now;
                 GC.Collect();
@@ -2883,7 +3315,8 @@ return;
                 //Server.s.Log((DateTime.Now - start).TotalMilliseconds.ToString()); // We dont want random numbers showing up do we?
             }
         }
-        public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty) {
+        public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty)
+        {
             //pos = new ushort[3] { x, y, z }; // This could be remove and not effect the server :/
             //rot = new byte[2] { rotx, roty };
             name = name.TrimEnd('+');
@@ -2895,15 +3328,16 @@ return;
             buffer[71] = rotx; buffer[72] = roty;
             SendRaw(7, buffer);
         }
-        public void SendPos(byte id, ushort x, ushort y, ushort z, byte rotx, byte roty) {
-            if ( x < 0 ) x = 32;
-            if ( y < 0 ) y = 32;
-            if ( z < 0 ) z = 32;
-            if ( x > level.width * 32 ) x = (ushort)( level.width * 32 - 32 );
-            if ( z > level.height * 32 ) z = (ushort)( level.height * 32 - 32 );
-            if ( x > 32767 ) x = 32730;
-            if ( y > 32767 ) y = 32730;
-            if ( z > 32767 ) z = 32730;
+        public void SendPos(byte id, ushort x, ushort y, ushort z, byte rotx, byte roty)
+        {
+            if (x < 0) x = 32;
+            if (y < 0) y = 32;
+            if (z < 0) z = 32;
+            if (x > level.width * 32) x = (ushort)(level.width * 32 - 32);
+            if (z > level.height * 32) z = (ushort)(level.height * 32 - 32);
+            if (x > 32767) x = 32730;
+            if (y > 32767) y = 32730;
+            if (z > 32767) z = 32730;
 
             pos[0] = x; pos[1] = y; pos[2] = z;
             rot[0] = rotx; rot[1] = roty;
@@ -2919,29 +3353,34 @@ rot = new byte[2] { rotx, roty };*/
             SendRaw(8, buffer);
         }
         // Update user type for weather or not they are opped
-        public void SendUserType(bool op) {
+        public void SendUserType(bool op)
+        {
             SendRaw(15, op ? (byte)100 : (byte)0);
         }
         //TODO: Figure a way to SendPos without changing rotation
         public void SendDie(byte id) { SendRaw(0x0C, new byte[1] { id }); }
-        public void SendBlockchange(ushort x, ushort y, ushort z, ushort? type) {
+        public void SendBlockchange(ushort x, ushort y, ushort z, ushort? type)
+        {
             if (type == null) { type = 0; }
-            if ( x < 0 || y < 0 || z < 0 ) return;
-            if(type > Block.maxblocks)
+            if (x < 0 || y < 0 || z < 0) return;
+            if (type > Block.maxblocks)
             {
                 this.SendMessage("The server was not able to detect your held block, please try again!");
                 return;
             }
-            if ( x >= level.width || y >= level.depth || z >= level.height ) return;
+            if (x >= level.width || y >= level.depth || z >= level.height) return;
 
             byte[] buffer = new byte[7];
             HTNO(x).CopyTo(buffer, 0);
             HTNO(y).CopyTo(buffer, 2);
             HTNO(z).CopyTo(buffer, 4);
-            if ( extension == true ) {
-                buffer[6] = (byte)Block.Convert( type );
-            } else {
-                buffer[6] = (byte)Block.Convert( Block.ConvertCPE( type ) );
+            if (extension == true)
+            {
+                buffer[6] = (byte)Block.Convert(type);
+            }
+            else
+            {
+                buffer[6] = (byte)Block.Convert(Block.ConvertCPE(type));
             }
             SendRaw(6, buffer);
         }
@@ -3093,7 +3532,8 @@ rot = new byte[2] { rotx, roty };*/
             SendRaw(32, buffer);
         }
 
-        public void UpdatePosition() {
+        public void UpdatePosition()
+        {
 
             //pingDelayTimer.Stop();
 
@@ -3108,10 +3548,11 @@ rot = new byte[2] { rotx, roty };*/
             // 6 = Teleport Required + rotation has changed
             // 7 = Teleport Required + position and rotation has changed
             //NOTE: Players should NOT be teleporting this often. This is probably causing some problems.
-            if ( oldpos[0] != pos[0] || oldpos[1] != pos[1] || oldpos[2] != pos[2] )
+            if (oldpos[0] != pos[0] || oldpos[1] != pos[1] || oldpos[2] != pos[2])
                 changed |= 1;
 
-            if ( oldrot[0] != rot[0] || oldrot[1] != rot[1] ) {
+            if (oldrot[0] != rot[0] || oldrot[1] != rot[1])
+            {
                 changed |= 2;
             }
             /*if (Math.Abs(pos[0] - basepos[0]) > 32 || Math.Abs(pos[1] - basepos[1]) > 32 || Math.Abs(pos[2] - basepos[2]) > 32)
@@ -3119,12 +3560,13 @@ changed |= 4;
 
 if ((oldpos[0] == pos[0] && oldpos[1] == pos[1] && oldpos[2] == pos[2]) && (basepos[0] != pos[0] || basepos[1] != pos[1] || basepos[2] != pos[2]))
 changed |= 4;*/
-            if ( Math.Abs(pos[0] - oldpos[0]) > 32 || Math.Abs(pos[1] - oldpos[1]) > 32 || Math.Abs(pos[2] - oldpos[2]) > 32 )
+            if (Math.Abs(pos[0] - oldpos[0]) > 32 || Math.Abs(pos[1] - oldpos[1]) > 32 || Math.Abs(pos[2] - oldpos[2]) > 32)
                 changed |= 4;
-            if ( changed == 0 ) { if ( oldpos[0] != pos[0] || oldpos[1] != pos[1] || oldpos[2] != pos[2] ) changed |= 1; }
+            if (changed == 0) { if (oldpos[0] != pos[0] || oldpos[1] != pos[1] || oldpos[2] != pos[2]) changed |= 1; }
 
             byte[] buffer = new byte[0]; byte msg = 0;
-            if ( ( changed & 4 ) != 0 ) {
+            if ((changed & 4) != 0)
+            {
                 msg = 8; //Player teleport - used for spawning or moving too fast
                 buffer = new byte[9]; buffer[0] = id;
                 HTNO(pos[0]).CopyTo(buffer, 1);
@@ -3132,57 +3574,62 @@ changed |= 4;*/
                 HTNO(pos[2]).CopyTo(buffer, 5);
                 buffer[7] = rot[0];
 
-                if ( Server.flipHead || ( this.flipHead && this.infected ) )
-                    if ( rot[1] > 64 && rot[1] < 192 )
+                if (Server.flipHead || (this.flipHead && this.infected))
+                    if (rot[1] > 64 && rot[1] < 192)
                         buffer[8] = rot[1];
                     else
-                        buffer[8] = (byte)( rot[1] - ( rot[1] - 128 ) );
+                        buffer[8] = (byte)(rot[1] - (rot[1] - 128));
                 else
                     buffer[8] = rot[1];
 
                 //Realcode
                 //buffer[8] = rot[1];
             }
-            else if ( changed == 1 ) {
-                try {
+            else if (changed == 1)
+            {
+                try
+                {
                     msg = 10; //Position update
                     buffer = new byte[4]; buffer[0] = id;
-                    Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)( pos[0] - oldpos[0] )), 0, buffer, 1, 1);
-                    Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)( pos[1] - oldpos[1] )), 0, buffer, 2, 1);
-                    Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)( pos[2] - oldpos[2] )), 0, buffer, 3, 1);
+                    Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[0] - oldpos[0])), 0, buffer, 1, 1);
+                    Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[1] - oldpos[1])), 0, buffer, 2, 1);
+                    Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[2] - oldpos[2])), 0, buffer, 3, 1);
                 }
                 catch { }
             }
-            else if ( changed == 2 ) {
+            else if (changed == 2)
+            {
                 msg = 11; //Orientation update
                 buffer = new byte[3]; buffer[0] = id;
                 buffer[1] = rot[0];
 
-                if ( Server.flipHead || ( this.flipHead && this.infected ) )
-                    if ( rot[1] > 64 && rot[1] < 192 )
+                if (Server.flipHead || (this.flipHead && this.infected))
+                    if (rot[1] > 64 && rot[1] < 192)
                         buffer[2] = rot[1];
                     else
-                        buffer[2] = (byte)( rot[1] - ( rot[1] - 128 ) );
+                        buffer[2] = (byte)(rot[1] - (rot[1] - 128));
                 else
                     buffer[2] = rot[1];
 
                 //Realcode
                 //buffer[2] = rot[1];
             }
-            else if ( changed == 3 ) {
-                try {
+            else if (changed == 3)
+            {
+                try
+                {
                     msg = 9; //Position and orientation update
                     buffer = new byte[6]; buffer[0] = id;
-                    Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)( pos[0] - oldpos[0] )), 0, buffer, 1, 1);
-                    Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)( pos[1] - oldpos[1] )), 0, buffer, 2, 1);
-                    Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)( pos[2] - oldpos[2] )), 0, buffer, 3, 1);
+                    Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[0] - oldpos[0])), 0, buffer, 1, 1);
+                    Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[1] - oldpos[1])), 0, buffer, 2, 1);
+                    Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[2] - oldpos[2])), 0, buffer, 3, 1);
                     buffer[4] = rot[0];
 
-                    if ( Server.flipHead || ( this.flipHead && this.infected ) )
-                        if ( rot[1] > 64 && rot[1] < 192 )
+                    if (Server.flipHead || (this.flipHead && this.infected))
+                        if (rot[1] > 64 && rot[1] < 192)
                             buffer[5] = rot[1];
                         else
-                            buffer[5] = (byte)( rot[1] - ( rot[1] - 128 ) );
+                            buffer[5] = (byte)(rot[1] - (rot[1] - 128));
                     else
                         buffer[5] = rot[1];
 
@@ -3193,10 +3640,13 @@ changed |= 4;*/
             }
 
             oldpos = pos; oldrot = rot;
-            if ( changed != 0 )
-                try {
-                    foreach ( Player p in players ) {
-                        if ( p != this && p.level == level ) {
+            if (changed != 0)
+                try
+                {
+                    foreach (Player p in players)
+                    {
+                        if (p != this && p.level == level)
+                        {
                             p.SendRaw(msg, buffer);
                         }
                     }
@@ -3205,117 +3655,148 @@ changed |= 4;*/
         }
         #endregion
         #region == GLOBAL MESSAGES ==
-        public static void GlobalBlockchange(Level level, int b, ushort? type) {
+        public static void GlobalBlockchange(Level level, int b, ushort? type)
+        {
             ushort x, y, z;
             level.IntToPos(b, out x, out y, out z);
             GlobalBlockchange(level, x, y, z, type);
         }
-        public static void GlobalBlockchange(Level level, ushort x, ushort y, ushort z, ushort? type) {
-            players.ForEach(delegate(Player p) { if ( p.level == level ) { p.SendBlockchange(x, y, z, type); } });
+        public static void GlobalBlockchange(Level level, ushort x, ushort y, ushort z, ushort? type)
+        {
+            players.ForEach(delegate(Player p) { if (p.level == level) { p.SendBlockchange(x, y, z, type); } });
         }
 
         // THIS IS NOT FOR SENDING GLOBAL MESSAGES!!! IT IS TO SEND A MESSAGE FROM A SPECIFIED PLAYER!!!!!!!!!!!!!!
         public static void GlobalChat(Player from, string message) { GlobalChat(from, message, true); }
-        public static void GlobalChat(Player from, string message, bool showname) {
-            if ( from == null ) return; // So we don't fucking derp the hell out!
+        public static void GlobalChat(Player from, string message, bool showname)
+        {
+            if (from == null) return; // So we don't fucking derp the hell out!
 
-            if ( MessageHasBadColorCodes(from, message) )
+            if (MessageHasBadColorCodes(from, message))
                 return;
 
-            if ( Server.lava.HasPlayer(from) && Server.lava.HasVote(message.ToLower()) ) {
-                if ( Server.lava.AddVote(from, message.ToLower()) ) {
+            if (Server.lava.HasPlayer(from) && Server.lava.HasVote(message.ToLower()))
+            {
+                if (Server.lava.AddVote(from, message.ToLower()))
+                {
                     SendMessage(from, "Your vote for &5" + message.ToLower().Capitalize() + Server.DefaultColor + " has been placed. Thanks!");
                     Server.lava.map.ChatLevelOps(from.name + " voted for &5" + message.ToLower().Capitalize() + Server.DefaultColor + ".");
                     return;
                 }
-                else {
+                else
+                {
                     SendMessage(from, "&cYou already voted!");
                     return;
                 }
             }
 
-            if ( Server.voting == true ) {
-                if ( message.ToLower() == "yes" || message.ToLower() == "ye" || message.ToLower() == "y" ) {
-                    if ( !from.voted ) {
+            if (Server.voting == true)
+            {
+                if (message.ToLower() == "yes" || message.ToLower() == "ye" || message.ToLower() == "y")
+                {
+                    if (!from.voted)
+                    {
                         Server.YesVotes++;
                         SendMessage(from, c.red + "Thanks For Voting!");
                         from.voted = true;
                         return;
                     }
-                    else if ( !from.voice ) {
+                    else if (!from.voice)
+                    {
                         from.SendMessage("Chat moderation is on while voting is on!");
                         return;
                     }
                 }
-                else if ( message.ToLower() == "no" || message.ToLower() == "n" ) {
-                    if ( !from.voted ) {
+                else if (message.ToLower() == "no" || message.ToLower() == "n")
+                {
+                    if (!from.voted)
+                    {
                         Server.NoVotes++;
                         SendMessage(from, c.red + "Thanks For Voting!");
                         from.voted = true;
                         return;
                     }
-                    else if ( !from.voice ) {
+                    else if (!from.voice)
+                    {
                         from.SendMessage("Chat moderation is on while voting is on!");
                         return;
                     }
                 }
             }
 
-            if ( Server.votingforlevel == true ) {
-                if ( message.ToLower() == "1" || message.ToLower() == "one" ) {
-                    if ( !from.voted ) {
+            if (Server.votingforlevel == true)
+            {
+                if (message.ToLower() == "1" || message.ToLower() == "one")
+                {
+                    if (!from.voted)
+                    {
                         Server.Level1Vote++;
                         SendMessage(from, c.red + "Thanks For Voting!");
                         from.voted = true;
                         return;
                     }
-                    else if ( !from.voice ) {
+                    else if (!from.voice)
+                    {
                         from.SendMessage("Chat moderation is on while voting is on!");
                         return;
                     }
                 }
-                else if ( message.ToLower() == "2" || message.ToLower() == "two" ) {
-                    if ( !from.voted ) {
+                else if (message.ToLower() == "2" || message.ToLower() == "two")
+                {
+                    if (!from.voted)
+                    {
                         Server.Level2Vote++;
                         SendMessage(from, c.red + "Thanks For Voting!");
                         from.voted = true;
                         return;
                     }
-                    else if ( !from.voice ) {
+                    else if (!from.voice)
+                    {
                         from.SendMessage("Chat moderation is on while voting is on!");
                         return;
                     }
                 }
-                else if ( message.ToLower() == "3" || message.ToLower() == "random" || message.ToLower() == "rand" ) {
-                    if ( !from.voted ) {
+                else if (message.ToLower() == "3" || message.ToLower() == "random" || message.ToLower() == "rand")
+                {
+                    if (!from.voted)
+                    {
                         Server.Level3Vote++;
                         SendMessage(from, c.red + "Thanks For Voting!");
                         from.voted = true;
                         return;
                     }
-                    else if ( !from.voice ) {
+                    else if (!from.voice)
+                    {
                         from.SendMessage("Chat moderation is on while voting is on!");
                         return;
                     }
                 }
-                else if ( !from.voice ) {
+                else if (!from.voice)
+                {
                     from.SendMessage("Chat moderation is on while voting is on!");
                     return;
                 }
             }
 
-            if ( showname ) {
+            if (showname)
+            {
                 String referee = "";
-                if ( from.referee ) {
+                if (from.referee)
+                {
                     referee = c.green + "[Referee] ";
                 }
                 message = referee + from.color + from.voicestring + from.color + from.prefix + from.name + ": &f" + message;
             }
-            players.ForEach(delegate(Player p) {
-                if ( p.level.worldChat && p.Chatroom == null ) {
-                    if ( p.ignoreglobal == false ) {
-                        if ( from != null ) {
-                            if ( !p.listignored.Contains(from.name) ) {
+            players.ForEach(delegate(Player p)
+            {
+                if (p.level.worldChat && p.Chatroom == null)
+                {
+                    if (p.ignoreglobal == false)
+                    {
+                        if (from != null)
+                        {
+                            if (!p.listignored.Contains(from.name))
+                            {
                                 Player.SendMessage(p, message);
                                 return;
                             }
@@ -3324,15 +3805,20 @@ changed |= 4;*/
                         Player.SendMessage(p, message);
                         return;
                     }
-                    if ( Server.globalignoreops == false ) {
-                        if ( from.group.Permission >= Server.opchatperm ) {
-                            if ( p.group.Permission < from.group.Permission ) {
+                    if (Server.globalignoreops == false)
+                    {
+                        if (from.group.Permission >= Server.opchatperm)
+                        {
+                            if (p.group.Permission < from.group.Permission)
+                            {
                                 Player.SendMessage(p, message);
                             }
                         }
                     }
-                    if ( from != null ) {
-                        if ( from == p ) {
+                    if (from != null)
+                    {
+                        if (from == p)
+                        {
                             Player.SendMessage(from, message);
                             return;
                         }
@@ -3341,18 +3827,25 @@ changed |= 4;*/
             });
 
         }
-        public static void GlobalChatLevel(Player from, string message, bool showname) {
-            if ( MessageHasBadColorCodes(from, message) )
+        public static void GlobalChatLevel(Player from, string message, bool showname)
+        {
+            if (MessageHasBadColorCodes(from, message))
                 return;
 
-            if ( showname ) {
+            if (showname)
+            {
                 message = "<Level>" + from.color + from.voicestring + from.color + from.prefix + from.name + ": &f" + message;
             }
-            players.ForEach(delegate(Player p) {
-                if ( p.level == from.level && p.Chatroom == null ) {
-                    if ( p.ignoreglobal == false ) {
-                        if ( from != null ) {
-                            if ( !p.listignored.Contains(from.name) ) {
+            players.ForEach(delegate(Player p)
+            {
+                if (p.level == from.level && p.Chatroom == null)
+                {
+                    if (p.ignoreglobal == false)
+                    {
+                        if (from != null)
+                        {
+                            if (!p.listignored.Contains(from.name))
+                            {
                                 Player.SendMessage(p, Server.DefaultColor + message);
                                 return;
                             }
@@ -3361,15 +3854,20 @@ changed |= 4;*/
                         Player.SendMessage(p, Server.DefaultColor + message);
                         return;
                     }
-                    if ( Server.globalignoreops == false ) {
-                        if ( from.group.Permission >= Server.opchatperm ) {
-                            if ( p.group.Permission < from.group.Permission ) {
+                    if (Server.globalignoreops == false)
+                    {
+                        if (from.group.Permission >= Server.opchatperm)
+                        {
+                            if (p.group.Permission < from.group.Permission)
+                            {
                                 Player.SendMessage(p, Server.DefaultColor + message);
                             }
                         }
                     }
-                    if ( from != null ) {
-                        if ( from == p ) {
+                    if (from != null)
+                    {
+                        if (from == p)
+                        {
                             Player.SendMessage(from, Server.DefaultColor + message);
                             return;
                         }
@@ -3377,18 +3875,25 @@ changed |= 4;*/
                 }
             });
         }
-        public static void GlobalChatRoom(Player from, string message, bool showname) {
-            if ( MessageHasBadColorCodes(from, message) )
+        public static void GlobalChatRoom(Player from, string message, bool showname)
+        {
+            if (MessageHasBadColorCodes(from, message))
                 return;
             string oldmessage = message;
-            if ( showname ) {
+            if (showname)
+            {
                 message = "<GlobalChatRoom> " + from.color + from.voicestring + from.color + from.prefix + from.name + ": &f" + message;
             }
-            players.ForEach(delegate(Player p) {
-                if ( p.Chatroom != null ) {
-                    if ( p.ignoreglobal == false ) {
-                        if ( from != null ) {
-                            if ( !p.listignored.Contains(from.name) ) {
+            players.ForEach(delegate(Player p)
+            {
+                if (p.Chatroom != null)
+                {
+                    if (p.ignoreglobal == false)
+                    {
+                        if (from != null)
+                        {
+                            if (!p.listignored.Contains(from.name))
+                            {
                                 Player.SendMessage(p, Server.DefaultColor + message);
                                 return;
                             }
@@ -3397,15 +3902,20 @@ changed |= 4;*/
                         Player.SendMessage(p, Server.DefaultColor + message);
                         return;
                     }
-                    if ( Server.globalignoreops == false ) {
-                        if ( from.group.Permission >= Server.opchatperm ) {
-                            if ( p.group.Permission < from.group.Permission ) {
+                    if (Server.globalignoreops == false)
+                    {
+                        if (from.group.Permission >= Server.opchatperm)
+                        {
+                            if (p.group.Permission < from.group.Permission)
+                            {
                                 Player.SendMessage(p, Server.DefaultColor + message);
                             }
                         }
                     }
-                    if ( from != null ) {
-                        if ( from == p ) {
+                    if (from != null)
+                    {
+                        if (from == p)
+                        {
                             Player.SendMessage(from, Server.DefaultColor + message);
                             return;
                         }
@@ -3414,19 +3924,26 @@ changed |= 4;*/
             });
             Server.s.Log(oldmessage + "<GlobalChatRoom>" + from.prefix + from.name + message);
         }
-        public static void ChatRoom(Player from, string message, bool showname, string chatroom) {
-            if ( MessageHasBadColorCodes(from, message) )
+        public static void ChatRoom(Player from, string message, bool showname, string chatroom)
+        {
+            if (MessageHasBadColorCodes(from, message))
                 return;
             string oldmessage = message;
-            string messageforspy = ( "<ChatRoomSPY: " + chatroom + "> " + from.color + from.voicestring + from.color + from.prefix + from.name + ": &f" + message );
-            if ( showname ) {
+            string messageforspy = ("<ChatRoomSPY: " + chatroom + "> " + from.color + from.voicestring + from.color + from.prefix + from.name + ": &f" + message);
+            if (showname)
+            {
                 message = "<ChatRoom: " + chatroom + "> " + from.color + from.voicestring + from.color + from.prefix + from.name + ": &f" + message;
             }
-            players.ForEach(delegate(Player p) {
-                if ( p.Chatroom == chatroom ) {
-                    if ( p.ignoreglobal == false ) {
-                        if ( from != null ) {
-                            if ( !p.listignored.Contains(from.name) ) {
+            players.ForEach(delegate(Player p)
+            {
+                if (p.Chatroom == chatroom)
+                {
+                    if (p.ignoreglobal == false)
+                    {
+                        if (from != null)
+                        {
+                            if (!p.listignored.Contains(from.name))
+                            {
                                 Player.SendMessage(p, Server.DefaultColor + message);
                                 return;
                             }
@@ -3435,26 +3952,36 @@ changed |= 4;*/
                         Player.SendMessage(p, Server.DefaultColor + message);
                         return;
                     }
-                    if ( Server.globalignoreops == false ) {
-                        if ( from.group.Permission >= Server.opchatperm ) {
-                            if ( p.group.Permission < from.group.Permission ) {
+                    if (Server.globalignoreops == false)
+                    {
+                        if (from.group.Permission >= Server.opchatperm)
+                        {
+                            if (p.group.Permission < from.group.Permission)
+                            {
                                 Player.SendMessage(p, Server.DefaultColor + message);
                             }
                         }
                     }
-                    if ( from != null ) {
-                        if ( from == p ) {
+                    if (from != null)
+                    {
+                        if (from == p)
+                        {
                             Player.SendMessage(from, Server.DefaultColor + message);
                             return;
                         }
                     }
                 }
             });
-            players.ForEach(delegate(Player p) {
-                if ( p.spyChatRooms.Contains(chatroom) && p.Chatroom != chatroom ) {
-                    if ( p.ignoreglobal == false ) {
-                        if ( from != null ) {
-                            if ( !p.listignored.Contains(from.name) ) {
+            players.ForEach(delegate(Player p)
+            {
+                if (p.spyChatRooms.Contains(chatroom) && p.Chatroom != chatroom)
+                {
+                    if (p.ignoreglobal == false)
+                    {
+                        if (from != null)
+                        {
+                            if (!p.listignored.Contains(from.name))
+                            {
                                 Player.SendMessage(p, Server.DefaultColor + message);
                                 return;
                             }
@@ -3463,15 +3990,20 @@ changed |= 4;*/
                         Player.SendMessage(p, Server.DefaultColor + message);
                         return;
                     }
-                    if ( Server.globalignoreops == false ) {
-                        if ( from.group.Permission >= Server.opchatperm ) {
-                            if ( p.group.Permission < from.group.Permission ) {
+                    if (Server.globalignoreops == false)
+                    {
+                        if (from.group.Permission >= Server.opchatperm)
+                        {
+                            if (p.group.Permission < from.group.Permission)
+                            {
                                 Player.SendMessage(p, Server.DefaultColor + messageforspy);
                             }
                         }
                     }
-                    if ( from != null ) {
-                        if ( from == p ) {
+                    if (from != null)
+                    {
+                        if (from == p)
+                        {
                             Player.SendMessage(from, Server.DefaultColor + messageforspy);
                             return;
                         }
@@ -3482,33 +4014,41 @@ changed |= 4;*/
         }
 
 
-        public static bool MessageHasBadColorCodes(Player from, string message) {
-            if ( HasBadColorCodes(message) ) {
+        public static bool MessageHasBadColorCodes(Player from, string message)
+        {
+            if (HasBadColorCodes(message))
+            {
                 SendMessage(from, "Message not sent. You have bad color codes.");
                 return true;
             }
             return false;
         }
 
-        public static bool HasBadColorCodes(string message) {
+        public static bool HasBadColorCodes(string message)
+        {
 
 
             string[] sections = message.Split(new[] { '&', '%' });
-            for ( int i = 0; i < sections.Length; i++ ) {
+            for (int i = 0; i < sections.Length; i++)
+            {
 
-                if ( String.IsNullOrEmpty(sections[i].Trim()) && i == 0 ) { //If it starts with a color code
+                if (String.IsNullOrEmpty(sections[i].Trim()) && i == 0)
+                { //If it starts with a color code
                     continue;
                 }
 
-                if ( String.IsNullOrEmpty(sections[i].Trim()) && i - 1 != sections.Length ) { //If it ends with a color code
+                if (String.IsNullOrEmpty(sections[i].Trim()) && i - 1 != sections.Length)
+                { //If it ends with a color code
                     continue;
                 }
 
-                if ( String.IsNullOrEmpty(sections[i]) && i - 1 != sections.Length ) {
+                if (String.IsNullOrEmpty(sections[i]) && i - 1 != sections.Length)
+                {
                     return true;
                 }
 
-                if ( !IsValidColorChar(sections[i][0]) ) {
+                if (!IsValidColorChar(sections[i][0]))
+                {
                     sections[i] = 'a' + sections[i].Substring(1);
                 }
             }
@@ -3516,19 +4056,22 @@ changed |= 4;*/
             return false;
         }
 
-        public static bool IsValidColorChar(char color) {
-            return ( color >= '0' && color <= '9' ) || ( color >= 'a' && color <= 'f' ) || ( color >= 'A' && color <= 'F' );
+        public static bool IsValidColorChar(char color)
+        {
+            return (color >= '0' && color <= '9') || (color >= 'a' && color <= 'f') || (color >= 'A' && color <= 'F');
         }
 
-        public static bool HasBadColorCodesTwo(string message) {
+        public static bool HasBadColorCodesTwo(string message)
+        {
             string[] split = message.Split('&');
-            for ( int i = 0; i < split.Length; i++ ) {
+            for (int i = 0; i < split.Length; i++)
+            {
                 string section = split[i];
 
-                if ( String.IsNullOrEmpty(section.Trim()) )
+                if (String.IsNullOrEmpty(section.Trim()))
                     return true;
 
-                if ( !IsValidColorChar(section[0]) )
+                if (!IsValidColorChar(section[0]))
                     return true;
 
             }
@@ -3536,14 +4079,19 @@ changed |= 4;*/
             return false;
         }
 
-        public static bool CommandHasBadColourCodes(Player who, string message) {
+        public static bool CommandHasBadColourCodes(Player who, string message)
+        {
             string[] checkmessagesplit = message.Split(' ');
             bool lastendwithcolour = false;
-            foreach ( string s in checkmessagesplit ) {
+            foreach (string s in checkmessagesplit)
+            {
                 s.Trim();
-                if ( s.StartsWith("%") ) {
-                    if ( lastendwithcolour ) {
-                        if ( who != null ) {
+                if (s.StartsWith("%"))
+                {
+                    if (lastendwithcolour)
+                    {
+                        if (who != null)
+                        {
                             who.SendMessage("Sorry, Your colour codes in this command were invalid (You cannot use 2 colour codes next to each other");
                             who.SendMessage("Command failed.");
                             Server.s.Log(who.name + " attempted to send a command with invalid colours codes (2 colour codes were next to each other)!");
@@ -3551,14 +4099,17 @@ changed |= 4;*/
                         }
                         return true;
                     }
-                    else if ( s.Length == 2 ) {
+                    else if (s.Length == 2)
+                    {
                         lastendwithcolour = true;
                     }
                 }
-                if ( s.TrimEnd(Server.ColourCodesNoPercent).EndsWith("%") ) {
+                if (s.TrimEnd(Server.ColourCodesNoPercent).EndsWith("%"))
+                {
                     lastendwithcolour = true;
                 }
-                else {
+                else
+                {
                     lastendwithcolour = false;
                 }
 
@@ -3566,14 +4117,18 @@ changed |= 4;*/
             return false;
         }
 
-        public static string EscapeColours(string message) {
-            try {
+        public static string EscapeColours(string message)
+        {
+            try
+            {
                 int index = 1;
                 StringBuilder sb = new StringBuilder();
                 Regex r = new Regex("^[0-9a-fA-F]$");
-                foreach ( char c in message ) {
-                    if ( c == '%' ) {
-                        if ( message.Length >= index )
+                foreach (char c in message)
+                {
+                    if (c == '%')
+                    {
+                        if (message.Length >= index)
                             sb.Append(r.IsMatch(message[index].ToString()) ? '&' : '%');
                         else
                             sb.Append('%');
@@ -3584,21 +4139,29 @@ changed |= 4;*/
                 }
                 return sb.ToString();
             }
-            catch {
+            catch
+            {
                 return message;
             }
 
         }
 
-        public static void GlobalChatWorld(Player from, string message, bool showname) {
-            if ( showname ) {
+        public static void GlobalChatWorld(Player from, string message, bool showname)
+        {
+            if (showname)
+            {
                 message = "<World>" + from.color + from.voicestring + from.color + from.prefix + from.name + ": &f" + message;
             }
-            players.ForEach(delegate(Player p) {
-                if ( p.level.worldChat && p.Chatroom == null ) {
-                    if ( p.ignoreglobal == false ) {
-                        if ( from != null ) {
-                            if ( !p.listignored.Contains(from.name) ) {
+            players.ForEach(delegate(Player p)
+            {
+                if (p.level.worldChat && p.Chatroom == null)
+                {
+                    if (p.ignoreglobal == false)
+                    {
+                        if (from != null)
+                        {
+                            if (!p.listignored.Contains(from.name))
+                            {
                                 Player.SendMessage(p, Server.DefaultColor + message);
                                 return;
                             }
@@ -3607,15 +4170,20 @@ changed |= 4;*/
                         Player.SendMessage(p, Server.DefaultColor + message);
                         return;
                     }
-                    if ( Server.globalignoreops == false ) {
-                        if ( from.group.Permission >= Server.opchatperm ) {
-                            if ( p.group.Permission < from.group.Permission ) {
+                    if (Server.globalignoreops == false)
+                    {
+                        if (from.group.Permission >= Server.opchatperm)
+                        {
+                            if (p.group.Permission < from.group.Permission)
+                            {
                                 Player.SendMessage(p, Server.DefaultColor + message);
                             }
                         }
                     }
-                    if ( from != null ) {
-                        if ( from == p ) {
+                    if (from != null)
+                    {
+                        if (from == p)
+                        {
                             Player.SendMessage(from, Server.DefaultColor + message);
                             return;
                         }
@@ -3623,31 +4191,41 @@ changed |= 4;*/
                 }
             });
         }
-        public static void GlobalMessage(string message) {
+        public static void GlobalMessage(string message)
+        {
             GlobalMessage(MessageType.Chat, message, false);
         }
-        public static void GlobalMessage(MessageType type, string message, bool global) {
-            if ( !global )
+        public static void GlobalMessage(MessageType type, string message, bool global)
+        {
+            if (!global)
                 //message = message.Replace("%", "&");
                 message = EscapeColours(message);
-            players.ForEach(delegate(Player p) {
-                if ( p.level.worldChat && p.Chatroom == null && ( !global || !p.muteGlobal ) ) {
+            players.ForEach(delegate(Player p)
+            {
+                if (p.level.worldChat && p.Chatroom == null && (!global || !p.muteGlobal))
+                {
                     Player.SendMessage(p, type, message, !global);
                 }
             });
         }
-        public static void GlobalMessageLevel(Level l, string message) {
-            players.ForEach(delegate(Player p) { if ( p.level == l && p.Chatroom == null ) Player.SendMessage(p, MessageType.Chat, message, true); });
+        public static void GlobalMessageLevel(Level l, string message)
+        {
+            players.ForEach(delegate(Player p) { if (p.level == l && p.Chatroom == null) Player.SendMessage(p, MessageType.Chat, message, true); });
         }
 
-        public static void GlobalMessageLevel( Level l, MessageType type, string message ) {
-            players.ForEach( delegate( Player p ) { if ( p.level == l && p.Chatroom == null ) Player.SendMessage( p, type, message, true ); } );
+        public static void GlobalMessageLevel(Level l, MessageType type, string message)
+        {
+            players.ForEach(delegate(Player p) { if (p.level == l && p.Chatroom == null) Player.SendMessage(p, type, message, true); });
         }
 
-        public static void GlobalMessageOps(string message) {
-            try {
-                players.ForEach(delegate(Player p) {
-                    if ( p.group.Permission >= Server.opchatperm || p.isStaff ) { //START
+        public static void GlobalMessageOps(string message)
+        {
+            try
+            {
+                players.ForEach(delegate(Player p)
+                {
+                    if (p.group.Permission >= Server.opchatperm || p.isStaff)
+                    { //START
                         Player.SendMessage(p, message);
                     }
                 });
@@ -3655,10 +4233,14 @@ changed |= 4;*/
             }
             catch { Server.s.Log("Error occured with Op Chat"); }
         }
-        public static void GlobalMessageAdmins(string message) {
-            try {
-                players.ForEach(delegate(Player p) {
-                    if ( p.group.Permission >= Server.adminchatperm || p.isStaff ) {
+        public static void GlobalMessageAdmins(string message)
+        {
+            try
+            {
+                players.ForEach(delegate(Player p)
+                {
+                    if (p.group.Permission >= Server.adminchatperm || p.isStaff)
+                    {
                         Player.SendMessage(p, message);
                     }
                 });
@@ -3667,33 +4249,43 @@ changed |= 4;*/
             catch { Server.s.Log("Error occured with Admin Chat"); }
         }
 
-        public static void GlobalSpawn(Player from, ushort x, ushort y, ushort z, byte rotx, byte roty, bool self, string possession = "") {
-            players.ForEach(delegate(Player p) {
-                if ( p.Loading && p != from ) { return; }
-                if ( p.level != from.level || ( from.hidden && !self ) ) { return; }
-                if ( p != from ) {
-                    if ( Server.ZombieModeOn && !p.aka ) {
-                        if ( from.infected ) {
-                            if ( Server.ZombieName != "" )
+        public static void GlobalSpawn(Player from, ushort x, ushort y, ushort z, byte rotx, byte roty, bool self, string possession = "")
+        {
+            players.ForEach(delegate(Player p)
+            {
+                if (p.Loading && p != from) { return; }
+                if (p.level != from.level || (from.hidden && !self)) { return; }
+                if (p != from)
+                {
+                    if (Server.ZombieModeOn && !p.aka)
+                    {
+                        if (from.infected)
+                        {
+                            if (Server.ZombieName != "")
                                 p.SendSpawn(from.id, c.red + Server.ZombieName + possession, x, y, z, rotx, roty);
                             else
                                 p.SendSpawn(from.id, c.red + from.name + possession, x, y, z, rotx, roty);
                             return;
                         }
-                        else if ( from.referee ) {
+                        else if (from.referee)
+                        {
                             return;
                         }
-                        else {
+                        else
+                        {
                             p.SendSpawn(from.id, from.color + from.name + possession, x, y, z, rotx, roty);
                             return;
                         }
                     }
-                    else {
+                    else
+                    {
                         p.SendSpawn(from.id, from.color + from.name + possession, x, y, z, rotx, roty);
                     }
                 }
-                else if ( self ) {
-                    if ( !p.ignorePermission ) {
+                else if (self)
+                {
+                    if (!p.ignorePermission)
+                    {
                         p.pos = new ushort[3] { x, y, z }; p.rot = new byte[2] { rotx, roty };
                         p.oldpos = p.pos; p.oldrot = p.rot;
                         unchecked { p.SendSpawn((byte)-1, from.color + from.name + possession, x, y, z, rotx, roty); }
@@ -3701,18 +4293,23 @@ changed |= 4;*/
                 }
             });
         }
-        public static void GlobalDie(Player from, bool self) {
-            players.ForEach(delegate(Player p) {
-                if ( p.level != from.level || ( from.hidden && !self ) ) { return; }
-                if ( p != from ) { p.SendDie(from.id); }
-                else if ( self ) { p.SendDie(Block.maxblocks); }
+        public static void GlobalDie(Player from, bool self)
+        {
+            players.ForEach(delegate(Player p)
+            {
+                if (p.level != from.level || (from.hidden && !self)) { return; }
+                if (p != from) { p.SendDie(from.id); }
+                else if (self) { p.SendDie(Block.maxblocks); }
             });
         }
 
-        public bool MarkPossessed(string marker = "") {
-            if ( marker != "" ) {
+        public bool MarkPossessed(string marker = "")
+        {
+            if (marker != "")
+            {
                 Player controller = Player.Find(marker);
-                if ( controller == null ) {
+                if (controller == null)
+                {
                     return false;
                 }
                 marker = " (" + controller.color + controller.name + color + ")";
@@ -3722,37 +4319,42 @@ changed |= 4;*/
             return true;
         }
 
-        public static void GlobalUpdate() { players.ForEach(delegate(Player p) { if ( !p.hidden ) { p.UpdatePosition(); } }); }
+        public static void GlobalUpdate() { players.ForEach(delegate(Player p) { if (!p.hidden) { p.UpdatePosition(); } }); }
         #endregion
         #region == DISCONNECTING ==
         public void Disconnect() { leftGame(); }
         public void Kick(string kickString) { leftGame(kickString); }
 
-        internal void CloseSocket() {
+        internal void CloseSocket()
+        {
             // Try to close the socket.
             // Sometimes its already closed so these lines will cause an error
             // We just trap them and hide them from view :P
-            try {
+            try
+            {
                 // Close the damn socket connection!
                 socket.Shutdown(SocketShutdown.Both);
 #if DEBUG
                 Server.s.Log("Socket was shutdown for " + this.name ?? this.ip);
 #endif
             }
-            catch ( Exception) {
+            catch (Exception)
+            {
 #if DEBUG
                 Exception ex = new Exception("Failed to shutdown socket for " + this.name ?? this.ip, e);
                 Server.ErrorLog(ex);
 #endif
             }
 
-            try {
+            try
+            {
                 socket.Close();
 #if DEBUG
                 Server.s.Log("Socket was closed for " + this.name ?? this.ip);
 #endif
             }
-            catch ( Exception ) {
+            catch (Exception)
+            {
 #if DEBUG
                 Exception ex = new Exception("Failed to close socket for " + this.name ?? this.ip, e);
                 Server.ErrorLog(ex);
@@ -3760,15 +4362,17 @@ changed |= 4;*/
             }
         }
 
-        public void leftGame(string kickString = "", bool skip = false) {
+        public void leftGame(string kickString = "", bool skip = false)
+        {
 
             OnPlayerDisconnectEvent.Call(this, kickString);
 
             //Umm...fixed?
-            if ( name == "" ) {
-                if ( socket != null )
+            if (name == "")
+            {
+                if (socket != null)
                     CloseSocket();
-                if ( connections.Contains(this) )
+                if (connections.Contains(this))
                     connections.Remove(this);
                 SaveUndo();
                 disconnected = true;
@@ -3776,19 +4380,24 @@ changed |= 4;*/
             }
             ////If player has been found in the reviewlist he will be removed
             bool leavetest = false;
-            foreach ( string testwho2 in Server.reviewlist ) {
-                if ( testwho2 == name ) {
+            foreach (string testwho2 in Server.reviewlist)
+            {
+                if (testwho2 == name)
+                {
                     leavetest = true;
                 }
             }
-            if ( leavetest ) {
+            if (leavetest)
+            {
                 Server.reviewlist.Remove(name);
             }
-            try {
- 
-                if ( disconnected ) {
+            try
+            {
+
+                if (disconnected)
+                {
                     this.CloseSocket();
-                    if ( connections.Contains(this) )
+                    if (connections.Contains(this))
                         connections.Remove(this);
                     return;
                 }
@@ -3796,19 +4405,25 @@ changed |= 4;*/
                 disconnected = true;
                 pingTimer.Stop();
                 pingTimer.Dispose();
-                if ( File.Exists("ranks/ignore/" + this.name + ".txt") ) {
-                    try {
+                if (File.Exists("ranks/ignore/" + this.name + ".txt"))
+                {
+                    try
+                    {
                         File.WriteAllLines("ranks/ignore/" + this.name + ".txt", this.listignored.ToArray());
                     }
-                    catch {
+                    catch
+                    {
                         Server.s.Log("Failed to save ignored list for player: " + this.name);
                     }
                 }
-                if ( File.Exists("ranks/ignore/GlobalIgnore.xml") ) {
-                    try {
+                if (File.Exists("ranks/ignore/GlobalIgnore.xml"))
+                {
+                    try
+                    {
                         File.WriteAllLines("ranks/ignore/GlobalIgnore.xml", globalignores.ToArray());
                     }
-                    catch {
+                    catch
+                    {
                         Server.s.Log("failed to save global ignore list!");
                     }
                 }
@@ -3821,64 +4436,74 @@ changed |= 4;*/
                 afkCount = 0;
                 afkStart = DateTime.Now;
 
-                if ( Server.afkset.Contains(name) ) Server.afkset.Remove(name);
+                if (Server.afkset.Contains(name)) Server.afkset.Remove(name);
 
-                if ( kickString == "" ) kickString = "Disconnected.";
+                if (kickString == "") kickString = "Disconnected.";
 
                 SendKick(kickString);
 
 
-                if ( loggedIn ) {
+                if (loggedIn)
+                {
                     isFlying = false;
                     aiming = false;
 
-                    if ( team != null ) {
+                    if (team != null)
+                    {
                         team.RemoveMember(this);
                     }
 
-                    if ( CountdownGame.players.Contains(this) ) {
-                        if ( CountdownGame.playersleftlist.Contains(this) ) {
+                    if (CountdownGame.players.Contains(this))
+                    {
+                        if (CountdownGame.playersleftlist.Contains(this))
+                        {
                             CountdownGame.PlayerLeft(this);
                         }
                         CountdownGame.players.Remove(this);
                     }
 
                     TntWarsGame tntwarsgame = TntWarsGame.GetTntWarsGame(this);
-                    if ( tntwarsgame != null ) {
+                    if (tntwarsgame != null)
+                    {
                         tntwarsgame.Players.Remove(tntwarsgame.FindPlayer(this));
                         tntwarsgame.SendAllPlayersMessage("TNT Wars: " + color + name + Server.DefaultColor + " has left TNT Wars!");
                     }
 
                     GlobalDie(this, false);
-                    if ( kickString == "Disconnected." || kickString.IndexOf("Server shutdown") != -1 || kickString == Server.customShutdownMessage ) {
-                        if ( !Directory.Exists("text/logout") ) {
+                    if (kickString == "Disconnected." || kickString.IndexOf("Server shutdown") != -1 || kickString == Server.customShutdownMessage)
+                    {
+                        if (!Directory.Exists("text/logout"))
+                        {
                             Directory.CreateDirectory("text/logout");
                         }
-                        if ( !File.Exists("text/logout/" + name + ".txt") ) {
+                        if (!File.Exists("text/logout/" + name + ".txt"))
+                        {
                             File.WriteAllText("text/logout/" + name + ".txt", "Disconnected.");
                         }
-                        if ( !hidden ) {
-                    		string leavem = "&c- " + color + prefix + name + Server.DefaultColor + " " + File.ReadAllText("text/logout/" + name + ".txt");
-                    		if ((Server.guestLeaveNotify && this.group.Permission <= LevelPermission.Guest) || this.group.Permission > LevelPermission.Guest)
-                    		{
-                    			Player.players.ForEach(delegate(Player p1)
-									                       {
-									                       	if (p1.UsingWom)
-									                       	{
-									                       		byte[] buffer = new byte[65];
-									                       		Player.StringFormat("^detail.user.part=" + color +  name + c.white, 64).CopyTo(buffer, 1);
-									                       		p1.SendRaw(13, buffer);
-									                       		buffer = null;
-									                       	}
-									                       	else
-									                       		Player.SendMessage(p1, leavem);
-									                       });
-                    		}
+                        if (!hidden)
+                        {
+                            string leavem = "&c- " + color + prefix + name + Server.DefaultColor + " " + File.ReadAllText("text/logout/" + name + ".txt");
+                            if ((Server.guestLeaveNotify && this.group.Permission <= LevelPermission.Guest) || this.group.Permission > LevelPermission.Guest)
+                            {
+                                Player.players.ForEach(delegate(Player p1)
+                                {
+                                    if (p1.UsingWom)
+                                    {
+                                        byte[] buffer = new byte[65];
+                                        Player.StringFormat("^detail.user.part=" + color + name + c.white, 64).CopyTo(buffer, 1);
+                                        p1.SendRaw(13, buffer);
+                                        buffer = null;
+                                    }
+                                    else
+                                        Player.SendMessage(p1, leavem);
+                                });
+                            }
                         }
                         //IRCBot.Say(name + " left the game.");
                         Server.s.Log(name + " disconnected.");
                     }
-                    else {
+                    else
+                    {
                         totalKicked++;
                         GlobalChat(this, "&c- " + color + prefix + name + Server.DefaultColor + " kicked (" + kickString + Server.DefaultColor + ").", false);
                         //IRCBot.Say(name + " kicked (" + kickString + ").");
@@ -3886,7 +4511,7 @@ changed |= 4;*/
                     }
 
                     try { save(); }
-                    catch ( Exception e ) { Server.ErrorLog(e); }
+                    catch (Exception e) { Server.ErrorLog(e); }
 
                     players.Remove(this);
                     players.ForEach(delegate(Player p)
@@ -3897,10 +4522,12 @@ changed |= 4;*/
                         }
                     });
                     Server.s.PlayerListUpdate();
-                    try {
+                    try
+                    {
                         left.Add(this.name.ToLower(), this.ip);
                     }
-                    catch ( Exception ) {
+                    catch (Exception)
+                    {
                         //Server.ErrorLog(e);
                     }
 
@@ -3915,15 +4542,16 @@ level.Unload();
 }
 }*/
 
-                    if ( Server.AutoLoad && level.unload && !level.name.Contains("Museum " + Server.DefaultColor) && IsAloneOnCurrentLevel() )
+                    if (Server.AutoLoad && level.unload && !level.name.Contains("Museum " + Server.DefaultColor) && IsAloneOnCurrentLevel())
                         level.Unload(true);
 
-                    if ( PlayerDisconnect != null )
+                    if (PlayerDisconnect != null)
                         PlayerDisconnect(this, kickString);
 
                     this.Dispose();
                 }
-                else {
+                else
+                {
                     connections.Remove(this);
 
                     Server.s.Log(ip + " disconnected.");
@@ -3932,46 +4560,54 @@ level.Unload();
                 Server.zombie.InfectedPlayerDC();
 
             }
-            catch ( Exception e ) { Server.ErrorLog(e); }
-            finally {
+            catch (Exception e) { Server.ErrorLog(e); }
+            finally
+            {
                 CloseSocket();
             }
         }
 
-        public void SaveUndo() {
+        public void SaveUndo()
+        {
             SaveUndo(this);
         }
-        public static void SaveUndo(Player p) {
-        	if ( p == null || p.UndoBuffer == null || p.UndoBuffer.Count < 1 ) return;
-        	try {
-        		if ( !Directory.Exists("extra/undo") ) Directory.CreateDirectory("extra/undo");
-        		if ( !Directory.Exists("extra/undoPrevious") ) Directory.CreateDirectory("extra/undoPrevious");
-        		DirectoryInfo di = new DirectoryInfo("extra/undo");
-        		if ( di.GetDirectories("*").Length >= Server.totalUndo ) {
-        			Directory.Delete("extra/undoPrevious", true);
-        			Directory.Move("extra/undo", "extra/undoPrevious");
-        			Directory.CreateDirectory("extra/undo");
-        		}
+        public static void SaveUndo(Player p)
+        {
+            if (p == null || p.UndoBuffer == null || p.UndoBuffer.Count < 1) return;
+            try
+            {
+                if (!Directory.Exists("extra/undo")) Directory.CreateDirectory("extra/undo");
+                if (!Directory.Exists("extra/undoPrevious")) Directory.CreateDirectory("extra/undoPrevious");
+                DirectoryInfo di = new DirectoryInfo("extra/undo");
+                if (di.GetDirectories("*").Length >= Server.totalUndo)
+                {
+                    Directory.Delete("extra/undoPrevious", true);
+                    Directory.Move("extra/undo", "extra/undoPrevious");
+                    Directory.CreateDirectory("extra/undo");
+                }
 
-        		if ( !Directory.Exists("extra/undo/" + p.name.ToLower()) ) Directory.CreateDirectory("extra/undo/" + p.name.ToLower());
-        		di = new DirectoryInfo("extra/undo/" + p.name.ToLower());
-        		int number = di.GetFiles("*.undo").Length;
-        		File.Create("extra/undo/" + p.name.ToLower() + "/" + number + ".undo").Dispose();
-        		using ( StreamWriter w = File.CreateText("extra/undo/" + p.name.ToLower() + "/" + number + ".undo") ) {
-        			foreach ( UndoPos uP in p.UndoBuffer.ToList() ) {
-        				w.Write(uP.mapName + " " +
-        				        uP.x + " " + uP.y + " " + uP.z + " " +
-        				        uP.timePlaced.ToString(CultureInfo.InvariantCulture).Replace(' ', '&') + " " +
-        				        uP.type + " " + uP.newtype + " ");
-        			}
-        		}
-        	}
-        	catch ( Exception e ) { Server.s.Log("Error saving undo data for " + p.name + "!"); Server.ErrorLog(e); }
+                if (!Directory.Exists("extra/undo/" + p.name.ToLower())) Directory.CreateDirectory("extra/undo/" + p.name.ToLower());
+                di = new DirectoryInfo("extra/undo/" + p.name.ToLower());
+                int number = di.GetFiles("*.undo").Length;
+                File.Create("extra/undo/" + p.name.ToLower() + "/" + number + ".undo").Dispose();
+                using (StreamWriter w = File.CreateText("extra/undo/" + p.name.ToLower() + "/" + number + ".undo"))
+                {
+                    foreach (UndoPos uP in p.UndoBuffer.ToList())
+                    {
+                        w.Write(uP.mapName + " " +
+                                uP.x + " " + uP.y + " " + uP.z + " " +
+                                uP.timePlaced.ToString(CultureInfo.InvariantCulture).Replace(' ', '&') + " " +
+                                uP.type + " " + uP.newtype + " ");
+                    }
+                }
+            }
+            catch (Exception e) { Server.s.Log("Error saving undo data for " + p.name + "!"); Server.ErrorLog(e); }
         }
 
-        public void Dispose() {
+        public void Dispose()
+        {
             //throw new NotImplementedException();
-            if ( connections.Contains(this) ) connections.Remove(this);
+            if (connections.Contains(this)) connections.Remove(this);
             Extras.Clear();
             CopyBuffer.Clear();
             RedoBuffer.Clear();
@@ -3986,49 +4622,60 @@ level.Unload();
 catch { }*/
         }
         //fixed undo code
-        public bool IsAloneOnCurrentLevel() {
+        public bool IsAloneOnCurrentLevel()
+        {
             return players.All(pl => pl.level != level || pl == this);
         }
 
         #endregion
         #region == CHECKING ==
         public static List<Player> GetPlayers() { return new List<Player>(players); }
-        public static bool Exists(string name) {
-            foreach ( Player p in players ) { if ( p.name.ToLower() == name.ToLower() ) { return true; } } return false;
+        public static bool Exists(string name)
+        {
+            foreach (Player p in players) { if (p.name.ToLower() == name.ToLower()) { return true; } } return false;
         }
-        public static bool Exists(byte id) {
-            foreach ( Player p in players ) { if ( p.id == id ) { return true; } } return false;
+        public static bool Exists(byte id)
+        {
+            foreach (Player p in players) { if (p.id == id) { return true; } } return false;
         }
-        public static Player Find(string name) {
+        public static Player Find(string name)
+        {
             List<Player> tempList = new List<Player>();
             tempList.AddRange(players);
             Player tempPlayer = null; bool returnNull = false;
 
-            foreach ( Player p in tempList ) {
-                if ( p.name.ToLower() == name.ToLower() ) return p;
-                if ( p.name.ToLower().IndexOf(name.ToLower()) != -1 ) {
-                    if ( tempPlayer == null ) tempPlayer = p;
+            foreach (Player p in tempList)
+            {
+                if (p.name.ToLower() == name.ToLower()) return p;
+                if (p.name.ToLower().IndexOf(name.ToLower()) != -1)
+                {
+                    if (tempPlayer == null) tempPlayer = p;
                     else returnNull = true;
                 }
             }
 
-            if ( returnNull == true ) return null;
-            if ( tempPlayer != null ) return tempPlayer;
+            if (returnNull == true) return null;
+            if (tempPlayer != null) return tempPlayer;
             return null;
         }
-        public static Group GetGroup(string name) {
+        public static Group GetGroup(string name)
+        {
             return Group.findPlayerGroup(name);
         }
-        public static string GetColor(string name) {
+        public static string GetColor(string name)
+        {
             return GetGroup(name).color;
         }
-        public static OfflinePlayer FindOffline(string name) {
+        public static OfflinePlayer FindOffline(string name)
+        {
             OfflinePlayer offPlayer = new OfflinePlayer("", "", "", "", 0);
             Database.AddParams("@Name", name);
-            using (DataTable playerDB = Database.fillData("SELECT * FROM Players WHERE Name = @Name")) {
+            using (DataTable playerDB = Database.fillData("SELECT * FROM Players WHERE Name = @Name"))
+            {
                 if (playerDB.Rows.Count == 0)
                     return offPlayer;
-                else {
+                else
+                {
                     offPlayer.name = playerDB.Rows[0]["Name"].ToString().Trim();
                     offPlayer.title = playerDB.Rows[0]["Title"].ToString().Trim();
                     offPlayer.titleColor = c.Parse(playerDB.Rows[0]["title_color"].ToString().Trim());
@@ -4041,7 +4688,8 @@ catch { }*/
         }
         #endregion
         #region == OTHER ==
-        static byte FreeId() {
+        static byte FreeId()
+        {
             /*
 for (byte i = 0; i < 255; i++)
 {
@@ -4052,57 +4700,66 @@ if (p.id == i) { goto Next; }
 Next: continue;
 } unchecked { return (byte)-1; }*/
 
-            for ( byte i = 0; i < Block.maxblocks; i++ ) {
+            for (byte i = 0; i < Block.maxblocks; i++)
+            {
                 bool used = players.Any(p => p.id == i);
 
-                if ( !used )
+                if (!used)
                     return i;
             }
             return (byte)1;
         }
-        public static byte[] StringFormat(string str, int size) {
+        public static byte[] StringFormat(string str, int size)
+        {
             byte[] bytes = new byte[size];
             bytes = enc.GetBytes(str.PadRight(size).Substring(0, size));
             return bytes;
         }
 
         // TODO: Optimize this using a StringBuilder
-        static List<string> Wordwrap(string message) {
+        static List<string> Wordwrap(string message)
+        {
             List<string> lines = new List<string>();
             message = Regex.Replace(message, @"(&[0-9a-f])+(&[0-9a-f])", "$2");
             message = Regex.Replace(message, @"(&[0-9a-f])+$", "");
 
             int limit = 64; string color = "";
-            while ( message.Length > 0 ) {
+            while (message.Length > 0)
+            {
                 //if (Regex.IsMatch(message, "&a")) break;
 
-                if ( lines.Count > 0 ) {
-                    if ( message[0].ToString() == "&" )
+                if (lines.Count > 0)
+                {
+                    if (message[0].ToString() == "&")
                         message = "> " + message.Trim();
                     else
                         message = "> " + color + message.Trim();
                 }
 
-                if ( message.IndexOf("&") == message.IndexOf("&", message.IndexOf("&") + 1) - 2 )
+                if (message.IndexOf("&") == message.IndexOf("&", message.IndexOf("&") + 1) - 2)
                     message = message.Remove(message.IndexOf("&"), 2);
 
-                if ( message.Length <= limit ) { lines.Add(message); break; }
-                for ( int i = limit - 1; i > limit - 20; --i )
-                    if ( message[i] == ' ' ) {
+                if (message.Length <= limit) { lines.Add(message); break; }
+                for (int i = limit - 1; i > limit - 20; --i)
+                    if (message[i] == ' ')
+                    {
                         lines.Add(message.Substring(0, i));
                         goto Next;
                     }
 
             retry:
-                if ( message.Length == 0 || limit == 0 ) { return lines; }
+                if (message.Length == 0 || limit == 0) { return lines; }
 
-                try {
-                    if ( message.Substring(limit - 2, 1) == "&" || message.Substring(limit - 1, 1) == "&" ) {
+                try
+                {
+                    if (message.Substring(limit - 2, 1) == "&" || message.Substring(limit - 1, 1) == "&")
+                    {
                         message = message.Remove(limit - 2, 1);
                         limit -= 2;
                         goto retry;
                     }
-                    else if ( message[limit - 1] < 32 || message[limit - 1] > 127 ) {
+                    else if (message[limit - 1] < 32 || message[limit - 1] > 127)
+                    {
                         message = message.Remove(limit - 1, 1);
                         limit -= 1;
                         //goto retry;
@@ -4112,20 +4769,25 @@ Next: continue;
                 lines.Add(message.Substring(0, limit));
 
             Next: message = message.Substring(lines[lines.Count - 1].Length);
-                if ( lines.Count == 1 ) limit = 60;
+                if (lines.Count == 1) limit = 60;
 
                 int index = lines[lines.Count - 1].LastIndexOf('&');
-                if ( index != -1 ) {
-                    if ( index < lines[lines.Count - 1].Length - 1 ) {
+                if (index != -1)
+                {
+                    if (index < lines[lines.Count - 1].Length - 1)
+                    {
                         char next = lines[lines.Count - 1][index + 1];
-                        if ( "0123456789abcdef".IndexOf(next) != -1 ) { color = "&" + next; }
-                        if ( index == lines[lines.Count - 1].Length - 1 ) {
+                        if ("0123456789abcdef".IndexOf(next) != -1) { color = "&" + next; }
+                        if (index == lines[lines.Count - 1].Length - 1)
+                        {
                             lines[lines.Count - 1] = lines[lines.Count - 1].Substring(0, lines[lines.Count - 1].Length - 2);
                         }
                     }
-                    else if ( message.Length != 0 ) {
+                    else if (message.Length != 0)
+                    {
                         char next = message[0];
-                        if ( "0123456789abcdef".IndexOf(next) != -1 ) {
+                        if ("0123456789abcdef".IndexOf(next) != -1)
+                        {
                             color = "&" + next;
                         }
                         lines[lines.Count - 1] = lines[lines.Count - 1].Substring(0, lines[lines.Count - 1].Length - 1);
@@ -4134,10 +4796,11 @@ Next: continue;
                 }
             }
             char[] temp;
-            for ( int i = 0; i < lines.Count; i++ ) // Gotta do it the old fashioned way...
+            for (int i = 0; i < lines.Count; i++) // Gotta do it the old fashioned way...
             {
                 temp = lines[i].ToCharArray();
-                if ( temp[temp.Length - 2] == '%' || temp[temp.Length - 2] == '&' ) {
+                if (temp[temp.Length - 2] == '%' || temp[temp.Length - 2] == '&')
+                {
                     temp[temp.Length - 1] = ' ';
                     temp[temp.Length - 2] = ' ';
                 }
@@ -4147,14 +4810,17 @@ Next: continue;
             }
             return lines;
         }
-        public static bool ValidName(string name, Player p = null) {
+        public static bool ValidName(string name, Player p = null)
+        {
             string allowedchars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890._@+";
             if (p != null && p.Mojangaccount) allowedchars += "-";
             return name.All(ch => allowedchars.IndexOf(ch) != -1);
         }
 
-        public static int GetBannedCount() {
-            try {
+        public static int GetBannedCount()
+        {
+            try
+            {
                 return File.ReadAllLines("ranks/banned.txt").Length;
             }
             catch/* (Exception ex)*/
@@ -4163,12 +4829,14 @@ Next: continue;
             }
         }
 
-        public static bool CommandProtected(string cmd, string message) {
+        public static bool CommandProtected(string cmd, string message)
+        {
             string foundName = "";
             Player who = null;
             bool self = false;
             if (Server.ProtectOver.Contains(cmd))
-                switch (cmd) {
+                switch (cmd)
+                {
                     //case "demote":
                     case "freeze":
                     case "impersonate":
@@ -4182,9 +4850,10 @@ Next: continue;
                     case "uban":
                     case "voice":
                     case "xban":
-                    //case "unban":
-                    //case "xundo":
-                        if (message.Split().Length > 0) {
+                        //case "unban":
+                        //case "xundo":
+                        if (message.Split().Length > 0)
+                        {
                             who = Find(message.Split()[0]);
                             foundName = who != null ? who.name : message.Split()[0];
                         }
@@ -4193,21 +4862,26 @@ Next: continue;
                         break;*/
                     case "ban":
                     case "joker":
-                        if (message.Split().Length > 0) {
-                            try {
+                        if (message.Split().Length > 0)
+                        {
+                            try
+                            {
                                 who = message.StartsWith("@") || message.StartsWith("#") ? Find(message.Split()[0].Substring(1)) : Find(message.Split()[0]);
-                            } catch (ArgumentOutOfRangeException) { who = null; }
+                            }
+                            catch (ArgumentOutOfRangeException) { who = null; }
                             foundName = who != null ? who.name : message.Split()[0];
                         }
                         break;
                     case "lockdown":
-                        if (message.Split().Length > 1 && message.Split()[0].ToLower() == "player") {
+                        if (message.Split().Length > 1 && message.Split()[0].ToLower() == "player")
+                        {
                             who = Find(message.Split()[1]);
                             foundName = who != null ? who.name : message.Split()[1];
                         }
                         break;
                     case "jail":
-                        if(message.Split().Length > 0 && message.Split()[0].ToLower() != "set") {
+                        if (message.Split().Length > 0 && message.Split()[0].ToLower() != "set")
+                        {
                             who = Find(message.Split()[0]);
                             foundName = who != null ? who.name : message.Split()[0];
                         }
@@ -4215,7 +4889,8 @@ Next: continue;
                     case "ignore":
                         List<string> badlist = new List<string>();
                         badlist.Add("all"); badlist.Add("global"); badlist.Add("list");
-                        if (message.Split().Length > 0 && badlist.Contains(message.Split()[0].ToLower())) {
+                        if (message.Split().Length > 0 && badlist.Contains(message.Split()[0].ToLower()))
+                        {
                             who = Find(message.Split()[0]);
                             foundName = who != null ? who.name : message.Split()[0];
                         }
@@ -4226,34 +4901,42 @@ Next: continue;
                 }
             foundName = foundName.ToLower();
             if (who != null && foundName == who.name.ToLower()) { self = true; }
-            try {
+            try
+            {
                 if (Server.forgeProtection == ForgeProtection.Mod)
                     return (Server.Mods.Contains(foundName) || Server.Devs.Contains(foundName)) && !self;
                 if (Server.forgeProtection == ForgeProtection.Dev)
                     return Server.Devs.Contains(foundName) && !self;
-            } catch { }
+            }
+            catch { }
             return false;
         }
         #endregion
         #region == Host <> Network ==
-        public static byte[] HTNO(ushort x) {
+        public static byte[] HTNO(ushort x)
+        {
             byte[] y = BitConverter.GetBytes(x); Array.Reverse(y); return y;
         }
-        public static ushort NTHO(byte[] x, int offset) {
+        public static ushort NTHO(byte[] x, int offset)
+        {
             byte[] y = new byte[2];
             Buffer.BlockCopy(x, offset, y, 0, 2); Array.Reverse(y);
             return BitConverter.ToUInt16(y, 0);
         }
-        public static byte[] HTNO(short x) {
+        public static byte[] HTNO(short x)
+        {
             byte[] y = BitConverter.GetBytes(x); Array.Reverse(y); return y;
         }
         #endregion
 
-        bool CheckBlockSpam() {
-            if ( spamBlockLog.Count >= spamBlockCount ) {
+        bool CheckBlockSpam()
+        {
+            if (spamBlockLog.Count >= spamBlockCount)
+            {
                 DateTime oldestTime = spamBlockLog.Dequeue();
                 double spamTimer = DateTime.Now.Subtract(oldestTime).TotalSeconds;
-                if ( spamTimer < spamBlockTimer && !ignoreGrief ) {
+                if (spamTimer < spamBlockTimer && !ignoreGrief)
+                {
                     this.Kick("You were kicked by antigrief system. Slow down.");
                     SendMessage(c.red + name + " was kicked for suspected griefing.");
                     Server.s.Log(name + " was kicked for block spam (" + spamBlockCount + " blocks in " + spamTimer + " seconds)");
@@ -4265,27 +4948,33 @@ Next: continue;
         }
 
         #region getters
-        public ushort[] footLocation {
-            get {
+        public ushort[] footLocation
+        {
+            get
+            {
                 return getLoc(false);
             }
         }
-        public ushort[] headLocation {
-            get {
+        public ushort[] headLocation
+        {
+            get
+            {
                 return getLoc(true);
             }
         }
 
-        public ushort[] getLoc(bool head) {
+        public ushort[] getLoc(bool head)
+        {
             ushort[] myPos = pos;
             myPos[0] /= 32;
-            if ( head ) myPos[1] = (ushort)( ( myPos[1] + 4 ) / 32 );
-            else myPos[1] = (ushort)( ( myPos[1] + 4 ) / 32 - 1 );
+            if (head) myPos[1] = (ushort)((myPos[1] + 4) / 32);
+            else myPos[1] = (ushort)((myPos[1] + 4) / 32 - 1);
             myPos[2] /= 32;
             return myPos;
         }
 
-        public void setLoc(ushort[] myPos) {
+        public void setLoc(ushort[] myPos)
+        {
             myPos[0] *= 32;
             myPos[1] *= 32;
             myPos[2] *= 32;
@@ -4294,7 +4983,8 @@ Next: continue;
 
         #endregion
 
-        public static bool IPInPrivateRange(string ip) {
+        public static bool IPInPrivateRange(string ip)
+        {
             //range of 172.16.0.0 - 172.31.255.255
             if (ip.StartsWith("172.") && (int.Parse(ip.Split('.')[1]) >= 16 && int.Parse(ip.Split('.')[1]) <= 31))
                 return true;
@@ -4302,7 +4992,8 @@ Next: continue;
             //return IsLocalIpAddress(ip);
         }
 
-        public string ResolveExternalIP(string ip) {
+        public string ResolveExternalIP(string ip)
+        {
             HTTPGet req = new HTTPGet();
             req.Request("http://checkip.dyndns.org");
             string[] a1 = req.ResponseBody.Split(':');
@@ -4311,19 +5002,23 @@ Next: continue;
             return a3[0];
         }
 
-        public static bool IsLocalIpAddress(string host) {
-            try { // get host IP addresses
+        public static bool IsLocalIpAddress(string host)
+        {
+            try
+            { // get host IP addresses
                 IPAddress[] hostIPs = Dns.GetHostAddresses(host);
                 // get local IP addresses
                 IPAddress[] localIPs = Dns.GetHostAddresses(Dns.GetHostName());
 
                 // test if any host IP equals to any local IP or to localhost
-                foreach ( IPAddress hostIP in hostIPs ) {
+                foreach (IPAddress hostIP in hostIPs)
+                {
                     // is localhost
-                    if ( IPAddress.IsLoopback(hostIP) ) return true;
+                    if (IPAddress.IsLoopback(hostIP)) return true;
                     // is local address
-                    foreach ( IPAddress localIP in localIPs ) {
-                        if ( hostIP.Equals(localIP) ) return true;
+                    foreach (IPAddress localIP in localIPs)
+                    {
+                        if (hostIP.Equals(localIP)) return true;
                     }
                 }
             }
@@ -4331,8 +5026,10 @@ Next: continue;
             return false;
         }
 
-        public class Waypoint {
-            public class WP {
+        public class Waypoint
+        {
+            public class WP
+            {
                 public ushort x;
                 public ushort y;
                 public ushort z;
@@ -4341,27 +5038,33 @@ Next: continue;
                 public string name;
                 public string lvlname;
             }
-            public static WP Find(string name, Player p) {
+            public static WP Find(string name, Player p)
+            {
                 WP wpfound = null;
                 bool found = false;
-                foreach ( WP wp in p.Waypoints ) {
-                    if ( wp.name.ToLower() == name.ToLower() ) {
+                foreach (WP wp in p.Waypoints)
+                {
+                    if (wp.name.ToLower() == name.ToLower())
+                    {
                         wpfound = wp;
                         found = true;
                     }
                 }
-                if ( found ) { return wpfound; }
+                if (found) { return wpfound; }
                 else { return null; }
             }
-            public static void Goto(string waypoint, Player p) {
-                if ( !Exists(waypoint, p) ) return;
+            public static void Goto(string waypoint, Player p)
+            {
+                if (!Exists(waypoint, p)) return;
                 WP wp = Find(waypoint, p);
                 Level lvl = Level.Find(wp.lvlname);
-                if ( wp == null ) return;
-                if ( lvl != null ) {
-                    if ( p.level != lvl ) {
+                if (wp == null) return;
+                if (lvl != null)
+                {
+                    if (p.level != lvl)
+                    {
                         Command.all.Find("goto").Use(p, lvl.name);
-                        while ( p.Loading ) { Thread.Sleep(250); }
+                        while (p.Loading) { Thread.Sleep(250); }
                     }
                     unchecked { p.SendPos((byte)-1, wp.x, wp.y, wp.z, wp.rotx, wp.roty); }
                     Player.SendMessage(p, "Sent you to waypoint");
@@ -4369,7 +5072,8 @@ Next: continue;
                 else { Player.SendMessage(p, "The map that that waypoint is on isn't loaded right now (" + wp.lvlname + ")"); return; }
             }
 
-            public static void Create(string waypoint, Player p) {
+            public static void Create(string waypoint, Player p)
+            {
                 Player.Waypoint.WP wp = new Player.Waypoint.WP();
                 {
                     wp.x = p.pos[0];
@@ -4384,7 +5088,8 @@ Next: continue;
                 Save();
             }
 
-            public static void Update(string waypoint, Player p) {
+            public static void Update(string waypoint, Player p)
+            {
                 WP wp = Find(waypoint, p);
                 p.Waypoints.Remove(wp);
                 {
@@ -4400,34 +5105,44 @@ Next: continue;
                 Save();
             }
 
-            public static void Remove(string waypoint, Player p) {
+            public static void Remove(string waypoint, Player p)
+            {
                 WP wp = Find(waypoint, p);
                 p.Waypoints.Remove(wp);
                 Save();
             }
 
-            public static bool Exists(string waypoint, Player p) {
+            public static bool Exists(string waypoint, Player p)
+            {
                 bool exists = false;
-                foreach ( WP wp in p.Waypoints ) {
-                    if ( wp.name.ToLower() == waypoint.ToLower() ) {
+                foreach (WP wp in p.Waypoints)
+                {
+                    if (wp.name.ToLower() == waypoint.ToLower())
+                    {
                         exists = true;
                     }
                 }
                 return exists;
             }
 
-            public static void Load(Player p) {
-                if ( File.Exists("extra/Waypoints/" + p.name + ".save") ) {
-                    using ( StreamReader SR = new StreamReader("extra/Waypoints/" + p.name + ".save") ) {
+            public static void Load(Player p)
+            {
+                if (File.Exists("extra/Waypoints/" + p.name + ".save"))
+                {
+                    using (StreamReader SR = new StreamReader("extra/Waypoints/" + p.name + ".save"))
+                    {
                         bool failed = false;
                         string line;
-                        while ( SR.EndOfStream == false ) {
+                        while (SR.EndOfStream == false)
+                        {
                             line = SR.ReadLine().ToLower().Trim();
-                            if ( !line.StartsWith("#") && line.Contains(":") ) {
+                            if (!line.StartsWith("#") && line.Contains(":"))
+                            {
                                 failed = false;
                                 string[] LINE = line.ToLower().Split(':');
                                 WP wp = new WP();
-                                try {
+                                try
+                                {
                                     wp.name = LINE[0];
                                     wp.lvlname = LINE[1];
                                     wp.x = ushort.Parse(LINE[2]);
@@ -4436,11 +5151,13 @@ Next: continue;
                                     wp.rotx = byte.Parse(LINE[5]);
                                     wp.roty = byte.Parse(LINE[6]);
                                 }
-                                catch {
+                                catch
+                                {
                                     Server.s.Log("Couldn't load a Waypoint!");
                                     failed = true;
                                 }
-                                if ( failed == false ) {
+                                if (failed == false)
+                                {
                                     p.Waypoints.Add(wp);
                                 }
                             }
@@ -4450,11 +5167,16 @@ Next: continue;
                 }
             }
 
-            public static void Save() {
-                foreach ( Player p in Player.players ) {
-                    if ( p.Waypoints.Count >= 1 ) {
-                        using ( StreamWriter SW = new StreamWriter("extra/Waypoints/" + p.name + ".save") ) {
-                            foreach ( WP wp in p.Waypoints ) {
+            public static void Save()
+            {
+                foreach (Player p in Player.players)
+                {
+                    if (p.Waypoints.Count >= 1)
+                    {
+                        using (StreamWriter SW = new StreamWriter("extra/Waypoints/" + p.name + ".save"))
+                        {
+                            foreach (WP wp in p.Waypoints)
+                            {
                                 SW.WriteLine(wp.name + ":" + wp.lvlname + ":" + wp.x + ":" + wp.y + ":" + wp.z + ":" + wp.rotx + ":" + wp.roty);
                             }
                             SW.Dispose();
@@ -4463,22 +5185,27 @@ Next: continue;
                 }
             }
         }
-        public bool EnoughMoney(int amount) {
+        public bool EnoughMoney(int amount)
+        {
             if (this.money >= amount)
                 return true;
             return false;
         }
-        public void ReviewTimer() {
+        public void ReviewTimer()
+        {
             this.canusereview = false;
             System.Timers.Timer Clock = new System.Timers.Timer(1000 * Server.reviewcooldown);
             Clock.Elapsed += delegate { this.canusereview = true; Clock.Dispose(); };
             Clock.Start();
         }
 
-        public void TntAtATime() {
-            new Thread(() => {
+        public void TntAtATime()
+        {
+            new Thread(() =>
+            {
                 CurrentAmountOfTnt += 1;
-                switch ( TntWarsGame.GetTntWarsGame(this).GameDifficulty ) {
+                switch (TntWarsGame.GetTntWarsGame(this).GameDifficulty)
+                {
                     case TntWarsGame.TntWarsDifficulty.Easy:
                         Thread.Sleep(3250);
                         break;
@@ -4496,8 +5223,9 @@ Next: continue;
             }).Start();
         }
 
-        public string ReadString(int count = 64) {
-            if ( Reader == null ) return null;
+        public string ReadString(int count = 64)
+        {
+            if (Reader == null) return null;
             var chars = new byte[count];
             Reader.Read(chars, 0, count);
             return Encoding.UTF8.GetString(chars).TrimEnd().Replace("\0", string.Empty);
@@ -4505,3 +5233,4 @@ Next: continue;
         }
     }
 }
+
