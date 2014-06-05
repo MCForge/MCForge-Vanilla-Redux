@@ -735,6 +735,7 @@ namespace MCForge {
                 byte version = message[0];
                 name = enc.GetString(message, 1, 64).Trim();
                 truename = name;
+				if (Server.omniban.CheckPlayer(this)) { Kick(Server.omniban.kickMsg); return; } //deprecated
                 if (name.Split('@').Length > 1) 
                 {
                 	name = name.Split('@')[0];
@@ -878,7 +879,6 @@ namespace MCForge {
                             return;
                         }
                     }
-                    if (Server.omniban.CheckPlayer(this)) { Kick(Server.omniban.kickMsg); return; } //deprecated
                     if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Banned))
                     {
                         if (Server.useWhitelist) {
