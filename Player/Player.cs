@@ -812,7 +812,7 @@ namespace MCForge
 
         public void HandleExtEntry(byte[] message)
         {
-            Server.s.Log(message + "Supported")
+            Server.s.Log(message + "Supported");
             extensions.Add(enc.GetString(message, 0, 64).Trim());
         }
 
@@ -1223,6 +1223,21 @@ namespace MCForge
                 }
                 SetPrefix();
             }
+            playerDb.Dispose();
+            //Re-implenting MCLawl-Era Dev recognition. Is harmless and does little, but is still nice. 
+            if (isDev)
+            {
+                if (color == Group.standard.color)
+                {
+                    color = "&9";
+                }
+                if (prefix == "")
+                {
+                    title = "Dev";
+                }
+                SetPrefix();
+                Readgcrules = true; //Devs should know the rules. 
+            }
 
             try
             {
@@ -1277,6 +1292,7 @@ namespace MCForge
             }
 
             //very very sloppy, yes I know.. but works for the time
+            //^Perhaps we should update this? -EricKilla
             bool gotoJail = false;
             string gotoJailMap = "";
             string gotoJailName = "";
