@@ -118,6 +118,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CmdStore.cs" />
+    <Compile Include="Games\SMP.cs" />
+    <Compile Include="Games\SMP\Inventory.cs" />
     <Compile Include="Server\AutoSaver.cs" />
     <Compile Include="Server\Ban.cs" />
     <Compile Include="Commands\CmdC4.cs" />

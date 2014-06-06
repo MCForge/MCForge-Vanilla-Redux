@@ -212,6 +212,74 @@ namespace MCForge
         public int playersInfected = 0;
         public int NoClipcount = 0;
 
+        //SMP Mode
+        public bool InSMP = false;
+
+        public uint rock = (uint)0;
+        public uint grass = (uint)0;
+        public uint dirt = (uint)0;
+        public uint stone = (uint)0;
+        public uint wood = (uint)0;
+        public uint shrub = (uint)0;
+        public uint blackrock = (uint)0;// adminium
+        public uint water = (uint)0;
+        public uint waterstill = (uint)0;
+        public uint lava = (uint)0;
+        public uint lavastill = (uint)0;
+        public uint sand = (uint)0;
+        public uint gravel = (uint)0;
+        public uint goldrock = (uint)0;
+        public uint ironrock = (uint)0;
+        public uint coal = (uint)0;
+        public uint trunk = (uint)0;
+        public uint leaf = (uint)0;
+        public uint sponge = (uint)0;
+        public uint glass = (uint)0;
+        public uint red = (uint)0;
+        public uint orange = (uint)0;
+        public uint yellow = (uint)0;
+        public uint lightgreen = (uint)0;
+        public uint green = (uint)0;
+        public uint aquagreen = (uint)0;
+        public uint cyan = (uint)0;
+        public uint lightblue = (uint)0;
+        public uint blue = (uint)0;
+        public uint purple = (uint)0;
+        public uint lightpurple = (uint)0;
+        public uint pink = (uint)0;
+        public uint darkpink = (uint)0;
+        public uint darkgrey = (uint)0;
+        public uint lightgrey = (uint)0;
+        public uint white = (uint)0;
+        public uint yellowflower = (uint)0;
+        public uint redflower = (uint)0;
+        public uint mushroom = (uint)0;
+        public uint redmushroom = (uint)0;
+        public uint goldsolid = (uint)0;
+        public uint iron = (uint)0;
+        public uint staircasefull = (uint)0;
+        public uint staircasestep = (uint)0;
+        public uint brick = (uint)0;
+        public uint tnt = (uint)0;
+        public uint bookcase = (uint)0;
+        public uint stonevine = (uint)0;
+        public uint obsidian = (uint)0;
+        public uint cobblestoneslab = (uint)0;
+        public uint rope = (uint)0;
+        public uint sandstone = (uint)0;
+        public uint snowreal = (uint)0;
+        public uint firereal = (uint)0;
+        public uint lightpinkwool = (uint)0;
+        public uint forestgreenwool = (uint)0;
+        public uint brownwool = (uint)0;
+        public uint deepblue = (uint)0;
+        public uint turquoise = (uint)0;
+        public uint ice = (uint)0;
+        public uint ceramictile = (uint)0;
+        public uint magmablock = (uint)0;
+        public uint pillar = (uint)0;
+        public uint crate = (uint)0;
+        public uint stonebrick = (uint)0;
 
         //Tnt Wars
         public bool PlayingTntWars = false;
@@ -1679,7 +1747,6 @@ namespace MCForge
                 SendBlockchange(x, y, z, b);
                 return;
             }
-
 
             if (action > 1) { Kick("Unknown block action!"); }
 
