@@ -252,7 +252,7 @@ namespace MCForge.Commands
             new CommandKeywords((new CmdSPlace()), "measure place");
             new CommandKeywords((new CmdStairs()), "stair");
             new CommandKeywords((new CmdStatic()), "toggle mode");
-            new CommandKeywords((new CmdStore()), "selection save");
+            new CommandKeywords((new CmdLStore()), "selection save");
             new CommandKeywords((new CmdSummon()), "move teleport tp player user");
             new CommandKeywords((new CmdTake()), "get money");
             new CommandKeywords((new CmdTColor()), "title color set");

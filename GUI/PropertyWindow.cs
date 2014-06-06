@@ -62,7 +62,6 @@ namespace MCForge.Gui {
             cmbIRCColour.Items.AddRange(colors);
             cmbColor.Items.AddRange(colors);
             cmbGlobalChatColor.Items.AddRange(colors);
-            button3.Enabled = Server.WomDirect;
 
             grpIRC.BackColor = Server.irc ? Color.White : Color.LightGray;
             grpSQL.BackColor = Server.useMySQL ? Color.White : Color.LightGray;
@@ -552,6 +551,9 @@ namespace MCForge.Gui {
                             break;
                         case "zombie-on-server-start":
                             chkZombieOnServerStart.Checked = ( value.ToLower() == "true" ) ? true : false;
+                            break;
+                        case "limited-blocks":
+                            chkZombieOnServerStart.Checked = (value.ToLower() == "true") ? true : false;
                             break;
                         case "no-respawning-during-zombie":
                             chkNoRespawnDuringZombie.Checked = ( value.ToLower() == "true" ) ? true : false;
@@ -1690,10 +1692,6 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
 
         private void numCountReset_ValueChanged(object sender, EventArgs e) {
 
-        }
-
-        private void chkWomDirect_CheckedChanged(object sender, EventArgs e) {
-            button3.Enabled = chkWomDirect.Checked;
         }
 
         private void forceUpdateBtn_Click(object sender, EventArgs e) {

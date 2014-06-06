@@ -20,15 +20,15 @@ using System.Collections.Generic;
 using System.IO;
 namespace MCForge.Commands
 {
-    public class CmdStore : Command
+    public class CmdLStore : Command
     {
-        public override string name { get { return "store"; } }
+        public override string name { get { return "lstore"; } }
         public override string shortcut { get { return ""; } }
         public override string type { get { return "build"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }
         public List<CopyOwner> list = new List<CopyOwner>();
-        public CmdStore() { }
+        public CmdLStore() { }
 
         public override void Use(Player p, string message)
         {

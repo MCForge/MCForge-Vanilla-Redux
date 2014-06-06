@@ -72,7 +72,7 @@ namespace MCForge.Commands
                     {
                         p.SendMessage(s + " was queued.");
                         Server.queLevel = true;
-                        Server.nextLevel = s.ToLower();
+                        Server.nextLevel = s.ToString();
                         return;
                     }
                     else

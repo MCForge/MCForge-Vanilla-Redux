@@ -35,7 +35,7 @@ namespace MCForge.Gui {
         // What is this???
         /*Regex regex = new Regex(@"^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\." +
                                 "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$");*/
-
+        
         // for cross thread use
         delegate void StringCallback(string s);
         delegate void PlayerListCallback(List<Player> players);
@@ -43,6 +43,7 @@ namespace MCForge.Gui {
         delegate void VoidDelegate();
         public static bool fileexists = false;
         bool mapgen = false;
+        public static Window thisWindow;
 
         PlayerCollection pc = new PlayerCollection(new PlayerListView());
         LevelCollection lc = new LevelCollection(new LevelListView());
@@ -542,6 +543,9 @@ namespace MCForge.Gui {
         private void shutdownServer_Click(object sender, EventArgs e) {
             Close();
         }
+
+        public void WriteAdminLine(string s) { txtAdminLog.AppendText("\r\n" + s); }
+        public void WriteOpLine(string s) { txtOpLog.AppendText("\r\n" + s); }
 
         private Player GetSelectedPlayer() {
 

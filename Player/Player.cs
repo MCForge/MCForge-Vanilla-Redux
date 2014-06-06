@@ -197,6 +197,7 @@ namespace MCForge
         public bool countdownsettemps = false;
 
         //Zombie
+        public string Original = "";
         public bool referee = false;
         public int blockCount = 50;
         public bool voted = false;
@@ -812,7 +813,6 @@ namespace MCForge
 
         public void HandleExtEntry(byte[] message)
         {
-            Server.s.Log(message + "Supported")
             extensions.Add(enc.GetString(message, 0, 64).Trim());
         }
 
@@ -1068,8 +1068,23 @@ namespace MCForge
                 if (type == 0x42)
                 {
                     extension = true;
-                    HandleExtEntry(message);
-                    extensions.ForEach(s => this.SendExtEntry(s, 1));
+                    SendExtInfo(12);
+                    SendExtEntry("ClickDistance", 1);
+                    SendExtEntry("CustomBlocks", 1);
+                    SendExtEntry("HeldBlock", 1);
+                    SendExtEntry("TextHotKey", 1);
+                    SendExtEntry("ExtPlayerList", 1);
+                    SendExtEntry("EnvColors", 1);
+                    SendExtEntry("SelectionCuboid", 1);
+                    SendExtEntry("BlockPermissions", 1);
+                    SendExtEntry("ChangeModel", 1);
+                    SendExtEntry("EnvMapAppearance", 1);
+                    SendExtEntry("EnvWeatherType", 1);
+                    SendExtEntry("HackControl", 1);
+                    SendExtEntry("EmoteFix", 1);
+                    SendExtEntry("MessageTypes", 1);
+
+                    SendCustomBlockSupportLevel(1);
                 }
 
                 try { left.Remove(name.ToLower()); }
@@ -1412,7 +1427,7 @@ namespace MCForge
                 Server.s.Log(name + " [" + ip + "]" + "(" + ID + ") + has joined the server.");
             }
 
-            if (Server.zombie.ZombieStatus() != 0) { Player.SendMessage(this, "There is a Zombie Survival game currently in-progress! Join it by typing /g " + Server.zombie.currentLevelName); }
+            if (Server.zombie.ZombieStatus() != 0) { Player.SendMessage(this, "There is a Zombie Survival game currently in-progress! Join it by typing /g " + Server.zombie.currentLevelName.ToString()); }
         }
 
         public void SetPrefix()
@@ -1517,7 +1532,7 @@ namespace MCForge
 
             if (Server.ZombieModeOn && (action == 1 || (action == 0 && this.painting)))
             {
-                if (Server.zombie != null && this.level.name == Server.zombie.currentLevelName)
+                if (Server.zombie != null && this.level.name == Server.zombie.currentLevelName && Server.limitedblocks)
                 {
                     if (blockCount == 0)
                     {
@@ -3046,7 +3061,7 @@ return;
         public enum MessageType
         {
             Chat = (byte)0,
-       //     Status1 = (byte)1,
+            Status1 = (byte)1,
             Status2 = (byte)2,
             Status3 = (byte)3,
             BottomRight1 = (byte)11,

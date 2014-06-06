@@ -193,6 +193,7 @@ namespace MCForge
 
         //Zombie
         public static ZombieGame zombie;
+        public static bool limitedblocks = false;
         public static bool ZombieModeOn = false;
         public static bool startZombieModeOnStartup = false;
         public static bool noRespawn = true;
@@ -895,6 +896,7 @@ namespace MCForge
                 }
                 else File.Create("text/messages.txt").Close();
 
+
                 // We always construct this to prevent errors...
                 IRC = new ForgeBot(Server.ircChannel, Server.ircOpChannel, Server.ircNick, Server.ircServer);
                 GlobalChat = new GlobalChatBot(GlobalChatNick);
@@ -1108,6 +1110,7 @@ namespace MCForge
                     p.Kick("Server restarted! Rejoin!");
             }
             );
+
             Plugin.Unload();
             if (listen != null)
             {

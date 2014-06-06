@@ -263,7 +263,8 @@ namespace MCForge
             all.Add(new CmdStaff());
 			all.Add(new CmdStairs());
 			all.Add(new CmdStatic());
-			all.Add(new CmdStore());
+            all.Add(new CmdStore());
+			all.Add(new CmdLStore());
 			all.Add(new CmdSummon());
 			all.Add(new CmdTake());
 			all.Add(new CmdTColor());

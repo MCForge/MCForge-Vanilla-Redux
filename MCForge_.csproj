@@ -81,6 +81,10 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Interop.NATUPNPLib">
+      <HintPath>..\..\..\Downloads\MCDawn-master\MCDawn-master\Interop.NATUPNPLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="IsoCraft">
       <HintPath>IsoCraft.dll</HintPath>
     </Reference>
@@ -113,6 +117,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CmdStore.cs" />
     <Compile Include="Server\AutoSaver.cs" />
     <Compile Include="Server\Ban.cs" />
     <Compile Include="Commands\CmdC4.cs" />
@@ -420,7 +425,7 @@
     <Compile Include="Commands\CmdSpawn.cs" />
     <Compile Include="Commands\CmdSpheroid.cs" />
     <Compile Include="Commands\CmdSpin.cs" />
-    <Compile Include="Commands\CmdStore.cs" />
+    <Compile Include="Commands\CmdLStore.cs" />
     <Compile Include="Commands\CmdSummon.cs" />
     <Compile Include="Commands\CmdTime.cs" />
     <Compile Include="Commands\CmdTnt.cs" />
