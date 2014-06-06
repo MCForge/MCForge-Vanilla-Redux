@@ -45,7 +45,7 @@ namespace MCForge.Commands
 
             foreach (Player pl in Player.players)
             {
-                if (pl.level == targetPlayer.level && pl.extension == true)
+                if (pl.level == targetPlayer.level && pl.HasExtension("ChangeModel"))
                 {
                     pl.SendChangeModel(targetPlayer.id, message);
                 }

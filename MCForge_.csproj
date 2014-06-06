@@ -81,10 +81,6 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Interop.NATUPNPLib">
-      <HintPath>..\..\..\Downloads\MCDawn-master\MCDawn-master\Interop.NATUPNPLib.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="IsoCraft">
       <HintPath>IsoCraft.dll</HintPath>
     </Reference>

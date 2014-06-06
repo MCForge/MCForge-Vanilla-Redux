@@ -57,7 +57,7 @@ namespace MCForge.Commands
 
             Player.players.ForEach(delegate(Player pl)
             { 
-                if (pl.level == targetLevel && pl.extension)
+                if (pl.level == targetLevel && pl.HasExtension("EnvWeatherType"))
                 {
                     pl.SendSetMapWeather(weatherType);
                 }

@@ -40,7 +40,8 @@ namespace MCForge {
         public static bool CanBeat { get; set; }
 
         static Timer Timer;
-        static object Lock = new object();
+        static object 
+			Lock = new object();
 
 
         private readonly static IBeat[] Beats = {

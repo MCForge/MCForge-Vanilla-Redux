@@ -671,6 +671,11 @@ namespace MCForge
         }
 
 
+		public bool HasExtension (string extName)
+		{
+			return ExtEntry.FindAll (cpe => cpe.name == extName) != null;
+		}
+
         public void save()
         {
             //safe against SQL injects because no user input is provided
@@ -878,10 +883,13 @@ namespace MCForge
             appName = enc.GetString(message, 0, 64).Trim();
             extensionCount = message[65];
         }
-
-        public void HandleExtEntry(byte[] message)
+	public struct CPE { public string name; public int version; }
+	public List<CPE> ExtEntry = new List<CPE>();
+	void HandleExtEntry(byte[] msg)
         {
-            Server.s.Log(message + "Supported");
+            CPE tmp; tmp.name = enc.GetString(msg, 0, 64);
+            tmp.version = BitConverter.ToInt32(msg, 64);
+            ExtEntry.Add(tmp);
         }
 
         public void HandleCustomBlockSupportLevel(byte[] message)
@@ -1135,8 +1143,8 @@ namespace MCForge
                 }
                 if (type == 0x42)
                 {
-                    extension = true;
-                    SendExtInfo(12);
+					extension = true;
+                    SendExtInfo(14);
                     SendExtEntry("ClickDistance", 1);
                     SendExtEntry("CustomBlocks", 1);
                     SendExtEntry("HeldBlock", 1);
@@ -3153,70 +3161,71 @@ return;
             Announcement = (byte)100
         }
 
-        public void SendMessage(MessageType type, string message, bool colorParse)
-        {
-            if (this == null) { Server.s.Log(message); return; }
-            if (ZoneSpam.AddSeconds(2) > DateTime.Now && message.Contains("This zone belongs to ")) return;
+        public void SendMessage (MessageType type, string message, bool colorParse)
+		{
+			if (this == null) {
+				Server.s.Log (message);
+				return;
+			}
+			if (ZoneSpam.AddSeconds (2) > DateTime.Now && message.Contains ("This zone belongs to "))
+				return;
 
-            byte[] buffer = new byte[65];
-            unchecked { buffer[0] = (byte)type; }
+			byte[] buffer = new byte[65];
+			unchecked {
+				buffer [0] = (byte)type;
+			}
 
-            StringBuilder sb = new StringBuilder(message);
+			StringBuilder sb = new StringBuilder (message);
 
-            if (colorParse)
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    sb.Replace("%" + i, "&" + i);
-                    sb.Replace("&" + i + " &", " &");
-                }
-                for (char ch = 'a'; ch <= 'f'; ch++)
-                {
-                    sb.Replace("%" + ch, "&" + ch);
-                    sb.Replace("&" + ch + " &", " &");
-                }
-                // Begin fix to replace all invalid color codes typed in console or chat with "."
-                for (char ch = (char)0; ch <= (char)47; ch++) // Characters that cause clients to disconnect
-                    sb.Replace("&" + ch, String.Empty);
-                for (char ch = (char)58; ch <= (char)96; ch++) // Characters that cause clients to disconnect
-                    sb.Replace("&" + ch, String.Empty);
-                for (char ch = (char)103; ch <= (char)127; ch++) // Characters that cause clients to disconnect
-                    sb.Replace("&" + ch, String.Empty);
-                // End fix
-            }
+			if (colorParse) {
+				for (int i = 0; i < 10; i++) {
+					sb.Replace ("%" + i, "&" + i);
+					sb.Replace ("&" + i + " &", " &");
+				}
+				for (char ch = 'a'; ch <= 'f'; ch++) {
+					sb.Replace ("%" + ch, "&" + ch);
+					sb.Replace ("&" + ch + " &", " &");
+				}
+				// Begin fix to replace all invalid color codes typed in console or chat with "."
+				for (char ch = (char)0; ch <= (char)47; ch++) // Characters that cause clients to disconnect
+					sb.Replace ("&" + ch, String.Empty);
+				for (char ch = (char)58; ch <= (char)96; ch++) // Characters that cause clients to disconnect
+					sb.Replace ("&" + ch, String.Empty);
+				for (char ch = (char)103; ch <= (char)127; ch++) // Characters that cause clients to disconnect
+					sb.Replace ("&" + ch, String.Empty);
+				// End fix
+			}
 
-            if (Server.dollardollardollar)
-                sb.Replace("$name", "$" + name);
-            else
-                sb.Replace("$name", name);
-            sb.Replace("$date", DateTime.Now.ToString("yyyy-MM-dd"));
-            sb.Replace("$time", DateTime.Now.ToString("HH:mm:ss"));
-            sb.Replace("$ip", ip);
-            sb.Replace("$serverip", IsLocalIpAddress(ip) ? ip : Server.IP);
-            if (colorParse) sb.Replace("$color", color);
-            sb.Replace("$rank", group.name);
-            sb.Replace("$level", level.name);
-            sb.Replace("$deaths", overallDeath.ToString());
-            sb.Replace("$money", money.ToString());
-            sb.Replace("$blocks", overallBlocks.ToString());
-            sb.Replace("$first", firstLogin.ToString());
-            sb.Replace("$kicked", totalKicked.ToString());
-            sb.Replace("$server", Server.name);
-            sb.Replace("$motd", Server.motd);
-            sb.Replace("$banned", Player.GetBannedCount().ToString());
-            sb.Replace("$irc", Server.ircServer + " > " + Server.ircChannel);
+			if (Server.dollardollardollar)
+				sb.Replace ("$name", "$" + name);
+			else
+				sb.Replace ("$name", name);
+			sb.Replace ("$date", DateTime.Now.ToString ("yyyy-MM-dd"));
+			sb.Replace ("$time", DateTime.Now.ToString ("HH:mm:ss"));
+			sb.Replace ("$ip", ip);
+			sb.Replace ("$serverip", IsLocalIpAddress (ip) ? ip : Server.IP);
+			if (colorParse)
+				sb.Replace ("$color", color);
+			sb.Replace ("$rank", group.name);
+			sb.Replace ("$level", level.name);
+			sb.Replace ("$deaths", overallDeath.ToString ());
+			sb.Replace ("$money", money.ToString ());
+			sb.Replace ("$blocks", overallBlocks.ToString ());
+			sb.Replace ("$first", firstLogin.ToString ());
+			sb.Replace ("$kicked", totalKicked.ToString ());
+			sb.Replace ("$server", Server.name);
+			sb.Replace ("$motd", Server.motd);
+			sb.Replace ("$banned", Player.GetBannedCount ().ToString ());
+			sb.Replace ("$irc", Server.ircServer + " > " + Server.ircChannel);
 
-            foreach (var customReplacement in Server.customdollars)
-            {
-                if (!customReplacement.Key.StartsWith("//"))
-                {
-                    try
-                    {
-                        sb.Replace(customReplacement.Key, customReplacement.Value);
-                    }
-                    catch { }
-                }
-            }
+			foreach (var customReplacement in Server.customdollars) {
+				if (!customReplacement.Key.StartsWith ("//")) {
+					try {
+						sb.Replace (customReplacement.Key, customReplacement.Value);
+					} catch {
+					}
+				}
+			}
 
             if (Server.parseSmiley && parseSmiley)
             {
@@ -3264,7 +3273,6 @@ return;
             stored[0] = (byte)31;
             sb.Replace("(down)", enc.GetString(stored));
 
-            message = sb.ToString();
             if (HasBadColorCodes(message))
                 return;
             int totalTries = 0;
