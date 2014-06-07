@@ -46,6 +46,10 @@ namespace MCForge.Commands
                 {
                     message = message.ToLower();
                 }
+                if (File.Exists("levels/byte/" + message + ".mcf"))
+                {
+                    Command.all.Find("lb").Use(p, message); return;
+                }
 
                 while (Server.levels == null) Thread.Sleep(100); // Do nothing while we wait on the levels list...
 
@@ -84,7 +88,7 @@ namespace MCForge.Commands
                     {
                         if (File.Exists("levels/" + message + ".mcf"))
                         {
-                            Server.s.Log(message + ".lvl file is corrupt. Deleting and replacing with " + message + ".lvl.backup file.");
+                            Server.s.Log(message + ".mcf file is corrupt. Deleting and replacing with " + message + ".lvl.backup file.");
                             File.Delete("levels/" + message + ".mcf");
                         }
                         Server.s.Log("Attempting to load backup");

@@ -811,6 +811,8 @@ namespace MCForge
                 case zombiebody:
                 case creeper:
                 case zombiehead:
+				case null:
+				case 0:
                     return true;
             }
             return false;
@@ -912,6 +914,7 @@ namespace MCForge
             switch (Block.Convert(type))
             {
                 case null:
+				case 0:
                 case water:
                 case lava:
                 case waterstill:
