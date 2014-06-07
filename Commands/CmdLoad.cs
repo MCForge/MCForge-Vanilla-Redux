@@ -1,24 +1,23 @@
 /*
-	Copyright 2010 MCSharp team (Modified for use with MCZall/MCLawl/MCForge)
+	Copyright 2010 MCSharp team (Modified for use with MCZall/MCFlame) Licensed under the
+	Educational Community License, Version 2.0 (the "License"); you may
+	not use this file except in compliance with the License. You may
+	obtain a copy of the License at
 	
-	Dual-licensed under the	Educational Community License, Version 2.0 and
-	the GNU General Public License, Version 3 (the "Licenses"); you may
-	not use this file except in compliance with the Licenses. You may
-	obtain a copy of the Licenses at
-	
-	http://www.opensource.org/licenses/ecl2.php
-	http://www.gnu.org/licenses/gpl-3.0.html
+	http://www.osedu.org/licenses/ECL-2.0
 	
 	Unless required by applicable law or agreed to in writing,
-	software distributed under the Licenses are distributed on an "AS IS"
+	software distributed under the License is distributed on an "AS IS"
 	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-	or implied. See the Licenses for the specific language governing
-	permissions and limitations under the Licenses.
+	or implied. See the License for the specific language governing
+	permissions and limitations under the License.
 */
 using System;
 using System.IO;
+using System.Collections.Generic;
 using System.Threading;
-namespace MCForge.Commands
+
+namespace MCFlame
 {
     public class CmdLoad : Command
     {
@@ -33,6 +32,9 @@ namespace MCForge.Commands
         {
             try
             {
+                if (!Directory.Exists("levels/byte")) Directory.CreateDirectory("levels/byte");
+                bool bite = message[0] == '#';
+                if (bite) message = message.Substring(1);
                 if (message == "") { Help(p); return; }
                 if (message.Split(' ').Length > 2) { Help(p); return; }
                 int pos = message.IndexOf(' ');
@@ -46,12 +48,6 @@ namespace MCForge.Commands
                 {
                     message = message.ToLower();
                 }
-                if (File.Exists("levels/byte/" + message + ".mcf"))
-                {
-                    Command.all.Find("lb").Use(p, message); return;
-                }
-
-                while (Server.levels == null) Thread.Sleep(100); // Do nothing while we wait on the levels list...
 
                 foreach (Level l in Server.levels)
                 {
@@ -74,41 +70,34 @@ namespace MCForge.Commands
                         }
                     }
                 }
-
-                if (!File.Exists("levels/" + message + ".mcf"))
+                if (bite) Player.SendMessage(p, c.red + "Loading byte map!");
+                if (!bite)
                 {
-                    Player.SendMessage(p, "Level \"" + message + "\" doesn't exist!"); return;
+                    if (!File.Exists("levels/" + message + ".lvl"))
+                    {
+                        Player.SendMessage(p, "Level \"" + message + "\" doesn't exist!!"); return;
+                    }
+                }
+                else
+                {
+                    if (!File.Exists("levels/byte/" + message + ".lvl"))
+                    {
+                        Player.SendMessage(p, "Level \"" + message + "\" doesn't exist!"); return;
+                    }
                 }
 
-                Level level = Level.Load(message);
+                Level level = Level.Load(message, 0, bite);
 
                 if (level == null)
                 {
                     if (File.Exists("levels/" + message + ".lvl.backup"))
                     {
-                        if (File.Exists("levels/" + message + ".mcf"))
-                        {
-                            Server.s.Log(message + ".mcf file is corrupt. Deleting and replacing with " + message + ".lvl.backup file.");
-                            File.Delete("levels/" + message + ".mcf");
-                        }
-                        Server.s.Log("Attempting to load backup");
-                        File.Copy("levels/" + message + ".lvl.backup", "levels/" + message + ".mcf", true);
+                        Server.s.Log("Attempting to load backup.");
+                        File.Copy("levels/" + message + ".lvl.backup", "levels/" + message + ".lvl", true);
                         level = Level.Load(message);
                         if (level == null)
                         {
-                            Player.SendMessage(p, "Loading backup failed.");
-                            string backupPath = @Server.backupLocation;
-                            if (Directory.Exists(backupPath + "/" + message))
-                            {
-                                int backupNumber = Directory.GetDirectories(backupPath + "/" + message).Length;
-                                Server.s.Log("Attempting to load latest backup, number " + backupNumber + " instead.");
-                                File.Copy(backupPath + "/" + message + "/" + backupNumber + "/" + message + ".mcf", "levels/" + message + ".mcf", true);
-                                level = Level.Load(message);
-                                if (level == null)
-                                {
-                                    Player.SendMessage(p, "Loading latest backup failed as well.");
-                                }
-                            } 
+                            Player.SendMessage(p, "Backup of " + message + " failed.");
                             return;
                         }
                     }
@@ -141,20 +130,13 @@ namespace MCForge.Commands
                 lock (Server.levels) {
                     Server.addLevel(level);
                 }
+
+                level.physThread.Start();
                 Player.GlobalMessage("Level \"" + level.name + "\" loaded.");
-                /*try
-                {
-                    Gui.Window.thisWindow.UpdatePlayerMapCombo();
-                    Gui.Window.thisWindow.UnloadedlistUpdate();
-                    Gui.Window.thisWindow.UpdateMapList("'");
-                   
-                    
-                }
-                catch { }*/
                 try
                 {
                     int temp = int.Parse(phys);
-                    if (temp >= 1 && temp <= 5)
+                    if (temp >= 1 && temp <= 4)
                     {
                         level.setPhysics(temp);
                     }
@@ -177,7 +159,7 @@ namespace MCForge.Commands
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/load <level> <physics> - Loads a level.");
+            Player.SendMessage(p, "/load #<level> <physics> - Loads a level, # indicates it's a byte formatted level.");
         }
     }
 }
