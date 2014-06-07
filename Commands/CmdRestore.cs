@@ -93,7 +93,7 @@ namespace MCForge.Commands
                         else
                         {
                             Server.s.Log("Restore nulled");
-                            File.Copy("levels/" + lvl.name + ".lvl.backup", "levels/" + lvl.name + ".mcf", true);
+                            File.Copy("levels/" + lvl.name + ".mcf.backup", "levels/" + lvl.name + ".mcf", true);
                         }
 
                     }

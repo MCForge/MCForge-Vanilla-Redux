@@ -34,7 +34,6 @@ namespace MCForge
         public ZombieGame zs;
         public override void Use(Player p, string message)
         {
-            if (p.level.name != zs.currentLevelName) { p.SendMessage("You're not in Zombie Survival right now"); return; }
             if (message == "")
             {
                 p.SendMessage("To purchase an item, type /buy [item number] (eg. /buy 5 for a rank)");

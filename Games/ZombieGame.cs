@@ -97,20 +97,20 @@ namespace MCForge
         private void MainGame()
         {
             if (Server.gameStatus == 0) return;
-        GoBack: Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "%4Round Start:%f 2:00");
+        GoBack: Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 2:00");
             Thread.Sleep(60000); if (!Server.ZombieModeOn) { return; }
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "%4Round Start:%f 1:00");
+            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 1:00");
             Thread.Sleep(55000); if (!Server.ZombieModeOn) { return; }
             Server.s.Log(Convert.ToString(Server.ChangeLevels) + " " + Convert.ToString(Server.ZombieOnlyServer) + " " + Convert.ToString(Server.UseLevelList) + " " + string.Join(",", Server.LevelList.ToArray()));
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "%4Round Start:%f 5...");
+            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 5...");
             Thread.Sleep(1000); if (!Server.ZombieModeOn) { return; }
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "%4Round Start:%f 4...");
+            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 4...");
             Thread.Sleep(1000); if (!Server.ZombieModeOn) { return; }
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "%4Round Start:%f 3...");
+            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 3...");
             Thread.Sleep(1000); if (!Server.ZombieModeOn) { return; }
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "%4Round Start:%f 2...");
+            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 2...");
             Thread.Sleep(1000); if (!Server.ZombieModeOn) { return; }
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "%4Round Start:%f 1...");
+            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 1...");
             Thread.Sleep(1000); if (!Server.ZombieModeOn) { return; }
             Server.zombieRound = true;
             int playerscountminusref = 0; List<Player> players = new List<Player>();
@@ -149,7 +149,7 @@ namespace MCForge
 
             Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, player.color + player.name + Server.DefaultColor + " started the infection!");
             Thread.Sleep(3000);
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "%f");
+            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&f");
             player.infected = true;
             player.color = c.red;
             Player.GlobalDie(player, false);
@@ -269,11 +269,11 @@ namespace MCForge
         public void EndRound(object sender, ElapsedEventArgs e)
         {
             if (Server.gameStatus == 0) return;
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "%4Round End:%f 5"); Thread.Sleep(1000);
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "%4Round End:%f 4"); Thread.Sleep(1000);
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "%4Round End:%f 3"); Thread.Sleep(1000);
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "%4Round End:%f 2"); Thread.Sleep(1000);
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "%4Round End:%f 1"); Thread.Sleep(1000);
+            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round End:&f 5"); Thread.Sleep(1000);
+            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round End:&f 4"); Thread.Sleep(1000);
+            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round End:&f 3"); Thread.Sleep(1000);
+            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round End:&f 2"); Thread.Sleep(1000);
+            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round End:&f 1"); Thread.Sleep(1000);
             HandOutRewards();
         }
 
@@ -496,7 +496,7 @@ namespace MCForge
                 }
                 Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, alive[firstinfect].color + alive[firstinfect].name + Server.DefaultColor + " continued the infection!");
                 Thread.Sleep(3000);
-                Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "%f");
+                Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&f");
                 alive[firstinfect].color = c.red;
                 Player.GlobalDie(alive[firstinfect], false);
                 Player.GlobalSpawn(alive[firstinfect], alive[firstinfect].pos[0], alive[firstinfect].pos[1], alive[firstinfect].pos[2], alive[firstinfect].rot[0], alive[firstinfect].rot[1], false);

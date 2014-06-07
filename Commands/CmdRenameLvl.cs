@@ -49,7 +49,7 @@ namespace MCForge.Commands
             try
             {
                 File.Move("levels/" + foundLevel.name + ".mcf", "levels/" + newName + ".mcf");
-                File.Move("levels/" + foundLevel.name + ".lvl.backup", "levels/" + newName + ".lvl.backup");
+                File.Move("levels/" + foundLevel.name + ".mcf.backup", "levels/" + newName + ".mcf.backup");
 
                 try
                 {

@@ -3272,7 +3272,7 @@ return;
             sb.Replace("(up)", enc.GetString(stored));
             stored[0] = (byte)31;
             sb.Replace("(down)", enc.GetString(stored));
-
+            message = sb.ToString();
             if (HasBadColorCodes(message))
                 return;
             int totalTries = 0;
@@ -3369,7 +3369,7 @@ return;
                 //ushort xx; ushort yy; ushort zz;
                 for (int i = 0; i < level.blocks.Length; ++i)
                 {
-                    if (extension == false)
+                    if (extension == true)
                     {
                         buffer[4 + i] = (byte)Block.Convert(level.blocks[i]);
                     }

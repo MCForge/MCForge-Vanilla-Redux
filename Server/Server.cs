@@ -690,10 +690,10 @@ namespace MCForge
                         mainLevel.unload = false;
                         if (mainLevel == null)
                         {
-                            if (File.Exists("levels/" + level + ".lvl.backup"))
+                            if (File.Exists("levels/" + level + ".mcf.backup"))
                             {
                                 Log("Attempting to load backup of " + level + ".");
-                                File.Copy("levels/" + level + ".lvl.backup", "levels/" + level + ".mcf", true);
+                                File.Copy("levels/" + level + ".mcf.backup", "levels/" + level + ".mcf", true);
                                 mainLevel = Level.Load(level);
                                 if (mainLevel == null)
                                 {

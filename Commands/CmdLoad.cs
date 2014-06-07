@@ -46,10 +46,6 @@ namespace MCForge.Commands
                 {
                     message = message.ToLower();
                 }
-                if (File.Exists("levels/byte/" + message + ".mcf"))
-                {
-                    Command.all.Find("lb").Use(p, message); return;
-                }
 
                 while (Server.levels == null) Thread.Sleep(100); // Do nothing while we wait on the levels list...
 
@@ -108,7 +104,7 @@ namespace MCForge.Commands
                                 {
                                     Player.SendMessage(p, "Loading latest backup failed as well.");
                                 }
-                            } 
+                            }
                             return;
                         }
                     }
@@ -138,7 +134,8 @@ namespace MCForge.Commands
                     }
                 }
 
-                lock (Server.levels) {
+                lock (Server.levels)
+                {
                     Server.addLevel(level);
                 }
                 Player.GlobalMessage("Level \"" + level.name + "\" loaded.");
