@@ -820,7 +820,7 @@ namespace MCForge.Gui {
             //Server.MySQLPooling = ; // No setting for this?
 
 
-            Server.DefaultColor = cmbDefaultColour.SelectedItem.ToString();
+            Server.DefaultColor = c.Parse(cmbDefaultColour.SelectedItem.ToString());
             Server.IRCColour = cmbIRCColour.SelectedItem.ToString();
 
 
