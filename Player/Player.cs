@@ -4662,7 +4662,15 @@ level.Unload();
 
                     Server.s.Log(ip + " disconnected.");
                 }
-
+                if (Server.zombie.GameInProgess())
+                {
+                    try
+                    {
+                        ZombieGame.infectd.Remove(this);
+                        ZombieGame.alive.Remove(this);
+                    }
+                    catch { }
+                }
                 Server.zombie.InfectedPlayerDC();
 
             }

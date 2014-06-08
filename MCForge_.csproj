@@ -114,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CmdStore.cs" />
+    <Compile Include="Commands\CmdConvertAll.cs" />
     <Compile Include="Games\SMP.cs" />
     <Compile Include="Games\SMP\Inventory.cs" />
     <Compile Include="Server\AutoSaver.cs" />

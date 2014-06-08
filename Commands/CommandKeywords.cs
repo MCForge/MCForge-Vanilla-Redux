@@ -75,6 +75,7 @@ namespace MCForge.Commands
             new CommandKeywords((new CmdCmdUnload()), "cmd command unload");
             new CommandKeywords((new CmdCompile()), "cmd command custom");
             new CommandKeywords((new CmdCompLoad()), "cmd command custom load compile");
+            new CommandKeywords((new CmdConvertAll()), "convert .lvl to .mcf");
             new CommandKeywords((new CmdColor()), "user name");
             new CommandKeywords((new CmdCopy()), "clipboard blocks save");
             new CommandKeywords((new CmdCopyLoadNet()), "new clipboard copy load");

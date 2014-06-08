@@ -504,6 +504,10 @@ namespace MCForge
                 alive.Remove(alive[firstinfect]);
             }
             return;
+            if ((Server.gameStatus != 0 && Server.zombieRound) && alive.Count == 0)
+            {
+                HandOutRewards();
+            }
         }
 
         public bool InfectedPlayerLogin(Player p)

@@ -80,6 +80,7 @@ namespace MCForge
 			all.Add(new CmdCmdUnload());
 			all.Add(new CmdCompile());
 			all.Add(new CmdCompLoad());
+            all.Add(new CmdConvertAll());
 			all.Add(new CmdColor());
 			all.Add(new CmdCopy());
 			all.Add(new CmdCopyLoadNet());
