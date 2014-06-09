@@ -16,7 +16,7 @@ namespace MCForge.Commands
 
         public override void Use(Player p, string message)
         {
-            List<string> mapsToConvert = new List<string>(Directory.GetFiles("levels/byte", "*.mcf"));
+            List<string> mapsToConvert = new List<string>(Directory.GetFiles("levels/byte", "*.lvl"));
             mapsToConvert.ForEach(m =>
             {
                 m = m.Remove(0, m.LastIndexOf('\\') + 1);

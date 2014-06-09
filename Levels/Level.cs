@@ -1179,7 +1179,7 @@ namespace MCForge
             }
             CreateLeveldb(givenName);
 
-            string path = string.Format("levels/{0}.mcf", bite ? "byte/" + givenName : givenName);
+            string path = string.Format("levels/{0}.{1}", bite ? "byte/" + givenName : givenName, bite ? "lvl" : "mcf"); //OMG RLLY? .MCF??
             if (File.Exists(path))
             {
                 FileStream fs = File.OpenRead(path);

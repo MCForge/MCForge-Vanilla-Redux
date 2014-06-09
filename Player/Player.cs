@@ -1350,14 +1350,11 @@ namespace MCForge
                 }
                 Player.players.ForEach(delegate(Player p)
                 {
-                    if (p != this && extension)
+                    if (p != this)
                     {
                         p.SendExtAddPlayerName(id, name, group, color + name);
                     }
-                    if (extension)
-                    {
-                        SendExtAddPlayerName(p.id, p.name, p.group, p.color + p.name);
-                    }
+                    SendExtAddPlayerName(p.id, p.name, p.group, p.color + p.name);
                 });
             }
             catch (Exception e)
@@ -3041,7 +3038,7 @@ return;
                 socket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, delegate(IAsyncResult result) { }, null);
                 buffer = null;
             }
-            catch (SocketException e)
+            catch (SocketException)
             {
                 buffer = null;
                 Disconnect();
@@ -4447,7 +4444,7 @@ changed |= 4;*/
                 Server.s.Log("Socket was shutdown for " + this.name ?? this.ip);
 #endif
             }
-            catch (Exception e)
+            catch (Exception)
             {
 #if DEBUG
                 Exception ex = new Exception("Failed to shutdown socket for " + this.name ?? this.ip, e);
@@ -4462,7 +4459,7 @@ changed |= 4;*/
                 Server.s.Log("Socket was closed for " + this.name ?? this.ip);
 #endif
             }
-            catch (Exception e)
+            catch (Exception)
             {
 #if DEBUG
                 Exception ex = new Exception("Failed to close socket for " + this.name ?? this.ip, e);
@@ -4625,7 +4622,7 @@ changed |= 4;*/
                     players.Remove(this);
                     players.ForEach(delegate(Player p)
                     {
-                        if (p != this && extension)
+                        if (p != this)
                         {
                             p.SendExtRemovePlayerName(this.id);
                         }
