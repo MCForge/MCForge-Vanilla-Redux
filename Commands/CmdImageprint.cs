@@ -102,19 +102,19 @@ namespace MCForge.Commands
             p.ClearBlockchange();
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange1);
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            ushort? b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos bp = (CatchPos)p.blockchangeObject;
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            ushort? b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
 
             Bitmap myBitmap = new Bitmap("extra/images/" + bitmaplocation + ".bmp"); 
@@ -288,7 +288,7 @@ namespace MCForge.Commands
                         }
 
                         //ALPHA HANDLING (REAL HARD STUFF, YO)
-                        if (colblock.a < 20) colblock.type = null;
+                        if (colblock.a < 20) colblock.type = Block.air;
 
                         FindReference.placeBlock(p.level, p, colblock.x, colblock.y, colblock.z, colblock.type);
                     }
@@ -311,9 +311,9 @@ namespace MCForge.Commands
             })); printThread.Start();
         }
 
-        public static int UshortToInt(ushort? a)
+        public static int UshortToInt(ushort a)
         {
-            return (int)(a == null ? 0 : a);
+            return (int)(a == Block.air ? (ushort)0 : a);
         }
 
         public override void Help(Player p)

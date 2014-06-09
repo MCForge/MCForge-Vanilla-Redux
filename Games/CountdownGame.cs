@@ -139,10 +139,10 @@ namespace MCForge
                 Thread.Sleep(2000);
                 mapon.ChatLevel("-----&b5" + Server.DefaultColor + "-----");
                 {
-                    mapon.Blockchange(16, 16, 15, null);
-                    mapon.Blockchange(15, 16, 16, null);
-                    mapon.Blockchange(15, 16, 15, null);
-                    mapon.Blockchange(16, 16, 16, null);
+                    mapon.Blockchange(16, 16, 15, Block.air);
+                    mapon.Blockchange(15, 16, 16, Block.air);
+                    mapon.Blockchange(15, 16, 15, Block.air);
+                    mapon.Blockchange(16, 16, 16, Block.air);
                 }
                 Thread.Sleep(1000);
                 mapon.ChatLevel("-----&b4" + Server.DefaultColor + "-----");
@@ -150,10 +150,10 @@ namespace MCForge
                 mapon.ChatLevel("-----&b3" + Server.DefaultColor + "-----");
                 Thread.Sleep(1000);
                 {
-                    mapon.Blockchange(15, 27, 16, null);
-                    mapon.Blockchange(16, 27, 15, null);
-                    mapon.Blockchange(16, 27, 16, null);
-                    mapon.Blockchange(15, 27, 15, null);
+                    mapon.Blockchange(15, 27, 16, Block.air);
+                    mapon.Blockchange(16, 27, 15, Block.air);
+                    mapon.Blockchange(16, 27, 16, Block.air);
+                    mapon.Blockchange(15, 27, 15, Block.air);
                 }
                 mapon.ChatLevel("-----&b2" + Server.DefaultColor + "-----");
                 Thread.Sleep(1000);
@@ -257,7 +257,7 @@ namespace MCForge
                             ushort z4 = 26;
                             while (z4 >= 4)
                             {
-                                mapon.Blockchange(x3, 4, z4, null);
+                                mapon.Blockchange(x3, 4, z4, Block.air);
                                 z4 = (ushort)(z4 - 1);
                             }
                             x3 = (ushort)(x3 + 3);
@@ -268,7 +268,7 @@ namespace MCForge
                             ushort x4 = 4;
                             while (x4 <= 26)
                             {
-                                mapon.Blockchange(x4, 4, z3, null);
+                                mapon.Blockchange(x4, 4, z3, Block.air);
                                 x4++;
                             }
                             z3 = (ushort)(z3 + 3);
@@ -327,10 +327,10 @@ namespace MCForge
                 }
                 Thread.Sleep(speed);
                 { //poof
-                    mapon.Blockchange(x1, y, z1, null);
-                    mapon.Blockchange(x2, y, z1, null);
-                    mapon.Blockchange(x2, y, z2, null);
-                    mapon.Blockchange(x1, y, z2, null);
+                    mapon.Blockchange(x1, y, z1, Block.air);
+                    mapon.Blockchange(x2, y, z1, Block.air);
+                    mapon.Blockchange(x2, y, z2, Block.air);
+                    mapon.Blockchange(x1, y, z2, Block.air);
                     { //beneath this is checking the glass next to the square
                         bool up = false;
                         bool left = false;
@@ -339,45 +339,45 @@ namespace MCForge
                         {//directly next to
                             if (mapon.GetTile(x1, y, (ushort)(z2 + 2)) == null) //right
                             {
-                                mapon.Blockchange(x1, y, (ushort)(z2 + 1), null);
-                                mapon.Blockchange(x2, y, (ushort)(z2 + 1), null);
+                                mapon.Blockchange(x1, y, (ushort)(z2 + 1), Block.air);
+                                mapon.Blockchange(x2, y, (ushort)(z2 + 1), Block.air);
                                 right = true;
                             }
                             if (mapon.GetTile(x1, y, (ushort)(z1 - 2)) == null) //left
                             {
-                                mapon.Blockchange(x1, y, (ushort)(z1 - 1), null);
-                                mapon.Blockchange(x2, y, (ushort)(z1 - 1), null);
+                                mapon.Blockchange(x1, y, (ushort)(z1 - 1), Block.air);
+                                mapon.Blockchange(x2, y, (ushort)(z1 - 1), Block.air);
                                 left = true;
                             }
                             if (mapon.GetTile((ushort)(x2 + 2), y, z1) == null) //up
                             {
-                                mapon.Blockchange((ushort)(x2 + 1), y, z1, null);
-                                mapon.Blockchange((ushort)(x2 + 1), y, z2, null);
+                                mapon.Blockchange((ushort)(x2 + 1), y, z1, Block.air);
+                                mapon.Blockchange((ushort)(x2 + 1), y, z2, Block.air);
                                 up = true;
                             }
                             if (mapon.GetTile((ushort)(x1 - 2), y, z1) == null) //down
                             {
-                                mapon.Blockchange((ushort)(x1 - 1), y, z1, null);
-                                mapon.Blockchange((ushort)(x1 - 1), y, z2, null);
+                                mapon.Blockchange((ushort)(x1 - 1), y, z1, Block.air);
+                                mapon.Blockchange((ushort)(x1 - 1), y, z2, Block.air);
                                 down = true;
                             }
                         }
                         {//diagonal >:(
                             if ((mapon.GetTile((ushort)(x1 - 2), y, (ushort)(z1 - 2)) == null) && left == true && down == true) //bottom left
                             {
-                                mapon.Blockchange((ushort)(x1 - 1), y, (ushort)(z1 - 1), null);
+                                mapon.Blockchange((ushort)(x1 - 1), y, (ushort)(z1 - 1), Block.air);
                             }
                             if ((mapon.GetTile((ushort)(x1 - 2), y, (ushort)(z2 + 2)) == null) && right == true && down == true) //bottom right
                             {
-                                mapon.Blockchange((ushort)(x1 - 1), y, (ushort)(z2 + 1), null);
+                                mapon.Blockchange((ushort)(x1 - 1), y, (ushort)(z2 + 1), Block.air);
                             }
                             if ((mapon.GetTile((ushort)(x2 + 2), y, (ushort)(z1 - 2)) == null) && left == true && up == true) //top left
                             {
-                                mapon.Blockchange((ushort)(x2 + 1), y, (ushort)(z1 - 1), null);
+                                mapon.Blockchange((ushort)(x2 + 1), y, (ushort)(z1 - 1), Block.air);
                             }
                             if ((mapon.GetTile((ushort)(x2 + 2), y, (ushort)(z2 + 2)) == null) && right == true && up == true) //top right
                             {
-                                mapon.Blockchange((ushort)(x2 + 1), y, (ushort)(z2 + 1), null);
+                                mapon.Blockchange((ushort)(x2 + 1), y, (ushort)(z2 + 1), Block.air);
                             }
                         }
                     }
@@ -406,28 +406,28 @@ namespace MCForge
             {
                 {
                     {
-                        mapon.Blockchange(15, 18, 14, null);
-                        mapon.Blockchange(16, 18, 14, null);
-                        mapon.Blockchange(15, 17, 14, null);
-                        mapon.Blockchange(16, 17, 14, null);
+                        mapon.Blockchange(15, 18, 14, Block.air);
+                        mapon.Blockchange(16, 18, 14, Block.air);
+                        mapon.Blockchange(15, 17, 14, Block.air);
+                        mapon.Blockchange(16, 17, 14, Block.air);
                     }
                     {
-                        mapon.Blockchange(14, 17, 15, null);
-                        mapon.Blockchange(14, 18, 16, null);
-                        mapon.Blockchange(14, 17, 16, null);
-                        mapon.Blockchange(14, 18, 15, null);
+                        mapon.Blockchange(14, 17, 15, Block.air);
+                        mapon.Blockchange(14, 18, 16, Block.air);
+                        mapon.Blockchange(14, 17, 16, Block.air);
+                        mapon.Blockchange(14, 18, 15, Block.air);
                     }
                     {
-                        mapon.Blockchange(15, 17, 17, null);
-                        mapon.Blockchange(16, 18, 17, null);
-                        mapon.Blockchange(15, 18, 17, null);
-                        mapon.Blockchange(16, 17, 17, null);
+                        mapon.Blockchange(15, 17, 17, Block.air);
+                        mapon.Blockchange(16, 18, 17, Block.air);
+                        mapon.Blockchange(15, 18, 17, Block.air);
+                        mapon.Blockchange(16, 17, 17, Block.air);
                     }
                     {
-                        mapon.Blockchange(17, 17, 16, null);
-                        mapon.Blockchange(17, 18, 15, null);
-                        mapon.Blockchange(17, 18, 16, null);
-                        mapon.Blockchange(17, 17, 15, null);
+                        mapon.Blockchange(17, 17, 16, Block.air);
+                        mapon.Blockchange(17, 18, 15, Block.air);
+                        mapon.Blockchange(17, 18, 16, Block.air);
+                        mapon.Blockchange(17, 17, 15, Block.air);
                     }
                 }
                 {
@@ -440,25 +440,25 @@ namespace MCForge
                     ushort x1 = 27;
                     while (x1 >= 4)
                     {
-                        mapon.Blockchange(x1, 4, 4, null);
+                        mapon.Blockchange(x1, 4, 4, Block.air);
                         x1 = (ushort)(x1 - 1);
                     }
                     ushort x2 = 4;
                     while (x2 <= 27)
                     {
-                        mapon.Blockchange(x2, 4, 27, null);
+                        mapon.Blockchange(x2, 4, 27, Block.air);
                         x2++;
                     }
                     ushort z1 = 27;
                     while (z1 >= 4)
                     {
-                        mapon.Blockchange(4, 4, z1, null);
+                        mapon.Blockchange(4, 4, z1, Block.air);
                         z1 = (ushort)(z1 - 1);
                     }
                     ushort z2 = 4;
                     while (z2 <= 27)
                     {
-                        mapon.Blockchange(27, 4, z2, null);
+                        mapon.Blockchange(27, 4, z2, Block.air);
                         z2++;
                     }
                 }
@@ -587,28 +587,28 @@ namespace MCForge
                     }
                     { //top part of map tube thingy
                         {
-                            mapon.Blockchange(15, 18, 14, null);
-                            mapon.Blockchange(16, 18, 14, null);
-                            mapon.Blockchange(15, 17, 14, null);
-                            mapon.Blockchange(16, 17, 14, null);
+                            mapon.Blockchange(15, 18, 14, Block.air);
+                            mapon.Blockchange(16, 18, 14, Block.air);
+                            mapon.Blockchange(15, 17, 14, Block.air);
+                            mapon.Blockchange(16, 17, 14, Block.air);
                         }
                         {
-                            mapon.Blockchange(14, 17, 15, null);
-                            mapon.Blockchange(14, 18, 16, null);
-                            mapon.Blockchange(14, 17, 16, null);
-                            mapon.Blockchange(14, 18, 15, null);
+                            mapon.Blockchange(14, 17, 15, Block.air);
+                            mapon.Blockchange(14, 18, 16, Block.air);
+                            mapon.Blockchange(14, 17, 16, Block.air);
+                            mapon.Blockchange(14, 18, 15, Block.air);
                         }
                         {
-                            mapon.Blockchange(15, 17, 17, null);
-                            mapon.Blockchange(16, 18, 17, null);
-                            mapon.Blockchange(15, 18, 17, null);
-                            mapon.Blockchange(16, 17, 17, null);
+                            mapon.Blockchange(15, 17, 17, Block.air);
+                            mapon.Blockchange(16, 18, 17, Block.air);
+                            mapon.Blockchange(15, 18, 17, Block.air);
+                            mapon.Blockchange(16, 17, 17, Block.air);
                         }
                         {
-                            mapon.Blockchange(17, 17, 16, null);
-                            mapon.Blockchange(17, 18, 15, null);
-                            mapon.Blockchange(17, 18, 16, null);
-                            mapon.Blockchange(17, 17, 15, null);
+                            mapon.Blockchange(17, 17, 16, Block.air);
+                            mapon.Blockchange(17, 18, 15, Block.air);
+                            mapon.Blockchange(17, 18, 16, Block.air);
+                            mapon.Blockchange(17, 17, 15, Block.air);
                         }
                         {
                             mapon.Blockchange(16, 16, 15, Block.glass);

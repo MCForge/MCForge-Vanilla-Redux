@@ -294,7 +294,7 @@ namespace MCForge
 
         //Copy
         public List<CopyPos> CopyBuffer = new List<CopyPos>();
-        public struct CopyPos { public ushort x, y, z; public ushort? type; }
+        public struct CopyPos { public ushort x, y, z; public ushort type; }
         public bool copyAir = false;
         public int[] copyoffset = new int[3] { 0, 0, 0 };
         public ushort[] copystart = new ushort[3] { 0, 0, 0 };
@@ -308,7 +308,7 @@ namespace MCForge
         }
 
         //Undo
-        public struct UndoPos { public ushort x, y, z; public ushort? type, newtype; public string mapName; public DateTime timePlaced; }
+        public struct UndoPos { public ushort x, y, z; public ushort type, newtype; public string mapName; public DateTime timePlaced; }
         public List<UndoPos> UndoBuffer = new List<UndoPos>();
         public List<UndoPos> RedoBuffer = new List<UndoPos>();
 
@@ -325,14 +325,14 @@ namespace MCForge
         //Movement
         public ushort oldBlock = 0;
         public ushort deathCount = 0;
-        public ushort? deathblock;
+        public ushort deathblock;
 
         //Games
         public DateTime lastDeath = DateTime.Now;
 
         public byte blockAction; //0-Nothing 1-solid 2-lava 3-water 4-active_lava 5 Active_water 6 OpGlass 7 BluePort 8 OrangePort
-        public ushort? modeType;
-        public ushort?[] bindings = new ushort?[(ushort)128];
+        public ushort modeType;
+        public ushort[] bindings = new ushort[(ushort)128];
         public string[] cmdBind = new string[10];
         public string[] messageBind = new string[10];
         public string lastCMD = "";
@@ -478,8 +478,8 @@ namespace MCForge
             y = (ushort)Math.Round((decimal)(((y * 32) + 4) / 32));
             z = (ushort)(p.pos[2] / 32);
 
-            ushort? b = p.level.GetTile(x, y, z);
-            ushort? b1 = p.level.GetTile(x, (ushort)(y - 1), z);
+            ushort b = p.level.GetTile(x, y, z);
+            ushort b1 = p.level.GetTile(x, (ushort)(y - 1), z);
 
             if (Block.Walkthrough(Block.Convert(b)) && Block.Walkthrough(Block.Convert(b1)))
             {
@@ -917,7 +917,7 @@ namespace MCForge
                     name += "_" + MojangAccount.GetID(truename);
                 }
                 string verify = enc.GetString(message, 65, 32).Trim();
-                ushort? type = message[129];
+                ushort type = message[129];
 
                 //Forge Protection Check
                 verifiedName = Server.verify ? true : false;
@@ -1352,10 +1352,12 @@ namespace MCForge
                 {
                     if (p != this)
                     {
+						if (p.extension == true)
+						{
                         p.SendExtAddPlayerName(id, name, group, color + name);
                     }
                     SendExtAddPlayerName(p.id, p.name, p.group, p.color + p.name);
-                });
+					}});
             }
             catch (Exception e)
             {
@@ -1545,7 +1547,7 @@ namespace MCForge
                 ushort y = NTHO(message, 2);
                 ushort z = NTHO(message, 4);
                 byte action = message[6];
-                ushort? type = message[7];
+                ushort type = message[7];
 
                 if (action == 1 && Server.ZombieModeOn && Server.noPillaring)
                 {
@@ -1584,7 +1586,7 @@ namespace MCForge
                 Server.ErrorLog(e);
             }
         }
-        public void manualChange(ushort x, ushort y, ushort z, byte action, ushort? type)
+        public void manualChange(ushort x, ushort y, ushort z, byte action, ushort type)
         {
             if (type > 65)
             {
@@ -1592,7 +1594,7 @@ namespace MCForge
                 return;
             }
 
-            ushort? b = level.GetTile(x, y, z);
+            ushort b = level.GetTile(x, y, z);
             if (b == Block.Zero) { return; }
             if (jailed || !agreed) { SendBlockchange(x, y, z, b); return; }
             if (level.name.Contains("Museum " + Server.DefaultColor) && Blockchange == null)
@@ -1758,7 +1760,7 @@ namespace MCForge
 
             if (action > 1) { Kick("Unknown block action!"); }
 
-            ushort? oldType = type;
+            ushort oldType = type;
             type = bindings[(int)type];
             //Ignores updating blocks that are the same and send block only to the player
             if (b == (byte)((painting || action == 1) ? type : (byte)0))
@@ -1787,7 +1789,7 @@ namespace MCForge
             }
         }
 
-        public void HandlePortal(Player p, ushort x, ushort y, ushort z, ushort? b)
+        public void HandlePortal(Player p, ushort x, ushort y, ushort z, ushort b)
         {
             try
             {
@@ -1825,7 +1827,7 @@ namespace MCForge
         }
 
 
-        public void HandleMsgBlock(Player p, ushort x, ushort y, ushort z, ushort? b)
+        public void HandleMsgBlock(Player p, ushort x, ushort y, ushort z, ushort b)
         {
             try
             {
@@ -1867,12 +1869,12 @@ namespace MCForge
             return group.Permission < LevelPermission.Operator;
         }
 
-        private void deleteBlock(ushort? b, ushort? type, ushort x, ushort y, ushort z)
+        private void deleteBlock(ushort b, ushort type, ushort x, ushort y, ushort z)
         {
             Random rand = new Random();
             int mx, mz;
 
-            if (deleteMode && b != Block.c4det) { level.Blockchange(this, x, y, z, null); return; }
+            if (deleteMode && b != Block.c4det) { level.Blockchange(this, x, y, z, Block.air); return; }
 
             if (Block.tDoor(b)) { SendBlockchange(x, y, z, b); return; }
             if (Block.DoorAirs(b) != 0)
@@ -1943,8 +1945,8 @@ namespace MCForge
 
                         if (192 <= rot[1] && rot[1] <= 196 || 60 <= rot[1] && rot[1] <= 64) { newX = 0; newZ = 0; }
 
-                        ushort? b1 = level.GetTile((ushort)(x + newX * 2), (ushort)(y + newY * 2), (ushort)(z + newZ * 2));
-                        ushort? b2 = level.GetTile((ushort)(x + newX), (ushort)(y + newY), (ushort)(z + newZ));
+                        ushort b1 = level.GetTile((ushort)(x + newX * 2), (ushort)(y + newY * 2), (ushort)(z + newZ * 2));
+                        ushort b2 = level.GetTile((ushort)(x + newX), (ushort)(y + newY), (ushort)(z + newZ));
                         if (b1 == null && b2 == null && level.CheckClear((ushort)(x + newX * 2), (ushort)(y + newY * 2), (ushort)(z + newZ * 2)) && level.CheckClear((ushort)(x + newX), (ushort)(y + newY), (ushort)(z + newZ)))
                         {
                             level.Blockchange((ushort)(x + newX * 2), (ushort)(y + newY * 2), (ushort)(z + newZ * 2), Block.rockethead);
@@ -1961,8 +1963,8 @@ namespace MCForge
                     if (level.physics != 0)
                     {
                         mx = rand.Next(0, 2); mz = rand.Next(0, 2);
-                        ushort? b1 = level.GetTile((ushort)(x + mx - 1), (ushort)(y + 2), (ushort)(z + mz - 1));
-                        ushort? b2 = level.GetTile((ushort)(x + mx - 1), (ushort)(y + 1), (ushort)(z + mz - 1));
+                        ushort b1 = level.GetTile((ushort)(x + mx - 1), (ushort)(y + 2), (ushort)(z + mz - 1));
+                        ushort b2 = level.GetTile((ushort)(x + mx - 1), (ushort)(y + 1), (ushort)(z + mz - 1));
                         if (b1 == null && b2 == null && level.CheckClear((ushort)(x + mx - 1), (ushort)(y + 2), (ushort)(z + mz - 1)) && level.CheckClear((ushort)(x + mx - 1), (ushort)(y + 1), (ushort)(z + mz - 1)))
                         {
                             level.Blockchange((ushort)(x + mx - 1), (ushort)(y + 2), (ushort)(z + mz - 1), Block.firework);
@@ -1974,17 +1976,17 @@ namespace MCForge
 
                 case Block.c4det:
                     Level.C4.BlowUp(new ushort[] { x, y, z }, level);
-                    level.Blockchange(x, y, z, null);
+                    level.Blockchange(x, y, z, Block.air);
                     break;
 
                 default:
-                    level.Blockchange(this, x, y, z, (ushort?)(null));
+                    level.Blockchange(this, x, y, z, (ushort)Block.air);
                     break;
             }
             if ((level.physics == 0 || level.physics == 5) && level.GetTile(x, (ushort)(y - 1), z) == 3) level.Blockchange(this, x, (ushort)(y - 1), z, 2);
         }
 
-        public void placeBlock(ushort? b, ushort? type, ushort x, ushort y, ushort z)
+        public void placeBlock(ushort b, ushort type, ushort x, ushort y, ushort z)
         {
             if (Block.odoor(b) != Block.Zero) { SendMessage("oDoor here!"); return; }
 
@@ -2002,7 +2004,7 @@ namespace MCForge
                             case Block.staircasestep: //stair handler
                                 if (level.GetTile(x, (ushort)(y - 1), z) == Block.staircasestep)
                                 {
-                                    SendBlockchange(x, y, z, null); //send the air block back only to the user.
+                                    SendBlockchange(x, y, z, Block.air); //send the air block back only to the user.
                                     //level.Blockchange(this, x, y, z, (byte)(null));
                                     level.Blockchange(this, x, (ushort)(y - 1), z, (byte)(Block.staircasefull));
                                     break;
@@ -2124,19 +2126,19 @@ cliprot = rot;
 
         public void RealDeath(ushort x, ushort y, ushort z)
         {
-            ushort? b = level.GetTile(x, (ushort)(y - 2), z);
-            ushort? b1 = level.GetTile(x, y, z);
+            ushort b = level.GetTile(x, (ushort)(y - 2), z);
+            ushort b1 = level.GetTile(x, y, z);
             if (oldBlock != (ushort)(x + y + z))
             {
-                if (Block.Convert(b) == null)
+                if (Block.Convert(b) == Block.air)
                 {
                     deathCount++;
-                    deathblock = null;
+                    deathblock = Block.air;
                     return;
                 }
                 else
                 {
-                    if (deathCount > level.fall && deathblock == null)
+                    if (deathCount > level.fall && deathblock == Block.air)
                     {
                         HandleDeath(deathblock);
                         deathCount = 0;
@@ -2172,8 +2174,8 @@ cliprot = rot;
         {
             y = (ushort)Math.Round((decimal)(((y * 32) + 4) / 32));
 
-            ushort? b = this.level.GetTile(x, y, z);
-            ushort? b1 = this.level.GetTile(x, (ushort)((int)y - 1), z);
+            ushort b = this.level.GetTile(x, y, z);
+            ushort b1 = this.level.GetTile(x, (ushort)((int)y - 1), z);
 
             if (Block.Mover(b) || Block.Mover(b1))
             {
@@ -2207,7 +2209,7 @@ cliprot = rot;
             else if (Block.Death(b)) HandleDeath(b); else if (Block.Death(b1)) HandleDeath(b1);
         }
 
-        public void HandleDeath(ushort? b, string customMessage = "", bool explode = false)
+        public void HandleDeath(ushort b, string customMessage = "", bool explode = false)
         {
             ushort x = (ushort)(pos[0] / 32);
             ushort y = (ushort)(pos[1] / 32);
@@ -2243,7 +2245,7 @@ cliprot = rot;
                         case Block.rockethead: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was &cin a fiery explosion.", false); level.MakeExplosion(x, y, z, 0); break;
                         case Block.zombiebody: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " died due to lack of &5brain.", false); break;
                         case Block.creeper: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was killed &cb-SSSSSSSSSSSSSS", false); level.MakeExplosion(x, y, z, 1); break;
-                        case null: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " hit the floor &chard.", false); break;
+                        case Block.air: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " hit the floor &chard.", false); break;
                         case Block.water: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " &cdrowned.", false); break;
                         case Block.Zero: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was &cterminated", false); break;
                         case Block.fishlavashark: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was eaten by a ... LAVA SHARK?!", false); break;
@@ -2315,7 +2317,7 @@ TempFly.Add(pos);
 }
 
 FlyBuffer.ForEach(delegate(FlyPos pos2) {
-try { if (!TempFly.Contains(pos2)) SendBlockchange(pos2.x, pos2.y, pos2.z, null); } catch { }
+try { if (!TempFly.Contains(pos2)) SendBlockchange(pos2.x, pos2.y, pos2.z, Block.air); } catch { }
 });
 
 FlyBuffer.Clear();
@@ -3035,7 +3037,7 @@ return;
             }
             try
             {
-                socket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, delegate(IAsyncResult result) { }, null);
+                socket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, delegate(IAsyncResult result) { }, Block.air);
                 buffer = null;
             }
             catch (SocketException)
@@ -3367,17 +3369,14 @@ return;
                 byte[] buffer = new byte[level.blocks.Length + 4];
                 BitConverter.GetBytes(IPAddress.HostToNetworkOrder(level.blocks.Length)).CopyTo(buffer, 0);
                 //ushort xx; ushort yy; ushort zz;
-                for (int i = 0; i < level.blocks.Length; ++i)
-                {
-                    if (extension == true)
-                    {
-                        buffer[4 + i] = (byte)Block.Convert(level.blocks[i]);
-                    }
-                    else
-                    {
-                        buffer[4 + i] = (byte)Block.Convert(Block.ConvertCPE(level.blocks[i]));
-                    }
+            for ( int i = 0; i < level.blocks.Length; ++i ) {
+                if ( extension ) {
+                    buffer[4 + i] = (byte)Block.Convert( level.blocks[i] );
+                } else {
+						//Fallback
+                    buffer[4 + i] = (byte)Block.Convert( Block.ConvertCPE( level.blocks[i] ) );
                 }
+            }
                 SendRaw(2);
                 buffer = buffer.GZip();
                 int number = (int)Math.Ceiling(((double)buffer.Length) / 1024);
@@ -3465,9 +3464,9 @@ rot = new byte[2] { rotx, roty };*/
         }
         //TODO: Figure a way to SendPos without changing rotation
         public void SendDie(byte id) { SendRaw(0x0C, new byte[1] { id }); }
-        public void SendBlockchange(ushort x, ushort y, ushort z, ushort? type)
+        public void SendBlockchange(ushort x, ushort y, ushort z, ushort type)
         {
-            if (type == null) { type = 0; }
+            if (type == Block.air) { type = 0; }
             if (x < 0 || y < 0 || z < 0) return;
             if (type > Block.maxblocks)
             {
@@ -3761,13 +3760,13 @@ changed |= 4;*/
         }
         #endregion
         #region == GLOBAL MESSAGES ==
-        public static void GlobalBlockchange(Level level, int b, ushort? type)
+        public static void GlobalBlockchange(Level level, int b, ushort type)
         {
             ushort x, y, z;
             level.IntToPos(b, out x, out y, out z);
             GlobalBlockchange(level, x, y, z, type);
         }
-        public static void GlobalBlockchange(Level level, ushort x, ushort y, ushort z, ushort? type)
+        public static void GlobalBlockchange(Level level, ushort x, ushort y, ushort z, ushort type)
         {
             players.ForEach(delegate(Player p) { if (p.level == level) { p.SendBlockchange(x, y, z, type); } });
         }
@@ -4622,10 +4621,12 @@ changed |= 4;*/
                     players.Remove(this);
                     players.ForEach(delegate(Player p)
                     {
+						if (p.extension) {
                         if (p != this)
                         {
                             p.SendExtRemovePlayerName(this.id);
                         }
+						}
                     });
                     Server.s.PlayerListUpdate();
                     try

@@ -89,21 +89,21 @@ namespace MCForge.Commands
             Player.SendMessage(p, "[types] - up, down, layer, vertical_x, vertical_z");
         }
 
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             try
             {
                 p.ClearBlockchange();
                 CatchPos cpos = (CatchPos)p.blockchangeObject;
-                if (cpos.type == Block.Zero) cpos.type = (ushort?)p.bindings[(int)type];
+                if (cpos.type == Block.Zero) cpos.type = (ushort)p.bindings[(int)type];
 
-                ushort? oldType = p.level.GetTile(x, y, z);
+                ushort oldType = p.level.GetTile(x, y, z);
                 p.SendBlockchange(x, y, z, oldType);
 
                 if (cpos.type == oldType) { Player.SendMessage(p, "Cannot fill with the same type."); return; }
                 if (!Block.canPlace(p, oldType) && !Block.BuildIn(oldType)) { Player.SendMessage(p, "Cannot fill with that."); return; }
 
-                ushort?[] mapBlocks = new ushort?[p.level.blocks.Length];
+                ushort[] mapBlocks = new ushort[p.level.blocks.Length];
                 List<Pos> buffer = new List<Pos>();
                 p.level.blocks.CopyTo(mapBlocks, 0);
 
@@ -159,7 +159,7 @@ namespace MCForge.Commands
 
         int deep;
         List<Pos> fromWhere = new List<Pos>();
-        public void FloodFill(Player p, ushort x, ushort y, ushort z, ushort? b, ushort? oldType, FillType fillType, ref ushort?[] blocks, ref List<Pos> buffer)
+        public void FloodFill(Player p, ushort x, ushort y, ushort z, ushort b, ushort oldType, FillType fillType, ref ushort[] blocks, ref List<Pos> buffer)
         {
             try
             {
@@ -237,7 +237,7 @@ namespace MCForge.Commands
             } catch (Exception e) { Server.ErrorLog(e); }
         }
 
-        public ushort? GetTile(ushort x, ushort y, ushort z, Level l, ushort?[] blocks)
+        public ushort GetTile(ushort x, ushort y, ushort z, Level l, ushort[] blocks)
         {
             //if (PosToInt(x, y, z) >= blocks.Length) { return null; }
             //Avoid internal overflow
@@ -254,7 +254,7 @@ namespace MCForge.Commands
             catch (Exception e) { Server.ErrorLog(e); return Block.Zero; }
         }
 
-        struct CatchPos { public ushort x, y, z; public ushort? type; public FillType fillType; }
+        struct CatchPos { public ushort x, y, z; public ushort type; public FillType fillType; }
         public struct Pos { public ushort x, y, z; }
         public enum FillType : int
         {

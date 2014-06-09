@@ -122,7 +122,7 @@ namespace MCForge.Commands
 						{
 							if (!tempBuffer.Contains(cP))
 							{
-								p.SendBlockchange(cP.x, cP.y, cP.z, null);
+								p.SendBlockchange(cP.x, cP.y, cP.z, Block.air);
 								toRemove.Add(cP);
 							}
 						}
@@ -150,19 +150,19 @@ namespace MCForge.Commands
 
 				foreach (CatchPos cP in buffer)
 				{
-					p.SendBlockchange(cP.x, cP.y, cP.z, null);
+					p.SendBlockchange(cP.x, cP.y, cP.z, Block.air);
 				}
 			}));
 			aimThread.Start();
 		}
-		public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
+		public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
 		{
 			if (!p.staticCommands)
 			{
 				p.ClearBlockchange();
 				p.aiming = false;
 			}
-			ushort? by = p.level.GetTile(x, y, z);
+			ushort by = p.level.GetTile(x, y, z);
 			p.SendBlockchange(x, y, z, by);
 			Pos bp = (Pos)p.blockchangeObject;
 
@@ -345,7 +345,7 @@ namespace MCForge.Commands
 
 						if (previous.Count > 12)
 						{
-							p.level.Blockchange(previous[0].x, previous[0].y, previous[0].z, null);
+							p.level.Blockchange(previous[0].x, previous[0].y, previous[0].z, Block.air);
 							previous.Remove(previous[0]);
 						}
 						Thread.Sleep(100);
@@ -354,7 +354,7 @@ namespace MCForge.Commands
 
 				foreach (CatchPos pos1 in previous)
 				{
-					p.level.Blockchange(pos1.x, pos1.y, pos1.z, null);
+					p.level.Blockchange(pos1.x, pos1.y, pos1.z, Block.air);
 					Thread.Sleep(100);
 				}
 			}));

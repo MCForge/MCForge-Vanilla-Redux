@@ -29,7 +29,7 @@ namespace MCForge.Util
 		static Random random = new Random();
 		public static double pi = 3.141592653;
 
-		public static void AddTree(Player p, ushort x, ushort y, ushort z, ushort? type)
+		public static void AddTree(Player p, ushort x, ushort y, ushort z, ushort type)
 		{
 			ushort num = (ushort)random.Next(5, 8);
 			for (ushort i = 0; i < num; i = (ushort)(i + 1))
@@ -51,7 +51,7 @@ namespace MCForge.Util
 						{
 							try
 							{
-								ushort? that = p.level.GetTile((ushort)(x + j), (ushort)((y + k) + num), (ushort)(z + m));
+								ushort that = p.level.GetTile((ushort)(x + j), (ushort)((y + k) + num), (ushort)(z + m));
 								if (that == 0)
 								{
 									p.level.Blockchange(p, (ushort)(x + j), (ushort)((y + k) + num), (ushort)(z + m), 0x12);
@@ -65,7 +65,7 @@ namespace MCForge.Util
 				}
 			}
 		}
-		public static void AddCactus(Level l, ushort x, ushort y, ushort z, ushort? type)
+		public static void AddCactus(Level l, ushort x, ushort y, ushort z, ushort type)
 		{
 			ushort num2;
 			ushort num = (ushort)random.Next(3, 6);
@@ -135,7 +135,7 @@ namespace MCForge.Util
 
 								if (x2 <= l.width && y2 <= l.depth && z2 <= l.length)
 								{
-									ushort? that = l.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
+									ushort that = l.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
 
 									if (that != 7)
 									{
@@ -179,7 +179,7 @@ namespace MCForge.Util
 
 								if (x2 <= l.width && y2 <= l.depth && z2 <= l.length)
 								{
-									ushort? that = l.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
+									ushort that = l.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
 
 									if (that != 7)
 									{
@@ -197,7 +197,7 @@ namespace MCForge.Util
 			}
 		}
 
-		public static void Cone(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort? block)
+		public static void Cone(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort block)
 		{
 			//foreach (Player p in Player.players) if (p.level == l) p.SendBlockchange(x, y, z, 0);
             List<Player.CopyPos> buffer = new List<Player.CopyPos>();
@@ -234,7 +234,7 @@ namespace MCForge.Util
 
 							if (pointradius <= currentradius)
 							{
-                                ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                                ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 								if (ctile == 0)
 								{
                                     Player.CopyPos temp = new Player.CopyPos();
@@ -257,7 +257,7 @@ namespace MCForge.Util
             if ((y + height) <= p.level.depth)
                 p.level.Blockchange(p, x, (ushort)(y + height), z, block);
 		}
-		public static void HCone(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort? block)
+		public static void HCone(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort block)
 		{
 			//foreach (Player p in Player.players) if (p.level == l) p.SendBlockchange(x, y, z, 0);
             List<Player.CopyPos> buffer = new List<Player.CopyPos>();
@@ -296,7 +296,7 @@ namespace MCForge.Util
 
 							if (pointradius <= currentradius && pointradius >= (currentradius - 1))
 							{
-                                ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                                ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 								if (ctile == 0)
 								{
                                     Player.CopyPos temp = new Player.CopyPos();
@@ -319,7 +319,7 @@ namespace MCForge.Util
             if ((y + height) <= p.level.depth)
                 p.level.Blockchange(p, x, (ushort)(y + height), z, block);
 		}
-		public static void ICone(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort? block)
+		public static void ICone(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort block)
 		{
 			//foreach (Player p in Player.players) if (p.level == l) p.SendBlockchange(x, y, z, 0);
             List<Player.CopyPos> buffer = new List<Player.CopyPos>();
@@ -358,7 +358,7 @@ namespace MCForge.Util
 
 							if (pointradius <= currentradius)
 							{
-                                ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                                ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 								if (ctile == 0)
 								{
                                     Player.CopyPos temp = new Player.CopyPos();
@@ -380,7 +380,7 @@ namespace MCForge.Util
             buffer = null;
             p.level.Blockchange(p, x, y, z, block);
 		}
-		public static void HICone(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort? block)
+		public static void HICone(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort block)
 		{
 			//foreach (Player p in Player.players) if (p.level == l) p.SendBlockchange(x, y, z, 0);
             List<Player.CopyPos> buffer = new List<Player.CopyPos>();
@@ -419,7 +419,7 @@ namespace MCForge.Util
 
 							if (pointradius <= currentradius && pointradius >= (currentradius - 1))
 							{
-                                ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                                ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 								if (ctile == 0)
 								{
                                     Player.CopyPos temp = new Player.CopyPos();
@@ -443,7 +443,7 @@ namespace MCForge.Util
 		}
 
 		//For the pyramid commands, Radius still refers to the distance from the center point, but is axis independant, rather than a referance to both axes
-		public static void Pyramid(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort? block)
+		public static void Pyramid(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort block)
 		{
 			//foreach (Player p in Player.players) if (p.level == l) p.SendBlockchange(x, y, z, 0);
             List<Player.CopyPos> buffer = new List<Player.CopyPos>();
@@ -479,7 +479,7 @@ namespace MCForge.Util
 							if (absx > currentradius) continue;
 							if (absz > currentradius) continue;
 
-                            ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                            ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 							if (ctile == 0)
 							{
                                 Player.CopyPos temp = new Player.CopyPos();
@@ -501,7 +501,7 @@ namespace MCForge.Util
             if ((y + height) <= p.level.depth)
                 p.level.Blockchange(p, x, (ushort)(y + height), z, block);
 		}
-		public static void HPyramid(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort? block)
+		public static void HPyramid(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort block)
 		{
 			//foreach (Player p in Player.players) if (p.level == l) p.SendBlockchange(x, y, z, 0);
             List<Player.CopyPos> buffer = new List<Player.CopyPos>();
@@ -537,7 +537,7 @@ namespace MCForge.Util
 							if (absx > currentradius || absz > currentradius) continue;
 							if (absx < (currentradius - 1) && absz < (currentradius - 1)) continue;
 
-                            ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                            ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 							if (ctile == 0)
 							{
                                 Player.CopyPos temp = new Player.CopyPos();
@@ -559,7 +559,7 @@ namespace MCForge.Util
             if ((y + height) <= p.level.depth)
                 p.level.Blockchange(p, x, (ushort)(y), z, block);
 		}
-		public static void IPyramid(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort? block)
+		public static void IPyramid(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort block)
 		{
 			//foreach (Player p in Player.players) if (p.level == l) p.SendBlockchange(x, y, z, 0);
             List<Player.CopyPos> buffer = new List<Player.CopyPos>();
@@ -595,7 +595,7 @@ namespace MCForge.Util
 							if (absx > currentradius) continue;
 							if (absz > currentradius) continue;
 
-                            ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                            ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 							if (ctile == 0)
 							{
                                 Player.CopyPos temp = new Player.CopyPos();
@@ -617,7 +617,7 @@ namespace MCForge.Util
             if ((y + height) <= p.level.depth)
                 p.level.Blockchange(p, x, (ushort)(y + height), z, block);
 		}
-		public static void HIPyramid(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort? block)
+		public static void HIPyramid(Player p, ushort x, ushort y, ushort z, int height, int radius, ushort block)
 		{
 			//foreach (Player p in Player.players) if (p.level == l) p.SendBlockchange(x, y, z, 0);
             List<Player.CopyPos> buffer = new List<Player.CopyPos>();
@@ -653,7 +653,7 @@ namespace MCForge.Util
 							if (absx > currentradius || absz > currentradius) continue;
 							if (absx < (currentradius - 1) && absz < (currentradius - 1)) continue;
 
-                            ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+                            ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 							if (ctile == 0)
 							{
                                 Player.CopyPos temp = new Player.CopyPos();
@@ -676,7 +676,7 @@ namespace MCForge.Util
                 p.level.Blockchange(p, x, (ushort)(y), z, block);
 		}
 
-		public static void Sphere(Player p, ushort x, ushort y, ushort z, int radius, ushort? type)
+		public static void Sphere(Player p, ushort x, ushort y, ushort z, int radius, ushort type)
 		{
             List<Player.CopyPos> buffer = new List<Player.CopyPos>();
 			for (short j = Convert.ToInt16(-radius); j <= radius; j = (short)(j + 1))
@@ -698,7 +698,7 @@ namespace MCForge.Util
 								ushort z2 = (ushort)(z + m);
                                 if (x2 <= p.level.width && y2 <= p.level.depth && z2 <= p.level.length)
 								{
-                                    ushort? that = p.level.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
+                                    ushort that = p.level.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
 									if (that != 7)
 									{
                                         Player.CopyPos temp = new Player.CopyPos();
@@ -720,7 +720,7 @@ namespace MCForge.Util
             buffer.ForEach(delegate(Player.CopyPos pos) { p.level.Blockchange(p, pos.x, pos.y, pos.z, pos.type); });
             buffer = null;
 		}
-		public static void HSphere(Player p, ushort x, ushort y, ushort z, int radius, ushort? type)
+		public static void HSphere(Player p, ushort x, ushort y, ushort z, int radius, ushort type)
 		{
             List<Player.CopyPos> buffer = new List<Player.CopyPos>();
 			for (short j = Convert.ToInt16(-radius); j <= radius; j = (short)(j + 1))
@@ -742,7 +742,7 @@ namespace MCForge.Util
 								ushort z2 = (ushort)(z + m);
                                 if (x2 <= p.level.width && y2 <= p.level.depth && z2 <= p.level.length)
 								{
-                                    ushort? that = p.level.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
+                                    ushort that = p.level.GetTile((ushort)(x + j), (ushort)((y + k)), (ushort)(z + m));
 									if (that != 7)
 									{
                                         Player.CopyPos temp = new Player.CopyPos();
@@ -804,7 +804,7 @@ namespace MCForge.Util
 
 							if (pointradius <= currentradius && pointradius >= (currentradius - 1))
 							{
-								ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+								ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 								if (ctile == 0)
 								{
                                     Player.CopyPos temp = new Player.CopyPos();
@@ -818,7 +818,7 @@ namespace MCForge.Util
 							}
 							else if (pointradius <= currentradius)
 							{
-								ushort? ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
+								ushort ctile = p.level.GetTile((ushort)cx, (ushort)cy, (ushort)cz);
 								if (ctile == 0)
 								{
                                     Player.CopyPos temp = new Player.CopyPos();

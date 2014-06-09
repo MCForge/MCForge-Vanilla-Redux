@@ -704,7 +704,7 @@ namespace MCForge
         public class MapData : IDisposable
         {
             public bool fast, killer, destroy, water, layer;
-            public ushort? block;
+            public ushort block;
             public int currentLayer;
             public Timer roundTimer, floodTimer, layerTimer;
 

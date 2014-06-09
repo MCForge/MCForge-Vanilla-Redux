@@ -88,7 +88,7 @@ namespace MCForge.Commands
                             {
                                 if (!tempBuffer.Contains(cP))
                                 {
-                                    p.SendBlockchange(cP.x, cP.y, cP.z, null);
+                                    p.SendBlockchange(cP.x, cP.y, cP.z, Block.air);
                                     toRemove.Add(cP);
                                 }
                             }
@@ -107,7 +107,7 @@ namespace MCForge.Commands
 
                 foreach (Pos cP in buffer)
                 {
-                    p.SendBlockchange(cP.x, cP.y, cP.z, null);
+                    p.SendBlockchange(cP.x, cP.y, cP.z, Block.air);
                 }
 
                 Player.SendMessage(p, "Stopped flying");

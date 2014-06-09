@@ -59,7 +59,7 @@ namespace MCForge.Core {
                         SocketError error;
                         s.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, out error, new AsyncCallback((result) => {
                             length = s.Receive(buffer);
-                        }), null);
+                        }), Block.air);
                         
                         while(length == -1){
                             if ((DateTime.Now - start).TotalSeconds > 10 ) {

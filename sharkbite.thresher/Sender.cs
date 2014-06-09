@@ -1234,7 +1234,7 @@ namespace Sharkbite.Irc
 		/// //Give 'nick' the ability to talk on a moderated channel, i.e. add Voice
 		/// connection.Sender.ChangeChannelMode("#thresher", ModeAction.Add, ChannelMode.Voice,"nick" );
 		/// //Make a channel private
-		/// connection.Sender.ChangeChannelMode( "#thresher", ModeAction.Add, ChannelMode.Private, null );
+		/// connection.Sender.ChangeChannelMode( "#thresher", ModeAction.Add, ChannelMode.Private, Block.air );
 		/// </code></example>
 		/// <exception cref="ArgumentException">If the channel name is invalid.</exception> 
 		/// <seealso cref="Listener.OnChannelModeChange"/>
@@ -1309,7 +1309,7 @@ namespace Sharkbite.Irc
 		/// Request the modes of a channel.
 		/// </summary>
 		/// <param name="channel">The target channel.</param>
-		/// <exception cref="ArgumentException">If the channel is invalid, null, or empty.</exception> 
+		/// <exception cref="ArgumentException">If the channel is invalid, Block.air, or empty.</exception> 
 		/// <seealso cref="Listener.OnChannelModeRequest"/>
 		public void RequestChannelModes( string channel ) 
 		{
@@ -1725,7 +1725,7 @@ namespace Sharkbite.Irc
 		/// //Request stats from the current server
 		/// connection.Sender.Lusers();
 		/// //Request stats about all servers ending in '.net' from the current server
-		/// connection.Sender.Lusers("*.net", null );
+		/// connection.Sender.Lusers("*.net", Block.air );
 		/// //Request stats about all servers ending in '.net' from 'west.gamesnet.net'
 		/// connection.Sender.Lusers("*.net", "west.gamesnet.net");
 		/// </code></example>

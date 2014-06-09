@@ -48,10 +48,10 @@ namespace MCForge.Commands
             Player.SendMessage(p, "/about - Displays information about a block.");
         }
 
-        public void AboutBlockchange(Player p, ushort x, ushort y, ushort z, ushort? type)
+        public void AboutBlockchange(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             if (!p.staticCommands) p.ClearBlockchange();
-            ushort? b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             if (b == Block.Zero) { Player.SendMessage(p, "Invalid Block(" + x + "," + y + "," + z + ")!"); return; }
             p.SendBlockchange(x, y, z, b);
 

@@ -66,7 +66,7 @@ namespace MCForge.Commands
                 return;
             }
             CatchPos cpos;
-            cpos.ignoreTypes = new List<ushort?>();
+            cpos.ignoreTypes = new List<ushort>();
             cpos.type = 0;
             p.copyoffset[0] = 0; p.copyoffset[1] = 0; p.copyoffset[2] = 0;
             allowoffset = (message.IndexOf('@'));
@@ -115,10 +115,10 @@ namespace MCForge.Commands
             Player.SendMessage(p, "/copy @ - @ toggle for all the above, gives you a third click after copying that determines where to paste from");
         }
 
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            ushort? b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos bp = (CatchPos)p.blockchangeObject;
             p.copystart[0] = x;
@@ -132,10 +132,10 @@ namespace MCForge.Commands
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
 
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            ushort? b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos cpos = (CatchPos)p.blockchangeObject;
 
@@ -150,12 +150,12 @@ namespace MCForge.Commands
                         b = p.level.GetTile(xx, yy, zz);
                         if (Block.canPlace(p, b))
                         {
-                            if (b == null && cpos.type != 2 || cpos.ignoreTypes.Contains(b)) TotalAir++;
+                            if (b == Block.air && cpos.type != 2 || cpos.ignoreTypes.Contains(b)) TotalAir++;
 
-                            if (cpos.ignoreTypes.Contains(b)) BufferAdd(p, (ushort)(xx - cpos.x), (ushort)(yy - cpos.y), (ushort)(zz - cpos.z), null);
+                            if (cpos.ignoreTypes.Contains(b)) BufferAdd(p, (ushort)(xx - cpos.x), (ushort)(yy - cpos.y), (ushort)(zz - cpos.z), Block.air);
                             else BufferAdd(p, (ushort)(xx - cpos.x), (ushort)(yy - cpos.y), (ushort)(zz - cpos.z), b);
                         }
-                        else BufferAdd(p, (ushort)(xx - cpos.x), (ushort)(yy - cpos.y), (ushort)(zz - cpos.z), null);
+                        else BufferAdd(p, (ushort)(xx - cpos.x), (ushort)(yy - cpos.y), (ushort)(zz - cpos.z), Block.air);
                     }
 
             if ((p.CopyBuffer.Count - TotalAir) > p.group.maxBlocks)
@@ -172,8 +172,8 @@ namespace MCForge.Commands
                         for (ushort zz = Math.Min(cpos.z, z); zz <= Math.Max(cpos.z, z); ++zz)
                         {
                             b = p.level.GetTile(xx, yy, zz);
-                            if (b != null && Block.canPlace(p, b))
-                                p.level.Blockchange(p, xx, yy, zz, null);
+                            if (b != Block.air && Block.canPlace(p, b))
+                                p.level.Blockchange(p, xx, yy, zz, Block.air);
                         }
 
             Player.SendMessage(p, (p.CopyBuffer.Count - TotalAir) + " blocks copied.");
@@ -185,11 +185,11 @@ namespace MCForge.Commands
 
         }
 
-        public void Blockchange3(Player p, ushort x, ushort y, ushort z, ushort? type)
+        public void Blockchange3(Player p, ushort x, ushort y, ushort z, ushort type)
         {
 
             p.ClearBlockchange();
-            ushort? b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
 
             p.copyoffset[0] = (p.copystart[0] - x);
@@ -208,7 +208,7 @@ namespace MCForge.Commands
                     return;
                 }
                 message = message.Remove(message.Length - 1);
-                ushort?[] cnt = new ushort?[p.CopyBuffer.Count * 7];
+                ushort[] cnt = new ushort[p.CopyBuffer.Count * 7];
                 int k = 0;
                 for (int i = 0; i < p.CopyBuffer.Count; i++)
                 {
@@ -255,7 +255,7 @@ namespace MCForge.Commands
                 if (Directory.GetFiles("extra/savecopy/" + p.name).Length > 14) { Player.SendMessage(p, "You can only save 15 copy's. /copy delete some."); return; }
                 using (FileStream fs = new FileStream("extra/savecopy/" + p.name + "/" + message + ".cpy", FileMode.Create))
                 {
-                    ushort?[] cnt = new ushort?[p.CopyBuffer.Count * 7];
+                    ushort[] cnt = new ushort[p.CopyBuffer.Count * 7];
                     int k = 0;
                     for (int i = 0; i < p.CopyBuffer.Count; i++)
                     {
@@ -331,12 +331,12 @@ namespace MCForge.Commands
             Player.SendMessage(p, "Loaded copy as " + message);
         }
 
-        void BufferAdd(Player p, ushort x, ushort y, ushort z, ushort? type)
+        void BufferAdd(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             Player.CopyPos pos; pos.x = x; pos.y = y; pos.z = z; pos.type = type;
             p.CopyBuffer.Add(pos);
         }
-        struct CatchPos { public ushort x, y, z; public int type; public List<ushort?> ignoreTypes; }
+        struct CatchPos { public ushort x, y, z; public int type; public List<ushort> ignoreTypes; }
     }
 
     public class CmdCopyLoadNet : Command

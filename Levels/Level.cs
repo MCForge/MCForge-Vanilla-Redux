@@ -96,7 +96,7 @@ namespace MCForge
         public bool ai = true;
         public bool backedup;
         public List<BlockPos> blockCache = new List<BlockPos>();
-        public ushort?[] blocks;
+        public ushort[] blocks;
 
         public bool cancelsave1;
         public bool cancelunload;
@@ -147,7 +147,7 @@ namespace MCForge
                         {
                             switch (GetTile(x, y, z))
                             {
-                                case null:
+                                case Block.air:
                                 case Block.mushroom:
                                 case Block.glass:
                                 case Block.leaf:
@@ -232,7 +232,7 @@ namespace MCForge
             }
 
             name = n;
-            blocks = new ushort?[width * depth * height];
+            blocks = new ushort[width * depth * height];
             ZoneList = new List<Zone>();
 
             var half = (ushort)(depth / 2);
@@ -358,7 +358,7 @@ namespace MCForge
 
         public void CopyBlocks(byte[] source, int offset)
         {
-            blocks = new ushort?[width * depth * height];
+            blocks = new ushort[width * depth * height];
             Array.Copy(source, offset, blocks, 0, blocks.Length);
 
             for (int i = 0; i < blocks.Length; i++)
@@ -469,7 +469,7 @@ namespace MCForge
             tempCache.Clear();
         }
 
-        public ushort? GetTile(ushort x, ushort y, ushort z)
+        public ushort GetTile(ushort x, ushort y, ushort z)
         {
             if (blocks == null) return Block.Zero;
             //if (PosToInt(x, y, z) >= blocks.Length) { return null; }
@@ -477,25 +477,25 @@ namespace MCForge
             return !InBound(x, y, z) ? Block.Zero : blocks[PosToInt(x, y, z)];
         }
 
-        public ushort? GetTile(int b)
+        public ushort GetTile(int b)
         {
             ushort x = 0, y = 0, z = 0;
             IntToPos(b, out x, out y, out z);
             return GetTile(x, y, z);
         }
-        public void SetTile(int b, ushort? type)
+        public void SetTile(int b, ushort type)
         {
             if (blocks == null) return;
             if (b >= blocks.Length) return;
             if (b < 0) return;
-            blocks[b] = (ushort?)type;
+            blocks[b] = (ushort)type;
             //blockchanges[x + width * z + width * height * y] = pName;
         }
-        public void SetTile(ushort x, ushort y, ushort z, ushort? type)
+        public void SetTile(ushort x, ushort y, ushort z, ushort type)
         {
             if (blocks == null) return;
             if (!InBound(x, y, z)) return;
-            blocks[PosToInt(x, y, z)] = (ushort?)type;
+            blocks[PosToInt(x, y, z)] = (ushort)type;
             //blockchanges[x + width * z + width * height * y] = pName;
         }
 
@@ -526,7 +526,7 @@ namespace MCForge
         }
 
 
-        public void Blockchange(Player p, ushort x, ushort y, ushort z, ushort? type, bool addaction = true)
+        public void Blockchange(Player p, ushort x, ushort y, ushort z, ushort type, bool addaction = true)
         {
             string errorLocation = "start";
         retry:
@@ -535,7 +535,7 @@ namespace MCForge
                 if (x < 0 || y < 0 || z < 0) return;
                 if (x >= width || y >= depth || z >= height) return;
 
-                ushort? b = GetTile(x, y, z);
+                ushort b = GetTile(x, y, z);
 
                 errorLocation = "Block rank checking";
                 if (!Block.AllowBreak(b))
@@ -725,7 +725,7 @@ namespace MCForge
                 errorLocation = "Setting tile";
                 p.loginBlocks++;
                 p.overallBlocks++;
-                SetTile(x, y, z, (ushort?)type); //Updates server level blocks
+                SetTile(x, y, z, (ushort)type); //Updates server level blocks
 
                 errorLocation = "Growing grass";
                 if (GetTile(x, (ushort)(y - 1), z) == Block.grass && GrassDestroy && !Block.LightPass(type))
@@ -819,12 +819,12 @@ namespace MCForge
                 Server.s.Log("Failed to save level properties!");
             }
         }
-        public void Blockchange(int b, ushort? type, bool overRide = false, string extraInfo = "")
+        public void Blockchange(int b, ushort type, bool overRide = false, string extraInfo = "")
         //Block change made by physics
         {
             if (b < 0) return;
             if (b >= blocks.Length) return;
-            ushort? bb = GetTile(b);
+            ushort bb = GetTile(b);
 
             try
             {
@@ -879,12 +879,12 @@ namespace MCForge
                 SetTile(b, type);
             }
         }
-        public void Blockchange(ushort x, ushort y, ushort z, ushort? type, bool overRide = false, string extraInfo = "")
+        public void Blockchange(ushort x, ushort y, ushort z, ushort type, bool overRide = false, string extraInfo = "")
         //Block change made by physics
         {
             if (x < 0 || y < 0 || z < 0) return;
             if (x >= width || y >= depth || z >= height) return;
-            ushort? b = GetTile(x, y, z);
+            ushort b = GetTile(x, y, z);
 
             try
             {
@@ -948,7 +948,7 @@ namespace MCForge
             return !ListCheck.Exists(Check => Check.b == b);
         }
 
-        public void skipChange(ushort x, ushort y, ushort z, ushort? type)
+        public void skipChange(ushort x, ushort y, ushort z, ushort type)
         {
             if (x < 0 || y < 0 || z < 0) return;
             if (x >= width || y >= depth || z >= height) return;
@@ -1169,6 +1169,7 @@ namespace MCForge
         //givenName is safe against SQL injections, it gets checked in CmdLoad.cs
         public static Level Load(string givenName, byte phys, bool bite = false) 
         {
+			GC.Collect();
             if (LevelLoad != null)
                 LevelLoad(givenName);
             OnLevelLoadEvent.Call(givenName);
@@ -1179,7 +1180,7 @@ namespace MCForge
             }
             CreateLeveldb(givenName);
 
-            string path = string.Format("levels/{0}.mcf", bite ? "byte/" + givenName : givenName);
+            string path = string.Format("levels/{0}.{1}", bite ? "byte/" + givenName : givenName, bite ? "lvl" : "mcf"); //OMG RLLY? .MCF??
             if (File.Exists(path))
             {
                 FileStream fs = File.OpenRead(path);
@@ -1749,42 +1750,42 @@ namespace MCForge
                                                               storedInt = IntOffset(C.b, -1, 0, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, null, false,
+                                                                  AddUpdate(storedInt, Block.air, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 1, 0, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, null, false,
+                                                                  AddUpdate(storedInt, Block.air, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, 1, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, null, false,
+                                                                  AddUpdate(storedInt, Block.air, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, -1, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, null, false,
+                                                                  AddUpdate(storedInt, Block.air, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, 0, 1);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, null, false,
+                                                                  AddUpdate(storedInt, Block.air, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, 0, -1);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, null, false,
+                                                                  AddUpdate(storedInt, Block.air, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
@@ -2028,42 +2029,42 @@ namespace MCForge
                                                               storedInt = IntOffset(C.b, -1, 0, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, null, false,
+                                                                  AddUpdate(storedInt, Block.air, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 1, 0, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, null, false,
+                                                                  AddUpdate(storedInt, Block.air, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, 1, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, null, false,
+                                                                  AddUpdate(storedInt, Block.air, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, -1, 0);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, null, false,
+                                                                  AddUpdate(storedInt, Block.air, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, 0, 1);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, null, false,
+                                                                  AddUpdate(storedInt, Block.air, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
                                                               storedInt = IntOffset(C.b, 0, 0, -1);
                                                               if (Block.tDoor(blocks[storedInt]))
                                                               {
-                                                                  AddUpdate(storedInt, null, false,
+                                                                  AddUpdate(storedInt, Block.air, false,
                                                                             "wait 10 door 1 revert " +
                                                                             blocks[storedInt].ToString());
                                                               }
@@ -2105,12 +2106,12 @@ namespace MCForge
                                                                   {
                                                                       if (blocks[C.b] == Block.darkpink)
                                                                           AddUpdate(C.b, Block.red);
-                                                                      else AddUpdate(C.b, (ushort?)(blocks[C.b] + 1));
+                                                                      else AddUpdate(C.b, (ushort)(blocks[C.b] + 1));
                                                                   }
                                                               }
                                                               else
                                                               {
-                                                                  AddUpdate((int)C.b, (ushort?)rand.Next(21, 33));
+                                                                  AddUpdate((int)C.b, (ushort)rand.Next(21, 33));
                                                               }
                                                           }
                                                       else
@@ -2127,7 +2128,7 @@ namespace MCForge
                                                               {
                                                                   if (!ListUpdate.Exists(Update => Update.b == C.b))
                                                                   {
-                                                                      AddUpdate(C.b, null);
+                                                                      AddUpdate(C.b, Block.air);
                                                                       C.extraInfo = "";
                                                                       drop = false;
                                                                   }
@@ -2157,7 +2158,7 @@ namespace MCForge
                                                                                   PosToInt(x, (ushort)(y - 1), z),
                                                                                   blocks[C.b], false, C.extraInfo))
                                                                           {
-                                                                              AddUpdate(C.b, null);
+                                                                              AddUpdate(C.b, Block.air);
                                                                               C.extraInfo = "";
                                                                           }
                                                                       }
@@ -2169,7 +2170,7 @@ namespace MCForge
                                                       int newNum;
                                                       switch (blocks[C.b])
                                                       {
-                                                          case null: //Placed air
+                                                          case Block.air: //Placed air
                                                               //initialy checks if block is valid
                                                               PhysAir(PosToInt((ushort)(x + 1), y, z));
                                                               PhysAir(PosToInt((ushort)(x - 1), y, z));
@@ -2348,7 +2349,7 @@ namespace MCForge
                                                                       }
                                                                       else
                                                                       {
-                                                                          AddUpdate(C.b, null);
+                                                                          AddUpdate(C.b, Block.air);
                                                                           //was placed near sponge
                                                                           if (C.extraInfo.IndexOf("wait") == -1)
                                                                               C.time = 255;
@@ -2388,7 +2389,7 @@ namespace MCForge
                                                                       }
                                                                       else
                                                                       {
-                                                                          AddUpdate(C.b, null);
+                                                                          AddUpdate(C.b, Block.air);
                                                                           //was placed near sponge
                                                                       }
 
@@ -2408,7 +2409,7 @@ namespace MCForge
 
                                                               switch (GetTile(x, (ushort)(y - 1), z))
                                                               {
-                                                                  case null:
+                                                                  case Block.air:
                                                                       AddUpdate(PosToInt(x, (ushort)(y - 1), z),
                                                                                 Block.WaterDown);
                                                                       if (C.extraInfo.IndexOf("wait") == -1) C.time = 255;
@@ -2446,7 +2447,7 @@ namespace MCForge
 
                                                               switch (GetTile(x, (ushort)(y - 1), z))
                                                               {
-                                                                  case null:
+                                                                  case Block.air:
                                                                       AddUpdate(PosToInt(x, (ushort)(y - 1), z),
                                                                                 Block.LavaDown);
                                                                       if (C.extraInfo.IndexOf("wait") == -1) C.time = 255;
@@ -2489,7 +2490,7 @@ namespace MCForge
                                                               switch (GetTile(x, (ushort)(y - 1), z))
                                                               {
                                                                   case Block.WaterDown:
-                                                                  case null:
+                                                                  case Block.air:
                                                                       if (rand.Next(1, 10) > 7)
                                                                           AddUpdate(PosToInt(x, (ushort)(y - 1), z),
                                                                                     Block.air_flood_down);
@@ -2512,7 +2513,7 @@ namespace MCForge
                                                               switch (GetTile(x, (ushort)(y - 1), z))
                                                               {
                                                                   case Block.LavaDown:
-                                                                  case null:
+                                                                  case Block.air:
                                                                       if (rand.Next(1, 10) > 7)
                                                                           AddUpdate(PosToInt(x, (ushort)(y - 1), z),
                                                                                     Block.air_flood_down);
@@ -2603,7 +2604,7 @@ namespace MCForge
                                                                       }
                                                                       else
                                                                       {
-                                                                          AddUpdate(C.b, null);
+                                                                          AddUpdate(C.b, Block.air);
                                                                           //was placed near sponge
                                                                           if (C.extraInfo.IndexOf("wait") == -1)
                                                                               C.time = 255;
@@ -2637,7 +2638,7 @@ namespace MCForge
                                                                       }
                                                                       else
                                                                       {
-                                                                          AddUpdate(C.b, null);
+                                                                          AddUpdate(C.b, Block.air);
                                                                           //was placed near sponge
                                                                       }
 
@@ -2897,7 +2898,7 @@ namespace MCForge
                                                                       AddUpdate(C.b, Block.obsidian);
                                                                       C.extraInfo = "drop 63 dissipate 10";
                                                                   }
-                                                                  else if (storedRand <= 8) AddUpdate(C.b, null);
+                                                                  else if (storedRand <= 8) AddUpdate(C.b, Block.air);
                                                                   else C.time = 3;
                                                               }
 
@@ -2911,24 +2912,24 @@ namespace MCForge
                                                               break;
 
                                                           case Block.finiteFaucet:
-                                                              var bufferfinitefaucet = new List<ushort?>();
+                                                              var bufferfinitefaucet = new List<ushort>();
 
-                                                              for (ushort? i = 0; i < 6; ++i) bufferfinitefaucet.Add(i);
+                                                              for (ushort i = 0; i < 6; ++i) bufferfinitefaucet.Add(i);
 
                                                               for (int k = bufferfinitefaucet.Count - 1; k > 1; --k)
                                                               {
                                                                   int randIndx = rand.Next(k);
-                                                                  ushort? temp = bufferfinitefaucet[k];
+                                                                  ushort temp = bufferfinitefaucet[k];
                                                                   bufferfinitefaucet[k] = bufferfinitefaucet[randIndx];
                                                                   // move random num to end of list.
                                                                   bufferfinitefaucet[randIndx] = temp;
                                                               }
 
-                                                              foreach (ushort? i in bufferfinitefaucet)
+                                                              foreach (ushort i in bufferfinitefaucet)
                                                               {
                                                                   switch (i)
                                                                   {
-                                                                      case null:
+                                                                      case Block.air:
                                                                           if (GetTile((ushort)(x - 1), y, z) ==
                                                                               null)
                                                                           {
@@ -3143,7 +3144,7 @@ namespace MCForge
                                                                   }
                                                                   else
                                                                   {
-                                                                      AddUpdate(C.b, null);
+                                                                      AddUpdate(C.b, Block.air);
                                                                       //was placed near sponge
                                                                       C.time = 255;
                                                                   }
@@ -3174,7 +3175,7 @@ namespace MCForge
                                                                                blocks[C.b]);
                                                                   }
                                                                   else
-                                                                      AddUpdate(C.b, null);
+                                                                      AddUpdate(C.b, Block.air);
                                                                   //was placed near sponge
 
                                                                   C.time = 255;
@@ -3355,7 +3356,7 @@ namespace MCForge
                                                                           if (C.time < 7)
                                                                           {
                                                                               C.time += 1;
-                                                                              Blockchange(x, (ushort)(y + 1), z, GetTile(x, (ushort)(y + 1), z) == Block.lavastill ? (ushort?)null : Block.lavastill);
+                                                                              Blockchange(x, (ushort)(y + 1), z, GetTile(x, (ushort)(y + 1), z) == Block.lavastill ? (ushort)Block.air : Block.lavastill);
                                                                           }
                                                                           else ExplodeDistance = 2;
                                                                           break;
@@ -3367,7 +3368,7 @@ namespace MCForge
                                                                               Blockchange(x, (ushort)(y + 1), z,
                                                                                           GetTile(x, (ushort)(y + 1), z) ==
                                                                                           Block.lavastill
-                                                                                              ? (ushort?)null
+                                                                                              ? (ushort)Block.air
                                                                                               : Block.lavastill);
                                                                           }
                                                                           else ExplodeDistance = 2;
@@ -3380,7 +3381,7 @@ namespace MCForge
                                                                               Blockchange(x, (ushort)(y + 1), z,
                                                                                           GetTile(x, (ushort)(y + 1), z) ==
                                                                                           Block.lavastill
-                                                                                              ? (ushort?)null
+                                                                                              ? (ushort)Block.air
                                                                                               : Block.lavastill);
                                                                           }
                                                                           else
@@ -3396,7 +3397,7 @@ namespace MCForge
                                                                               Blockchange(x, (ushort)(y + 1), z,
                                                                                           GetTile(x, (ushort)(y + 1), z) ==
                                                                                           Block.lavastill
-                                                                                              ? (ushort?)null
+                                                                                              ? (ushort)Block.air
                                                                                               : Block.lavastill);
                                                                           }
                                                                           else
@@ -3426,7 +3427,7 @@ namespace MCForge
                                                               //Normal
                                                               else
                                                               {
-                                                                  if (physics < 3) Blockchange(x, y, z, null);
+                                                                  if (physics < 3) Blockchange(x, y, z, Block.air);
 
                                                                   if (physics >= 3)
                                                                   {
@@ -3438,7 +3439,7 @@ namespace MCForge
                                                                           Blockchange(x, (ushort)(y + 1), z,
                                                                                       GetTile(x, (ushort)(y + 1), z) ==
                                                                                       Block.lavastill
-                                                                                          ? (ushort?)null
+                                                                                          ? (ushort)Block.air
                                                                                           : Block.lavastill);
                                                                           break;
                                                                       }
@@ -3447,13 +3448,13 @@ namespace MCForge
                                                                   }
                                                                   else
                                                                   {
-                                                                      Blockchange(x, y, z, null);
+                                                                      Blockchange(x, y, z, Block.air);
                                                                   }
                                                               }
                                                               break;
 
                                                           case Block.bigtnt:
-                                                              if (physics < 3) Blockchange(x, y, z, null);
+                                                              if (physics < 3) Blockchange(x, y, z, Block.air);
 
                                                               if (physics >= 3)
                                                               {
@@ -3465,32 +3466,32 @@ namespace MCForge
                                                                       Blockchange(x, (ushort)(y + 1), z,
                                                                                   GetTile(x, (ushort)(y + 1), z) ==
                                                                                   Block.lavastill
-                                                                                      ? (ushort?)null
+                                                                                      ? (ushort)Block.air
                                                                                       : Block.lavastill);
                                                                       Blockchange(x, (ushort)(y - 1), z,
                                                                                   GetTile(x, (ushort)(y - 1), z) ==
                                                                                   Block.lavastill
-                                                                                      ? (ushort?)null
+                                                                                      ? (ushort)Block.air
                                                                                       : Block.lavastill);
                                                                       Blockchange((ushort)(x + 1), y, z,
                                                                                   GetTile((ushort)(x + 1), y, z) ==
                                                                                   Block.lavastill
-                                                                                      ? (ushort?)null
+                                                                                      ? (ushort)Block.air
                                                                                       : Block.lavastill);
                                                                       Blockchange((ushort)(x - 1), y, z,
                                                                                   GetTile((ushort)(x - 1), y, z) ==
                                                                                   Block.lavastill
-                                                                                      ? (ushort?)null
+                                                                                      ? (ushort)Block.air
                                                                                       : Block.lavastill);
                                                                       Blockchange(x, y, (ushort)(z + 1),
                                                                                   GetTile(x, y, (ushort)(z + 1)) ==
                                                                                   Block.lavastill
-                                                                                      ? (ushort?)null
+                                                                                      ? (ushort)Block.air
                                                                                       : Block.lavastill);
                                                                       Blockchange(x, y, (ushort)(z - 1),
                                                                                   GetTile(x, y, (ushort)(z - 1)) ==
                                                                                   Block.lavastill
-                                                                                      ? (ushort?)null
+                                                                                      ? (ushort)Block.air
                                                                                       : Block.lavastill);
 
                                                                       break;
@@ -3500,12 +3501,12 @@ namespace MCForge
                                                               }
                                                               else
                                                               {
-                                                                  Blockchange(x, y, z, null);
+                                                                  Blockchange(x, y, z, Block.air);
                                                               }
                                                               break;
 
                                                           case Block.nuketnt:
-                                                              if (physics < 3) Blockchange(x, y, z, null);
+                                                              if (physics < 3) Blockchange(x, y, z, Block.air);
 
                                                               if (physics >= 3)
                                                               {
@@ -3517,32 +3518,32 @@ namespace MCForge
                                                                       Blockchange(x, (ushort)(y + 2), z,
                                                                                   GetTile(x, (ushort)(y + 2), z) ==
                                                                                   Block.lavastill
-                                                                                      ? (ushort?)null
+                                                                                      ? (ushort)Block.air
                                                                                       : Block.lavastill);
                                                                       Blockchange(x, (ushort)(y - 2), z,
                                                                                   GetTile(x, (ushort)(y - 2), z) ==
                                                                                   Block.lavastill
-                                                                                      ? (ushort?)null
+                                                                                      ? (ushort)Block.air
                                                                                       : Block.lavastill);
                                                                       Blockchange((ushort)(x + 1), y, z,
                                                                                   GetTile((ushort)(x + 1), y, z) ==
                                                                                   Block.lavastill
-                                                                                      ? (ushort?)null
+                                                                                      ? (ushort)Block.air
                                                                                       : Block.lavastill);
                                                                       Blockchange((ushort)(x - 1), y, z,
                                                                                   GetTile((ushort)(x - 1), y, z) ==
                                                                                   Block.lavastill
-                                                                                      ? (ushort?)null
+                                                                                      ? (ushort)Block.air
                                                                                       : Block.lavastill);
                                                                       Blockchange(x, y, (ushort)(z + 1),
                                                                                   GetTile(x, y, (ushort)(z + 1)) ==
                                                                                   Block.lavastill
-                                                                                      ? (ushort?)null
+                                                                                      ? (ushort)Block.air
                                                                                       : Block.lavastill);
                                                                       Blockchange(x, y, (ushort)(z - 1),
                                                                                   GetTile(x, y, (ushort)(z - 1)) ==
                                                                                   Block.lavastill
-                                                                                      ? (ushort?)null
+                                                                                      ? (ushort)Block.air
                                                                                       : Block.lavastill);
 
                                                                       break;
@@ -3552,12 +3553,12 @@ namespace MCForge
                                                               }
                                                               else
                                                               {
-                                                                  Blockchange(x, y, z, null);
+                                                                  Blockchange(x, y, z, Block.air);
                                                               }
                                                               break;
 
                                                           case Block.tntexplosion:
-                                                              if (rand.Next(1, 11) <= 7) AddUpdate(C.b, null);
+                                                              if (rand.Next(1, 11) <= 7) AddUpdate(C.b, Block.air);
                                                               break;
 
                                                           case Block.train:
@@ -3595,7 +3596,7 @@ namespace MCForge
                                                                                            (ushort)(y + cy),
                                                                                            (ushort)(z + cz)),
                                                                                   Block.train);
-                                                                              AddUpdate(PosToInt(x, y, z), null);
+                                                                              AddUpdate(PosToInt(x, y, z), Block.air);
                                                                               AddUpdate(IntOffset(C.b, 0, -1, 0),
                                                                                         Block.obsidian, true,
                                                                                         "wait 5 revert " +
@@ -3621,7 +3622,7 @@ namespace MCForge
                                                                                            (ushort)(y + cy),
                                                                                            (ushort)(z + cz)),
                                                                                   Block.train);
-                                                                              AddUpdate(PosToInt(x, y, z), null);
+                                                                              AddUpdate(PosToInt(x, y, z), Block.air);
                                                                               AddUpdate(IntOffset(C.b, 0, -1, 0),
                                                                                         Block.glass, true,
                                                                                         "wait 5 revert " +
@@ -3795,7 +3796,7 @@ namespace MCForge
                                                                   case 5:
                                                                       switch (GetTile((ushort)(x - 1), y, z))
                                                                       {
-                                                                          case null:
+                                                                          case Block.air:
                                                                               AddUpdate(PosToInt((ushort)(x - 1), y, z),
                                                                                         blocks[C.b]);
                                                                               break;
@@ -3812,7 +3813,7 @@ namespace MCForge
                                                                   case 8:
                                                                       switch (GetTile((ushort)(x + 1), y, z))
                                                                       {
-                                                                          case null:
+                                                                          case Block.air:
                                                                               AddUpdate(PosToInt((ushort)(x + 1), y, z),
                                                                                         blocks[C.b]);
                                                                               break;
@@ -3829,7 +3830,7 @@ namespace MCForge
                                                                   case 11:
                                                                       switch (GetTile(x, y, (ushort)(z - 1)))
                                                                       {
-                                                                          case null:
+                                                                          case Block.air:
                                                                               AddUpdate(PosToInt(x, y, (ushort)(z - 1)),
                                                                                         blocks[C.b]);
                                                                               break;
@@ -3844,7 +3845,7 @@ namespace MCForge
                                                                   default:
                                                                       switch (GetTile(x, y, (ushort)(z + 1)))
                                                                       {
-                                                                          case null:
+                                                                          case Block.air:
                                                                               AddUpdate(PosToInt(x, y, (ushort)(z + 1)),
                                                                                         blocks[C.b]);
                                                                               break;
@@ -3857,7 +3858,7 @@ namespace MCForge
                                                                       }
                                                                       break;
                                                               }
-                                                              AddUpdate(C.b, null);
+                                                              AddUpdate(C.b, Block.air);
                                                               C.time = 255;
 
                                                               break;
@@ -4029,7 +4030,7 @@ namespace MCForge
                                                                           {
                                                                               AddUpdate(IntOffset(oldNum, 0, 0, 0),
                                                                                         Block.snaketail, true,
-                                                                                        string.Format("wait 5 revert {0}", null));
+                                                                                        string.Format("wait 5 revert {0}", Block.air));
                                                                               goto removeSelf_Snake;
                                                                           }
 
@@ -4150,7 +4151,7 @@ namespace MCForge
 
                                                           removeSelf_Snake:
                                                               if (!InnerChange)
-                                                                  AddUpdate(C.b, null);
+                                                                  AddUpdate(C.b, Block.air);
                                                               break;
 
                                                               #endregion
@@ -4331,7 +4332,7 @@ namespace MCForge
 
                                                           removeSelf:
                                                               if (!InnerChange)
-                                                                  AddUpdate(C.b, null);
+                                                                  AddUpdate(C.b, Block.air);
                                                               break;
 
                                                               #endregion
@@ -4861,7 +4862,7 @@ namespace MCForge
                                                                               AddUpdate(PosToInt(x, y, z),
                                                                                         Block.lavastill, false,
                                                                                         "wait 1 dissipate 100");
-                                                                              // AddUpdate(PosToInt(x, (ushort)(y - 1), z), null);
+                                                                              // AddUpdate(PosToInt(x, (ushort)(y - 1), z), Block.air);
                                                                               C.extraInfo = "wait 1 dissipate 100";
                                                                               break;
                                                                           }
@@ -4886,7 +4887,7 @@ namespace MCForge
                                                               {
                                                                   AddUpdate(C.b, Block.zombiehead);
                                                                   AddUpdate(IntOffset(C.b, 0, -1, 0), blocks[C.b]);
-                                                                  AddUpdate(IntOffset(C.b, 0, 1, 0), null);
+                                                                  AddUpdate(IntOffset(C.b, 0, 1, 0), Block.air);
                                                                   break;
                                                               }
 
@@ -5187,8 +5188,8 @@ namespace MCForge
                                                           removeSelf_zomb:
                                                               if (!InnerChange)
                                                               {
-                                                                  AddUpdate(C.b, null);
-                                                                  AddUpdate(IntOffset(C.b, 0, 1, 0), null);
+                                                                  AddUpdate(C.b, Block.air);
+                                                                  AddUpdate(IntOffset(C.b, 0, 1, 0), Block.air);
                                                               }
                                                               break;
 
@@ -5290,7 +5291,7 @@ namespace MCForge
             }
         }
 
-        private bool AddUpdate(int b, ushort? type, bool overRide = false, string extraInfo = "")
+        private bool AddUpdate(int b, ushort type, bool overRide = false, string extraInfo = "")
         {
             try
             {
@@ -5391,7 +5392,7 @@ namespace MCForge
         }
 
         //================================================================================================================
-        private void PhysWater(int b, ushort? type)
+        private void PhysWater(int b, ushort type)
         {
             if (b == -1)
             {
@@ -5406,7 +5407,7 @@ namespace MCForge
 
             switch (blocks[b])
             {
-                case null:
+                case Block.air:
                     if (!PhysSpongeCheck(b))
                     {
                         AddUpdate(b, type);
@@ -5466,7 +5467,7 @@ namespace MCForge
 
             switch (blocks[b])
             {
-                case null:
+				case Block.air:
                     if (!PhysSpongeCheck(b))
                     {
                         return true;
@@ -5508,7 +5509,7 @@ namespace MCForge
         }
 
         //================================================================================================================
-        private void PhysLava(int b, ushort? type)
+        private void PhysLava(int b, ushort type)
         {
             if (b == -1)
             {
@@ -5528,7 +5529,7 @@ namespace MCForge
             } // Adv physics destroys cloth
             switch (blocks[b])
             {
-                case null:
+                case Block.air:
                     if (!PhysSpongeCheck(b, true)) AddUpdate(b, type);
                     break;
 
@@ -5592,7 +5593,7 @@ namespace MCForge
             } // Adv physics destroys cloth
             switch (blocks[b])
             {
-                case null:
+                case Block.air:
                     return true;
 
                 case 8: //hit active_water
@@ -5671,7 +5672,7 @@ namespace MCForge
         }
 
         //================================================================================================================
-        private bool PhysSand(int b, ushort? type) //also does gravel
+        private bool PhysSand(int b, ushort type) //also does gravel
         {
             if (b == -1 || physics == 0) return false;
             if (physics == 5) return false;
@@ -5687,7 +5688,7 @@ namespace MCForge
                 {
                     switch (blocks[tempb])
                     {
-                        case null: //air lava water
+                        case Block.air: //air lava water
                         case 8:
                         case 10:
                             moved = true;
@@ -5877,7 +5878,7 @@ namespace MCForge
         }
 
         //================================================================================================================
-        private void PhysAirFlood(int b, ushort? type)
+        private void PhysAirFlood(int b, ushort type)
         {
             if (b == -1)
             {
@@ -5890,17 +5891,17 @@ namespace MCForge
         private void PhysFall(ushort newBlock, ushort x, ushort y, ushort z, bool random)
         {
             var randNum = new Random();
-            ushort? b;
+            ushort b;
             if (!random)
             {
                 b = GetTile((ushort)(x + 1), y, z);
-                if (b == null|| b == Block.waterstill) Blockchange((ushort)(x + 1), y, z, newBlock);
+                if (b == Block.air|| b == Block.waterstill) Blockchange((ushort)(x + 1), y, z, newBlock);
                 b = GetTile((ushort)(x - 1), y, z);
-                if (b == null|| b == Block.waterstill) Blockchange((ushort)(x - 1), y, z, newBlock);
+                if (b == Block.air|| b == Block.waterstill) Blockchange((ushort)(x - 1), y, z, newBlock);
                 b = GetTile(x, y, (ushort)(z + 1));
-                if (b == null|| b == Block.waterstill) Blockchange(x, y, (ushort)(z + 1), newBlock);
+                if (b == Block.air|| b == Block.waterstill) Blockchange(x, y, (ushort)(z + 1), newBlock);
                 b = GetTile(x, y, (ushort)(z - 1));
-                if (b == null|| b == Block.waterstill) Blockchange(x, y, (ushort)(z - 1), newBlock);
+                if (b == Block.air|| b == Block.waterstill) Blockchange(x, y, (ushort)(z - 1), newBlock);
             }
             else
             {
@@ -5931,7 +5932,7 @@ namespace MCForge
         //================================================================================================================
         private bool PhysLeaf(int b)
         {
-            ushort? type, dist = 4;
+            ushort type, dist = 4;
             int? i, xx, yy, zz;
             ushort x, y, z;
             IntToPos(b, out x, out y, out z);
@@ -6051,7 +6052,7 @@ namespace MCForge
         {
             if (C.time == 0)
             {
-                ushort? foundBlock;
+                ushort foundBlock;
 
                 foundBlock = Block.odoor(GetTile(IntOffset(C.b, -1, 0, 0)));
                 if (foundBlock == blocks[C.b])
@@ -6148,12 +6149,12 @@ namespace MCForge
                             {
                                 for (int zz = -1; zz <= 1; zz++)
                                 {
-                                    ushort? b = GetTile(IntOffset(C.b, xx, yy, zz));
+                                    ushort b = GetTile(IntOffset(C.b, xx, yy, zz));
                                     if (b == Block.rocketstart)
                                     {
                                         if (physics == 5)
                                         {
-                                            Blockchange(x, y, z, null);
+                                            Blockchange(x, y, z, Block.air);
                                             return;
                                         }
                                         int b1 = IntOffset(C.b, xx * 3, yy * 3, zz * 3);
@@ -6171,7 +6172,7 @@ namespace MCForge
                                     {
                                         if (physics == 5)
                                         {
-                                            Blockchange(x, y, z, null);
+                                            Blockchange(x, y, z, Block.air);
                                             return;
                                         }
                                         int b1 = IntOffset(C.b, xx, yy + 1, zz);
@@ -6189,7 +6190,7 @@ namespace MCForge
                                     {
                                         if (physics == 5)
                                         {
-                                            Blockchange(x, y, z, null);
+                                            Blockchange(x, y, z, Block.air);
                                             return;
                                         }
                                         MakeExplosion((ushort)(x + xx), (ushort)(y + yy), (ushort)(z + zz), 0);
@@ -6214,7 +6215,7 @@ namespace MCForge
         public void PhysDoor(ushort x, ushort y, ushort z, bool instaUpdate)
         {
             int foundInt = PosToInt(x, y, z);
-            ushort? FoundAir = Block.DoorAirs(blocks[foundInt]);
+            ushort FoundAir = Block.DoorAirs(blocks[foundInt]);
 
             if (FoundAir != 0)
             {
@@ -6225,7 +6226,7 @@ namespace MCForge
 
             if (Block.tDoor(blocks[foundInt]))
             {
-                AddUpdate(foundInt, null, false, "wait 16 door 1 revert " + blocks[foundInt].ToString());
+                AddUpdate(foundInt, Block.air, false, "wait 16 door 1 revert " + blocks[foundInt].ToString());
             }
 
             if (Block.odoor(blocks[foundInt]) != Block.Zero) AddUpdate(foundInt, Block.odoor(blocks[foundInt]), true);
@@ -6236,7 +6237,7 @@ namespace MCForge
             //DateTime start = DateTime.Now;
             int xx, yy, zz;
             var rand = new Random();
-            ushort? b;
+            ushort b;
 
             if (physics < 2 && force == false) return;
             if (physics == 5 && force == false) return;
@@ -6264,7 +6265,7 @@ namespace MCForge
                                 if (rand.Next(1, 11) <= 4)
                                     AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.tntexplosion);
                                 else if (rand.Next(1, 11) <= 8)
-                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), null);
+                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.air);
                                 else
                                     AddCheck(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), "drop 50 dissipate 8");
                             }
@@ -6295,7 +6296,7 @@ namespace MCForge
                                 if (rand.Next(1, 11) <= 4)
                                     AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.tntexplosion);
                                 else if (rand.Next(1, 11) <= 8)
-                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), null);
+                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.air);
                                 else
                                     AddCheck(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), "drop 50 dissipate 8");
                             }
@@ -6327,7 +6328,7 @@ namespace MCForge
                                 if (rand.Next(1, 11) <= 4)
                                     AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.tntexplosion);
                                 else if (rand.Next(1, 11) <= 8)
-                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), null);
+                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.air);
                                 else
                                     AddCheck(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), "drop 50 dissipate 8");
                             }
@@ -6354,7 +6355,7 @@ namespace MCForge
             storedRand1 = rand.Next(21, 36);
             storedRand2 = rand.Next(21, 36);
             // Not using override, since override = true makes it more likely that a colored block will be generated with no extraInfo, because it sets a Check for that position with no extraInfo.
-            AddUpdate(PosToInt(x, y, z), null);
+            AddUpdate(PosToInt(x, y, z), Block.air);
 
             for (xx = (ushort)(x - (size + 1)); xx <= (ushort)(x + (size + 1)); ++xx)
                 for (yy = (ushort)(y - (size + 1)); yy <= (ushort)(y + (size + 1)); ++yy)
@@ -6377,13 +6378,13 @@ namespace MCForge
             if (GetTile(x, (ushort)(y - 1), z) == null)
             {
                 AddUpdate(PosToInt(x, (ushort)(y - 1), z), blocks[C.b], false, C.extraInfo);
-                AddUpdate(C.b, null);
+                AddUpdate(C.b, Block.air);
                 C.extraInfo = "";
             }
             else if (GetTile(x, (ushort)(y - 1), z) == Block.waterstill ||
                      GetTile(x, (ushort)(y - 1), z) == Block.lavastill)
             {
-                AddUpdate(C.b, null);
+                AddUpdate(C.b, Block.air);
                 C.extraInfo = "";
             }
             else
@@ -6425,7 +6426,7 @@ namespace MCForge
                         {
                             if (AddUpdate(PosToInt(pos.x, y, pos.z), blocks[C.b], false, C.extraInfo))
                             {
-                                AddUpdate(C.b, null);
+                                AddUpdate(C.b, Block.air);
                                 C.extraInfo = "";
                                 break;
                             }
@@ -6449,7 +6450,7 @@ namespace MCForge
             public DateTime TimePerformed;
             public bool deleted;
             public string name;
-            public ushort? type;
+            public ushort type;
             public ushort x, y, z;
         }
 
@@ -6460,8 +6461,8 @@ namespace MCForge
         public struct UndoPos
         {
             public int location;
-            public ushort? newType;
-            public ushort? oldType;
+            public ushort newType;
+            public ushort oldType;
             public DateTime timePerformed;
         }
 
@@ -6566,9 +6567,9 @@ public class Update
 {
     public int b;
     public string extraInfo = "";
-    public ushort? type;
+    public ushort type;
 
-    public Update(int b, ushort? type, string extraInfo = "")
+    public Update(int b, ushort type, string extraInfo = "")
     {
         this.b = b;
         this.type = type;

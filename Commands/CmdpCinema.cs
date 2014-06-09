@@ -200,11 +200,11 @@ namespace MCForge.Commands
 
         }
 
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
             //com(p, "get the type of the changed block");
-            ushort? b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             //com(p, "undo the change2");
             p.SendBlockchange(x, y, z, b);
             //now we have to load the stuff from the temp string

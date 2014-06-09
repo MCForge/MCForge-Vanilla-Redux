@@ -70,7 +70,7 @@ namespace MCForge.Commands
                 oldType.Add(Block.Ushort(name));
             ushort newType = Block.Ushort(args[1]);
 
-            foreach (ushort? type in oldType)
+            foreach (ushort type in oldType)
                 if (!Block.canPlace(p, type) && !Block.BuildIn(type)) { p.SendMessage("Cannot replace that."); wait = 1; return; }
             if (!Block.canPlace(p, newType)) { Player.SendMessage(p, "Cannot place that."); wait = 1; return; }
             

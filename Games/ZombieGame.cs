@@ -502,8 +502,8 @@ namespace MCForge
                 Player.GlobalSpawn(alive[firstinfect], alive[firstinfect].pos[0], alive[firstinfect].pos[1], alive[firstinfect].pos[2], alive[firstinfect].rot[0], alive[firstinfect].rot[1], false);
                 infectd.Add(alive[firstinfect]);
                 alive.Remove(alive[firstinfect]);
-            }
             return;
+            }
             if ((Server.gameStatus != 0 && Server.zombieRound) && alive.Count == 0)
             {
                 HandOutRewards();

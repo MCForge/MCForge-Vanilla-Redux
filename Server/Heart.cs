@@ -55,7 +55,7 @@ namespace MCForge {
         {
             new Thread(new ThreadStart(() =>
             {
-                Timer = new Timer(OnBeat, null,
+                Timer = new Timer(OnBeat, Block.air,
 #if DEBUG
                 6000, 6000
 #else

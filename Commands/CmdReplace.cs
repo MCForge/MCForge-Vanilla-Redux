@@ -75,7 +75,7 @@ namespace MCForge.Commands
                 return;
             }
 
-            cpos.oldType = new List<ushort?>();
+            cpos.oldType = new List<ushort>();
             foreach (string name in oldType)
                 cpos.oldType.Add(Block.Ushort(name));
             cpos.newType = Block.Ushort(args[1]);
@@ -94,19 +94,19 @@ namespace MCForge.Commands
             p.SendMessage("/replace [block,block2,...] [new] - replace block with new inside a selected cuboid");
             p.SendMessage("If more than one block is specified, they will all be replaced.");
         }
-        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort? type)
+        public void Blockchange1(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            ushort? b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos bp = (CatchPos)p.blockchangeObject;
             bp.x = x; bp.y = y; bp.z = z; p.blockchangeObject = bp;
             p.Blockchange += new Player.BlockchangeEventHandler(Blockchange2);
         }
-        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort? type)
+        public void Blockchange2(Player p, ushort x, ushort y, ushort z, ushort type)
         {
             p.ClearBlockchange();
-            ushort? b = p.level.GetTile(x, y, z);
+            ushort b = p.level.GetTile(x, y, z);
             p.SendBlockchange(x, y, z, b);
             CatchPos cpos = (CatchPos)p.blockchangeObject;
             List<Pos> buffer = new List<Pos>();
@@ -156,8 +156,8 @@ namespace MCForge.Commands
 
         struct CatchPos
         {
-            public List<ushort?> oldType;
-            public ushort? newType;
+            public List<ushort> oldType;
+            public ushort newType;
             public ushort x, y, z;
         }
 

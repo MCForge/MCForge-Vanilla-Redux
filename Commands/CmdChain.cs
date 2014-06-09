@@ -76,7 +76,7 @@ namespace MCForge.Commands
                         p.level.Blockchange(p, num13, y, z, 0x27);
                         if (p.level.GetTile(num14, y, z) != 0)
                         {
-                            ushort? type = p.level.GetTile(num14, y, z);
+                            ushort type = p.level.GetTile(num14, y, z);
                             for (int j = 0; j <= num9; j++)
                             {
                                 if (p.level.GetTile(x, y, z) == type)
@@ -112,7 +112,7 @@ namespace MCForge.Commands
                         p.level.Blockchange(p, num20, y, z, 0x27);
                         if (p.level.GetTile(num21, y, z) != 0)
                         {
-                            ushort? num22 = p.level.GetTile(num21, y, z);
+                            ushort num22 = p.level.GetTile(num21, y, z);
                             for (int m = 0; m <= num9; m++)
                             {
                                 if (p.level.GetTile(x, y, z) != num22)
@@ -147,7 +147,7 @@ namespace MCForge.Commands
                         p.level.Blockchange(p, x, y, num27, 0x27);
                         if (p.level.GetTile(x, y, num28) != 0)
                         {
-                            ushort? num29 = p.level.GetTile(x, y, num28);
+                            ushort num29 = p.level.GetTile(x, y, num28);
                             for (int num30 = 0; num30 <= num9; num30++)
                             {
                                 if (p.level.GetTile(x, y, z) == num29)
@@ -183,7 +183,7 @@ namespace MCForge.Commands
                         p.level.Blockchange(p, x, y, num34, 0x27);
                         if (p.level.GetTile(x, y, num35) != 0)
                         {
-                            ushort? num36 = p.level.GetTile(x, y, num35);
+                            ushort num36 = p.level.GetTile(x, y, num35);
                             for (int num37 = 0; num37 <= num9; num37++)
                             {
                                 if (p.level.GetTile(x, y, z) != num36)

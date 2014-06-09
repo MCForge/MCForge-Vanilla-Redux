@@ -26,7 +26,7 @@ namespace MCForge
 
 		public const int maxblocks = 255;
 
-	//	public const ushort air = (ushort)0;
+		public const ushort air = (ushort)0;
         public const ushort rock = (ushort)1;
         public const ushort grass = (ushort)2;
         public const ushort dirt = (ushort)3;
@@ -307,7 +307,7 @@ namespace MCForge
         public static List<Blocks> BlockList = new List<Blocks>();
         public class Blocks
         {
-            public ushort? type;
+            public ushort type;
             public LevelPermission lowestRank;
             public List<LevelPermission> disallow = new List<LevelPermission>();
             public List<LevelPermission> allow = new List<LevelPermission>();
@@ -670,14 +670,14 @@ namespace MCForge
             catch (Exception e) { Server.ErrorLog(e); }
         }
 
-        public static bool canPlace(Player p, ushort? b) { return canPlace(p.group.Permission, b); }
-        public static bool canPlace(LevelPermission givenPerm, ushort? givenBlock)
+        public static bool canPlace(Player p, ushort b) { return canPlace(p.group.Permission, b); }
+        public static bool canPlace(LevelPermission givenPerm, ushort givenBlock)
         {
             foreach (Blocks b in BlockList)
             {
                 if (givenBlock == b.type)
                 {
-                    if ((b.lowestRank <= givenPerm && !b.disallow.Contains(givenPerm)) || b.allow.Contains(givenPerm) || b == null) return true;
+                    if ((b.lowestRank <= givenPerm && !b.disallow.Contains(givenPerm)) || b.allow.Contains(givenPerm)) return true;
                     return false;
                 }
             }
@@ -685,11 +685,10 @@ namespace MCForge
             return false;
         }
 
-        public static bool Walkthrough(ushort? type)
+        public static bool Walkthrough(ushort type)
         {
             switch (type)
             {
-                case null:
                 case water:
                 case waterstill:
                 case lava:
@@ -704,11 +703,10 @@ namespace MCForge
             return false;
         }
 
-        public static bool AnyBuild(ushort? type)
+        public static bool AnyBuild(ushort type)
         {
             switch (type)
             {
-                case null:
                 case Block.rock:
                 case Block.grass:
                 case Block.dirt:
@@ -758,7 +756,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool AllowBreak(ushort? type)
+        public static bool AllowBreak(ushort type)
         {
             switch (type)
             {
@@ -811,14 +809,13 @@ namespace MCForge
                 case zombiebody:
                 case creeper:
                 case zombiehead:
-				case null:
 				case 0:
                     return true;
             }
             return false;
         }
 
-        public static bool Placable(ushort? type)
+        public static bool Placable(ushort type)
         {
             switch (type)
             {
@@ -836,9 +833,9 @@ namespace MCForge
             return true;
         }
 
-        public static bool RightClick(ushort? type, bool countAir = false)
+        public static bool RightClick(ushort type, bool countAir = false)
         {
-            if (countAir && type == null) return true;
+            if (countAir && type == Block.air) return true;
 
             switch (type)
             {
@@ -851,7 +848,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool OPBlocks(ushort? type)
+        public static bool OPBlocks(ushort type)
         {
             switch (type)
             {
@@ -872,7 +869,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool Death(ushort? type)
+        public static bool Death(ushort type)
         {
             switch (type)
             {
@@ -907,13 +904,12 @@ namespace MCForge
             return false;
         }
 
-        public static bool BuildIn(ushort? type)
+        public static bool BuildIn(ushort type)
         {
             if (type == op_water || type == op_lava || Block.portal(type) || Block.mb(type)) return false;
 
             switch (Block.Convert(type))
             {
-                case null:
 				case 0:
                 case water:
                 case lava:
@@ -924,7 +920,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool Mover(ushort? type)
+        public static bool Mover(ushort type)
         {
             switch (type)
             {
@@ -946,7 +942,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool LavaKill(ushort? type)
+        public static bool LavaKill(ushort type)
         {
             switch (type)
             {
@@ -980,11 +976,10 @@ namespace MCForge
             }
             return false;
         }
-        public static bool WaterKill(ushort? type)
+        public static bool WaterKill(ushort type)
         {
             switch (type)
             {
-                case null:
                 case Block.shrub:
                 case Block.leaf:
                 case Block.yellowflower:
@@ -996,11 +991,10 @@ namespace MCForge
             return false;
         }
 
-        public static bool LightPass(ushort? type)
+        public static bool LightPass(ushort type)
         {
             switch (Convert(type))
             {
-                case null:
                 case Block.glass:
                 case Block.leaf:
                 case Block.redflower:
@@ -1015,7 +1009,7 @@ namespace MCForge
             }
         }
 
-        public static bool NeedRestart(ushort? type)
+        public static bool NeedRestart(ushort type)
         {
             switch (type)
             {
@@ -1053,7 +1047,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool portal(ushort? type)
+        public static bool portal(ushort type)
         {
             switch (type)
             {
@@ -1066,7 +1060,7 @@ namespace MCForge
             }
             return false;
         }
-        public static bool mb(ushort? type)
+        public static bool mb(ushort type)
         {
             switch (type)
             {
@@ -1080,7 +1074,7 @@ namespace MCForge
             return false;
         }
 
-        public static bool Physics(ushort? type)   //returns false if placing block cant actualy cause any physics to happen
+        public static bool Physics(ushort type)   //returns false if placing block cant actualy cause any physics to happen
         {
             switch (type)
             {
@@ -1185,11 +1179,10 @@ namespace MCForge
             }
         }
 
-        public static string Name(ushort? type)
+        public static string Name(ushort type)
         {
             switch (type)
             {
-                case null: return "air";
                 case 1: return "stone";
                 case 2: return "grass";
                 case 3: return "dirt";
@@ -1758,11 +1751,10 @@ namespace MCForge
             }
         }
 
-        public static ushort? Convert(ushort? b)
+        public static ushort Convert(ushort b)
         {
             switch (b)
             {
-                case null: return 0;
                 case flagbase: return mushroom; //CTF Flagbase
                 case 100: return (ushort)20; //Op_glass
                 case 101: return (ushort)49; //Opsidian
@@ -1824,7 +1816,7 @@ namespace MCForge
                 case tdoor8: return green;
                 case tdoor9: return tnt;//tdoor show by TNT
                 case tdoor10: return staircasestep;//tdoor show by Stair
-                case tdoor11: return null;
+                case tdoor11: return air;
                 case tdoor12: return waterstill;
                 case tdoor13: return lavastill;
 
@@ -1860,8 +1852,8 @@ namespace MCForge
                 case 161: return waterstill;//water portal
                 case 162: return lavastill;//lava portal
 
-                case air_door: return null;
-                case air_switch: return null;//air door
+                case air_door: return air;
+                case air_switch: return air;//air door
                 case water_door: return waterstill;//water door
                 case lava_door: return lavastill;
 
@@ -1929,7 +1921,7 @@ namespace MCForge
                 case odoor10_air:
                 case odoor11_air:
                 case odoor12_air:
-                    return null;
+                    return air;
                 case odoor8_air: return red;
                 case odoor9_air: return lavastill;
 
@@ -1958,11 +1950,11 @@ namespace MCForge
                 case fishlavashark: return obsidian;
 
                 default:
-                    if (b < 66 || b == null) return b; else return 22;
+                    if (b < 66 || b == Block.air) return b; else return 22;
             }
         }
 
-        public static ushort? ConvertCPE(ushort? b)
+        public static ushort ConvertCPE(ushort b)
         {
             switch (b)
             {
@@ -1987,7 +1979,7 @@ namespace MCForge
             }
         }
 
-        public static ushort? SaveConvert(ushort? b)
+        public static ushort SaveConvert(ushort b)
         {
             switch (b)
             {
@@ -2039,7 +2031,7 @@ namespace MCForge
                 default: return b;
             }
         }
-        public static ushort? DoorAirs(ushort? b)
+        public static ushort DoorAirs(ushort b)
         {
             switch (b)
             {
@@ -2069,7 +2061,7 @@ namespace MCForge
             }
         }
 
-        public static bool tDoor(ushort? b)
+        public static bool tDoor(ushort b)
         {
             switch (b)
             {
@@ -2091,7 +2083,7 @@ namespace MCForge
             return false;
         }
 
-        public static ushort? odoor(ushort? b)
+        public static ushort odoor(ushort b)
         {
             switch (b)
             {

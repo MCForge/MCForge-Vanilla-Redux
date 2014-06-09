@@ -33,7 +33,7 @@ namespace MCForge.Commands
 
         public override void Use(Player p, string message)
         {
-            ushort? b; long seconds = -2; Player who = null; Player.UndoPos Pos; int CurrentPos = 0; bool undoPhysics = false; string whoName = String.Empty;
+            ushort b; long seconds = -2; Player who = null; Player.UndoPos Pos; int CurrentPos = 0; bool undoPhysics = false; string whoName = String.Empty;
             if (p != null)
                 p.RedoBuffer.Clear();
 

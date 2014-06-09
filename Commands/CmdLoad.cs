@@ -46,10 +46,6 @@ namespace MCForge.Commands
                 {
                     message = message.ToLower();
                 }
-                if (File.Exists("levels/byte/" + message + ".mcf"))
-                {
-                    Command.all.Find("lb").Use(p, message); return;
-                }
 
                 while (Server.levels == null) Thread.Sleep(100); // Do nothing while we wait on the levels list...
 

@@ -245,7 +245,7 @@ namespace MCForge.Gui.Utils {
                 return false;
             }
             else {
-                bool result = (bool)pi.GetValue(null, null);
+				bool result = (bool)pi.GetValue(null, null);
                 return result;
             }
         }

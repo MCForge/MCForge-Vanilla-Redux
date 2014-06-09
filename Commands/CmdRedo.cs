@@ -30,7 +30,7 @@ namespace MCForge.Commands
         public override void Use(Player p, string message)
         {
             if (message != "") { Help(p); return; }
-            ushort? b;
+            ushort b;
 
             p.RedoBuffer.ForEach(delegate(Player.UndoPos Pos)
             {

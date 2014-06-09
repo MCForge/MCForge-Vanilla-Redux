@@ -793,9 +793,9 @@ namespace MCForge
 
                                 if (!key.Equals(mainLevel.name))
                                 {
-                                    Command.all.Find("load").Use(null, key + " " + value);
+									Command.all.Find("load").Use(null, key + " " + value);
+								}
                                   //  Level l = Level.FindExact(key);
-                                }
                                 else
                                 {
                                     try
@@ -1051,7 +1051,7 @@ namespace MCForge
                 listen = new Socket(endpoint.Address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 listen.Bind(endpoint);
                 listen.Listen((int)SocketOptionName.MaxConnections);
-                listen.BeginAccept(Accept, null);
+                listen.BeginAccept(Accept, Block.air);
             }
             catch (SocketException e) { ErrorLog(e); s.Log("Error Creating listener, socket shutting down"); }
             catch (Exception e) { ErrorLog(e); s.Log("Error Creating listener, socket shutting down"); }
@@ -1067,7 +1067,7 @@ namespace MCForge
             {
                 p = new Player(listen.EndAccept(result));
                 //new Thread(p.Start).Start();
-                listen.BeginAccept(Accept, null);
+                listen.BeginAccept(Accept, Block.air);
                 begin = true;
             }
             catch (SocketException)
@@ -1075,7 +1075,7 @@ namespace MCForge
                 if (p != null)
                     p.Disconnect();
                 if (!begin)
-                    listen.BeginAccept(Accept, null);
+                    listen.BeginAccept(Accept, Block.air);
             }
             catch (Exception e)
             {
@@ -1083,7 +1083,7 @@ namespace MCForge
                 if (p != null)
                     p.Disconnect();
                 if (!begin)
-                    listen.BeginAccept(Accept, null);
+                    listen.BeginAccept(Accept, Block.air);
             }
 
         }

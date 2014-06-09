@@ -167,7 +167,7 @@ namespace MCForge
                 //            convertedBlocks[Level.PosToInt(x, y, z)] = Block.Convert(Level.GetTile(x, y, z));
                 ushort[] tmpb = new ushort[Level.blocks.Length];
                 for (int i = 0; i < Level.blocks.Length; ++i)
-                    tmpb[i] = (ushort)(Level.blocks[i] == null ? 0 : Level.blocks[i]);
+                    tmpb[i] = (ushort)(Level.blocks[i] == Block.air ? (ushort)0 : Level.blocks[i]);
 
                     fixed (ushort* bpx = tmpb)
                     {

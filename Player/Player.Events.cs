@@ -86,7 +86,7 @@ namespace MCForge
         /// <param name="y">The y cord. of the block</param>
         /// <param name="z">The z cord. of the block</param>
         /// <param name="type">The block the player is holding</param>
-        public delegate void BlockchangeEventHandler2(Player p, ushort x, ushort y, ushort z, ushort? type);
+        public delegate void BlockchangeEventHandler2(Player p, ushort x, ushort y, ushort z, ushort type);
         /// <summary>
         /// BlockchangeEventHandler event is called when a player removes, or places a block
         /// </summary>
@@ -95,7 +95,7 @@ namespace MCForge
         /// <param name="y">The y cord. of the block</param>
         /// <param name="z">The z cord. of the block</param>
         /// <param name="type">The block the player is holding</param>
-        public delegate void BlockchangeEventHandler(Player p, ushort x, ushort y, ushort z, ushort? type);
+        public delegate void BlockchangeEventHandler(Player p, ushort x, ushort y, ushort z, ushort type);
         /// <summary>
         /// BlockChange event is called when a player removes or places a block
         /// </summary>
@@ -163,7 +163,7 @@ namespace MCForge
         /// </summary>
         /// <param name="p">The player that died</param>
         /// <param name="deathblock">The block that killed him (in byte)</param>
-        public delegate void OnPlayerDeath(Player p, ushort? deathblock);
+        public delegate void OnPlayerDeath(Player p, ushort deathblock);
         /// <summary>
         /// This method is called when a player moves on the server
         /// </summary>

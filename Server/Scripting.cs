@@ -213,7 +213,7 @@ namespace MCForge
         /// Loads a command for use on the server.
         /// </summary>
         /// <param name="command">Name of the command to be loaded (make sure it's prefixed by Cmd before bringing it in here or you'll have problems).</param>
-        /// <returns>Error string on failure, null on success.</returns>
+        /// <returns>Error string on failure, Block.air on success.</returns>
         public static string Load(string command)
         {
             if (command.Length < 3 || command.Substring(0, 3).ToLower() != "cmd")

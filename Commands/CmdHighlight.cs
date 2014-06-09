@@ -30,7 +30,7 @@ namespace MCForge.Commands
 
         public override void Use(Player p, string message)
         {
-            ushort? b; Int64 seconds;
+            ushort b; Int64 seconds;
             Player who;
             Player.UndoPos Pos;
             int CurrentPos = 0;
@@ -84,7 +84,7 @@ namespace MCForge.Commands
                             {
                                 if (b == Pos.newtype || Block.Convert(b) == Block.water || Block.Convert(b) == Block.lava)
                                 {
-                                    if (b == null || Block.Convert(b) == Block.water || Block.Convert(b) == Block.lava) p.SendBlockchange(Pos.x, Pos.y, Pos.z, Block.red);
+                                    if (b == Block.air || Block.Convert(b) == Block.water || Block.Convert(b) == Block.lava) p.SendBlockchange(Pos.x, Pos.y, Pos.z, Block.red);
                                     else p.SendBlockchange(Pos.x, Pos.y, Pos.z, Block.green);
                                 }
                             }
@@ -165,7 +165,7 @@ namespace MCForge.Commands
 
                             if (Pos.type == Convert.ToByte(fileContent[(i * 7) + 6]) || Block.Convert(Pos.type) == Block.water || Block.Convert(Pos.type) == Block.lava)
                             {
-                                if (Pos.type == null || Block.Convert(Pos.type) == Block.water || Block.Convert(Pos.type) == Block.lava)
+                                if (Pos.type == Block.air || Block.Convert(Pos.type) == Block.water || Block.Convert(Pos.type) == Block.lava)
                                     p.SendBlockchange(Pos.x, Pos.y, Pos.z, Block.red);
                                 else p.SendBlockchange(Pos.x, Pos.y, Pos.z, Block.green);
                             }
