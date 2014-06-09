@@ -199,7 +199,7 @@ namespace MCForge
                             {
                                 if (overlay[bb] < 0.65f && overlay2[bb] < TreeDens)
                                 {
-                                    if (Lvl.GetTile(x, (ushort)(z + 1), y) == null)
+                                    if (Lvl.GetTile(x, (ushort)(z + 1), y) == Block.air)
                                     {
                                         if (Lvl.GetTile(x, z, y) == Block.grass || type == "desert")
                                         {
@@ -289,7 +289,7 @@ namespace MCForge
                             {
 
                                 if (LavaLevel - zz > z - 1)
-                                { /*if (Lvl.GetTile(x, z, y) == null)*/ Lvl.skipChange(x, (ushort)(LavaLevel - zz), y, Block.lava); }    //better fill the water aboce me
+                                { /*if (Lvl.GetTile(x, z, y) == Block.air)*/ Lvl.skipChange(x, (ushort)(LavaLevel - zz), y, Block.lava); }    //better fill the water aboce me
                                 else if (LavaLevel - zz > z - 3)
                                 {
                                     if (overlay[bb] < .9f)
@@ -368,7 +368,7 @@ namespace MCForge
             }
             DispMin = -DispMax;
             float disp = DispMax;
-            //if (terrainHeights == NULL)
+            //if (terrainHeights == Block.air)
             //    return (TERRAIN_ERROR_NOT_INITIALISED);
 
 
@@ -528,7 +528,7 @@ namespace MCForge
             ushort xxx, yyy, zzz;
             for (ushort yy = 0; yy < top + height - 1; yy++)
             {
-                if (overwrite || Lvl.GetTile(x, (ushort)(y + yy), z) == null || (y + yy == y && Lvl.GetTile(x, (ushort)(y + yy), z) == Block.shrub))
+                if (overwrite || Lvl.GetTile(x, (ushort)(y + yy), z) == Block.air || (y + yy == y && Lvl.GetTile(x, (ushort)(y + yy), z) == Block.shrub))
                     if (blockChange)
                         if (p == null) Lvl.Blockchange(x, (ushort)(y + yy), z, Block.trunk);
                         else Lvl.Blockchange(p, x, (ushort)(y + yy), z, Block.trunk);
@@ -553,7 +553,7 @@ namespace MCForge
                                     yyy = (ushort)(y + yy + height);
                                     zzz = (ushort)(z + zz);
 
-                                    if ((xxx != x || zzz != z || yy >= top - 1) && (overwrite || Lvl.GetTile(xxx, yyy, zzz) == null))
+                                    if ((xxx != x || zzz != z || yy >= top - 1) && (overwrite || Lvl.GetTile(xxx, yyy, zzz) == Block.air))
                                         if (blockChange)
                                             if (p == null) Lvl.Blockchange(xxx, yyy, zzz, Block.leaf);
                                             else Lvl.Blockchange(p, xxx, yyy, zzz, Block.leaf);
@@ -579,7 +579,7 @@ namespace MCForge
             {
                 yyy = (ushort)(y + yy);
                 tile = Lvl.GetTile(x, yyy, z);
-                if (overwrite || tile == null || (yyy == y && tile == Block.shrub))
+                if (overwrite || tile == Block.air || (yyy == y && tile == Block.shrub))
                     if (blockChange)
                         if (p == null) Lvl.Blockchange(x, yyy, z, Block.trunk);
                         else Lvl.Blockchange(p, x, yyy, z, Block.trunk);
@@ -599,7 +599,7 @@ namespace MCForge
                         tile = Lvl.GetTile(xxx, yyy, zzz);
                         //Server.s.Log(String.Format("{0} {1} {2}", xxx, yyy, zzz));
 
-                        if ((xxx == x && zzz == z && yy <= height) || (!overwrite && tile != null))
+                        if ((xxx == x && zzz == z && yy <= height) || (!overwrite && tile != Block.air))
                             continue;
 
                         if (Math.Abs(xx) == dist && Math.Abs(zz) == dist)
@@ -650,7 +650,7 @@ namespace MCForge
             {
                 yyy = (ushort)(y + yy);
                 tile = Lvl.GetTile(x, yyy, z);
-                if (overwrite || tile == null || (yyy == y && tile == Block.shrub))
+                if (overwrite || tile == Block.air || (yyy == y && tile == Block.shrub))
                     if (blockChange)
                         if (p == null) Lvl.Blockchange(x, yyy, z, Block.trunk);
                         else Lvl.Blockchange(p, x, yyy, z, Block.trunk);
@@ -670,7 +670,7 @@ namespace MCForge
                         tile = Lvl.GetTile(xxx, yyy, zzz);
                         //Server.s.Log(String.Format("{0} {1} {2}", xxx, yyy, zzz));
 
-                        if ((xxx == x && zzz == z && yy <= height) || (!overwrite && tile != null))
+                        if ((xxx == x && zzz == z && yy <= height) || (!overwrite && tile != Block.air))
                             continue;
 
                         if (Math.Abs(xx) == dist && Math.Abs(zz) == dist)
@@ -705,7 +705,7 @@ namespace MCForge
 
             for (yy = 0; yy <= height; yy++)
             {
-                if (overwrite || Lvl.GetTile(z, (ushort)(y + yy), z) == null)
+                if (overwrite || Lvl.GetTile(z, (ushort)(y + yy), z) == Block.air)
                     if (blockChange)
                         if (p == null) Lvl.Blockchange(x, (ushort)(y + yy), z, Block.green);
                         else Lvl.Blockchange(p, x, (ushort)(y + yy), z, Block.green);
@@ -723,7 +723,7 @@ namespace MCForge
 
             for (yy = height; yy <= Rand.Next(height + 2, height + 5); yy++)
             {
-                if (overwrite || Lvl.GetTile((ushort)(x + inX), (ushort)(y + yy), (ushort)(z + inZ)) == null)
+                if (overwrite || Lvl.GetTile((ushort)(x + inX), (ushort)(y + yy), (ushort)(z + inZ)) == Block.air)
                     if (blockChange)
                         if (p == null) Lvl.Blockchange((ushort)(x + inX), (ushort)(y + yy), (ushort)(z + inZ), Block.green);
                         else Lvl.Blockchange(p, (ushort)(x + inX), (ushort)(y + yy), (ushort)(z + inZ), Block.green);
@@ -731,7 +731,7 @@ namespace MCForge
             }
             for (yy = height; yy <= Rand.Next(height + 2, height + 5); yy++)
             {
-                if (overwrite || Lvl.GetTile((ushort)(x + inX), (ushort)(y + yy), (ushort)(z + inZ)) == null)
+                if (overwrite || Lvl.GetTile((ushort)(x + inX), (ushort)(y + yy), (ushort)(z + inZ)) == Block.air)
                     if (blockChange)
                         if (p == null) Lvl.Blockchange((ushort)(x - inX), (ushort)(y + yy), (ushort)(z - inZ), Block.green);
                         else Lvl.Blockchange(p, (ushort)(x - inX), (ushort)(y + yy), (ushort)(z - inZ), Block.green);

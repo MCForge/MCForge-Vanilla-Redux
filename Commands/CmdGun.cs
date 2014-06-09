@@ -186,7 +186,7 @@ namespace MCForge.Commands
             List<CatchPos> allBlocks = new List<CatchPos>();
             CatchPos pos;
 
-            if (p.modeType != null)
+            if (p.modeType != Block.air)
                 type = p.modeType;
 
             Thread gunThread = new Thread(new ThreadStart(delegate
@@ -207,7 +207,7 @@ namespace MCForge.Commands
 
                     by = p.level.GetTile(pos.x, pos.y, pos.z);
 
-                    if (by != null && !allBlocks.Contains(pos))
+                    if (by != Block.air && !allBlocks.Contains(pos))
                     {
                         if (p.level.physics < 2 || bp.ending <= 0)
                         {

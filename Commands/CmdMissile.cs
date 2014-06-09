@@ -108,7 +108,7 @@ namespace MCForge.Commands
 							{
 								for (ushort zz = z; zz <= z + 1; zz++)
 								{
-									if (p.level.GetTile(xx, yy, zz) == null)
+									if (p.level.GetTile(xx, yy, zz) == Block.air)
 									{
 										pos.x = xx; pos.y = yy; pos.z = zz;
 										tempBuffer.Add(pos);
@@ -170,7 +170,7 @@ namespace MCForge.Commands
 			List<CatchPos> allBlocks = new List<CatchPos>();
 			CatchPos pos;
 
-			if (p.modeType != null)
+			if (p.modeType != Block.air)
 				type = p.modeType;
 
 			Thread gunThread = new Thread(new ThreadStart(delegate
@@ -208,7 +208,7 @@ namespace MCForge.Commands
 						if (by == Block.Zero)
 							break;
 
-						if (by != null && !allBlocks.Contains(lookedAt))
+						if (by != Block.air && !allBlocks.Contains(lookedAt))
 						{
 							if (p.level.physics < 2 || bp.ending <= 0)
 							{
@@ -270,7 +270,7 @@ namespace MCForge.Commands
 					by = p.level.GetTile(pos.x, pos.y, pos.z);
 					if (total > 3)
 					{
-						if (by != null && !allBlocks.Contains(pos))
+						if (by != Block.air && !allBlocks.Contains(pos))
 						{
 							if (p.level.physics < 2 || bp.ending <= 0)
 							{

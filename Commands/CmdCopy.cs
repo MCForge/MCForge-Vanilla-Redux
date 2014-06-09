@@ -221,7 +221,7 @@ namespace MCForge.Commands
                 byte[] tmp = new byte[cnt.Length * 2];
                 for (int i = 0; i < cnt.Length * 2; ++i)
                 {
-                    if(cnt[i] != null)
+                    if(cnt[i] != Block.air)
                         BitConverter.GetBytes((ushort)cnt[i]).CopyTo(tmp, (i * 2));
                     else
                         BitConverter.GetBytes(0).CopyTo(tmp, (i * 2));
@@ -267,7 +267,7 @@ namespace MCForge.Commands
                     }
                     byte[] tmp = new byte[cnt.Length * 2]; for (int i = 0; i < cnt.Length * 2; ++i)
                     {
-                        if(cnt[i] != null)
+                        if(cnt[i] != Block.air)
                             BitConverter.GetBytes((ushort)cnt[i]).CopyTo(tmp, (i * 2));
                         else
                             BitConverter.GetBytes(0).CopyTo(tmp, (i * 2));

@@ -337,25 +337,25 @@ namespace MCForge
                         bool right = false;
                         bool down = false;
                         {//directly next to
-                            if (mapon.GetTile(x1, y, (ushort)(z2 + 2)) == null) //right
+                            if (mapon.GetTile(x1, y, (ushort)(z2 + 2)) == Block.air) //right
                             {
                                 mapon.Blockchange(x1, y, (ushort)(z2 + 1), Block.air);
                                 mapon.Blockchange(x2, y, (ushort)(z2 + 1), Block.air);
                                 right = true;
                             }
-                            if (mapon.GetTile(x1, y, (ushort)(z1 - 2)) == null) //left
+                            if (mapon.GetTile(x1, y, (ushort)(z1 - 2)) == Block.air) //left
                             {
                                 mapon.Blockchange(x1, y, (ushort)(z1 - 1), Block.air);
                                 mapon.Blockchange(x2, y, (ushort)(z1 - 1), Block.air);
                                 left = true;
                             }
-                            if (mapon.GetTile((ushort)(x2 + 2), y, z1) == null) //up
+                            if (mapon.GetTile((ushort)(x2 + 2), y, z1) == Block.air) //up
                             {
                                 mapon.Blockchange((ushort)(x2 + 1), y, z1, Block.air);
                                 mapon.Blockchange((ushort)(x2 + 1), y, z2, Block.air);
                                 up = true;
                             }
-                            if (mapon.GetTile((ushort)(x1 - 2), y, z1) == null) //down
+                            if (mapon.GetTile((ushort)(x1 - 2), y, z1) == Block.air) //down
                             {
                                 mapon.Blockchange((ushort)(x1 - 1), y, z1, Block.air);
                                 mapon.Blockchange((ushort)(x1 - 1), y, z2, Block.air);
@@ -363,19 +363,19 @@ namespace MCForge
                             }
                         }
                         {//diagonal >:(
-                            if ((mapon.GetTile((ushort)(x1 - 2), y, (ushort)(z1 - 2)) == null) && left == true && down == true) //bottom left
+                            if ((mapon.GetTile((ushort)(x1 - 2), y, (ushort)(z1 - 2)) == Block.air) && left == true && down == true) //bottom left
                             {
                                 mapon.Blockchange((ushort)(x1 - 1), y, (ushort)(z1 - 1), Block.air);
                             }
-                            if ((mapon.GetTile((ushort)(x1 - 2), y, (ushort)(z2 + 2)) == null) && right == true && down == true) //bottom right
+                            if ((mapon.GetTile((ushort)(x1 - 2), y, (ushort)(z2 + 2)) == Block.air) && right == true && down == true) //bottom right
                             {
                                 mapon.Blockchange((ushort)(x1 - 1), y, (ushort)(z2 + 1), Block.air);
                             }
-                            if ((mapon.GetTile((ushort)(x2 + 2), y, (ushort)(z1 - 2)) == null) && left == true && up == true) //top left
+                            if ((mapon.GetTile((ushort)(x2 + 2), y, (ushort)(z1 - 2)) == Block.air) && left == true && up == true) //top left
                             {
                                 mapon.Blockchange((ushort)(x2 + 1), y, (ushort)(z1 - 1), Block.air);
                             }
-                            if ((mapon.GetTile((ushort)(x2 + 2), y, (ushort)(z2 + 2)) == null) && right == true && up == true) //top right
+                            if ((mapon.GetTile((ushort)(x2 + 2), y, (ushort)(z2 + 2)) == Block.air) && right == true && up == true) //top right
                             {
                                 mapon.Blockchange((ushort)(x2 + 1), y, (ushort)(z2 + 1), Block.air);
                             }

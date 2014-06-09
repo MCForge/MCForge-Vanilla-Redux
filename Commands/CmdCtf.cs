@@ -38,7 +38,7 @@ namespace MCForge
             //if (message == "start")
             //{
                 //Prevent null errors :/
-            /*    if (Server.ctf == null)
+            /*    if (Server.ctf == Block.air)
                 {
                     Player.SendMessage(p, "Starting CTF..");
                     Server.ctf = new Auto_CTF();
@@ -58,7 +58,7 @@ namespace MCForge
             if (message == "stop")
             {
                 //Prevent null error :/
-                if (Server.ctf == null)
+                if (Server.ctf == Block.air)
                 {
                     Player.SendMessage(p, "A ctf game isnt active!");
                     return;

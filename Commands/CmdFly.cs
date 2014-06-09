@@ -68,7 +68,7 @@ namespace MCForge.Commands
                                 {
                                     for (ushort zz = (ushort)(z - 1); zz <= z + 1; zz++)
                                     {
-                                        if (p.level.GetTile(xx, yy, zz) == null)
+                                        if (p.level.GetTile(xx, yy, zz) == Block.air)
                                         {
                                             pos.x = xx; pos.y = yy; pos.z = zz;
                                             tempBuffer.Add(pos);
