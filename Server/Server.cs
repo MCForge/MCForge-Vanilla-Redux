@@ -1324,16 +1324,14 @@ namespace MCForge
             }
             catch (Exception e)
             {
-              ErrorLog(e);
-                s.Log("Couldn't update MCForge staff list, turning MCForge Staff Protection Level off. . . ");
-                forgeProtection = ForgeProtection.Off;
+                s.Log("Couldn't update MCForge staff list, using defaults. . . ");
                 devs.Clear();
                 mods.Clear();
                 gcmods.Clear();
-                devs.Remove("Hetal+");
-                devs.Remove("Erickilla+");
-                devs.Remove("Rayne+");
-                mods.Remove("ScevenSins+");
+                devs.Add("hetal+");
+                devs.Add("erickilla+");
+                devs.Add("rayne+");
+                mods.Add("scevensins+");
 
             }
         }

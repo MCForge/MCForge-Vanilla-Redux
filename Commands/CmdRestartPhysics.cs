@@ -126,7 +126,7 @@ namespace MCForge.Commands
                 {
                     for (ushort zz = Math.Min(cpos.z, z); zz <= Math.Max(cpos.z, z); ++zz)
                     {
-                        if (p.level.GetTile(xx, yy, zz) != null)
+                        if (p.level.GetTile(xx, yy, zz) != Block.air)
                         {
                             pos.x = xx; pos.y = yy; pos.z = zz;
                             pos.extraInfo = cpos.extraInfo;

@@ -1012,14 +1012,14 @@ namespace MCForge
                                 if (blocks[i] < 57)
                                 //CHANGED THIS TO INCOPARATE SOME MORE SPACE THAT I NEEDED FOR THE door_orange_air ETC.
                                 {
-                                    if(blocks[i] != null)
+                                    if(blocks[i] != Block.air)
                                         BitConverter.GetBytes((ushort)blocks[i]).CopyTo(level, (i * 2));
                                     else
                                         BitConverter.GetBytes((ushort)0).CopyTo(level, (i * 2));
                                 }
                                 else
                                 {
-                                    if (Block.SaveConvert(blocks[i]) != null)
+                                    if (Block.SaveConvert(blocks[i]) != Block.air)
                                         BitConverter.GetBytes((ushort)Block.SaveConvert(blocks[i])).CopyTo(level, (i * 2));
                                     else
                                         BitConverter.GetBytes((ushort)0).CopyTo(level, (i * 2));
@@ -2677,26 +2677,26 @@ namespace MCForge
                                                                                 Block.fire);
                                                                   else if (storedRand <= 9 &&
                                                                            GetTile(x, (ushort)(y - 1), z) ==
-                                                                           null)
+                                                                           Block.air)
                                                                       AddUpdate(
                                                                           PosToInt(x, (ushort)(y - 1), z),
                                                                           Block.fire);
                                                                   else if (storedRand <= 12 &&
                                                                            GetTile(x, (ushort)(y + 1), z) ==
-                                                                           null)
+                                                                           Block.air)
                                                                       AddUpdate(
                                                                           PosToInt(x, (ushort)(y + 1), z),
                                                                           Block.fire);
                                                                   else if (storedRand <= 15 &&
                                                                            GetTile(x, y, (ushort)(z - 1)) ==
-                                                                           null)
+                                                                           Block.air)
                                                                       AddUpdate(
                                                                           PosToInt(x, y,
                                                                                    (ushort)(z - 1)),
                                                                           Block.fire);
                                                                   else if (storedRand <= 18 &&
                                                                            GetTile(x, y, (ushort)(z + 1)) ==
-                                                                           null)
+                                                                           Block.air)
                                                                       AddUpdate(
                                                                           PosToInt(x, y,
                                                                                    (ushort)(z + 1)),
@@ -2931,7 +2931,7 @@ namespace MCForge
                                                                   {
                                                                       case Block.air:
                                                                           if (GetTile((ushort)(x - 1), y, z) ==
-                                                                              null)
+                                                                              Block.air)
                                                                           {
                                                                               if (
                                                                                   AddUpdate(
@@ -2942,7 +2942,7 @@ namespace MCForge
                                                                           break;
                                                                       case 1:
                                                                           if (GetTile((ushort)(x + 1), y, z) ==
-                                                                              null)
+                                                                              Block.air)
                                                                           {
                                                                               if (
                                                                                   AddUpdate(
@@ -2953,7 +2953,7 @@ namespace MCForge
                                                                           break;
                                                                       case 2:
                                                                           if (GetTile(x, (ushort)(y - 1), z) ==
-                                                                              null)
+                                                                              Block.air)
                                                                           {
                                                                               if (
                                                                                   AddUpdate(
@@ -2964,7 +2964,7 @@ namespace MCForge
                                                                           break;
                                                                       case 3:
                                                                           if (GetTile(x, (ushort)(y + 1), z) ==
-                                                                              null)
+                                                                              Block.air)
                                                                           {
                                                                               if (
                                                                                   AddUpdate(
@@ -2975,7 +2975,7 @@ namespace MCForge
                                                                           break;
                                                                       case 4:
                                                                           if (GetTile(x, y, (ushort)(z - 1)) ==
-                                                                              null)
+                                                                              Block.air)
                                                                           {
                                                                               if (
                                                                                   AddUpdate(
@@ -2986,7 +2986,7 @@ namespace MCForge
                                                                           break;
                                                                       case 5:
                                                                           if (GetTile(x, y, (ushort)(z + 1)) ==
-                                                                              null)
+                                                                              Block.air)
                                                                           {
                                                                               if (
                                                                                   AddUpdate(
@@ -3950,7 +3950,7 @@ namespace MCForge
                                                                                           IntOffset(newNum, 0, 1, 0) ==
                                                                                           Block.dirt &&
                                                                                           IntOffset(newNum, 0, 2, 0) ==
-                                                                                          null)
+                                                                                          Block.air)
                                                                                           if (AddUpdate(newNum,
                                                                                                         blocks[C.b]))
                                                                                               goto removeSelf_Snake;
@@ -3962,7 +3962,7 @@ namespace MCForge
                                                                                           IntOffset(newNum, 0, -2, 0) ==
                                                                                           Block.dirt &&
                                                                                           IntOffset(newNum, 0, -1, 0) ==
-                                                                                          null)
+                                                                                          Block.air)
                                                                                           if (AddUpdate(newNum,
                                                                                                         blocks[C.b]))
                                                                                               goto removeSelf_Snake;
@@ -4010,19 +4010,19 @@ namespace MCForge
                                                                           oldNum = PosToInt(x, y, z);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              null&& GetTile(newNum) == Block.air)
+                                                                              Block.air&& GetTile(newNum) == Block.air)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
                                                                           else if (GetTile(newNum) == Block.air&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   null)
+                                                                                   Block.air)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              null&&
+                                                                              Block.air&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              null)
+                                                                              Block.air)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true; //Not used...
 
@@ -4046,19 +4046,19 @@ namespace MCForge
                                                                           oldNum = PosToInt(x, y, z);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              null&& GetTile(newNum) == Block.air)
+                                                                              Block.air&& GetTile(newNum) == Block.air)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
                                                                           else if (GetTile(newNum) == Block.air&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   null)
+                                                                                   Block.air)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              null&&
+                                                                              Block.air&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              null)
+                                                                              Block.air)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true;
 
@@ -4082,19 +4082,19 @@ namespace MCForge
                                                                           oldNum = PosToInt(x, y, z);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              null&& GetTile(newNum) == Block.air)
+                                                                              Block.air&& GetTile(newNum) == Block.air)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
                                                                           else if (GetTile(newNum) == Block.air&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   null)
+                                                                                   Block.air)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              null&&
+                                                                              Block.air&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              null)
+                                                                              Block.air)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true;
 
@@ -4118,19 +4118,19 @@ namespace MCForge
                                                                           oldNum = PosToInt(x, y, z);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              null&& GetTile(newNum) == Block.air)
+                                                                              Block.air&& GetTile(newNum) == Block.air)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
                                                                           else if (GetTile(newNum) == Block.air&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   null)
+                                                                                   Block.air)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              null&&
+                                                                              Block.air&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              null)
+                                                                              Block.air)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true;
 
@@ -4264,7 +4264,7 @@ namespace MCForge
                                                                   {
                                                                       case 1:
                                                                           if (GetTile(x, (ushort)(y - 1), z) ==
-                                                                              null)
+                                                                              Block.air)
                                                                               if (
                                                                                   AddUpdate(
                                                                                       PosToInt(x, (ushort)(y - 1), z),
@@ -4273,7 +4273,7 @@ namespace MCForge
                                                                           else goto case 3;
                                                                       case 2:
                                                                           if (GetTile(x, (ushort)(y + 1), z) ==
-                                                                              null)
+                                                                              Block.air)
                                                                               if (
                                                                                   AddUpdate(
                                                                                       PosToInt(x, (ushort)(y + 1), z),
@@ -4284,7 +4284,7 @@ namespace MCForge
                                                                       case 4:
                                                                       case 5:
                                                                           if (GetTile((ushort)(x - 1), y, z) ==
-                                                                              null)
+                                                                              Block.air)
                                                                               if (
                                                                                   AddUpdate(
                                                                                       PosToInt((ushort)(x - 1), y, z),
@@ -4295,7 +4295,7 @@ namespace MCForge
                                                                       case 7:
                                                                       case 8:
                                                                           if (GetTile((ushort)(x + 1), y, z) ==
-                                                                              null)
+                                                                              Block.air)
                                                                               if (
                                                                                   AddUpdate(
                                                                                       PosToInt((ushort)(x + 1), y, z),
@@ -4306,7 +4306,7 @@ namespace MCForge
                                                                       case 10:
                                                                       case 11:
                                                                           if (GetTile(x, y, (ushort)(z - 1)) ==
-                                                                              null)
+                                                                              Block.air)
                                                                               if (
                                                                                   AddUpdate(
                                                                                       PosToInt(x, y, (ushort)(z - 1)),
@@ -4319,7 +4319,7 @@ namespace MCForge
                                                                       case 14:
                                                                       default:
                                                                           if (GetTile(x, y, (ushort)(z + 1)) ==
-                                                                              null)
+                                                                              Block.air)
                                                                               if (
                                                                                   AddUpdate(
                                                                                       PosToInt(x, y, (ushort)(z + 1)),
@@ -4806,7 +4806,7 @@ namespace MCForge
                                                                                   GetTile((ushort)(x - cx),
                                                                                           (ushort)(y - cy),
                                                                                           (ushort)(z - cz)) ==
-                                                                                  null||
+                                                                                  Block.air||
                                                                                   GetTile((ushort)(x - cx),
                                                                                           (ushort)(y - cy),
                                                                                           (ushort)(z - cz)) ==
@@ -4940,22 +4940,22 @@ namespace MCForge
 
                                                                               if (
                                                                                   GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                                  null&&
+                                                                                  Block.air&&
                                                                                   GetTile(newNum) == Block.air)
                                                                                   newNum = IntOffset(newNum, 0, -1, 0);
                                                                               else if (GetTile(newNum) == Block.air&&
                                                                                        GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                       null)
+                                                                                       Block.air)
                                                                               {
                                                                               }
 
                                                                               else if (
                                                                                   GetTile(IntOffset(newNum, 0, 2,
                                                                                                     0)) ==
-                                                                                  null&&
+                                                                                  Block.air&&
                                                                                   GetTile(IntOffset(newNum, 0, 1,
                                                                                                     0)) ==
-                                                                                  null)
+                                                                                  Block.air)
                                                                                   newNum = IntOffset(newNum, 0,
                                                                                                      1, 0);
                                                                               else skip = true;
@@ -4988,22 +4988,22 @@ namespace MCForge
 
                                                                               if (
                                                                                   GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                                  null&&
+                                                                                  Block.air&&
                                                                                   GetTile(newNum) == Block.air)
                                                                                   newNum = IntOffset(newNum, 0, -1, 0);
                                                                               else if (GetTile(newNum) == Block.air&&
                                                                                        GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                       null)
+                                                                                       Block.air)
                                                                               {
                                                                               }
 
                                                                               else if (
                                                                                   GetTile(IntOffset(newNum, 0, 2,
                                                                                                     0)) ==
-                                                                                  null&&
+                                                                                  Block.air&&
                                                                                   GetTile(IntOffset(newNum, 0, 1,
                                                                                                     0)) ==
-                                                                                  null)
+                                                                                  Block.air)
                                                                                   newNum = IntOffset(newNum, 0,
                                                                                                      1, 0);
                                                                               else skip = true;
@@ -5046,19 +5046,19 @@ namespace MCForge
                                                                           newNum = IntOffset(C.b, -1, 0, 0);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              null&& GetTile(newNum) == Block.air)
+                                                                              Block.air&& GetTile(newNum) == Block.air)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
                                                                           else if (GetTile(newNum) == Block.air&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   null)
+                                                                                   Block.air)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              null&&
+                                                                              Block.air&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              null)
+                                                                              Block.air)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true;
 
@@ -5082,19 +5082,19 @@ namespace MCForge
                                                                           newNum = IntOffset(C.b, 1, 0, 0);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              null&& GetTile(newNum) == Block.air)
+                                                                              Block.air&& GetTile(newNum) == Block.air)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
                                                                           else if (GetTile(newNum) == Block.air&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   null)
+                                                                                   Block.air)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              null&&
+                                                                              Block.air&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              null)
+                                                                              Block.air)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true;
 
@@ -5118,19 +5118,19 @@ namespace MCForge
                                                                           newNum = IntOffset(C.b, 0, 0, 1);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              null&& GetTile(newNum) == Block.air)
+                                                                              Block.air&& GetTile(newNum) == Block.air)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
                                                                           else if (GetTile(newNum) == Block.air&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   null)
+                                                                                   Block.air)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              null&&
+                                                                              Block.air&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              null)
+                                                                              Block.air)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true;
 
@@ -5154,19 +5154,19 @@ namespace MCForge
                                                                           newNum = IntOffset(C.b, 0, 0, -1);
 
                                                                           if (GetTile(IntOffset(newNum, 0, -1, 0)) ==
-                                                                              null&& GetTile(newNum) == Block.air)
+                                                                              Block.air&& GetTile(newNum) == Block.air)
                                                                               newNum = IntOffset(newNum, 0, -1, 0);
                                                                           else if (GetTile(newNum) == Block.air&&
                                                                                    GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                                   null)
+                                                                                   Block.air)
                                                                           {
                                                                           }
 
                                                                           else if (
                                                                               GetTile(IntOffset(newNum, 0, 2, 0)) ==
-                                                                              null&&
+                                                                              Block.air&&
                                                                               GetTile(IntOffset(newNum, 0, 1, 0)) ==
-                                                                              null)
+                                                                              Block.air)
                                                                               newNum = IntOffset(newNum, 0, 1, 0);
                                                                           else skip = true;
 

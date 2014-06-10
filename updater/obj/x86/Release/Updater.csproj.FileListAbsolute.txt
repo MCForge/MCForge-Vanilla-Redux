@@ -15,3 +15,4 @@ C:\Projs\MCForge\Redux-Workspace\bin\Release\Updater.pdb
 C:\Projs\MCForge\Redux-Workspace\updater\obj\x86\Release\Updater.csprojResolveAssemblyReference.cache
 C:\Projs\MCForge\Redux-Workspace\updater\obj\x86\Release\Updater.exe
 C:\Projs\MCForge\Redux-Workspace\updater\obj\x86\Release\Updater.pdb
+C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\updater\obj\x86\Release\Updater.csprojResolveAssemblyReference.cache

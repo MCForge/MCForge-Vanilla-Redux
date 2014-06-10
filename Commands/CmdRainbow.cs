@@ -78,7 +78,7 @@ namespace MCForge.Commands
                     {
                         for (ushort zz = Math.Min(cpos.z, z); zz <= Math.Max(cpos.z, z); zz++)
                         {
-                            if (p.level.GetTile(xx, yy, zz) != null)
+                            if (p.level.GetTile(xx, yy, zz) != Block.air)
                                 BufferAdd(buffer, xx, yy, zz, newType);
                         }
                     }
@@ -94,7 +94,7 @@ namespace MCForge.Commands
                     {
                         for (ushort zz = Math.Min(cpos.z, z); zz <= Math.Max(cpos.z, z); zz++)
                         {
-                            if (p.level.GetTile(xx, yy, zz) != null)
+                            if (p.level.GetTile(xx, yy, zz) != Block.air)
                                 BufferAdd(buffer, xx, yy, zz, newType);
                         }
                     }
@@ -110,7 +110,7 @@ namespace MCForge.Commands
                     {
                         for (ushort xx = Math.Min(cpos.x, x); xx <= Math.Max(cpos.x, x); xx++)
                         {
-                            if (p.level.GetTile(xx, yy, zz) != null)
+                            if (p.level.GetTile(xx, yy, zz) != Block.air)
                                 BufferAdd(buffer, xx, yy, zz, newType);
                         }
                     }
