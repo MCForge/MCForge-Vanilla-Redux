@@ -578,7 +578,6 @@
     <Compile Include="sharkbite.thresher\Connection.cs" />
     <Compile Include="sharkbite.thresher\ConnectionArgs.cs" />
     <Compile Include="sharkbite.thresher\Ctcp\CtcpListener.cs" />
-    <Compile Include="sharkbite.thresher\Ctcp\CtcpResponder.cs" />
     <Compile Include="sharkbite.thresher\Ctcp\CtcpSender.cs" />
     <Compile Include="sharkbite.thresher\Ctcp\CtcpUtil.cs" />
     <Compile Include="sharkbite.thresher\Dcc\DccChatSession.cs" />
@@ -633,6 +632,7 @@
     <Compile Include="Heartbeat\MinecraftBeat.cs" />
     <Compile Include="Levels\Block.cs" />
     <Compile Include="Games\EXPLevel.cs" />
+    <Compile Include="Plugins\CtcpResponder.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

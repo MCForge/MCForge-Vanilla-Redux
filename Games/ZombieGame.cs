@@ -94,87 +94,120 @@ namespace MCForge
             }
         }
 
-        private void MainGame()
-        {
-            if (Server.gameStatus == 0) return;
-        GoBack: Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 2:00");
-            Thread.Sleep(60000); if (!Server.ZombieModeOn) { return; }
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 1:00");
-            Thread.Sleep(55000); if (!Server.ZombieModeOn) { return; }
-            Server.s.Log(Convert.ToString(Server.ChangeLevels) + " " + Convert.ToString(Server.ZombieOnlyServer) + " " + Convert.ToString(Server.UseLevelList) + " " + string.Join(",", Server.LevelList.ToArray()));
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 5...");
-            Thread.Sleep(1000); if (!Server.ZombieModeOn) { return; }
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 4...");
-            Thread.Sleep(1000); if (!Server.ZombieModeOn) { return; }
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 3...");
-            Thread.Sleep(1000); if (!Server.ZombieModeOn) { return; }
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 2...");
-            Thread.Sleep(1000); if (!Server.ZombieModeOn) { return; }
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 1...");
-            Thread.Sleep(1000); if (!Server.ZombieModeOn) { return; }
-            Server.zombieRound = true;
-            int playerscountminusref = 0; List<Player> players = new List<Player>();
-            foreach (Player playere in Player.players)
-            {
-                if (playere.referee)
-                {
-                    playere.color = playere.group.color;
-                }
-                else
-                {
-                    if (playere.level.name == currentLevelName)
-                    {
-                        playere.color = playere.group.color;
-                        players.Add(playere);
-                        playerscountminusref++;
-                    }
-                }
-            }
-            if (playerscountminusref < 2)
-            {
-                Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, c.red + "ERROR: Need more than 2 players to play");
-                goto GoBack;
-            }
+        private void MainGame ()
+		{
+			if (Server.gameStatus == 0)
+				return;
+			GoBack:
+			Player.GlobalMessageLevel (Level.Find (currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 2:00");
+			Thread.Sleep (60000);
+			if (!Server.ZombieModeOn) {
+				return;
+			}
+			Player.GlobalMessageLevel (Level.Find (currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 1:00");
+			Thread.Sleep (55000);
+			if (!Server.ZombieModeOn) {
+				return;
+			}
+			Server.s.Log (Convert.ToString (Server.ChangeLevels) + " " + Convert.ToString (Server.ZombieOnlyServer) + " " + Convert.ToString (Server.UseLevelList) + " " + string.Join (",", Server.LevelList.ToArray ()));
+			Player.GlobalMessageLevel (Level.Find (currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 5...");
+			Thread.Sleep (1000);
+			if (!Server.ZombieModeOn) {
+				return;
+			}
+			Player.GlobalMessageLevel (Level.Find (currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 4...");
+			Thread.Sleep (1000);
+			if (!Server.ZombieModeOn) {
+				return;
+			}
+			Player.GlobalMessageLevel (Level.Find (currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 3...");
+			Thread.Sleep (1000);
+			if (!Server.ZombieModeOn) {
+				return;
+			}
+			Player.GlobalMessageLevel (Level.Find (currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 2...");
+			Thread.Sleep (1000);
+			if (!Server.ZombieModeOn) {
+				return;
+			}
+			Player.GlobalMessageLevel (Level.Find (currentLevelName), Player.MessageType.Announcement, "&4Round Start:&f 1...");
+			Thread.Sleep (1000);
+			if (!Server.ZombieModeOn) {
+				return;
+			}
+			Server.zombieRound = true;
+			int playerscountminusref = 0;
+			List<Player> players = new List<Player> ();
+			foreach (Player playere in Player.players) {
+				if (playere.referee) {
+					playere.color = playere.group.color;
+				} else {
+					if (playere.level.name == currentLevelName) {
+						playere.color = playere.group.color;
+						players.Add (playere);
+						playerscountminusref++;
+					}
+				}
+			}
+			if (playerscountminusref < 2) {
+				Player.GlobalMessageLevel (Level.Find (currentLevelName), Player.MessageType.Announcement, c.red + "ERROR: Need more than 2 players to play");
+				goto GoBack;
+			}
 
-        theEnd:
-            Random random = new Random();
-            int firstinfect = random.Next(players.Count());
-            Player player = null;
-            if (Server.queZombie == true)
-                player = Player.Find(Server.nextZombie);
-            else
-                player = players[firstinfect];
+			theEnd:
+			Random random = new Random ();
+			int firstinfect = random.Next (players.Count ());
+			Player player = null;
+			if (Server.queZombie == true)
+				player = Player.Find (Server.nextZombie);
+			else
+				player = players [firstinfect];
 
-            if (player.level.name != currentLevelName) goto theEnd;
+			if (player.level.name != currentLevelName)
+				goto theEnd;
 
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, player.color + player.name + Server.DefaultColor + " started the infection!");
-            Thread.Sleep(3000);
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&f");
-            player.infected = true;
-            player.color = c.red;
-            Player.GlobalDie(player, false);
-            Player.GlobalSpawn(player, player.pos[0], player.pos[1], player.pos[2], player.rot[0], player.rot[1], false);
+			Player.GlobalMessageLevel (Level.Find (currentLevelName), Player.MessageType.Announcement, player.color + player.name + Server.DefaultColor + " started the infection!");
+			Thread.Sleep (3000);
+			Player.GlobalMessageLevel (Level.Find (currentLevelName), Player.MessageType.Announcement, "&f");
+			player.infected = true;
+			player.color = c.red;
+			Player.GlobalDie (player, false);
+			Player.GlobalSpawn (player, player.pos [0], player.pos [1], player.pos [2], player.rot [0], player.rot [1], false);
 
-            Server.zombieRound = true;
-            int amountOfMinutes = random.Next(5, 12);
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Status1, "The round will last for " + amountOfMinutes + " minutes!");
-            amountOfMilliseconds = (60000 * amountOfMinutes);
+			Server.zombieRound = true;
+			int amountOfMinutes = random.Next (5, 12);
+			Player.GlobalMessageLevel (Level.Find (currentLevelName), Player.MessageType.Status1, "The round will last for " + amountOfMinutes + " minutes!");
+			amountOfMilliseconds = (60000 * amountOfMinutes);
 
-            timer = new System.Timers.Timer(amountOfMilliseconds);
-            timer.Elapsed += new ElapsedEventHandler(EndRound);
-            timer.Enabled = true;
+			timer = new System.Timers.Timer (amountOfMilliseconds);
+			timer.Elapsed += new ElapsedEventHandler (EndRound);
+			timer.Enabled = true;
 
-            foreach (Player playaboi in Player.players)
-            {
-                if (playaboi != player)
-                    alive.Add(playaboi);
-            }
+			foreach (Player playaboi in Player.players) {
+				if (playaboi != player)
+					alive.Add (playaboi);
+			}
 
-            infectd.Clear();
-            if (Server.queZombie == true)
-                infectd.Add(Player.Find(Server.nextZombie));
-            else
-                infectd.Add(player);
+			infectd.Clear ();
+				foreach (Player pl in Player.players) {
+					if (player.level == pl.level && pl.HasExtension ("ChangeModel")) {
+						pl.SendChangeModel (pl.id, "steve");
+					}
+				}
+			if (Server.queZombie == true) {
+				infectd.Add (Player.Find (Server.nextZombie));
+				foreach (Player pl in Player.players) {
+					if (pl.level == Player.Find (Server.nextZombie).level && pl.HasExtension ("ChangeModel")) {
+						pl.SendChangeModel (Player.Find (Server.nextZombie).id, "zombie");
+					}
+				}
+			} else
+				infectd.Add (player);
+			foreach (Player pl in Player.players) {
+				if (pl.level == player.level && pl.HasExtension ("ChangeModel")) {
+					pl.SendChangeModel (player.id, "zombie");
+				}
+			}
             aliveCount = alive.Count;
 
             while (aliveCount > 0)
@@ -206,6 +239,11 @@ namespace MCForge
                                     {
                                         player2.infected = true;
                                         infectd.Add(player2);
+				foreach (Player people in Player.players) {
+					if (people.level == player2.level && people.HasExtension ("ChangeModel")) {
+						people.SendChangeModel(player2.id, "zombie");
+					}
+											}
                                         alive.Remove(player2);
                                         players.Remove(player2);
                                         player2.blockCount = 25;
@@ -216,7 +254,7 @@ namespace MCForge
                                             {
                                                 player1.SendMessage("You gained " + (4 - Server.infectCombo) + " " + Server.moneys);
                                                 player1.money = player1.money + 4 - Server.infectCombo;
-                                                Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Status2, player1.color + player1.name + " is on a rampage! " + (Server.infectCombo + 1) + " infections in a row!");
+                                                Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status2, player1.color + player1.name + " is on a rampage! " + (Server.infectCombo + 1) + " infections in a row!");
                                             }
                                         }
                                         else
@@ -228,19 +266,19 @@ namespace MCForge
                                         int cazzar = random.Next(0, infectMessages.Length);
                                         if (File.Exists("text/infect/" + player1.name + ".txt"))
                                         {
-                                            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Status2, c.red + player1.Original + c.yellow + " " + File.ReadAllText("text/infect/" + player1.name + ".txt") + " " + c.red + player2.name);
+                                            Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status2, c.red + player1.Original + c.yellow + " " + File.ReadAllText("text/infect/" + player1.name + ".txt") + " " + c.red + player2.name);
                                         }
                                         if (infectMessages2[cazzar] == "")
                                         {
-                                            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Status2, c.red + player1.name + c.yellow + infectMessages[cazzar] + c.red + player2.name);
+                                            Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status2, c.red + player1.name + c.yellow + infectMessages[cazzar] + c.red + player2.name);
                                         }
                                         else if (infectMessages[cazzar] == "")
                                         {
-                                            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Status2, c.red + player2.name + c.yellow + infectMessages2[cazzar]);
+                                            Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status2, c.red + player2.name + c.yellow + infectMessages2[cazzar]);
                                         }
                                         else
                                         {
-                                            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Status2, c.red + player1.name + c.yellow + infectMessages[cazzar] + c.red + player2.name + c.yellow + infectMessages2[cazzar]);
+                                            Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status2, c.red + player1.name + c.yellow + infectMessages[cazzar] + c.red + player2.name + c.yellow + infectMessages2[cazzar]);
                                         }
                                         player2.color = c.red;
                                         player1.playersInfected = player1.playersInfected++;
@@ -269,11 +307,11 @@ namespace MCForge
         public void EndRound(object sender, ElapsedEventArgs e)
         {
             if (Server.gameStatus == 0) return;
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round End:&f 5"); Thread.Sleep(1000);
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round End:&f 4"); Thread.Sleep(1000);
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round End:&f 3"); Thread.Sleep(1000);
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round End:&f 2"); Thread.Sleep(1000);
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&4Round End:&f 1"); Thread.Sleep(1000);
+            Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Announcement, "&4Round End:&f 5"); Thread.Sleep(1000);
+            Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Announcement, "&4Round End:&f 4"); Thread.Sleep(1000);
+            Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Announcement, "&4Round End:&f 3"); Thread.Sleep(1000);
+            Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Announcement, "&4Round End:&f 2"); Thread.Sleep(1000);
+            Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Announcement, "&4Round End:&f 1"); Thread.Sleep(1000);
             HandOutRewards();
         }
 
@@ -281,11 +319,11 @@ namespace MCForge
         {
             Server.zombieRound = false; amountOfMilliseconds = 0;
             if (Server.gameStatus == 0) return;
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, c.lime + "The game has ended!");
+            Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Announcement, c.lime + "The game has ended!");
             if (aliveCount == 0)
-                Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Status3, c.maroon + "Zombies have won this round.");
+                Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status3, c.maroon + "Zombies have won this round.");
             else
-                Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Status3, c.green + "Congratulations to our survivor(s)");
+                Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status3, c.green + "Congratulations to our survivor(s)");
             timer.Enabled = false;
             string playersString = "";
             if (aliveCount == 0)
@@ -319,7 +357,7 @@ namespace MCForge
                     }
                 });
             }
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Status3, playersString);
+            Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status3, playersString);
             foreach (Player winners in Player.players)
             {
                 if (aliveCount == 0 && winners.level.name == currentLevelName)
@@ -354,7 +392,13 @@ namespace MCForge
                     winners.money = winners.money + randomInt;
                 }
             }
-            try { alive.Clear(); infectd.Clear(); }
+            try { alive.Clear(); infectd.Clear(); 
+				foreach (Player pl in Player.players) {
+					if (pl.level == pl.level && pl.HasExtension ("ChangeModel")) {
+						pl.SendChangeModel (pl.id, "steve");
+					}
+				}
+			}
             catch { }
             foreach (Player player in Player.players)
             {
@@ -434,9 +478,9 @@ namespace MCForge
                     if (initialChangeLevel == true)
                     {
                         Server.votingforlevel = true;
-                        Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Status1, " " + c.black + "Level Vote: " + Server.DefaultColor + selectedLevel1 + ", " + selectedLevel2 + " or random " + "(" + c.lime + "1" + Server.DefaultColor + "/" + c.red + "2" + Server.DefaultColor + "/" + c.blue + "3" + Server.DefaultColor + ")");
+                        Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status1, " " + c.black + "Level Vote: " + Server.DefaultColor + selectedLevel1 + ", " + selectedLevel2 + " or random " + "(" + c.lime + "1" + Server.DefaultColor + "/" + c.red + "2" + Server.DefaultColor + "/" + c.blue + "3" + Server.DefaultColor + ")");
                         System.Threading.Thread.Sleep(15000);
-                        Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Status1, " " + c.black + "");
+                        Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status1, " " + c.black + "");
                         Server.votingforlevel = false;
                     }
                     else { Server.Level1Vote = 1; Server.Level2Vote = 0; Server.Level3Vote = 0; }
@@ -474,41 +518,41 @@ namespace MCForge
 
         //Main Game Finishes Here - support functions after this
 
-        public void InfectedPlayerDC()
-        {
-            if (Server.gameStatus == 0) return;
-            //This is for when the first zombie disconnects
-            Random random = new Random();
-            if ((Server.gameStatus != 0 && Server.zombieRound) && infectd.Count <= 0)
-            {
-                int firstinfect = random.Next(alive.Count);
-                firstinfect = firstinfect - 1;
-                while (alive[firstinfect].referee == true || alive[firstinfect].level.name == Server.zombie.currentLevelName)
-                {
-                    if (firstinfect == alive.Count)
-                    {
-                        firstinfect = 0;
-                    }
-                    else
-                    {
-                        firstinfect++;
-                    }
-                }
-                Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, alive[firstinfect].color + alive[firstinfect].name + Server.DefaultColor + " continued the infection!");
-                Thread.Sleep(3000);
-                Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Announcement, "&f");
-                alive[firstinfect].color = c.red;
-                Player.GlobalDie(alive[firstinfect], false);
-                Player.GlobalSpawn(alive[firstinfect], alive[firstinfect].pos[0], alive[firstinfect].pos[1], alive[firstinfect].pos[2], alive[firstinfect].rot[0], alive[firstinfect].rot[1], false);
-                infectd.Add(alive[firstinfect]);
-                alive.Remove(alive[firstinfect]);
-            return;
-            }
-            if ((Server.gameStatus != 0 && Server.zombieRound) && alive.Count == 0)
-            {
-                HandOutRewards();
-            }
-        }
+        public void InfectedPlayerDC ()
+		{
+			if (Server.gameStatus == 0)
+				return;
+			//This is for when the first zombie disconnects
+			Random random = new Random ();
+			if ((Server.gameStatus != 0 && Server.zombieRound) && infectd.Count <= 0) {
+				int firstinfect = random.Next (alive.Count);
+				firstinfect = firstinfect - 1;
+				while (alive[firstinfect].referee == true || alive[firstinfect].level.name == Server.zombie.currentLevelName) {
+					if (firstinfect == alive.Count) {
+						firstinfect = 0;
+					} else {
+						firstinfect++;
+					}
+				}
+				Player.GlobalMessageLevel (Level.Find (currentLevelName), Player.MessageType.Announcement, alive [firstinfect].color + alive [firstinfect].name + Server.DefaultColor + " continued the infection!");
+				Thread.Sleep (3000);
+				Player.GlobalMessageLevel (Level.Find (currentLevelName), Player.MessageType.Announcement, "&f");
+				alive [firstinfect].color = c.red;
+				Player.GlobalDie (alive [firstinfect], false);
+				Player.GlobalSpawn (alive [firstinfect], alive [firstinfect].pos [0], alive [firstinfect].pos [1], alive [firstinfect].pos [2], alive [firstinfect].rot [0], alive [firstinfect].rot [1], false);
+				infectd.Add (alive [firstinfect]);
+				foreach (Player pl in Player.players) {
+					if (pl.level == alive [firstinfect].level && pl.HasExtension ("ChangeModel")) {
+						pl.SendChangeModel (alive [firstinfect].id, "zombie");
+					}
+							}
+					alive.Remove (alive [firstinfect]);
+					return;
+				}
+				if ((Server.gameStatus != 0 && Server.zombieRound) && alive.Count == 0) {
+					HandOutRewards ();
+				}
+			}
 
         public bool InfectedPlayerLogin(Player p)
         {
@@ -535,11 +579,18 @@ namespace MCForge
             return Server.zombieRound;
         }
 
-        public void InfectPlayer(Player p)
-        {
-            if (Server.zombieRound == false) return;
-            if (p == null) return;
-            infectd.Add(p);
+        public void InfectPlayer (Player p)
+		{
+			if (Server.zombieRound == false)
+				return;
+			if (p == null)
+				return;
+			infectd.Add (p);
+			foreach (Player pl in Player.players) {
+				if (pl.level == p.level && pl.HasExtension ("ChangeModel")) {
+					pl.SendChangeModel (p.id, "zombie");
+				}
+			}
             alive.Remove(p);
             p.infected = true;
             p.color = c.red;
@@ -553,6 +604,11 @@ namespace MCForge
             if (Server.zombieRound == false) return;
             if (p == null) return;
             infectd.Remove(p);
+				foreach (Player pl in Player.players) {
+					if (p.level == pl.level && pl.HasExtension ("ChangeModel")) {
+						pl.SendChangeModel (p.id, "steve");
+					}
+				}
             alive.Add(p);
             p.infected = false;
             p.color = p.group.color;
@@ -567,9 +623,9 @@ namespace MCForge
             currentLevelName = next;
             Server.queLevel = false;
             Server.nextLevel = "";
-            Command.all.Find("load").Use(null, next.ToLower() + " 0");
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Status2, "The next map has been chosen - " + c.red + next.ToLower());
-            Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Status3, "Please wait while you are transfered.");
+            Command.all.Find("load").Use(null, next.ToLower() + " 5");
+            Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status2, "The next map has been chosen - " + c.red + next.ToLower());
+            Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status3, "Please wait while you are transfered.");
             String oldLevel = Server.mainLevel.name;
             if (changeMainLevel)
             {
@@ -587,7 +643,7 @@ namespace MCForge
             }
             else
             {
-                Player.GlobalMessageLevel(Level.FindExact(currentLevelName), Player.MessageType.Chat, "Type /goto " + next + " to play the next round of Zombie Survival");
+                Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Chat, "Type /goto " + next + " to play the next round of Zombie Survival");
             }
             return;
         }

@@ -110,7 +110,7 @@ namespace MCForge
                     ID = line.Split(' ')[6];
 				}
 			}
-			string[] end = { bannedby, reason, timedate, oldrank, stealth };
+			string[] end = { bannedby, reason, timedate, oldrank, stealth, ID };
 			return end;
 		}
         /// <summary>

@@ -19,7 +19,6 @@ namespace MCForge.Commands
             List<string> mapsToConvert = new List<string>(Directory.GetFiles("levels/byte", "*.lvl"));
             mapsToConvert.ForEach(m =>
             {
-                if (File.Exists("levels/" + m) { return;  }
                 m = m.Remove(0, m.LastIndexOf('\\') + 1);
                 Command.all.Find("loadbyte").Use(p, m.Substring(0, m.LastIndexOf('.')));
                 Command.all.Find("save").Use(p, m.Substring(0, m.LastIndexOf('.')));

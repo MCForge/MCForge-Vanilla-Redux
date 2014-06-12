@@ -1322,7 +1322,7 @@ namespace MCForge
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 s.Log("Couldn't update MCForge staff list, using defaults. . . ");
                 devs.Clear();

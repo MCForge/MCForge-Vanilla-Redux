@@ -1350,14 +1350,15 @@ namespace MCForge
                 }
                 Player.players.ForEach(delegate(Player p)
                 {
-                    if (p != this)
+                    if (p != this && extension)
                     {
-						if (p.extension == true)
-						{
                         p.SendExtAddPlayerName(id, name, group, color + name);
                     }
-                    SendExtAddPlayerName(p.id, p.name, p.group, p.color + p.name);
-					}});
+                    if (extension)
+                    {
+                        SendExtAddPlayerName(p.id, p.name, p.group, p.color + p.name);
+                    }
+                });
             }
             catch (Exception e)
             {
@@ -4621,12 +4622,10 @@ changed |= 4;*/
                     players.Remove(this);
                     players.ForEach(delegate(Player p)
                     {
-						if (p.extension) {
-                        if (p != this)
+                        if (p != this && extension)
                         {
                             p.SendExtRemovePlayerName(this.id);
                         }
-						}
                     });
                     Server.s.PlayerListUpdate();
                     try
