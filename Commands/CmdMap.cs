@@ -35,7 +35,7 @@ namespace MCForge.Commands
 
             if (message.IndexOf(' ') == -1)
             {
-                foundLevel = Level.Find(message);
+                foundLevel = Level.FindExact(message);
                 if (foundLevel == null)
                 {
                     if (p != null)
@@ -70,7 +70,7 @@ namespace MCForge.Commands
             }
             else
             {
-                foundLevel = Level.Find(message.Split(' ')[0]);
+                foundLevel = Level.FindExact(message.Split(' ')[0]);
 
                 if (foundLevel == null || message.Split(' ')[0].ToLower() == "ps" || message.Split(' ')[0].ToLower() == "rp") foundLevel = p.level;
                 else message = message.Substring(message.IndexOf(' ') + 1);

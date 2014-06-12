@@ -38,7 +38,7 @@ namespace MCForge.Commands
                 return;
             }
 
-            Level level = Level.Find(message);
+            Level level = Level.FindExact(message);
             if (level != null)
             {
                 if (!level.Unload()) Player.SendMessage(p, "You cannot unload the main level.");

@@ -32,7 +32,7 @@ namespace MCForge.Commands
         public override void Use(Player p, string message)
         {
             if (message == "" || message.IndexOf(' ') == -1) { Help(p); return; }
-            Level foundLevel = Level.Find(message.Split(' ')[0]);
+            Level foundLevel = Level.FindExact(message.Split(' ')[0]);
             if (foundLevel == null)
             {
                 Player.SendMessage(p, "Level not found");

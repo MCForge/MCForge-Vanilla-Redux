@@ -34,7 +34,7 @@ namespace MCForge.Commands
 
             if (who == null)
             {
-                Level which = Level.Find(message);
+                Level which = Level.FindExact(message);
 
                 if (which == null)
                 {

@@ -49,7 +49,7 @@ namespace MCForge.Commands
                 if (message.Split(' ').Length >= 2)
                 {
 
-                    lvl = Level.Find(text[1]);
+                    lvl = Level.FindExact(text[1]);
                     if (lvl == null)
                     {
                         Player.SendMessage(p, "Level not found!");

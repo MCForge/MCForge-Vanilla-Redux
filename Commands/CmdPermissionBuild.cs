@@ -55,7 +55,7 @@ namespace MCForge.Commands
                     LevelPermission Perm = Level.PermissionFromName(s);
                     if (Perm == LevelPermission.Null) { Player.SendMessage(p, "Not a valid rank"); return; }
 
-                    Level level = Level.Find(t);
+                    Level level = Level.FindExact(t);
                     if (level != null)
                     {
                         if (level.permissionbuild > p.group.Permission)
@@ -82,7 +82,7 @@ namespace MCForge.Commands
                     LevelPermission Perm = Level.PermissionFromName(args[1]);
                     if (Perm == LevelPermission.Null) { Player.SendMessage(p, "Not a valid rank"); return; }
 
-                    Level level = Level.Find(args[0]);
+                    Level level = Level.FindExact(args[0]);
                     if (level != null)
                     {
                         level.permissionbuild = Perm;

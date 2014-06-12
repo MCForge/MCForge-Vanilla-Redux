@@ -33,7 +33,7 @@ namespace MCForge.Commands
             Level foundLevel;
 
             if (message == "") { foundLevel = p.level; }
-            else foundLevel = Level.Find(message);
+            else foundLevel = Level.FindExact(message);
 
             if (foundLevel == null) { Player.SendMessage(p, "Could not find specified level."); return; }
 

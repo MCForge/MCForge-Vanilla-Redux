@@ -61,7 +61,7 @@ namespace MCForge.Commands
                 LevelPermission Perm = Level.PermissionFromName(s);
                 if (Perm == LevelPermission.Null) { Player.SendMessage(p, "Not a valid rank"); return; }
 
-                Level level = Level.Find(t);
+                Level level = Level.FindExact(t);
                 if (level.perbuildmax > p.group.Permission)
                 {
                     if (level.perbuildmax != LevelPermission.Nobody)

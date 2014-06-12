@@ -104,7 +104,7 @@ namespace MCForge.Commands
 					if (s[1] == "map")
 					{
 						if (s.Length < 3) { SetupHelp(p, "map"); return; }
-						Level foundLevel = Level.Find(s[2]);
+						Level foundLevel = Level.FindExact(s[2]);
 						if (foundLevel == null)
 						{
 							Player.SendMessage(p, "The level must be loaded to add/remove it.");

@@ -56,7 +56,7 @@ namespace MCForge.Commands
                 {
                     temp = System.Convert.ToInt16(message.Split(' ')[1]);
                     string nameStore = message.Split(' ')[0];
-                    level = Level.Find(nameStore);
+                    level = Level.FindExact(nameStore);
                 }
                 if (temp >= 0 && temp <= 5)
                 {

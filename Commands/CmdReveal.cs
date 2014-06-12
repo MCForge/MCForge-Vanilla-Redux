@@ -44,7 +44,7 @@ namespace MCForge.Commands
 				if (p != null && p.level != null) lvl = p.level;
 				else
 				{
-					lvl = Level.Find(text[1]);
+					lvl = Level.FindExact(text[1]);
 					if (lvl == null)
 					{
 						Player.SendMessage(p, "Level not found!");

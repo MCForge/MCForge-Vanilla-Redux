@@ -83,7 +83,7 @@ namespace MCForge.Commands
                 Player.SendMessage(p, "Waypoints:");
                 foreach(Player.Waypoint.WP wp in p.Waypoints)
                 {
-                    if (Level.Find(wp.lvlname) != null)
+                    if (Level.FindExact(wp.lvlname) != null)
                     {
                         Player.SendMessage(p, wp.name + ":" + wp.lvlname);
                     }

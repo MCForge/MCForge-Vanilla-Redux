@@ -31,7 +31,7 @@ namespace MCForge.Commands {
 				Player.SendMessage(p, "This command can only be used in-game");
 				return;
 			}
-			Level l = Level.Find(message);
+			Level l = Level.FindExact(message);
 			if ( l == null && message != "" ) { Player.SendMessage(p, "Could not find level."); return; }
 			if ( l == null ) l = p.level;
 

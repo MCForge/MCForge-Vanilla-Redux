@@ -376,7 +376,7 @@ namespace MCForge.Levels.Textures
                     {
                         string worldName = match.Groups[1].Value;
                       //  bool firstTime = match.Groups[2].Success;
-                        Level l = Level.Find(worldName);
+                        Level l = Level.FindExact(worldName);
                         if (l != null)
                         {
                             string cfg = "";

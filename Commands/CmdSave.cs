@@ -52,7 +52,7 @@ namespace MCForge.Commands
                         }
                     }
                 } else if (message.Split(' ').Length == 1) { //Just save level given 
-                    Level foundLevel = Level.Find(message);
+                    Level foundLevel = Level.FindExact(message);
                     if (foundLevel != null) {
                         foundLevel.Save(true);
                         Player.SendMessage(p, "Level \"" + foundLevel.name + "\" saved.");
@@ -67,7 +67,7 @@ namespace MCForge.Commands
                         Player.SendMessage(p, "Could not find level specified");
                     }
                 } else if (message.Split(' ').Length == 2) {
-                    Level foundLevel = Level.Find(message.Split(' ')[0]);
+                    Level foundLevel = Level.FindExact(message.Split(' ')[0]);
                     string restoreName = message.Split(' ')[1].ToLower();
                     if (foundLevel != null) {
                         foundLevel.Save(true);

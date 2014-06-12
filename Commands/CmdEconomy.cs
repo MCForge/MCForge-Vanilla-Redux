@@ -388,7 +388,7 @@ namespace MCForge.Commands {
                                             Economy.UpdateEcoStats(ecos);
                                             Command.all.Find("load").Use(null, p.name + "_" + par3);
                                             Thread.Sleep(250);
-                                            Level level = Level.Find(p.name + "_" + par3);
+                                            Level level = Level.FindExact(p.name + "_" + par3);
                                             if (level.permissionbuild > p.group.Permission) { level.permissionbuild = p.group.Permission; }
                                             if (level.permissionvisit > p.group.Permission) { level.permissionvisit = p.group.Permission; }
                                             Command.all.Find("goto").Use(p, p.name + "_" + par3);

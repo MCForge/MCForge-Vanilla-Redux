@@ -26,7 +26,7 @@ namespace MCForge.Commands
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public override void Use(Player p, string message)
         {
-            Level level = Level.Find(message.Split(' ')[0]);
+            Level level = Level.FindExact(message.Split(' ')[0]);
             if (level == null) { Player.SendMessage(p, "There is no level named '" + message.Split(' ')[0] + "'."); return; }
             if (p == null)
                 foreach (Player pl in Player.players) { Command.all.Find("move").Use(null, pl.name + " " + level.name); }

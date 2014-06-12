@@ -59,7 +59,7 @@ namespace MCForge.Commands
                 catch
                 {
                     foundNum = 30;
-                    foundLevel = Level.Find(message);
+                    foundLevel = Level.FindExact(message);
                 }
             }
             else
@@ -67,7 +67,7 @@ namespace MCForge.Commands
                 try
                 {
                     foundNum = int.Parse(message.Split(' ')[1]);
-                    foundLevel = Level.Find(message.Split(' ')[0]);
+                    foundLevel = Level.FindExact(message.Split(' ')[0]);
                 }
                 catch
                 {

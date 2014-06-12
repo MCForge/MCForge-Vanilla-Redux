@@ -1522,7 +1522,7 @@ namespace MCForge
                 Server.s.Log(name + " [" + ip + "]" + "(" + ID + ") + has joined the server.");
             }
 
-            if (Server.zombie.ZombieStatus() != 0) { Player.SendMessage(this, "There is a Zombie Survival game currently in-progress! Join it by typing /g " + Server.zombie.currentLevelName.ToString()); }
+            if (Server.zombie.ZombieStatus() != 0) { Player.SendMessage(this, "There is a Zombie Survival game currently in-progress! Join it by typing /g " + Server.zombie.currentLevelName); }
         }
 
         public void SetPrefix()
