@@ -689,6 +689,7 @@ namespace MCForge
         {
             switch (type)
             {
+				case air:
                 case water:
                 case waterstill:
                 case lava:
@@ -809,7 +810,6 @@ namespace MCForge
                 case zombiebody:
                 case creeper:
                 case zombiehead:
-				case 0:
                     return true;
             }
             return false;
@@ -995,6 +995,7 @@ namespace MCForge
         {
             switch (Convert(type))
             {
+				case Block.air:
                 case Block.glass:
                 case Block.leaf:
                 case Block.redflower:
@@ -1183,6 +1184,7 @@ namespace MCForge
         {
             switch (type)
             {
+				case 0: return "air";
                 case 1: return "stone";
                 case 2: return "grass";
                 case 3: return "dirt";
