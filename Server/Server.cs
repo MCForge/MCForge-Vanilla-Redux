@@ -135,6 +135,8 @@ namespace MCForge
 
         public static MapGenerator MapGen;
 
+        public static Thread checkPosThread;
+
         public static PerformanceCounter PCCounter = null;
         public static PerformanceCounter ProcessCounter = null;
 
@@ -225,6 +227,9 @@ namespace MCForge
 
         // Lava Survival
         public static LavaSurvival lava;
+
+        //CTF
+        public bool CTF = false;
 
         // OmniBan
         public static OmniBan omniban;
@@ -590,10 +595,6 @@ namespace MCForge
 
             LoadAllSettings();
 
-            //derp
-            if (!Server.LevelList.Contains("#(Must be comma seperated, no spaces. Must have changing levels and use level list enabled.)"))
-                Server.LevelList.Add("#(Must be comma seperated, no spaces. Must have changing levels and use level list enabled.)");
-
             // OmniBan
             omniban = new OmniBan();
 
@@ -762,6 +763,12 @@ namespace MCForge
                     foreach (string gcmod in GCmods) {
                         Extensions.DeleteExactLineWord("ranks/muted.txt", gcmod);
                     }
+                }
+                if (this.CTF)
+                {
+                    MCForge.CTF.redTeam = new CTFTeam("&c", Block.red);
+                    MCForge.CTF.blueTeam = new CTFTeam("&9", Block.deepblue);
+                    MCForge.CTF.Setup(Server.mainLevel, true);
                 }
             });
 
@@ -936,6 +943,23 @@ namespace MCForge
                     }
                 }));
                 blockThread.Start();
+
+                ml.Queue(delegate
+                {
+                    checkPosThread = new Thread(new ThreadStart(delegate
+                    {
+                        while (true)
+                        {
+                            Player.players.ForEach(delegate(Player p)
+                            {
+                                p.CheckPosition();
+                            });
+                            Thread.Sleep(250);
+                        }
+                    }));
+                    checkPosThread.Start();
+                });
+
 
                 locationChecker = new Thread(new ThreadStart(delegate
                 {

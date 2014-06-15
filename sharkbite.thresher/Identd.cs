@@ -76,6 +76,7 @@ namespace Sharkbite.Irc
 				socketThread.Start();	
 			}
 		}
+        System.Net.IPAddress ipAddress = System.Net.Dns.Resolve("localhost").AddressList[0];
 		/// <summary>
 		/// Check if the Identd server is running
 		/// </summary>
@@ -103,7 +104,6 @@ namespace Sharkbite.Irc
 				}
 			}
 		}
-
 		private static void Run() 
 		{
 			Debug.WriteLineIf( Rfc2812Util.IrcTrace.TraceInfo,"[" + Thread.CurrentThread.Name +"] Identd::Run()");

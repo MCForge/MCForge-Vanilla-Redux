@@ -65,6 +65,7 @@ namespace MCForge
 			all.Add(new CmdBots());
 			all.Add(new CmdBotSet());
 			all.Add(new CmdBotSummon());
+            all.Add(new CmdBlueTeam());
 			all.Add(new CmdC4());
 			all.Add(new CmdCalculate());
 			all.Add(new CmdChain());
@@ -90,6 +91,7 @@ namespace MCForge
 			all.Add(new CmdCrashServer());
 			all.Add(new CmdCTF());
 			all.Add(new CmdCuboid());
+            all.Add(new CmdDefuse());
 			all.Add(new CmdDelete());
 			all.Add(new CmdDeleteLvl());
 			all.Add(new CmdDelTempRank());
@@ -100,6 +102,7 @@ namespace MCForge
 			all.Add(new CmdDisInfect());
 			all.Add(new CmdDraw());
 			all.Add(new CmdDrill());
+            all.Add(new CmdDrop());
 			all.Add(new CmdEconomy());
 			all.Add(new CmdEmote());
 			all.Add(new CmdEndRound());
@@ -223,6 +226,7 @@ namespace MCForge
 			all.Add(new CmdRankInfo());
 			all.Add(new CmdRankMsg());            
 			all.Add(new CmdRedo());
+            all.Add(new CmdRedTeam());
 			all.Add(new CmdReload());
 			all.Add(new CmdReferee());
 			all.Add(new CmdRenameLvl());

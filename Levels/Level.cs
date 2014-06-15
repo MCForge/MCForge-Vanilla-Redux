@@ -129,6 +129,19 @@ namespace MCForge
         public string name;
         public int overload = 1500;
 		public byte weather;
+        public ushort[] redSpawn = { 0, 0, 0 };
+        public ushort[] redRotation = { 0, 0 };
+        public ushort[] blueSpawn = { 0, 0, 0 };
+        public ushort[] blueRotation = { 0, 0 };
+        public ushort[] redFlag = { 0, 0, 0 };
+        public ushort[] blueFlag = { 0, 0, 0 };
+
+        public string author = "nobody";
+        public int likes = 0;
+        public int dislikes = 0;
+
+        public int maxBuildHeight;
+        public ushort divider;
 
         // IsoCat
         public ushort[,] shadows;
@@ -198,6 +211,7 @@ namespace MCForge
         public ushort spawnx;
         public ushort spawny;
         public ushort spawnz;
+        public ushort[] backupBlocks;
 
         public int speedPhysics = 250;
         public LevelTextures textures;
@@ -812,6 +826,28 @@ namespace MCForge
                     SW.WriteLine("LeafDecay = " + level.leafDecay.ToString());
                     SW.WriteLine("RandomFlow = " + level.randomFlow.ToString());
                     SW.WriteLine("GrowTrees = " + level.growTrees.ToString());
+                    SW.WriteLine("author = " + level.author);
+                    SW.WriteLine("likes = " + level.likes);
+                    SW.WriteLine("dislikes = " + level.dislikes);
+                    SW.WriteLine("redSpawnX = " + level.redSpawn[0]);
+                    SW.WriteLine("redSpawnY = " + level.redSpawn[1]);
+                    SW.WriteLine("redSpawnZ = " + level.redSpawn[2]);
+                    SW.WriteLine("redSpawnRotX = " + level.redRotation[0]);
+                    SW.WriteLine("redSpawnRotY = " + level.redRotation[1]);
+                    SW.WriteLine("blueSpawnX = " + level.blueSpawn[0]);
+                    SW.WriteLine("blueSpawnY = " + level.blueSpawn[1]);
+                    SW.WriteLine("blueSpawnZ = " + level.blueSpawn[2]);
+                    SW.WriteLine("blueSpawnRotX = " + level.blueRotation[0]);
+                    SW.WriteLine("blueSpawnRotY = " + level.blueRotation[1]);
+                    SW.WriteLine("redFlagX = " + level.redFlag[0]);
+                    SW.WriteLine("redFlagY = " + level.redFlag[1]);
+                    SW.WriteLine("redFlagZ = " + level.redFlag[2]);
+                    SW.WriteLine("blueFlagX = " + level.blueFlag[0]);
+                    SW.WriteLine("blueFlagY = " + level.blueFlag[1]);
+                    SW.WriteLine("blueFlagZ = " + level.blueFlag[2]);
+                    SW.WriteLine("buildCeiling = " + level.maxBuildHeight);
+                    SW.WriteLine("# divider is always along the X axis! Bear this in mind when making your maps.");
+                    SW.WriteLine("divider = " + level.divider);
                 }
             }
             catch (Exception)
@@ -1240,7 +1276,6 @@ namespace MCForge
 
 
                     level.setPhysics(phys);
-
                     var blocks = new byte[(bite ? 1 : 2) * level.width * level.height * level.depth];
                     gs.Read(blocks, 0, blocks.Length);
                     if(!bite)
@@ -1415,6 +1450,27 @@ namespace MCForge
                                     case "growtrees":
                                         level.growTrees = bool.Parse(value);
                                         break;
+                                    case "author": level.author = value; break;
+                                    case "likes": level.likes = int.Parse(value); break;
+                                    case "dislikes": level.dislikes = int.Parse(value); break;
+                                    case "redspawnx": level.redSpawn[0] = ushort.Parse(value); break;
+                                    case "redspawny": level.redSpawn[1] = ushort.Parse(value); break;
+                                    case "redspawnz": level.redSpawn[2] = ushort.Parse(value); break;
+                                    case "redspawnrotx": level.redRotation[0] = byte.Parse(value); break;
+                                    case "redspawnroty": level.redRotation[1] = byte.Parse(value); break;
+                                    case "bluespawnx": level.blueSpawn[0] = ushort.Parse(value); break;
+                                    case "bluespawny": level.blueSpawn[1] = ushort.Parse(value); break;
+                                    case "bluespawnz": level.blueSpawn[2] = ushort.Parse(value); break;
+                                    case "bluespawnrotx": level.blueRotation[0] = byte.Parse(value); break;
+                                    case "bluespawnroty": level.blueRotation[1] = byte.Parse(value); break;
+                                    case "redflagx": level.redFlag[0] = ushort.Parse(value); break;
+                                    case "redflagy": level.redFlag[1] = ushort.Parse(value); break;
+                                    case "redflagz": level.redFlag[2] = ushort.Parse(value); break;
+                                    case "blueflagx": level.blueFlag[0] = ushort.Parse(value); break;
+                                    case "blueflagy": level.blueFlag[1] = ushort.Parse(value); break;
+                                    case "blueflagz": level.blueFlag[2] = ushort.Parse(value); break;
+                                    case "buildceiling": level.maxBuildHeight = int.Parse(value); break;
+                                    case "divider": level.divider = ushort.Parse(value); break;
                                 }
                             }
                             catch (Exception e)
@@ -1427,7 +1483,7 @@ namespace MCForge
                     {
                     }
                     level.CalculateShadows();
-
+                    level.backupBlocks = level.blocks;
                     Server.s.Log(string.Format("Level \"{0}\" loaded.", level.name));
                     if (LevelLoaded != null)
                         LevelLoaded(level);

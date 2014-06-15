@@ -41,7 +41,6 @@ namespace MCForge.Commands
                 Player.SendMessage(p, "Guns and missiles cannot be used on this map!");
                 return;
             }
-            if (p.hasflag != null) { Player.SendMessage(p, "You can't use a gun while you have the flag!"); return; }
             Pos cpos;
 
             if (p.aiming)

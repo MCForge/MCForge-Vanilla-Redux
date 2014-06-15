@@ -623,7 +623,7 @@ namespace MCForge
             currentLevelName = next;
             Server.queLevel = false;
             Server.nextLevel = "";
-            Command.all.Find("load").Use(null, next.ToLower() + " 5");
+            Command.all.Find("load").Use(null, next.ToLower() + " 4");
             Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status2, "The next map has been chosen - " + c.red + next.ToLower());
             Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status3, "Please wait while you are transfered.");
             String oldLevel = Server.mainLevel.name;

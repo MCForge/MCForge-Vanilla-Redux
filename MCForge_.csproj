@@ -114,7 +114,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CmdStore.cs" />
+    <Compile Include="Commands\CmdBlueTeam.cs" />
     <Compile Include="Commands\CmdConvertAll.cs" />
+    <Compile Include="Commands\CmdDefuse.cs" />
+    <Compile Include="Commands\CmdDrop.cs" />
+    <Compile Include="Commands\CmdRedTeam.cs" />
+    <Compile Include="Games\CTF.cs" />
+    <Compile Include="Games\CTFTeam.cs" />
     <Compile Include="Games\SMP.cs" />
     <Compile Include="Games\SMP\Inventory.cs" />
     <Compile Include="Server\AutoSaver.cs" />
@@ -517,7 +523,6 @@
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\ConvertDAT.cs" />
     <Compile Include="Database\MySQL.cs" />
-    <Compile Include="Player\Team.cs" />
     <Compile Include="Player\Group.cs" />
     <Compile Include="GUI\Program.cs" />
     <Compile Include="Levels\MapGenerator.cs" />

@@ -31,6 +31,7 @@ namespace MCForge
 {
     public sealed partial class Player : IDisposable
     {
+        public void ClearChat() { OnChat = null; }
         /// <summary>
         /// List of all server players.
         /// </summary>
@@ -185,9 +186,65 @@ namespace MCForge
 
         public int grieferStoneWarn = 0;
 
-        //CTF
-        public Team team;
-        public Team hasflag;
+        // CTF
+        public CTFTeam team;
+        public bool carryingFlag;
+        public bool justDroppedFlag = false;
+        public CatchPos placedTNT;
+        public CatchPos placedMine;
+        public int captureStreak;
+        public int captureCount;
+        public int kills;
+        public int deaths;
+        public int drownCount;
+        public int totalCaptures;
+        public int totalKills;
+        public int totalDeaths;
+        public int totalReturns;
+        bool isActivating;
+        public struct CatchPos
+        {
+            public ushort x, y, z;
+            public bool isActive;
+        }
+        public List<string> playersKilled = new List<string>();
+
+        public int getKillCount(string name)
+        {
+            int count = 0;
+            playersKilled.ForEach(delegate(string kill)
+            {
+                if (name.ToLower() == kill.ToLower())
+                {
+                    count++;
+                }
+            });
+            return count;
+        }
+        public void Reward(int reward)
+        {
+            money += reward;
+        }
+        public void killPlayer(Player killed)
+        {
+            playersKilled.Add(killed.name);
+            killed.deaths++;
+            kills++;
+
+            Reward(CTF.killPlayerReward);
+
+            if (getKillCount(killed.name) % 5 == 0)
+            {
+                Player.GlobalMessage("&f- " + color + name + "&b is dominating " + killed.color + killed.name + "&b!");
+            }
+
+            if (killed.carryingFlag)
+            {
+                Command.all.Find("drop").Use(killed, "");
+            }
+
+            killed.team.SpawnPlayer(killed);
+        }
 
         //Countdown
         public bool playerofcountdown = false;
@@ -1998,6 +2055,41 @@ namespace MCForge
                     {
                         switch (type)
                         {
+                            case Block.tnt:
+                                if (!CTF.gameOn) { goto default; }
+                                placedTNT.x = x;
+                                placedTNT.y = y;
+                                placedTNT.z = z;
+                                placedTNT.isActive = true;
+                                goto default;
+                            case Block.darkgrey:
+                                if (!CTF.gameOn) { goto default; }
+                                if (isActivating) { SendMessage("&f- &cAnother mine is still activating!"); goto default; }
+                                Thread placeMineThread = new Thread(new ThreadStart(delegate
+                                {
+                                    placedMine.x = x;
+                                    placedMine.y = y;
+                                    placedMine.z = z;
+                                    SendMessage("&f- &SMine placed, activating...");
+                                    isActivating = true;
+                                    Thread.Sleep(CTF.mineActivationTime * 1000);
+                                    placedMine.isActive = true;
+                                    SendMessage("&f- &SMine is now active! Type /defuse to defuse...");
+                                    isActivating = false;
+                                }));
+                                placeMineThread.Start();
+                                goto default;
+                            case Block.purple:
+                                if (placedTNT.isActive)
+                                {
+                                    CTF.ExplodeTNT(this, placedTNT.x, placedTNT.y, placedTNT.z, CTF.tntBlastRadius);
+                                    SendBlockchange(x, y, z, Block.air);
+                                }
+                                else
+                                {
+                                    goto default;
+                                }
+                                break;
                             case Block.dirt: //instant dirt to grass
                                 if (Block.LightPass(level.GetTile(x, (ushort)(y + 1), z))) level.Blockchange(this, x, y, z, (byte)(Block.grass));
                                 else level.Blockchange(this, x, y, z, (byte)(Block.dirt));
@@ -2042,6 +2134,216 @@ namespace MCForge
                     break;
             }
         }
+
+        public void CheckPosition()
+        {
+            if (team == null)
+            {
+                return;
+            }
+
+            ushort x = (ushort)(pos[0] / 32);
+            ushort y;
+            ushort yh = (ushort)((pos[1] / 32)); // gets head pos
+            try
+            {
+                y = (ushort)((pos[1] / 32) - 1); // gets foot pos
+            }
+            catch
+            {
+                y = yh;
+            }
+            ushort z = (ushort)(pos[2] / 32);
+            ushort footBlock = level.GetTile(x, y, z);
+            ushort headBlock = level.GetTile(x, yh, z);
+
+            switch (footBlock)
+            {
+                case Block.flagbase:
+                    CheckFlag();
+                    break;
+            }
+
+            switch (headBlock)
+            {
+                case Block.air:
+                case Block.rope:
+                case Block.flagbase:
+                case Block.staircasestep:
+                case Block.cobblestoneslab:
+                case Block.Zero:
+                    drownCount = 0;
+                    break;
+                case Block.water:
+                case Block.waterstill:
+                case Block.water_portal:
+                case Block.air_portal:
+                    if (team == null)
+                    {
+                        return;
+                    }
+
+                    drownCount++;
+                    int drownPercentage = (drownCount * 100) / ((CTF.drownTime * 1000) / 250);
+                    if (drownCount >= ((CTF.drownTime * 1000) / 250))
+                    {
+
+                        if (carryingFlag)
+                        {
+                            Command.all.Find("drop").Use(this, "");
+                        }
+
+                        team.SpawnPlayer(this);
+                    }
+                    else if (drownPercentage > 50)
+                    {
+                        SendMessage("You are drowning!");
+                    }
+                    break;
+                default:
+                    if (team == null)
+                    {
+                        return;
+                    }
+
+                    drownCount = 0;
+                    if (headBlock != Block.water && headBlock != Block.rope && headBlock != Block.air && headBlock != Block.flagbase)
+                    {
+                        deaths++;
+
+                        if (carryingFlag)
+                        {
+                            Command.all.Find("drop").Use(this, "");
+                        }
+
+                        team.SpawnPlayer(this);
+                    }
+                    break;
+            }
+
+            players.ForEach(delegate(Player p)
+            {
+                if ((Math.Max(x, p.placedMine.x) - Math.Min(x, p.placedMine.x)) <= 3)
+                {
+                    if ((Math.Max(y, p.placedMine.y) - Math.Min(y, p.placedMine.y)) <= 3)
+                    {
+                        if ((Math.Max(z, p.placedMine.z) - Math.Min(z, p.placedMine.z)) <= 3)
+                        {
+                            if (!p.placedMine.isActive || team == p.team)
+                            {
+                                return;
+                            }
+
+                            if (level.GetTile(p.placedMine.x, p.placedMine.y, p.placedMine.z) != Block.darkgrey)
+                            {
+                                p.placedMine.isActive = false;
+                                return;
+                            }
+
+                            Player.GlobalMessage("&f- " + color + name + "&S was exploded by " + p.color + p.name + "&S's mine!");
+                            p.killPlayer(this);
+                            CTF.currLevel.Blockchange(p.placedMine.x, p.placedMine.y, p.placedMine.z, Block.air);
+                            p.placedMine.isActive = false;
+
+                            int radius = CTF.mineBlastRadius;
+                            ushort minX = (ushort)(x - radius);
+                            ushort minY = (ushort)(y - radius);
+                            ushort minZ = (ushort)(z - radius);
+                            ushort maxX = (ushort)(x + radius);
+                            ushort maxY = (ushort)(y + radius);
+                            ushort maxZ = (ushort)(z + radius);
+
+                            for (ushort xx = minX; xx <= maxX; xx++)
+                            {
+                                for (ushort yy = minY; yy <= maxY; yy++)
+                                {
+                                    for (ushort zz = minZ; zz <= maxZ; zz++)
+                                    {
+                                        if (level.GetTile(xx, yy, zz) != Block.blackrock && CTF.mineDestroyBlocks)
+                                        {
+                                            level.Blockchange(xx, yy, zz, Block.air);
+                                            Player.GlobalBlockchange(level, xx, yy, zz, Block.air);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (((ushort)(pos[0] / 32) < level.divider && team.flagBase[0] > level.divider) || ((ushort)(pos[0] / 32) > level.divider && team.flagBase[0] < level.divider))
+                { // Good, he is on the opposite side, now we can check for any player contact ;);)
+                    CTFTeam oppositeTeam = (team == CTF.redTeam) ? CTF.blueTeam : CTF.redTeam;
+                    oppositeTeam.players.ForEach(delegate(Player pl)
+                    {
+                        ushort plposx = (ushort)(pl.pos[0] / 32);
+                        ushort plposy = (ushort)(pl.pos[1] / 32);
+                        ushort plposz = (ushort)(pl.pos[2] / 32);
+
+                        if (Math.Max(x, plposx) - Math.Min(x, plposx) <= 1)
+                        {
+                            if (Math.Max(yh, plposy) - Math.Min(yh, plposy) <= 1)
+                            {
+                                if (Math.Max(z, plposz) - Math.Min(z, plposz) <= 1)
+                                {
+                                    Player.GlobalMessage("&f- " + color + name + "&S was tagged by " + pl.color + pl.name + "&S!");
+                                    pl.killPlayer(this);
+                                    Thread.Sleep(500);
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        void CheckFlag()
+        {
+            if (!CTF.gameOn || team == null)
+            {
+                return;
+            }
+
+            CTFTeam oppositeTeam = (team == CTF.redTeam) ? CTF.blueTeam : CTF.redTeam;
+            ushort x = (ushort)(pos[0] / 32);
+            ushort y = (ushort)((pos[1] / 32) - 1);
+            ushort z = (ushort)(pos[2] / 32);
+            if (x == oppositeTeam.flagLocation[0])
+            {
+                if (y == oppositeTeam.flagLocation[1])
+                {
+                    if (z == oppositeTeam.flagLocation[2])
+                    {
+                        CTF.TakeFlag(this, oppositeTeam);
+                    }
+                }
+            }
+
+            if (x == team.flagBase[0])
+            {
+                if (z == team.flagBase[2])
+                {
+                    if (team.flagIsHome && carryingFlag)
+                    {
+                        CTF.CaptureFlag(this, oppositeTeam);
+                    }
+                }
+            }
+
+            if (x == team.flagLocation[0])
+            {
+                if (z == team.flagLocation[2])
+                {
+                    if (!team.flagIsHome)
+                    {
+                        CTF.ReturnFlag(team, false);
+                        Player.GlobalMessage("&f- " + color + name + "&S returned the " + team.color + team.name + "&S flag!");
+                        Reward(CTF.returnFlagReward);
+                    }
+                }
+            }
+        }
+
 
         void HandleInput(object m)
         {
@@ -4554,10 +4856,6 @@ changed |= 4;*/
                     isFlying = false;
                     aiming = false;
 
-                    if (team != null)
-                    {
-                        team.RemoveMember(this);
-                    }
 
                     if (CountdownGame.players.Contains(this))
                     {
