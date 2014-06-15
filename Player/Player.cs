@@ -31,6 +31,166 @@ namespace MCForge
 {
     public sealed partial class Player : IDisposable
     {
+        private static readonly char[] UnicodeReplacements = " ☺☻♥♦♣♠•◘○\n♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼".ToCharArray();
+
+        /// <summary> List of chat keywords, and emotes that they stand for. </summary>
+        public static readonly Dictionary<string, char> EmoteKeywords = new Dictionary<string, char> {
+            { ":)", '\u0001' }, // ☺
+            { "smile", '\u0001' },
+
+            { ":D", '\u0002' }, // ☻
+			{ "darksmile", '\u0002' }, // ☻
+
+            { "heart", '\u0003' }, // ♥
+            { "hearts", '\u0003' },
+            { "<3", '\u0003' },
+
+            { "diamond", '\u0004' }, // ♦
+            { "diamonds", '\u0004' },
+            { "rhombus", '\u0004' },
+
+            { "club", '\u0005' }, // ♣
+            { "clubs", '\u0005' },
+            { "clover", '\u0005' },
+            { "shamrock", '\u0005' },
+
+            { "spade", '\u0006' }, // ♠
+            { "spades", '\u0006' },
+
+            { "*", '\u0007' }, // •
+            { "bullet", '\u0007' },
+            { "dot", '\u0007' },
+            { "point", '\u0007' },
+
+            { "hole", '\u0008' }, // ◘
+
+            { "circle", '\u0009' }, // ○
+            { "o", '\u0009' },
+
+            { "male", '\u000B' }, // ♂
+            { "mars", '\u000B' },
+
+            { "female", '\u000C' }, // ♀
+            { "venus", '\u000C' },
+
+            { "8", '\u000D' }, // ♪
+            { "note", '\u000D' },
+            { "quaver", '\u000D' },
+
+            { "notes", '\u000E' }, // ♫
+            { "music", '\u000E' },
+
+            { "sun", '\u000F' }, // ☼
+            { "celestia", '\u000F' },
+
+            { ">>", '\u0010' }, // ►
+            { "right2", '\u0010' },
+
+            { "<<", '\u0011' }, // ◄
+            { "left2", '\u0011' },
+
+            { "updown", '\u0012' }, // ↕
+            { "^v", '\u0012' },
+
+            { "!!", '\u0013' }, // ‼
+
+            { "p", '\u0014' }, // ¶
+            { "para", '\u0014' },
+            { "pilcrow", '\u0014' },
+            { "paragraph", '\u0014' },
+
+            { "s", '\u0015' }, // §
+            { "sect", '\u0015' },
+            { "section", '\u0015' },
+
+            { "-", '\u0016' }, // ▬
+            { "_", '\u0016' },
+            { "bar", '\u0016' },
+            { "half", '\u0016' },
+
+            { "updown2", '\u0017' }, // ↨
+            { "^v_", '\u0017' },
+
+            { "^", '\u0018' }, // ↑
+            { "up", '\u0018' },
+
+            { "v", '\u0019' }, // ↓
+            { "down", '\u0019' },
+
+            { ">", '\u001A' }, // →
+            { "->", '\u001A' },
+            { "right", '\u001A' },
+
+            { "<", '\u001B' }, // ←
+            { "<-", '\u001B' },
+            { "left", '\u001B' },
+
+            { "l", '\u001C' }, // ∟
+            { "angle", '\u001C' },
+            { "corner", '\u001C' },
+
+            { "<>", '\u001D' }, // ↔
+            { "<->", '\u001D' },
+            { "leftright", '\u001D' },
+
+            { "^^", '\u001E' }, // ▲
+            { "up2", '\u001E' },
+
+            { "vv", '\u001F' }, // ▼
+            { "down2", '\u001F' },
+
+            { "house", '\u007F' } // ⌂
+        };
+
+        public static string ReplaceEmoteKeywords(string message ) {
+            if ( message == null )
+                throw new ArgumentNullException( "message" );
+            int startIndex = message.IndexOf( '(' );
+            if ( startIndex == -1 ) {
+                return message; // break out early if there are no opening braces
+            }
+
+            StringBuilder output = new StringBuilder( message.Length );
+            int lastAppendedIndex = 0;
+            while ( startIndex != -1 ) {
+                int endIndex = message.IndexOf( ')', startIndex + 1 );
+                if ( endIndex == -1 ) {
+                    break; // abort if there are no more closing braces
+                }
+
+                // see if emote was escaped (if odd number of backslashes precede it)
+                bool escaped = false;
+                for ( int i = startIndex - 1; i >= 0 && message[i] == '\\'; i-- ) {
+                    escaped = !escaped;
+                }
+                // extract the keyword
+                string keyword = message.Substring( startIndex + 1, endIndex - startIndex - 1 );
+                char substitute;
+                if ( EmoteKeywords.TryGetValue( keyword.ToLowerInvariant(), out substitute ) ) {
+                    if ( escaped ) {
+                        // it was escaped; remove escaping character
+                        startIndex++;
+                        output.Append( message, lastAppendedIndex, startIndex - lastAppendedIndex - 2 );
+                        lastAppendedIndex = startIndex - 1;
+                    } else {
+                        // it was not escaped; insert substitute character
+                        output.Append( message, lastAppendedIndex, startIndex - lastAppendedIndex );
+                        output.Append( substitute );
+                        startIndex = endIndex + 1;
+                        lastAppendedIndex = startIndex;
+                    }
+                } else {
+                    startIndex++; // unrecognized macro, keep going
+                }
+                startIndex = message.IndexOf( '(', startIndex );
+            }
+            // append the leftovers
+            output.Append( message, lastAppendedIndex, message.Length - lastAppendedIndex );
+            return output.ToString();
+        }
+
+
+        private static readonly Regex EmoteSymbols = new Regex( "[\x00-\x1F\x7F☺☻♥♦♣♠•◘○\n♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼⌂]" );
         public void ClearChat() { OnChat = null; }
         /// <summary>
         /// List of all server players.
@@ -1405,23 +1565,18 @@ namespace MCForge
                     if (pB.level == level)
                         SendSpawn(pB.id, pB.color + pB.name, pB.pos[0], pB.pos[1], pB.pos[2], pB.rot[0], pB.rot[1]);
                 }
-                Player.players.ForEach(delegate(Player p)
-                {
-                    if (p != this && extension)
-                    {
-                        p.SendExtAddPlayerName(id, name, group, color + name);
+                Player.players.ForEach( delegate( Player p ) {
+                    if ( p != this && extension) {
+                        p.SendExtAddPlayerName( id, name, group, color + name );
                     }
-                    if (extension)
-                    {
-                        SendExtAddPlayerName(p.id, p.name, p.group, p.color + p.name);
-                    }
-                });
+					if(p.extension)
+                    SendExtAddPlayerName( p.id, p.name, p.group, p.color + p.name );
+                } );
+            } catch ( Exception e ) {
+                Server.ErrorLog( e );
+                Server.s.Log( "Error spawning player \"" + name + "\"" );
             }
-            catch (Exception e)
-            {
-                Server.ErrorLog(e);
-                Server.s.Log("Error spawning player \"" + name + "\"");
-            }
+
 
             Loading = false;
 
@@ -3532,7 +3687,7 @@ return;
 				}
 			}
 
-            if (Server.parseSmiley && parseSmiley)
+         /*   if (Server.parseSmiley && parseSmiley)
             {
                 sb.Replace(":)", "(darksmile)");
                 sb.Replace(":D", "(smile)");
@@ -3576,8 +3731,9 @@ return;
             stored[0] = (byte)30;
             sb.Replace("(up)", enc.GetString(stored));
             stored[0] = (byte)31;
-            sb.Replace("(down)", enc.GetString(stored));
-            message = sb.ToString();
+            sb.Replace("(down)", enc.GetString(stored));*/
+
+            message = ReplaceEmoteKeywords(sb.ToString());
             if (HasBadColorCodes(message))
                 return;
             int totalTries = 0;
@@ -4920,7 +5076,7 @@ changed |= 4;*/
                     players.Remove(this);
                     players.ForEach(delegate(Player p)
                     {
-                        if (p != this && extension)
+                        if (p != this && p.extension)
                         {
                             p.SendExtRemovePlayerName(this.id);
                         }
