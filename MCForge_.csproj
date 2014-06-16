@@ -26,7 +26,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NoWin32Manifest>False</NoWin32Manifest>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
@@ -79,6 +78,9 @@
     <Prefer32Bit>False</Prefer32Bit>
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IsoCraft">
@@ -608,6 +610,8 @@
     <Compile Include="Commands\CmdCtf.cs" />
     <Compile Include="properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="util\ExtrasCollection.cs" />
     <Compile Include="Commands\cmdRestart.cs" />

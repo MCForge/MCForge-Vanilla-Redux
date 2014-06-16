@@ -747,6 +747,15 @@ namespace MCForge
                     placeBlock(l, p, x, (ushort)(y + 3), z, b);
                     placeBlock(l, p, x, (ushort)(y + 1), z, b);
                     break;
+                case '?':
+                    placeBlock( l, p, x, (ushort)( y + 4 ), z, b );
+                    if ( directionToGo == 0 ) x++; else if ( directionToGo == 1 ) x--; else if ( directionToGo == 2 ) z++; else z--;
+                    placeBlock( l, p, x, (ushort)( y + 0 ), z, b );
+                    placeBlock( l, p, x, (ushort)( y + 2 ), z, b );
+                    placeBlock( l, p, x, (ushort)( y + 4 ), z, b );
+                    if (directionToGo == 0) x++; else if (directionToGo == 1) x--; else if (directionToGo == 2) z++; else z--;
+                    placeBlock( l, p, x, (ushort)( y + 3 ), z, b );
+                    break;
                 default:
                     Player.SendMessage(p, "\"" + c + "\" is currently not supported. Space left");
                     if (directionToGo == 0) x++; else if (directionToGo == 1) x--; else if (directionToGo == 2) z++; else z--;

@@ -130,6 +130,16 @@ namespace MCForge.Commands
             p.ClearBlockchange();
             CatchPos cpos = (CatchPos)p.blockchangeObject;
 
+            if ( p.level.permissionbuild > p.group.Permission ) {
+                Player.SendMessage( p, "You do not have permission to build here!" );
+                return;
+            }
+            ushort currblock = p.level.GetTile( x, y, z );
+            if ( Block.Mover( currblock ) ) {
+                Player.SendMessage( p, "Messageblock cannot be placed here!" );
+                return;
+            }
+
             cpos.message = cpos.message.Replace("'", "\\'");
 
             if (!Regex.IsMatch(cpos.message.ToLower(), @".*%([0-9]|[a-f]|[k-r])%([0-9]|[a-f]|[k-r])%([0-9]|[a-f]|[k-r])"))
