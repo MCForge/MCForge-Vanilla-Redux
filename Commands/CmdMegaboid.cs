@@ -184,7 +184,7 @@ namespace MCForge.Commands
                 if (p.megaBoid == true)
                 {
                     pos = buffer[CurrentLoop];
-                    try { currentLevel.Blockchange(pos.x, pos.y, pos.z, type); }
+                    try { currentLevel.Blockchange(p, pos.x, pos.y, pos.z, type); }
                     catch { }
                     CurrentLoop++;
                     if (CurrentLoop % 1000 == 0) Player.SendMessage(p, CurrentLoop + " blocks down, " + (buffer.Count - CurrentLoop) + " to go.");
