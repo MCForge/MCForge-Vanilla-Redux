@@ -72,11 +72,11 @@ namespace MCForge
         {
             Level map1 = currLevel;
             ushort bDoorX = currLevel.blueSpawn[0];
-            ushort bDoorY = (ushort)(currLevel.blueSpawn[1] - 2);
-            ushort bDoorZ = currLevel.blueSpawn[2];
+            ushort bDoorY = (ushort)(currLevel.blueSpawn[1]);
+            ushort bDoorZ = (ushort)(currLevel.blueSpawn[2] - 2);
             ushort rDoorX = currLevel.redSpawn[0];
-            ushort rDoorY = (ushort)(currLevel.blueSpawn[1] - 2);
-            ushort rDoorZ = currLevel.blueSpawn[2];
+            ushort rDoorY = (ushort)(currLevel.blueSpawn[1]);
+            ushort rDoorZ = (ushort)(currLevel.blueSpawn[2] - 2);
             map1.SetTile(rDoorX, rDoorZ, rDoorY, Block.air);
             map1.SetTile(bDoorX, bDoorZ, bDoorY, Block.air);
         }
@@ -204,13 +204,13 @@ namespace MCForge
             voted3 = 0;
 
             DirectoryInfo di = new DirectoryInfo("levels/");
-            FileInfo[] fi = di.GetFiles("ctf_*.lvl");
+            FileInfo[] fi = di.GetFiles("ctf_*.mcf");
 
             foreach (FileInfo level in fi)
             {
                 if (!level.Name.Contains("backup"))
                 {
-                    levels.Add(level.Name.Replace(".lvl", ""));
+                    levels.Add(level.Name.Replace(".mcf", ""));
                 }
             }
 
@@ -259,12 +259,12 @@ namespace MCForge
                 if (optionCount == 2)
                 {
                     p.SendMessage("     1 - &b" + option1 + "&S &f|&S 2 - &b" + option2);
-                    p.SendMessage("&f- &SType &a/1&S or &a/2&S to vote.");
+                    p.SendMessage("&f- &SType &a1&S or &a2&S to vote.");
                 }
                 else
                 {
                     p.SendMessage("     1 - &b" + option1 + "&S &f|&S 2 - &b" + option2 + "&S &f|&S 3 - &b" + option3);
-                    p.SendMessage("&f- &SType &a/1&S, &a/2&S or &a/3&S to vote.");
+                    p.SendMessage("&f- &SType &a1&S, &a2&S or &a3&S to vote.");
                 }
                 p.OnChat += ProcessVote;
             });
@@ -394,15 +394,16 @@ namespace MCForge
                 default:
                     if (optionCount == 2)
                     {
-                        p.SendMessage("&f- &SInvalid option! Type either /1 or /2.");
+                        p.SendMessage("&f- &SInvalid option! Type either 1 or 2.");
                     }
                     else
                     {
-                        p.SendMessage("&f- &SInvalid option! Type either /1, /2 or /3.");
+                        p.SendMessage("&f- &SInvalid option! Type either 1, 2 or 3.");
                     }
                     break;
             }
         }
+
 
         public static void ExplodeTNT(Player p, ushort x, ushort y, ushort z, int radius)
         {

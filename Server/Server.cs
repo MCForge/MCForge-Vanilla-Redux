@@ -229,7 +229,7 @@ namespace MCForge
         public static LavaSurvival lava;
 
         //CTF
-        public bool CTF = false;
+        public bool CTF = true;
 
         // OmniBan
         public static OmniBan omniban;
