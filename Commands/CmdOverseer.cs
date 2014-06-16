@@ -166,8 +166,12 @@ namespace MCForge.Commands
 							{
 								Command.all.Find("physics").Use(p, p.level.name + " 4");
 							}
+							else if (par2 == "5")
+							{
+								Command.all.Find("physics").Use(p, p.level.name + " 5");
+							}
 						}
-						else { Player.SendMessage(p, "You didn't enter a number! Please enter one of these numbers: 0, 1, 2, 3, 4"); }
+						else { Player.SendMessage(p, "You didn't enter a number! Please enter one of these numbers: 0, 1, 2, 3, 4, 5"); }
 					}
 					else { Player.SendMessage(p, "You have to be on one of your maps to set its physics!"); }
 				}
