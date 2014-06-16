@@ -1003,6 +1003,7 @@ namespace MCForge
                 case Block.mushroom:
                 case Block.redmushroom:
                 case Block.shrub:
+                case Block.rope:
                     return true;
 
                 default:

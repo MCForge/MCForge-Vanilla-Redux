@@ -62,7 +62,11 @@ namespace MCForge.Commands
                         {
                             Player.SendMessage(p, "You cannot change the perbuild of a level with a perbuild higher than your rank.");
                             return;
+                        } else if ( Perm > p.group.Permission ) {
+                            Player.SendMessage( p, "You cannot set the build permission higher than your own." );
+                            return;
                         }
+
                         level.permissionbuild = Perm;
                         Level.SaveSettings(level);
                         Server.s.Log(level.name + " build permission changed to " + s + ".");

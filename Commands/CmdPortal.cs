@@ -80,6 +80,16 @@ namespace MCForge.Commands
             p.ClearBlockchange();
             portalPos bp = (portalPos)p.blockchangeObject;
 
+            if ( p.level.permissionbuild > p.group.Permission ) {
+                Player.SendMessage( p, "You do not have permission to build here!" );
+                return;
+            }
+            ushort currblock = p.level.GetTile( x, y, z );
+            if ( Block.Mover( currblock ) ) {
+                Player.SendMessage( p, "Portal cannot be placed here!" );
+                return;
+            }
+
             if (bp.Multi && type == Block.red && bp.port.Count > 0) { ExitChange(p, x, y, z, type); return; }
 
           //  ushort b = p.level.GetTile(x, y, z);

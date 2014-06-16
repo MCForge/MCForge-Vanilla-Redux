@@ -1599,6 +1599,8 @@ namespace MCForge
 
             //very very sloppy, yes I know.. but works for the time
             //^Perhaps we should update this? -EricKilla
+            //which bit is this referring to? - HeroCane
+
             bool gotoJail = false;
             string gotoJailMap = "";
             string gotoJailName = "";
