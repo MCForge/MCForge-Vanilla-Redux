@@ -102,6 +102,10 @@ namespace MCForge
         /// <returns>True on successful compile, false on failure.</returns>
         public static bool Compile(string commandName)
         {
+            if (!File.Exists("logs/errors/compiler.log"))
+            {
+                File.Create("logs/errors/compiler.log");
+            }
             string divider = new string('-', 25);
             if (!File.Exists(sourcepath + "Cmd" + commandName + ".cs"))
             {

@@ -68,24 +68,10 @@ namespace MCForge
             GameStart();
         }
 
-        public static void openSpawns()
-        {
-            Level map1 = currLevel;
-            ushort bDoorX = currLevel.blueSpawn[0];
-            ushort bDoorY = (ushort)(currLevel.blueSpawn[1]);
-            ushort bDoorZ = (ushort)(currLevel.blueSpawn[2] - 2);
-            ushort rDoorX = currLevel.redSpawn[0];
-            ushort rDoorY = (ushort)(currLevel.blueSpawn[1]);
-            ushort rDoorZ = (ushort)(currLevel.blueSpawn[2] - 2);
-            map1.SetTile(rDoorX, rDoorZ, rDoorY, Block.air);
-            map1.SetTile(bDoorX, bDoorZ, bDoorY, Block.air);
-        }
-
         public static void GameStart()
         {
             gameThread = new Thread(new ThreadStart(delegate
             {
-                openSpawns();
                 Player.GlobalMessage("&f-&S The game has started! Defend your flags!");
 
                 while ((redTeam.players.Count + blueTeam.players.Count) < 1)

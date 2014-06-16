@@ -23,7 +23,7 @@ namespace MCForge
 {
     public class PlayerBot
     {
-        public static List<PlayerBot> playerbots = new List<PlayerBot>(64);
+        public static List<PlayerBot> playerbots = new List<PlayerBot>();
 
         public bool hunt = false;
         public bool kill = false;

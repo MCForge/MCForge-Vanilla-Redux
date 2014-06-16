@@ -2857,7 +2857,7 @@ try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.waterstill); } catch { }
                     SendMessage(c.teal + "Partial message: " + c.white + storedMessage.Replace("|<|", "").Replace("|>|", " "));
                     return;
                 }
-                if (Regex.IsMatch(text, "%[^a-fA-F0-9]"))//This causes all players to crash!
+                if (Regex.IsMatch(text, "%[^a-f0-9]"))//This causes all players to crash!
                 {
                     SendMessage(this, "You're not allowed to send that message!");
                     return;
@@ -4689,7 +4689,7 @@ changed |= 4;*/
             {
                 int index = 1;
                 StringBuilder sb = new StringBuilder();
-                Regex r = new Regex("^[0-9a-fA-F]$");
+                Regex r = new Regex("^[0-9a-f]$");
                 foreach (char c in message)
                 {
                     if (c == '%')
