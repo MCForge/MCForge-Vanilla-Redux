@@ -71,7 +71,7 @@ namespace MCForge.Commands
                     string restoreName = message.Split(' ')[1].ToLower();
                     if (foundLevel != null) {
                         foundLevel.Save(true);
-                      //  int backupNumber = p.level.Backup(true, restoreName);
+                        int backupNumber = p.level.Backup(true, restoreName);
                         Player.GlobalMessage(foundLevel.name + " had a backup created named &b" + restoreName);
                         Player.SendMessage(null, foundLevel.name + " had a backup created named &b" + restoreName);
                     } else {
