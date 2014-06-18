@@ -524,6 +524,7 @@ namespace MCForge
 				return;
 			//This is for when the first zombie disconnects
 			Random random = new Random ();
+            if (Server.players == 0) { HandOutRewards(); return; }
 			if ((Server.gameStatus != 0 && Server.zombieRound) && infectd.Count <= 0) {
 				int firstinfect = random.Next (alive.Count);
 				firstinfect = firstinfect - 1;

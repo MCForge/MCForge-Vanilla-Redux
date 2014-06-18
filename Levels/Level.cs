@@ -413,7 +413,7 @@ namespace MCForge
             Player.players.ForEach(
                 delegate(Player pl) { if (pl.level == this) Command.all.Find("goto").Use(pl, Server.mainLevel.name); });
 
-            if (changed && (!Server.ZombieModeOn || !Server.noLevelSaving))
+            if (changed && (!Server.ZombieModeOn || !Server.noLevelSaving) || !Server.CTF)
             {
                 if ((!Server.lava.active || !Server.lava.HasMap(name)) && save) Save(false, true);
                 saveChanges();
@@ -1483,7 +1483,6 @@ namespace MCForge
                     {
                     }
                     level.CalculateShadows();
-                    level.backupBlocks = level.blocks;
                     Server.s.Log(string.Format("Level \"{0}\" loaded.", level.name));
                     if (LevelLoaded != null)
                         LevelLoaded(level);

@@ -11,16 +11,17 @@ namespace MCForge
     public class CTF
     {
         public static Level currLevel; // The map which is currently being played on.
+        public static Level oldLevel;
         public static CTFTeam redTeam; // Red Team initializer.
         public static CTFTeam blueTeam; // Blue Team initializer.
         public static bool gameOn; // Whether the game is running or not.
-        public static int scoreLimit = 3; // How many flag captures it takes to win a round.
+        public static int scoreLimit = 1; // How many flag captures it takes to win a round.
 
         public static Thread gameThread; // Thread for the game (so it doesn't interrupt the general flow of the server)
         public static Thread flagThread; // Thread for updating the flag positions.
         public static Thread returnThread; // Thread for returning the flags.
 
-        public static string mainLevel = "ctf_bridge"; // The first map which will be used for the very first round before voting kicks in.
+        public static string mainLevel = "main"; // The first map which will be used for the very first round before voting kicks in.
         public static int returnTime = 15; // The time the flag can be left unattended before being returned to base.
         public static int voteTime = 20; // The time allowed for players to vote for the next map.
         public static int drownTime = 14; // The time you're allowed to be underwater before drowning.
@@ -30,9 +31,9 @@ namespace MCForge
         public static int returnFlagReward = 4; // Reward for returning the flag.
         public static int killPlayerReward = 1; // Reward for killing a player.
         public static int mineBlastRadius = 2; // Mine activation radius.
-        public static int tntBlastRadius = 3; // TNT blast radius.
-        public static bool mineDestroyBlocks = false; // Do mines destroy blocks?
-        public static bool tntDestroyBlocks = false; // Does TNT destroy blocks?
+        public static int tntBlastRadius = 2; // TNT blast radius.
+        public static bool mineDestroyBlocks = true; // Do mines destroy blocks?
+        public static bool tntDestroyBlocks = true; // Does TNT destroy blocks?
         public static bool allowOpHax = false; // Should ops be allowed hacks?
 
         static int redReturnCount;
@@ -64,8 +65,8 @@ namespace MCForge
             blueTeam.flagLocation = blueTeam.flagBase;
 
             Server.s.Log("CTF set up, waiting for players...");
-
             GameStart();
+            Server.s.Log("Game Starting");
         }
 
         public static void GameStart()
@@ -92,8 +93,8 @@ namespace MCForge
                 });
 
                 UpdateScore();
-                Server.s.Log("Game was started.");
                 gameOn = true;
+                Server.s.Log("Game was started.");
 
                 returnThread = new Thread(new ThreadStart(delegate
                 {
@@ -336,13 +337,20 @@ namespace MCForge
                 newLevel.blocks = newLevel.backupBlocks;
                 Player.players.ForEach(delegate(Player p)
                 {
+                    Level.Load(newLevel.name);
                     Command.all.Find("goto").Use(p, newLevel.name);
                     Thread.Sleep(500);
+                    Command.all.Find("unload").Use(p, currLevel.name);
                 });
                 Setup(newLevel, true);
             }
             else
             {
+                Player.players.ForEach(delegate(Player p)
+                {
+                Level.Load(currLevel.name);
+                Command.all.Find("goto").Use(p, currLevel.name);
+                });
                 Player.GlobalMessage("Failed to load next level! Replaying on current level.");
                 Setup(currLevel, true);
             }

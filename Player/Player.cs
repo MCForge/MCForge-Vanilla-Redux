@@ -1565,13 +1565,13 @@ namespace MCForge
                     if (pB.level == level)
                         SendSpawn(pB.id, pB.color + pB.name, pB.pos[0], pB.pos[1], pB.pos[2], pB.rot[0], pB.rot[1]);
                 }
-                Player.players.ForEach( delegate( Player p ) {
+               /* Player.players.ForEach( delegate( Player p ) {
                     if ( p != this && extension) {
                         p.SendExtAddPlayerName( id, name, group, color + name );
                     }
 					if(p.extension)
                     SendExtAddPlayerName( p.id, p.name, p.group, p.color + p.name );
-                } );
+                } );*/
             } catch ( Exception e ) {
                 Server.ErrorLog( e );
                 Server.s.Log( "Error spawning player \"" + name + "\"" );
@@ -5076,13 +5076,13 @@ changed |= 4;*/
                     catch (Exception e) { Server.ErrorLog(e); }
 
                     players.Remove(this);
-                    players.ForEach(delegate(Player p)
+                   /* players.ForEach(delegate(Player p)
                     {
                         if (p != this && p.extension)
                         {
                             p.SendExtRemovePlayerName(this.id);
                         }
-                    });
+                    });*/
                     Server.s.PlayerListUpdate();
                     try
                     {

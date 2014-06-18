@@ -105,7 +105,7 @@ namespace MCForge
         //Other
         public static bool higherranktp = true;
         public static bool agreetorulesonentry = false;
-        public static bool UseCTF = true;
+        public static bool UseCTF = false;
         public static bool ServerSetupFinished = false;
         public static PlayerList bannedIP;
         public static PlayerList whiteList;
@@ -229,7 +229,7 @@ namespace MCForge
         public static LavaSurvival lava;
 
         //CTF
-        public bool CTF = false;
+        public static bool CTF = false;
 
         // OmniBan
         public static OmniBan omniban;
@@ -764,7 +764,7 @@ namespace MCForge
                         Extensions.DeleteExactLineWord("ranks/muted.txt", gcmod);
                     }
                 }
-                if (this.CTF)
+                if (CTF)
                 {
                     MCForge.CTF.redTeam = new CTFTeam("&c", Block.red);
                     MCForge.CTF.blueTeam = new CTFTeam("&9", Block.deepblue);
