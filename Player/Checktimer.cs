@@ -1,5 +1,5 @@
 /*
-Copyright 2011 MCForge
+Copyright © 2011-2014 MCForge-Redux
 Dual-licensed under the Educational Community License, Version 2.0 and
 the GNU General Public License, Version 3 (the "Licenses"); you may
 not use this file except in compliance with the Licenses. You may

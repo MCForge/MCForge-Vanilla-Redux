@@ -1,5 +1,5 @@
 /*
-	Copyright 2011 MCForge
+	Copyright © 2011-2014 MCForge-Redux
 	Created by Techjar (Jordan S.)
 		
 	Dual-licensed under the	Educational Community License, Version 2.0 and

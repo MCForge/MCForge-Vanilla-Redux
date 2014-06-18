@@ -1,5 +1,5 @@
 /*
-	Copyright 2011 MCForge
+	Copyright © 2011-2014 MCForge-Redux
 	
     Made originally by 501st_commander, in something called SharpDevelop. 
     Made into a safe and reasonabal command by EricKilla, in Visual Studio 2010.

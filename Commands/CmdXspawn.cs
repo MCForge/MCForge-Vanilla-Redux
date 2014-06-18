@@ -1,5 +1,5 @@
 /*
-	Copyright 2011 MCForge
+	Copyright © 2011-2014 MCForge-Redux
 	
 	Written by jordanneil23
 		
