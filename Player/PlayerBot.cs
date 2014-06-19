@@ -207,7 +207,7 @@ namespace MCForge
                                     if (rot[1] > 128 && rot[1] < 224) nodUp = !nodUp;
                                     else
                                     {
-                                        if (rot[1] - (byte)Waypoints[currentPoint].rotspeed < 0) rot[1] = Block.maxblocks;
+                                        if (rot[1] - (byte)Waypoints[currentPoint].rotspeed < 0) rot[1] = 255;
                                         else rot[1] -= (byte)Waypoints[currentPoint].rotspeed;
                                     }
                                 }
@@ -230,7 +230,7 @@ namespace MCForge
                                 countdown--;
 
                                 if (rot[0] + (byte)Waypoints[currentPoint].rotspeed > Block.maxblocks) rot[0] = 0;
-                                else if (rot[0] + (byte)Waypoints[currentPoint].rotspeed < 0) rot[0] = Block.maxblocks;
+                                else if (rot[0] + (byte)Waypoints[currentPoint].rotspeed < 0) rot[0] = 255;
                                 else rot[0] += (byte)Waypoints[currentPoint].rotspeed;
 
                                 if (countdown == 0)

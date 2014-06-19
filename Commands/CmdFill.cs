@@ -67,7 +67,7 @@ namespace MCForge.Commands
                 else
                 {
                     cpos.type = Block.Ushort(message);
-                    if (cpos.type == (byte)Block.maxblocks) { Player.SendMessage(p, "Invalid block or fill type"); return; }
+                    if (cpos.type == 255) { Player.SendMessage(p, "Invalid block or fill type"); return; } //Just use Block.Zero or byte.MaxValue??
                     if (!Block.canPlace(p, cpos.type)) { Player.SendMessage(p, "Cannot place that."); return; }
 
                     cpos.fillType = FillType.Default;

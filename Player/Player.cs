@@ -4868,7 +4868,7 @@ changed |= 4;*/
             {
                 if (p.level != from.level || (from.hidden && !self)) { return; }
                 if (p != from) { p.SendDie(from.id); }
-                else if (self) { p.SendDie(Block.maxblocks); }
+                else if (self) { p.SendDie(255); }
             });
         }
 

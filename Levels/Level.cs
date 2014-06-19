@@ -2965,7 +2965,96 @@ namespace MCForge
                                                           case Block.finiteLava:
                                                               finiteMovement(C, x, y, z);
                                                               break;
+                                                          case Block.finiteLavaFaucet:
+                                                              var bufferfinitefaucet1 = new List<ushort>();
 
+                                                              for (ushort i = 0; i < 6; ++i) bufferfinitefaucet1.Add(i);
+
+                                                              for (int k = bufferfinitefaucet1.Count - 1; k > 1; --k)
+                                                              {
+                                                                  int randIndx = rand.Next(k);
+                                                                  ushort temp = bufferfinitefaucet1[k];
+                                                                  bufferfinitefaucet1[k] = bufferfinitefaucet1[randIndx];
+                                                                  // move random num to end of list.
+                                                                  bufferfinitefaucet1[randIndx] = temp;
+                                                              }
+
+                                                              foreach (ushort i in bufferfinitefaucet1)
+                                                              {
+                                                                  switch (i)
+                                                                  {
+                                                                      case Block.air:
+                                                                          if (GetTile((ushort)(x - 1), y, z) ==
+                                                                              Block.air)
+                                                                          {
+                                                                              if (
+                                                                                  AddUpdate(
+                                                                                      PosToInt((ushort)(x - 1), y, z),
+                                                                                      Block.finiteLava))
+                                                                                  InnerChange = true;
+                                                                          }
+                                                                          break;
+                                                                      case 1:
+                                                                          if (GetTile((ushort)(x + 1), y, z) ==
+                                                                              Block.air)
+                                                                          {
+                                                                              if (
+                                                                                  AddUpdate(
+                                                                                      PosToInt((ushort)(x + 1), y, z),
+                                                                                      Block.finiteLava))
+                                                                                  InnerChange = true;
+                                                                          }
+                                                                          break;
+                                                                      case 2:
+                                                                          if (GetTile(x, (ushort)(y - 1), z) ==
+                                                                              Block.air)
+                                                                          {
+                                                                              if (
+                                                                                  AddUpdate(
+                                                                                      PosToInt(x, (ushort)(y - 1), z),
+                                                                                      Block.finiteLava))
+                                                                                  InnerChange = true;
+                                                                          }
+                                                                          break;
+                                                                      case 3:
+                                                                          if (GetTile(x, (ushort)(y + 1), z) ==
+                                                                              Block.air)
+                                                                          {
+                                                                              if (
+                                                                                  AddUpdate(
+                                                                                      PosToInt(x, (ushort)(y + 1), z),
+                                                                                      Block.finiteLava))
+                                                                                  InnerChange = true;
+                                                                          }
+                                                                          break;
+                                                                      case 4:
+                                                                          if (GetTile(x, y, (ushort)(z - 1)) ==
+                                                                              Block.air)
+                                                                          {
+                                                                              if (
+                                                                                  AddUpdate(
+                                                                                      PosToInt(x, y, (ushort)(z - 1)),
+                                                                                      Block.finiteLava))
+                                                                                  InnerChange = true;
+                                                                          }
+                                                                          break;
+                                                                      case 5:
+                                                                          if (GetTile(x, y, (ushort)(z + 1)) ==
+                                                                              Block.air)
+                                                                          {
+                                                                              if (
+                                                                                  AddUpdate(
+                                                                                      PosToInt(x, y, (ushort)(z + 1)),
+                                                                                      Block.finiteLava))
+                                                                                  InnerChange = true;
+                                                                          }
+                                                                          break;
+                                                                  }
+
+                                                                  if (InnerChange) break;
+                                                              }
+
+                                                              break;
                                                           case Block.finiteFaucet:
                                                               var bufferfinitefaucet = new List<ushort>();
 

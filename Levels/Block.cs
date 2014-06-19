@@ -24,7 +24,7 @@ namespace MCForge
     public class Block
     {
 
-		public const int maxblocks = 255;
+		public const int maxblocks = 256;
 
 		public const ushort air = (ushort)0;
         public const ushort rock = (ushort)1;
@@ -303,6 +303,8 @@ namespace MCForge
 		
 		public const ushort door_gold = (ushort)253;
 		public const ushort door_gold_air = (ushort)254;
+        // Block.Zero is 255
+        public const ushort finiteLavaFaucet = (ushort)256;
 
         public static List<Blocks> BlockList = new List<Blocks>();
         public class Blocks
@@ -460,6 +462,7 @@ namespace MCForge
                     case finiteWater:
                     case finiteLava:
                     case finiteFaucet:
+                    case finiteLavaFaucet:
                     case magma:
                     case geyser:
                     case deathlava:
@@ -1356,6 +1359,7 @@ namespace MCForge
                 case finiteWater: return "finite_water";
                 case finiteLava: return "finite_lava";
                 case finiteFaucet: return "finite_faucet";
+                case finiteLavaFaucet: return "finitelava_faucet";
 
                 case 160: return "air_portal";
                 case 161: return "water_portal";
@@ -1659,6 +1663,7 @@ namespace MCForge
                 case "finite_water": return finiteWater;
                 case "finite_lava": return finiteLava;
                 case "finite_faucet": return finiteFaucet;
+                case "finitelava_faucet": return finiteLavaFaucet;
 
                 case "air_portal": return 160;
                 case "water_portal": return 161;
@@ -1850,6 +1855,7 @@ namespace MCForge
                 case finiteWater: return water;
                 case finiteLava: return lava;
                 case finiteFaucet: return lightblue;
+                case finiteLavaFaucet: return orange;
 
                 case 160: return (ushort)0;//air portal
                 case 161: return waterstill;//water portal
