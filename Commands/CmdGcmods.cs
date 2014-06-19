@@ -37,8 +37,15 @@ namespace MCForge.Commands
                 tempgcmods = tempgcmods.ToUpper() + gcmod.Remove(0, 1);
                 gcmodlist += tempgcmods + ", ";
             }
-            gcmodlist = gcmodlist.Remove(gcmodlist.Length - 2);
-            Player.SendMessage(p, "&9MCForge-Redux Global Chat Moderation Team: " + Server.DefaultColor + gcmodlist + "&e.");
+            if (gcmodlist.Length == 0)
+            {
+                Player.SendMessage(p, "&9No Global Chat Mods Found");
+            }
+            else
+            {
+                gcmodlist = gcmodlist.Remove(gcmodlist.Length - 2);
+                Player.SendMessage(p, "&9MCForge-Redux Global Chat Moderation Team: " + Server.DefaultColor + gcmodlist + "&e.");
+            }
         }
 
         public override void Help(Player p)
