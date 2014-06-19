@@ -42,6 +42,11 @@ namespace MCForge.Commands
                         Player.SendMessage(p, "You cannot change the pervisit of a level with a pervisit higher than your rank.");
                         return;
                     }
+					else if ( Perm > p.group.Permission ) 
+					{
+                        Player.SendMessage( p, "You cannot set the visit permission higher than your own rank." );
+                        return;
+                    }
                     p.level.permissionvisit = Perm;
                     Level.SaveSettings(p.level);
                     Server.s.Log(p.level.name + " visit permission changed to " + message + ".");
