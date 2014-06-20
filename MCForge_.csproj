@@ -120,6 +120,7 @@
     <Compile Include="Commands\CmdConvertAll.cs" />
     <Compile Include="Commands\CmdDefuse.cs" />
     <Compile Include="Commands\CmdDrop.cs" />
+    <Compile Include="Commands\CmdInfectMessage.cs" />
     <Compile Include="Commands\CmdRedTeam.cs" />
     <Compile Include="Games\CTF.cs" />
     <Compile Include="Games\CTFTeam.cs" />

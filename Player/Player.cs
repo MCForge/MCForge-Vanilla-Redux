@@ -38,15 +38,12 @@ namespace MCForge
 
         /// <summary> List of chat keywords, and emotes that they stand for. </summary>
         public static readonly Dictionary<string, char> EmoteKeywords = new Dictionary<string, char> {
-            { ":)", '\u0001' }, // ☺
             { "smile", '\u0001' },
 
-            { ":D", '\u0002' }, // ☻
 			{ "darksmile", '\u0002' }, // ☻
 
             { "heart", '\u0003' }, // ♥
             { "hearts", '\u0003' },
-            { "<3", '\u0003' },
 
             { "diamond", '\u0004' }, // ♦
             { "diamonds", '\u0004' },
@@ -1739,7 +1736,11 @@ namespace MCForge
                 Server.s.Log(name + " [" + ip + "]" + "(" + ID + ") + has joined the server.");
             }
 
-            if (Server.zombie.ZombieStatus() != 0) { Player.SendMessage(this, "There is a Zombie Survival game currently in-progress! Join it by typing /g " + Server.zombie.currentLevelName); }
+            if (Server.zombie.GameInProgess())
+            {
+                if (level.name == Server.zombie.currentLevelName)
+                    Server.zombie.InfectedPlayerLogin(this);
+            }
         }
 
         public void SetPrefix()
@@ -3692,13 +3693,13 @@ return;
 				}
 			}
 
-         /*   if (Server.parseSmiley && parseSmiley)
+            if (Server.parseSmiley && parseSmiley)
             {
                 sb.Replace(":)", "(darksmile)");
                 sb.Replace(":D", "(smile)");
                 sb.Replace("<3", "(heart)");
             }
-
+            /*
             byte[] stored = new byte[1];
 
             stored[0] = (byte)1;

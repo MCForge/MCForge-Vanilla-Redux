@@ -194,6 +194,7 @@ namespace MCForge
         public static Char[] ColourCodesNoPercent = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
         //Zombie
+        public static string maxrank = "TechnoKid";
         public static ZombieGame zombie;
         public static bool limitedblocks = false;
         public static bool ZombieModeOn = false;

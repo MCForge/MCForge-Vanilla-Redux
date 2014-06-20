@@ -120,7 +120,7 @@ namespace MCForge
                         }
                         break;
                     case 3:
-                        if (!Server.zombie.GameInProgess())
+                        if (Server.zombie.GameInProgess())
                         {
                             if (p.money >= 25)
                             {
@@ -179,7 +179,7 @@ namespace MCForge
                         }
                         break;
                     case 5:
-                        if (p.group.name.ToLower() == "advbuilder" || p.group.CanExecute(Command.all.Find("shank")))
+                        if (p.group.name.ToLower() == Server.maxrank.ToLower() || p.group.CanExecute(Command.all.Find("shank")))
                         {
                             p.SendMessage("You already have the max rank!");
                             return;

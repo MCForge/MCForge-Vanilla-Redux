@@ -558,6 +558,7 @@ namespace MCForge
         public bool InfectedPlayerLogin(Player p)
         {
             if (Server.gameStatus == 0) return false;
+            if (!Server.zombieRound) alive.Add(p);  return false;
             if (p == null) return false;
             if (p.level.name != Server.zombie.currentLevelName) return false;
             p.SendMessage(Player.MessageType.Status1, "You have joined in the middle of a round. You are now infected!", true);
@@ -586,7 +587,8 @@ namespace MCForge
 				return;
 			if (p == null)
 				return;
-			infectd.Add (p);
+			infectd.Add(p);
+            Server.s.Log("Added to infectd");
 			foreach (Player pl in Player.players) {
 				if (pl.level == p.level && pl.HasExtension ("ChangeModel")) {
 					pl.SendChangeModel (p.id, "zombie");

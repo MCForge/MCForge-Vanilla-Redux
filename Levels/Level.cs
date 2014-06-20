@@ -413,10 +413,13 @@ namespace MCForge
             Player.players.ForEach(
                 delegate(Player pl) { if (pl.level == this) Command.all.Find("goto").Use(pl, Server.mainLevel.name); });
 
-            if (changed && (!Server.ZombieModeOn || !Server.noLevelSaving) || !Server.CTF)
+            if (changed && (!Server.ZombieModeOn || !Server.noLevelSaving))
             {
-                if ((!Server.lava.active || !Server.lava.HasMap(name)) && save) Save(false, true);
-                saveChanges();
+                if (!Server.CTF)
+                {
+                    if ((!Server.lava.active || !Server.lava.HasMap(name)) && save) Save(false, true);
+                    saveChanges();
+                }
             }
             if (TntWarsGame.Find(this) != null)
             {
@@ -994,6 +997,10 @@ namespace MCForge
 
         public void Save(bool Override = false, bool clearPhysics = false)
         {
+            if(Server.noLevelSaving & Server.ZombieModeOn)
+            {
+                return;
+            }
             //if (season.started)
             //    season.Stop(this);
             if (blocks == null) return;
