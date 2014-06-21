@@ -126,6 +126,7 @@
     <Compile Include="Games\CTFTeam.cs" />
     <Compile Include="Games\SMP.cs" />
     <Compile Include="Games\SMP\Inventory.cs" />
+    <Compile Include="Player\Opcode.cs" />
     <Compile Include="Server\AutoSaver.cs" />
     <Compile Include="Server\Ban.cs" />
     <Compile Include="Commands\CmdC4.cs" />

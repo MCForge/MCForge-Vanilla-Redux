@@ -68,17 +68,17 @@ namespace MCForge.Levels.Textures
                 if (text == "")
                 {
                     Player.StringFormat(detail, 64).CopyTo(buffer, 1);
-                    p.SendRaw(13, buffer);
+                    p.SendRaw(OpCode.Message, buffer);
                 }
                 else if (!text.StartsWith("^"))
                 {
                     Player.StringFormat("^detail.user=" + text, 64).CopyTo(buffer, 1);
-                    p.SendRaw(13, buffer);
+                    p.SendRaw(OpCode.Message, buffer);
                 }
                 else
                 {
                     Player.StringFormat(text, 64).CopyTo(buffer, 1);
-                    p.SendRaw(13, buffer);
+                    p.SendRaw(OpCode.Message, buffer);
                 }
             }
             buffer = null;

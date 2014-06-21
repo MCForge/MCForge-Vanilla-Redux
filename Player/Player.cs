@@ -1668,7 +1668,7 @@ namespace MCForge
                         {
                             byte[] buffer = new byte[65];
                             Player.StringFormat("^detail.user.join=" + color + name + c.white, 64).CopyTo(buffer, 1);
-                            p1.SendRaw(13, buffer);
+                            p1.SendRaw(OpCode.Message, buffer);
                             buffer = null;
                         }
                         else
@@ -2809,7 +2809,7 @@ try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.waterstill); } catch { }
                 {
                     byte[] buffer = new byte[65];
                     Player.StringFormat("^detail.user.here=" + p.color + p.name, 64).CopyTo(buffer, 1);
-                    SendRaw(13, buffer);
+                    SendRaw(OpCode.Message, buffer);
                     buffer = null;
                 }
             });
@@ -3480,15 +3480,15 @@ return;
         }
         #endregion
         #region == OUTGOING ==
-        public void SendRaw(int id)
+        public void SendRaw(OpCode id)
         {
             SendRaw(id, new byte[0]);
         }
-        public void SendRaw(int id, byte send)
+        public void SendRaw(OpCode id, byte send)
         {
             SendRaw(id, new byte[] { send });
         }
-        public void SendRaw(int id, byte[] send)
+        public void SendRaw(OpCode id, byte[] send)
         {
             // Abort if socket has been closed
             if (socket == null || !socket.Connected)
@@ -3514,60 +3514,6 @@ return;
             }
         }
 
-        /// <summary>
-        /// Send the client a sound/music
-        /// THIS ONLY WORKS WITH CLIENTS USING OpenClassic
-        /// </summary>
-        /// <param name="filepath">The filepath of the sound file.</param>
-        /// <param name="volume">The volume the client will play the sound/music at</param>
-        /// <param name="pitch">The pitch the client will play the sound/music at</param>
-        /// <param name="isMusic">Wether the sound is a soundeffect or a music</param>
-        /// <param name="x">The X coord to play the sound at (only for soundeffects)</param>
-        /// <param name="y">The Y coord to play the sound at (only for soundeffects)</param>
-        /// <param name="z">The Z coord to play the sound at (only for soundeffects)</param>
-        /// <param name="loop">Wether the music should loop (only for music)</param>
-        public void SendSound(string filepath, float volume, float pitch, bool isMusic, float x, float y, float z, bool loop)
-        {
-            if (!isUsingOpenClassic)
-                return;
-            if (!sounds.ContainsKey(filepath))
-            {
-                string id = Path.GetRandomFileName().Replace(".", "");
-                string url = (IsLocalIpAddress(ip) ? ip : Server.IP) + ":" + Server.port + "/" + filepath;
-                sounds.Add(filepath, id + "~" + url);
-                byte[] tosend = new byte[130];
-                StringFormat(id, 64).CopyTo(tosend, 0);
-                StringFormat(url, 64).CopyTo(tosend, 64);
-                tosend[128] = (byte)0;
-                tosend[129] = ((isMusic) ? (byte)1 : (byte)0);
-                SendRaw(22, tosend);
-            }
-            string id1 = sounds[filepath].Split('~')[0];
-            byte[] tosend1 = new byte[86];
-            StringFormat(id1, 64).CopyTo(tosend1, 0);
-            BitConverter.GetBytes(x).CopyTo(tosend1, 64);
-            BitConverter.GetBytes(y).CopyTo(tosend1, 68);
-            BitConverter.GetBytes(z).CopyTo(tosend1, 71);
-            BitConverter.GetBytes(volume).CopyTo(tosend1, 75);
-            BitConverter.GetBytes(pitch).CopyTo(tosend1, 78);
-            tosend1[84] = ((isMusic) ? (byte)1 : (byte)0);
-            tosend1[85] = ((loop && isMusic) ? (byte)1 : (byte)0);
-            SendRaw(23, tosend1);
-        }
-
-        /// <summary>
-        /// Tell the client to stop playing the sound
-        /// </summary>
-        /// <param name="filepath">The filepath of the sound</param>
-        public void StopSound(string filepath)
-        {
-            if (!sounds.ContainsKey(filepath))
-                return;
-            byte[] idb = new byte[64];
-            string id = sounds[filepath].Split('~')[0];
-            StringFormat(id, 64).CopyTo(idb, 0);
-            SendRaw(24, idb);
-        }
 
         public static void SendMessage(Player p, string message)
         {
@@ -3767,7 +3713,7 @@ return;
                         continue;
 
                     StringFormat(newLine, 64).CopyTo(buffer, 1);
-                    SendRaw(13, buffer);
+                    SendRaw(OpCode.Message, buffer);
                 }
             }
             catch (Exception e)
@@ -3842,7 +3788,7 @@ return;
                     buffer[4 + i] = (byte)Block.Convert( Block.ConvertCPE( level.blocks[i] ) );
                 }
             }
-                SendRaw(2);
+                SendRaw(OpCode.MapBegin);
                 buffer = buffer.GZip();
                 int number = (int)Math.Ceiling(((double)buffer.Length) / 1024);
                 for (int i = 1; buffer.Length > 0; ++i)
@@ -3856,7 +3802,7 @@ return;
                     buffer = tempbuffer;
                     send[1026] = (byte)(i * 100 / number);
                     //send[1026] = (byte)(100 - (i * 100 / number)); // Backwards progress lololol...
-                    SendRaw(3, send);
+                    SendRaw(OpCode.MapChunk, send);
                     if (ip == "127.0.0.1") { }
                     else if (Server.updateTimer.Interval > 1000) Thread.Sleep(100);
                     else Thread.Sleep(10);
@@ -3864,7 +3810,7 @@ return;
                 HTNO((short)level.width).CopyTo(buffer, 0);
                 HTNO((short)level.depth).CopyTo(buffer, 2);
                 HTNO((short)level.height).CopyTo(buffer, 4);
-                SendRaw(4, buffer);
+                SendRaw(OpCode.MapEnd, buffer);
                 Loading = false;
 
                 if (OnSendMap != null)
@@ -3896,7 +3842,7 @@ return;
             HTNO(y).CopyTo(buffer, 67);
             HTNO(z).CopyTo(buffer, 69);
             buffer[71] = rotx; buffer[72] = roty;
-            SendRaw(7, buffer);
+            SendRaw(OpCode.AddEntity, buffer);
         }
         public void SendPos(byte id, ushort x, ushort y, ushort z, byte rotx, byte roty)
         {
@@ -3920,15 +3866,15 @@ rot = new byte[2] { rotx, roty };*/
             HTNO(y).CopyTo(buffer, 3);
             HTNO(z).CopyTo(buffer, 5);
             buffer[7] = rotx; buffer[8] = roty;
-            SendRaw(8, buffer);
+            SendRaw(OpCode.Teleport, buffer);
         }
         // Update user type for weather or not they are opped
         public void SendUserType(bool op)
         {
-            SendRaw(15, op ? (byte)100 : (byte)0);
+            SendRaw(OpCode.SetPermission, op ? (byte)100 : (byte)0);
         }
         //TODO: Figure a way to SendPos without changing rotation
-        public void SendDie(byte id) { SendRaw(0x0C, new byte[1] { id }); }
+        public void SendDie(byte id) { SendRaw(OpCode.RemoveEntity, new byte[1] { id }); }
         public void SendBlockchange(ushort x, ushort y, ushort z, ushort type)
         {
             if (type == Block.air) { type = 0; }
@@ -3952,43 +3898,43 @@ rot = new byte[2] { rotx, roty };*/
             {
                 buffer[6] = (byte)Block.Convert(Block.ConvertCPE(type));
             }
-            SendRaw(6, buffer);
+            SendRaw(OpCode.SetBlockServer, buffer);
         }
-        void SendKick(string message) { SendRaw(14, StringFormat(message, 64)); }
-        void SendPing() { /*pingDelay = 0; pingDelayTimer.Start();*/ SendRaw(1); }
+        void SendKick(string message) { SendRaw(OpCode.Kick, StringFormat(message, 64)); }
+        void SendPing() { /*pingDelay = 0; pingDelayTimer.Start();*/ SendRaw(OpCode.Ping); }
 
         public void SendExtInfo(short count)
         {
             byte[] buffer = new byte[66];
             StringFormat("MCForge Version: " + Server.Version, 64).CopyTo(buffer, 0);
             HTNO(count).CopyTo(buffer, 64);
-            SendRaw(16, buffer);
+            SendRaw(OpCode.ExtInfo, buffer);
         }
         public void SendExtEntry(string name, short version)
         {
             byte[] buffer = new byte[68];
             StringFormat(name, 64).CopyTo(buffer, 0);
             HTNO(version).CopyTo(buffer, 64);
-            SendRaw(17, buffer);
+            SendRaw(OpCode.ExtEntry, buffer);
         }
         public void SendClickDistance(short distance)
         {
             byte[] buffer = new byte[2];
             HTNO(distance).CopyTo(buffer, 0);
-            SendRaw(18, buffer);
+            SendRaw(OpCode.SetClickDistance, buffer);
         }
         public void SendCustomBlockSupportLevel(byte level)
         {
             byte[] buffer = new byte[1];
             buffer[0] = level;
-            SendRaw(19, buffer);
+            SendRaw(OpCode.CustomBlockSupportLevel, buffer);
         }
         public void SendHoldThis(byte type, byte locked)
         { // if locked is on 1, then the player can't change their selected block.
             byte[] buffer = new byte[2];
             buffer[0] = type;
             buffer[1] = locked;
-            SendRaw(20, buffer);
+            SendRaw(OpCode.HoldThis, buffer);
         }
         public void SendTextHotKey(string label, string command, int keycode, byte mods)
         {
@@ -3997,7 +3943,7 @@ rot = new byte[2] { rotx, roty };*/
             StringFormat(command, 64).CopyTo(buffer, 64);
             BitConverter.GetBytes(keycode).CopyTo(buffer, 128);
             buffer[132] = mods;
-            SendRaw(21, buffer);
+            SendRaw(OpCode.SetTextHotKey, buffer);
         }
         public void SendExtAddPlayerName(short id, string name, Group grp, string displayname = "")
         {
@@ -4008,7 +3954,7 @@ rot = new byte[2] { rotx, roty };*/
             StringFormat(displayname, 64).CopyTo(buffer, 66);
             StringFormat(grp.color + grp.name.ToUpper() + "s:", 64).CopyTo(buffer, 130);
             buffer[194] = (byte)grp.Permission.GetHashCode();
-            SendRaw(0x16, buffer);
+            SendRaw(OpCode.ExtAddPlayerName, buffer);
         }
 
         public void SendExtAddEntity(byte id, string name, string displayname = "")
@@ -4018,14 +3964,14 @@ rot = new byte[2] { rotx, roty };*/
             StringFormat(name, 64).CopyTo(buffer, 1);
             if (displayname == "") { displayname = name; }
             StringFormat(displayname, 64).CopyTo(buffer, 65);
-            SendRaw(0x17, buffer);
+            SendRaw(OpCode.ExtAddEntity, buffer);
         }
 
         public void SendExtRemovePlayerName(short id)
         {
             byte[] buffer = new byte[2];
             HTNO(id).CopyTo(buffer, 0);
-            SendRaw(0x18, buffer);
+            SendRaw(OpCode.ExtRemovePlayerName, buffer);
         }
         public void SendEnvSetColor(byte type, short r, short g, short b)
         {
@@ -4034,7 +3980,7 @@ rot = new byte[2] { rotx, roty };*/
             HTNO(r).CopyTo(buffer, 1);
             HTNO(g).CopyTo(buffer, 3);
             HTNO(b).CopyTo(buffer, 5);
-            SendRaw(25, buffer);
+            SendRaw(OpCode.EnvSetColor, buffer);
         }
         public void SendMakeSelection(byte id, string label, short smallx, short smally, short smallz, short bigx, short bigy, short bigz, short r, short g, short b, short opacity)
         {
@@ -4051,13 +3997,13 @@ rot = new byte[2] { rotx, roty };*/
             HTNO(g).CopyTo(buffer, 79);
             HTNO(b).CopyTo(buffer, 81);
             HTNO(opacity).CopyTo(buffer, 83);
-            SendRaw(26, buffer);
+            SendRaw(OpCode.MakeSelection, buffer);
         }
         public void SendDeleteSelection(byte id)
         {
             byte[] buffer = new byte[1];
             buffer[0] = id;
-            SendRaw(27, buffer);
+            SendRaw(OpCode.RemoveSelection, buffer);
         }
         public void SendSetBlockPermission(byte type, byte canplace, byte candelete)
         {
@@ -4065,14 +4011,14 @@ rot = new byte[2] { rotx, roty };*/
             buffer[0] = type;
             buffer[1] = canplace;
             buffer[2] = candelete;
-            SendRaw(28, buffer);
+            SendRaw(OpCode.SetBlockPermission, buffer);
         }
         public void SendChangeModel(byte id, string model)
         {
             byte[] buffer = new byte[65];
             buffer[0] = id;
             StringFormat(model, 64).CopyTo(buffer, 1);
-            SendRaw(29, buffer);
+            SendRaw(OpCode.ChangeModel, buffer);
         }
         public void SendSetMapAppearance(string url, byte sideblock, byte edgeblock, short sidelevel)
         {
@@ -4081,13 +4027,13 @@ rot = new byte[2] { rotx, roty };*/
             buffer[64] = sideblock;
             buffer[65] = edgeblock;
             HTNO(sidelevel).CopyTo(buffer, 66);
-            SendRaw(30, buffer);
+            SendRaw(OpCode.EnvMapAppearance, buffer);
         }
         public void SendSetMapWeather(byte weather)
         { // 0 - sunny; 1 - raining; 2 - snowing
             byte[] buffer = new byte[1];
             buffer[0] = weather;
-            SendRaw(31, buffer);
+            SendRaw(OpCode.EnvWeatherType, buffer);
         }
         public void SendHackControl(byte allowflying, byte allownoclip, byte allowspeeding, byte allowrespawning, byte allowthirdperson, byte allowchangingweather, short maxjumpheight)
         {
@@ -4099,7 +4045,7 @@ rot = new byte[2] { rotx, roty };*/
             buffer[4] = allowthirdperson;
             buffer[5] = allowchangingweather;
             HTNO(maxjumpheight).CopyTo(buffer, 6);
-            SendRaw(32, buffer);
+            SendRaw(OpCode.HackControl, buffer);
         }
 
         public void UpdatePosition()
@@ -4134,10 +4080,10 @@ changed |= 4;*/
                 changed |= 4;
             if (changed == 0) { if (oldpos[0] != pos[0] || oldpos[1] != pos[1] || oldpos[2] != pos[2]) changed |= 1; }
 
-            byte[] buffer = new byte[0]; byte msg = 0;
+            byte[] buffer = new byte[0]; OpCode msg = 0;
             if ((changed & 4) != 0)
             {
-                msg = 8; //Player teleport - used for spawning or moving too fast
+                msg = OpCode.Teleport; //Player teleport - used for spawning or moving too fast
                 buffer = new byte[9]; buffer[0] = id;
                 HTNO(pos[0]).CopyTo(buffer, 1);
                 HTNO(pos[1]).CopyTo(buffer, 3);
@@ -4159,7 +4105,7 @@ changed |= 4;*/
             {
                 try
                 {
-                    msg = 10; //Position update
+                    msg = OpCode.Move; //Position update
                     buffer = new byte[4]; buffer[0] = id;
                     Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[0] - oldpos[0])), 0, buffer, 1, 1);
                     Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[1] - oldpos[1])), 0, buffer, 2, 1);
@@ -4169,7 +4115,7 @@ changed |= 4;*/
             }
             else if (changed == 2)
             {
-                msg = 11; //Orientation update
+                msg = OpCode.Rotate; //Orientation update
                 buffer = new byte[3]; buffer[0] = id;
                 buffer[1] = rot[0];
 
@@ -4188,7 +4134,7 @@ changed |= 4;*/
             {
                 try
                 {
-                    msg = 9; //Position and orientation update
+                    msg = OpCode.MoveRotate; //Position and orientation update
                     buffer = new byte[6]; buffer[0] = id;
                     Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[0] - oldpos[0])), 0, buffer, 1, 1);
                     Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[1] - oldpos[1])), 0, buffer, 2, 1);
@@ -5057,7 +5003,7 @@ changed |= 4;*/
                                     {
                                         byte[] buffer = new byte[65];
                                         Player.StringFormat("^detail.user.part=" + color + name + c.white, 64).CopyTo(buffer, 1);
-                                        p1.SendRaw(13, buffer);
+                                        p1.SendRaw(OpCode.Message, buffer);
                                         buffer = null;
                                     }
                                     else

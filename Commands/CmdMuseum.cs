@@ -122,7 +122,7 @@ namespace MCForge.Commands
 					p.level = level;
 					p.SendMotd();
 
-					p.SendRaw(2);
+					p.SendRaw(OpCode.MapBegin);
 					byte[] buffer = new byte[level.blocks.Length + 4];
 					BitConverter.GetBytes(IPAddress.HostToNetworkOrder(level.blocks.Length)).CopyTo(buffer, 0);
 					//ushort xx; ushort yy; ushort zz;
@@ -142,13 +142,13 @@ namespace MCForge.Commands
 						Buffer.BlockCopy(buffer, length, tempbuffer, 0, buffer.Length - length);
 						buffer = tempbuffer;
 						send[1026] = (byte)(i * 100 / number);
-						p.SendRaw(3, send);
+						p.SendRaw(OpCode.MapChunk, send);
 						Thread.Sleep(10);
 					} buffer = new byte[6];
 					Player.HTNO((short)level.width).CopyTo(buffer, 0);
 					Player.HTNO((short)level.depth).CopyTo(buffer, 2);
 					Player.HTNO((short)level.height).CopyTo(buffer, 4);
-					p.SendRaw(4, buffer);
+					p.SendRaw(OpCode.MapEnd, buffer);
 
 					ushort x = (ushort)((0.5 + level.spawnx) * 32);
 					ushort y = (ushort)((1 + level.spawny) * 32);
