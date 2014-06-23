@@ -70,55 +70,6 @@ namespace MCForge.Gui.Utils {
 
         #region Enums/Structs
 
-        public struct POINTAPI {
-            public int x;
-            public int y;
-        };
-
-        public struct DTTOPTS {
-            public uint dwSize;
-            public uint dwFlags;
-            public uint crText;
-            public uint crBorder;
-            public uint crShadow;
-            public int iTextShadowType;
-            public POINTAPI ptShadowOffset;
-            public int iBorderSize;
-            public int iFontPropId;
-            public int iColorPropId;
-            public int iStateId;
-            public int fApplyOverlay;
-            public int iGlowSize;
-            public IntPtr pfnDrawTextCallback;
-            public int lParam;
-        };
-
-        public struct BITMAPINFOHEADER {
-            public int biSize;
-            public int biWidth;
-            public int biHeight;
-            public short biPlanes;
-            public short biBitCount;
-            public int biCompression;
-            public int biSizeImage;
-            public int biXPelsPerMeter;
-            public int biYPelsPerMeter;
-            public int biClrUsed;
-            public int biClrImportant;
-        }
-
-        public struct RGBQUAD {
-            public byte rgbBlue;
-            public byte rgbGreen;
-            public byte rgbRed;
-            public byte rgbReserved;
-        }
-
-        public struct BITMAPINFO {
-            public BITMAPINFOHEADER bmiHeader;
-            public RGBQUAD bmiColors;
-        }
-
         [StructLayout( LayoutKind.Sequential )]
         public struct DLLVersionInfo {
             public int cbSize;
@@ -169,7 +120,7 @@ namespace MCForge.Gui.Utils {
         private static extern bool BitBlt( IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, uint dwRop );
 
         [DllImport( "gdi32.dll", ExactSpelling = true, SetLastError = true )]
-        private static extern IntPtr CreateDIBSection( IntPtr hdc, ref BITMAPINFO pbmi, uint iUsage, int ppvBits, IntPtr hSection, uint dwOffset );
+        private static extern IntPtr CreateDIBSection( IntPtr hdc, uint iUsage, int ppvBits, IntPtr hSection, uint dwOffset );
 
         [DllImport( "user32.dll", CharSet = CharSet.Auto, SetLastError = false )]
         public static extern IntPtr SendMessage( IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam );
@@ -178,7 +129,7 @@ namespace MCForge.Gui.Utils {
         public static extern bool PostMessage( IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam );
 
         [DllImport( "UxTheme.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Unicode )]
-        private static extern int DrawThemeTextEx( IntPtr hTheme, IntPtr hdc, int iPartId, int iStateId, string text, int iCharCount, int dwFlags, ref RECT pRect, ref DTTOPTS pOptions );
+        private static extern int DrawThemeTextEx( IntPtr hTheme, IntPtr hdc, int iPartId, int iStateId, string text, int iCharCount, int dwFlags, ref RECT pRect);
 
         [DllImport( "UxTheme.dll", CharSet = CharSet.Auto )]
         public static extern bool IsAppThemed();

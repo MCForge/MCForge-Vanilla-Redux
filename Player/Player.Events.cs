@@ -21,7 +21,7 @@ namespace MCForge
     /// <summary>
     /// This is the player object
     /// </summary>
-    public sealed partial class Player
+    public partial class Player
     {
         internal bool cancelcommand = false;
         internal bool cancelchat = false;

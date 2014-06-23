@@ -32,7 +32,7 @@ using MCForge.SQL;
 
 namespace MCForge
 {
-    public sealed partial class Player : IDisposable
+    public partial class Player : IDisposable
     {
         private static readonly char[] UnicodeReplacements = " ☺☻♥♦♣♠•◘○\n♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼".ToCharArray();
 
@@ -264,6 +264,7 @@ namespace MCForge
         public int rdcount = 0;
         public bool hasreadrules = false;
         public bool canusereview = true;
+        public int hackWarnings = 0;
 
         //Gc checks
         public string lastmsg = "";

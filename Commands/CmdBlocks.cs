@@ -44,7 +44,7 @@ namespace MCForge.Commands
                 else if (message.ToLower() == "all")
                 {
                     Player.SendMessage(p, "Complex blocks: ");
-                    for (byte i = 50; i < Block.maxblocks; i++)
+                    for (ushort i = 50; i < Block.maxblocks; i++)
                     {
                         if (Block.Name(i).ToLower() != "unknown") message += ", " + Block.Name(i);
                     }
@@ -76,7 +76,7 @@ namespace MCForge.Commands
                         ushort b = Block.Ushort(message);
                         if (b < 51)
                         {
-							for (byte i = 51; i < Block.maxblocks; i++)
+							for (ushort i = 51; i < Block.maxblocks; i++)
                             {
                                 if (Block.Convert(i) == b)
                                     printMessage += Block.Name(i) + ", ";

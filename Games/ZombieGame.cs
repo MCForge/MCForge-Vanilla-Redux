@@ -557,10 +557,10 @@ namespace MCForge
 
         public bool InfectedPlayerLogin(Player p)
         {
-            if (Server.gameStatus == 0) return false;
-            if (!Server.zombieRound) alive.Add(p);  return false;
             if (p == null) return false;
             if (p.level.name != Server.zombie.currentLevelName) return false;
+            if (Server.gameStatus == 0) return false;
+            if (!Server.zombieRound) alive.Add(p);  return false;
             p.SendMessage(Player.MessageType.Status1, "You have joined in the middle of a round. You are now infected!", true);
             p.blockCount = 50;
             try

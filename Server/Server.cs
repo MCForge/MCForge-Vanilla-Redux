@@ -1028,12 +1028,7 @@ namespace MCForge
                 }));
 
                 locationChecker.Start();
-                try
-                {
-                    using (WebClient web = new WebClient())
-                        IP = web.DownloadString("http://server.mcforge.org/ip.php");
-                }
-                catch { }
+
 #if DEBUG
 	  UseTextures = true;          
 #endif
@@ -1178,84 +1173,95 @@ namespace MCForge
             if (OnURLChange != null) OnURLChange(ccurl);
         }
 
-        public void Log(string message, bool systemMsg = false)
+        public void Log(string message, bool systemMsg = false, string type = "Normal")
         {
-            if (ServerLog != null)
+            if (type == "Normal")
             {
-                ServerLog(message);
-                if (cancellog)
+                if (ServerLog != null)
                 {
-                    cancellog = false;
-                    return;
+                    ServerLog(message);
+                    if (cancellog)
+                    {
+                        cancellog = false;
+                        return;
+                    }
                 }
-            }
-            if (!systemMsg)
-                OnServerLogEvent.Call(message);
-            if (OnLog != null)
-            {
                 if (!systemMsg)
+                    OnServerLogEvent.Call(message);
+                if (OnLog != null)
                 {
-                    OnLog(DateTime.Now.ToString("(HH:mm:ss) ") + message);
+                    if (!systemMsg)
+                    {
+                        OnLog(DateTime.Now.ToString("(HH:mm:ss) ") + message);
+                    }
+                    else
+                    {
+                        OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
+                    }
                 }
-                else
-                {
-                    OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
-                }
-            }
 
-            Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
+                Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
+            }
+            if(type == "Op")
+            {
+                if (ServerOpLog != null)
+                {
+                    Log(message, false, "Op");
+                    if (canceloplog)
+                    {
+                        canceloplog = false;
+                        return;
+                    }
+                }
+                if (OnOp != null)
+                {
+                    if (!systemMsg)
+                    {
+                        OnOp(DateTime.Now.ToString("(HH:mm:ss) ") + message);
+                    }
+                    else
+                    {
+                        OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
+                    }
+                }
+
+                Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
+            }
+            if(type == "Admin")
+            {
+                if (ServerAdminLog != null)
+                {
+                    ServerAdminLog(message);
+                    if (canceladmin)
+                    {
+                        canceladmin = false;
+                        return;
+                    }
+                }
+                if (OnAdmin != null)
+                {
+                    if (!systemMsg)
+                    {
+                        OnAdmin(DateTime.Now.ToString("(HH:mm:ss) ") + message);
+                    }
+                    else
+                    {
+                        OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
+                    }
+                }
+
+                Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
+            }
         }
-        public void OpLog(string message, bool systemMsg = false)
+/*        public void OpLog(string message, bool systemMsg = false)
         {
-            if (ServerOpLog != null)
-            {
-                OpLog(message);
-                if (canceloplog)
-                {
-                    canceloplog = false;
-                    return;
-                }
-            }
-            if (OnOp != null)
-            {
-                if (!systemMsg)
-                {
-                    OnOp(DateTime.Now.ToString("(HH:mm:ss) ") + message);
-                }
-                else
-                {
-                    OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
-                }
-            }
-
-            Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
+            Log(message, false, "Op");
         }
 
         public void AdminLog(string message, bool systemMsg = false)
         {
-            if (ServerAdminLog != null)
-            {
-                ServerAdminLog(message);
-                if (canceladmin)
-                {
-                    canceladmin = false;
-                    return;
-                }
-            }
-            if (OnAdmin != null)
-            {
-                if (!systemMsg)
-                {
-                    OnAdmin(DateTime.Now.ToString("(HH:mm:ss) ") + message);
-                }
-                else
-                {
-                    OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
-                }
-            }
-
-            Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
-        }
+            Log(message, false, "Admin");
+        }*/
 
         public void ErrorCase(string message)
         {
