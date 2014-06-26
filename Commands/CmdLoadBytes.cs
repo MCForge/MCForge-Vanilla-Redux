@@ -28,7 +28,7 @@ namespace MCForge.Commands
     public sealed class CmdLoadByte : Command
     {
         public override string name { get { return "loadbyte"; } }
-        public override string shortcut { get { return "lb"; } }
+        public override string shortcut { get { return  "lb"; } }
         public override string type { get { return "mod"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }

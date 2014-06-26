@@ -22,7 +22,7 @@ namespace MCForge.Commands
     public class CmdBotAI : Command
     {
         public override string name { get { return "botai"; } }
-        public override string shortcut { get { return "bai"; } }
+        public override string shortcut { get { return  "bai"; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }

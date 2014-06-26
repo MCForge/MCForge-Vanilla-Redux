@@ -20,7 +20,7 @@ namespace MCForge.Commands
     public class CmdWhisper : Command
     {
         public override string name { get { return "whisper"; } }
-        public override string shortcut { get { return ""; } }
+        public override string shortcut { get { return  ""; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }

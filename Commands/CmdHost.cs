@@ -20,7 +20,7 @@ namespace MCForge.Commands
     public class CmdHost : Command
     {
         public override string name { get { return "host"; } }
-        public override string shortcut { get { return "zall"; } }
+        public override string shortcut { get { return  "zall"; } }
         public override string type { get { return "information"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }

@@ -22,7 +22,7 @@ namespace MCForge.Commands
     public class CmdZombieGame : Command
     {
         public override string name { get { return "zombiegame"; } }
-        public override string shortcut { get { return "zg"; } }
+        public override string shortcut { get { return  "zg"; } }
         public override string type { get { return "game"; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }

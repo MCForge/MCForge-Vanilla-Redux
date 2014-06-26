@@ -23,7 +23,7 @@ namespace MCForge.Commands
     public class CmdEndRound : Command
     {
         public override string name { get { return "endround"; } }
-        public override string shortcut { get { return "er"; } }
+        public override string shortcut { get { return  "er"; } }
         public override string type { get { return "mod"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }

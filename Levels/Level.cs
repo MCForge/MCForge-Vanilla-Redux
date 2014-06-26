@@ -413,13 +413,10 @@ namespace MCForge
             Player.players.ForEach(
                 delegate(Player pl) { if (pl.level == this) Command.all.Find("goto").Use(pl, Server.mainLevel.name); });
 
-            if (changed && (!Server.ZombieModeOn || !Server.noLevelSaving))
+            if (changed && (!Server.ZombieModeOn || !Server.noLevelSaving) && !Server.CTF)
             {
-                if (!Server.CTF)
-                {
                     if ((!Server.lava.active || !Server.lava.HasMap(name)) && save) Save(false, true);
                     saveChanges();
-                }
             }
             if (TntWarsGame.Find(this) != null)
             {
@@ -811,7 +808,7 @@ namespace MCForge
                     SW.WriteLine("PerBuild = " +
                                  (Group.Exists(PermissionToName(level.permissionbuild).ToLower())
                                       ? PermissionToName(level.permissionbuild).ToLower()
-                                      : PermissionToName(LevelPermission.Builder)));
+                                      : PermissionToName(LevelPermission.Guest)));
                     SW.WriteLine("PerVisit = " +
                                  (Group.Exists(PermissionToName(level.permissionvisit).ToLower())
                                       ? PermissionToName(level.permissionvisit).ToLower()
@@ -997,7 +994,7 @@ namespace MCForge
 
         public void Save(bool Override = false, bool clearPhysics = false)
         {
-            if(Server.noLevelSaving & Server.ZombieModeOn)
+            if(Server.CTF || (Server.noLevelSaving && Server.ZombieModeOn))
             {
                 return;
             }

@@ -22,7 +22,7 @@ namespace MCForge.Commands
 {
     class CmdRedTeam : Command
     {
-        public override string shortcut { get { return ""; } }
+        public override string shortcut { get { return  ""; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return true; } }
         public override string name { get { return "red"; } }

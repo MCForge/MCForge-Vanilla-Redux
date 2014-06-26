@@ -21,7 +21,7 @@ namespace MCForge.Commands
     public class CmdBlockSpeed : Command
     {
         public override string name { get { return "blockspeed"; } }
-        public override string shortcut { get { return "bs"; } }
+        public override string shortcut { get { return  "bs"; } }
         public override string type { get { return "mod"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }

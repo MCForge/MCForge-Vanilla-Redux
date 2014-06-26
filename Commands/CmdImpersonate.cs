@@ -23,7 +23,7 @@ namespace MCForge.Commands
 		public override void Help(Player p) { Player.SendMessage(p, "/impersonate <player> <message> - Sends a message as if it came from <player>"); }
 		public override bool museumUsable { get { return true; } }
 		public override string name { get { return "impersonate"; } }
-		public override string shortcut { get { return "imp"; } }
+		public override string shortcut { get { return  "imp"; } }
 		public override string type { get { return "other"; } }
 		public void SendIt(Player p, string message, Player player)
 		{

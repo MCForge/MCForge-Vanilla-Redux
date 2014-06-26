@@ -22,7 +22,7 @@ namespace MCForge.Commands
 	public class CmdLavaSurvival : Command
 	{
 		public override string name { get { return "lavasurvival"; } }
-		public override string shortcut { get { return "ls"; } }
+		public override string shortcut { get { return  "ls"; } }
 		public override string type { get { return "game"; } }
 		public override bool museumUsable { get { return false; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }

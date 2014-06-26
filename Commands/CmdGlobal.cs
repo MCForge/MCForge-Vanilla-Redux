@@ -21,7 +21,7 @@ namespace MCForge.Commands
     public class CmdGlobal : Command
     {
         public override string name { get { return "global"; } }
-        public override string shortcut { get { return "gc"; } }
+        public override string shortcut { get { return  "gc"; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }

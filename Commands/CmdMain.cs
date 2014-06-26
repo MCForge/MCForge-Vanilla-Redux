@@ -20,7 +20,7 @@ namespace MCForge.Commands
     public class CmdMain : Command
     {
         public override string name { get { return "main"; } }
-        public override string shortcut { get { return "h"; } }
+        public override string shortcut { get { return  "h"; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }

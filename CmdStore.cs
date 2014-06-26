@@ -35,6 +35,7 @@ namespace MCForge
         public ZombieGame zs;
         public override void Use(Player p, string message)
         {
+            if (!Server.ZombieModeOn) { return; }
             if (message == "")
             {
                 p.SendMessage("To purchase an item, type /buy [item number] (eg. /buy 5 for a rank)");

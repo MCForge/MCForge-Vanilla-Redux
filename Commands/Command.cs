@@ -23,7 +23,7 @@ namespace MCForge
 	public abstract class Command
 	{
 		public abstract string name { get; }
-		public abstract string shortcut { get; }
+        public abstract string shortcut { get; }
 		public abstract string type { get; }
 		public abstract bool museumUsable { get; }
 		public abstract LevelPermission defaultRank { get; }

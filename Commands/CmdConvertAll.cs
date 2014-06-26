@@ -8,7 +8,7 @@ namespace MCForge.Commands
     public class CmdConvertAll : Command
     {
         public override string name { get { return "convertall"; } }
-        public override string shortcut { get { return "cvta"; } }
+        public override string shortcut { get { return  "cvta"; } }
         public override string type { get { return "mod"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }

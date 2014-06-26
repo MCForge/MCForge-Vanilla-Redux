@@ -21,7 +21,7 @@ namespace MCForge.Commands
     public class CmdGcaccept : Command
     {
         public override string name { get { return "gcaccept"; } }
-        public override string shortcut { get { return "gca"; } }
+        public override string shortcut { get { return  "gca"; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }

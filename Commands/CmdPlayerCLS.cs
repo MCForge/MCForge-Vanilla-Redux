@@ -20,7 +20,7 @@ namespace MCForge.Commands
     public class CmdPlayerCLS : Command
     {
         public override string name { get { return "playercls"; } }
-        public override string shortcut { get { return "cls"; } }
+        public override string shortcut { get { return  "cls"; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }

@@ -22,7 +22,7 @@ namespace MCForge.Commands
     public class CmdCompile : Command
     {
         public override string name { get { return "compile"; } }
-        public override string shortcut { get { return ""; } }
+        public override string shortcut { get { return  ""; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }

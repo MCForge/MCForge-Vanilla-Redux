@@ -62,13 +62,13 @@ namespace MCForge
                     "\tpublic class " + ClassName(CmdName) + " : Command" + Environment.NewLine +
                     "\t{" + Environment.NewLine +
                     "\t\t// The command's name, in all lowercase.  What you'll be putting behind the slash when using it." + Environment.NewLine +
-                    "\t\tpublic override string name { get { return \"" + CmdName.ToLower() + "\"; } }" + Environment.NewLine +
+                    "\t\tpublic override string name { get { return \"" + CmdName.ToLower() + "\"}; } }" + Environment.NewLine +
                     Environment.NewLine +
                     "\t\t// Command's shortcut (please take care not to use an existing one, or you may have issues." + Environment.NewLine +
-                    "\t\tpublic override string shortcut { get { return \"\"; } }" + Environment.NewLine +
+                    "\t\tpublic override string shortcut { get { return  {  \"\"}; } }" + Environment.NewLine +
                     Environment.NewLine +
                     "\t\t// Determines which submenu the command displays in under /help." + Environment.NewLine +
-                    "\t\tpublic override string type { get { return \"other\"; } }" + Environment.NewLine +
+                    "\t\tpublic override string type { get { return \"other\"}; } }" + Environment.NewLine +
                     Environment.NewLine +
                     "\t\t// Determines whether or not this command can be used in a museum.  Block/map altering commands should be made false to avoid errors." + Environment.NewLine +
                     "\t\tpublic override bool museumUsable { get { return false; } }" + Environment.NewLine +

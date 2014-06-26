@@ -5025,7 +5025,14 @@ changed |= 4;*/
 
                     try { save(); }
                     catch (Exception e) { Server.ErrorLog(e); }
-
+                    if (team != null)
+                    {
+                        if (carryingFlag)
+                        {
+                            Command.all.Find("drop").Use(this, "silent");
+                        }
+                        team.DelPlayer(this);
+                    }
                     players.Remove(this);
                    /* players.ForEach(delegate(Player p)
                     {

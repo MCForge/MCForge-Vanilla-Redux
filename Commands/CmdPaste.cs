@@ -21,7 +21,7 @@ namespace MCForge.Commands
     public class CmdPaste : Command
     {
         public override string name { get { return "paste"; } }
-        public override string shortcut { get { return "v"; } }
+        public override string shortcut { get { return  "v"; } }
         public override string type { get { return "build"; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }

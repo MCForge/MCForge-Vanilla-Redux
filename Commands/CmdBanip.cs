@@ -24,7 +24,7 @@ using MCForge.SQL;
 namespace MCForge.Commands {
     public class CmdBanip : Command {
         public override string name { get { return "banip"; } }
-        public override string shortcut { get { return "bi"; } }
+        public override string shortcut { get { return  "bi"; } }
         public override string type { get { return "mod"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }

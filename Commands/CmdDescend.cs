@@ -20,7 +20,7 @@ namespace MCForge.Commands
     public class CmdDescend : Command
     {
         public override string name { get { return "descend"; } }
-        public override string shortcut { get { return ""; } }
+        public override string shortcut { get { return  ""; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Builder; } }

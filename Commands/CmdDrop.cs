@@ -22,7 +22,7 @@ namespace MCForge.Commands
 {
     class CmdDrop : Command
     {
-        public override string shortcut { get { return ""; } }
+        public override string shortcut { get { return  ""; } }
         public override bool museumUsable { get { return true; } }
         public override string name { get { return "drop"; } }
         public override string type { get { return "other"; } }

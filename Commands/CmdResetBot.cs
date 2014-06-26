@@ -20,7 +20,7 @@ namespace MCForge.Commands
     public class CmdResetBot : Command
     {
         public override string name { get { return "resetbot"; } }
-        public override string shortcut { get { return "resetirc"; } }
+        public override string shortcut { get { return  "resetirc"; } }
         public override string type { get { return "mod"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }

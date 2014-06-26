@@ -22,7 +22,7 @@ namespace MCForge.Commands
     public class CmdServerReport : Command
     {
         public override string name { get { return "serverreport"; } }
-        public override string shortcut { get { return "sr"; } }
+        public override string shortcut { get { return  "sr"; } }
         public override string type { get { return "information"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }

@@ -23,7 +23,7 @@ namespace MCForge.Commands
     public class CmdPortal : Command
     {
         public override string name { get { return "portal"; } }
-        public override string shortcut { get { return "o"; } }
+        public override string shortcut { get { return  "o"; } }
         public override string type { get { return "build"; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }

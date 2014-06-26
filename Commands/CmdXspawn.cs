@@ -24,7 +24,7 @@ namespace MCForge.Commands
 	public class CmdXspawn : Command
 	{
     	public override string name { get { return "xspawn"; } }
-		public override string shortcut { get { return ""; } }
+		public override string shortcut { get { return  ""; } }
 		public override string type { get { return "other"; } }
 		public override bool museumUsable { get { return false; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }

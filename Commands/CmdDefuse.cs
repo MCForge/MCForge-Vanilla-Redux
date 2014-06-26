@@ -7,7 +7,7 @@ namespace MCForge.Commands
 {
     class CmdDefuse : Command
     {
-        public override string shortcut { get { return "d"; } }
+        public override string shortcut { get { return  "d"; } }
         public override bool museumUsable { get { return true; } }
         public override string name { get { return "defuse"; } }
         public override string type { get { return "other"; } }

@@ -20,7 +20,7 @@ namespace MCForge.Commands
     public class CmdCompLoad : Command
     {
         public override string name { get { return "compload"; } }
-        public override string shortcut { get { return "cml"; } }
+        public override string shortcut { get { return  "cml"; } }
         public override string type { get { return "other"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
         public override bool museumUsable { get { return true; } }

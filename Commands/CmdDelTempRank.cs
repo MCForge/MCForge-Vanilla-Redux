@@ -19,7 +19,7 @@ namespace MCForge.Commands
     public class CmdDelTempRank : Command
     {
         public override string name { get { return "deltemprank"; } }
-        public override string shortcut { get { return "dtr"; } }
+        public override string shortcut { get { return  "dtr"; } }
         public override string type { get { return "mod"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }

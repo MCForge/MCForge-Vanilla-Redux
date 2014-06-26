@@ -20,7 +20,7 @@ namespace MCForge.Commands
     public class CmdFlipHead : Command
     {
         public override string name { get { return "fliphead"; } }
-        public override string shortcut { get { return "fh"; } }
+        public override string shortcut { get { return  "fh"; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }

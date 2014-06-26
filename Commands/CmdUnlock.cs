@@ -24,7 +24,7 @@ namespace MCForge.Commands
         public override string name { get { return "unlock"; } }
 
         // Command's shortcut (please take care not to use an existing one, or you may have issues.
-        public override string shortcut { get { return "ul"; } }
+        public override string shortcut { get { return  "ul"; } }
 
         // Determines which submenu the command displays in under /help.
         public override string type { get { return "other"; } }

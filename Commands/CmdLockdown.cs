@@ -22,7 +22,7 @@ namespace MCForge.Commands
     public class CmdLockdown : Command
     {
         public override string name { get { return "lockdown"; } }
-        public override string shortcut { get { return "ld"; } }
+        public override string shortcut { get { return  "ld"; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }

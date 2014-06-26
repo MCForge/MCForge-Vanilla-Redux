@@ -20,7 +20,7 @@ using MCForge.SQL;
 namespace MCForge.Commands {
 	public class CmdClearBlockChanges : Command {
 		public override string name { get { return "clearblockchanges"; } }
-		public override string shortcut { get { return "cbc"; } }
+		public override string shortcut { get { return  "cbc"; } }
 		public override string type { get { return "mod"; } }
 		public override bool museumUsable { get { return false; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }

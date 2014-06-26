@@ -21,7 +21,7 @@ namespace MCForge.Commands
     public class CmdChatRoom : Command
     {
         public override string name { get { return "chatroom"; } }
-        public override string shortcut { get { return "cr"; } }
+        public override string shortcut { get { return  "cr"; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }

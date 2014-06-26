@@ -24,7 +24,7 @@ namespace MCForge.Commands
 	public class CmdClones : Command
 	{
 		public override string name { get { return "clones"; } }
-		public override string shortcut { get { return "alts"; } }
+		public override string shortcut { get { return  "alts"; } }
 		public override string type { get { return "information"; } }
 		public override bool museumUsable { get { return true; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }

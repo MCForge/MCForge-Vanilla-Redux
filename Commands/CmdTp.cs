@@ -20,7 +20,7 @@ namespace MCForge.Commands
     public class CmdTp : Command
     {
         public override string name { get { return "tp"; } }
-        public override string shortcut { get { return ""; } }
+        public override string shortcut { get { return  ""; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Builder; } }

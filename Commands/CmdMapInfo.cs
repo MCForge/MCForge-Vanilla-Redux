@@ -22,7 +22,7 @@ namespace MCForge.Commands
     public class CmdMapInfo : Command
     {
         public override string name { get { return "mapinfo"; } }
-        public override string shortcut { get { return "status"; } }
+        public override string shortcut { get { return  "status"; } }
         public override string type { get { return "information"; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }

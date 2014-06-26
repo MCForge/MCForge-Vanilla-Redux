@@ -27,7 +27,7 @@ namespace MCForge.Commands
     public sealed class CmdFill : Command
     {
         public override string name { get { return "fill"; } }
-        public override string shortcut { get { return "f"; } }
+        public override string shortcut { get { return  "f"; } }
         public override string type { get { return "build"; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }

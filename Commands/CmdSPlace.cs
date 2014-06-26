@@ -25,7 +25,7 @@ namespace MCForge.Commands
     public class CmdSPlace : Command
     {
         public override string name { get { return "splace"; } }
-        public override string shortcut { get { return "set"; } }
+        public override string shortcut { get { return  "set"; } }
         public override string type { get { return "build"; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Builder; } }

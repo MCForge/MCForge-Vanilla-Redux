@@ -615,7 +615,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="TntWars.cs" />
     <Compile Include="util\ExtrasCollection.cs" />
     <Compile Include="Commands\cmdRestart.cs" />
     <Compile Include="properties\AssemblyInfo.cs" />

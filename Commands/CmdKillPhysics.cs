@@ -24,7 +24,7 @@ namespace MCForge.Commands
     public class CmdKillPhysics : Command
     {
         public override string name { get { return "killphysics"; } }
-        public override string shortcut { get { return "kp"; } }
+        public override string shortcut { get { return  "kp"; } }
         public override string type { get { return ""; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }

@@ -25,7 +25,7 @@ namespace MCForge.Commands
     public class CmdInfectmessage : Command
     {
         public override string name { get { return "infectmessage"; } }
-        public override string shortcut { get { return "im"; } }
+        public override string shortcut { get { return  "im"; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }

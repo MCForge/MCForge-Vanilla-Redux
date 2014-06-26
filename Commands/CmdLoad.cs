@@ -23,7 +23,7 @@ namespace MCForge.Commands
     public class CmdLoad : Command
     {
         public override string name { get { return "load"; } }
-        public override string shortcut { get { return ""; } }
+        public override string shortcut { get { return  ""; } }
         public override string type { get { return "mod"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }

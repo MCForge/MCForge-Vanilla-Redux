@@ -191,7 +191,7 @@ namespace MCForge
             voted3 = 0;
 
             DirectoryInfo di = new DirectoryInfo("levels/");
-            FileInfo[] fi = di.GetFiles("ctf_*.mcf");
+            FileInfo[] fi = di.GetFiles("*.mcf");
 
             foreach (FileInfo level in fi)
             {
@@ -204,26 +204,26 @@ namespace MCForge
             switch (levels.Count)
             {
                 case 1:
-                    option1 = levels[0].Replace("ctf_", "");
+                    option1 = levels[0];
                     optionCount = 1;
                     break;
                 case 2:
-                    option1 = levels[0].Replace("ctf_", "");
-                    option2 = levels[1].Replace("ctf_", "");
+                    option1 = levels[0];
+                    option2 = levels[1];
                     optionCount = 2;
                     break;
                 case 3:
-                    option1 = levels[0].Replace("ctf_", "");
-                    option2 = levels[1].Replace("ctf_", "");
-                    option3 = levels[2].Replace("ctf_", "");
+                    option1 = levels[0];
+                    option2 = levels[1];
+                    option3 = levels[2];
                     optionCount = 3;
                     break;
                 default:
-                    option1 = levels[rnd.Next(0, levels.Count - 1)].Replace("ctf_", "");
+                    option1 = levels[rnd.Next(0, levels.Count - 1)];
                     levels.Remove(option1);
-                    option2 = levels[rnd.Next(0, levels.Count - 1)].Replace("ctf_", "");
+                    option2 = levels[rnd.Next(0, levels.Count - 1)];
                     levels.Remove(option2);
-                    option3 = levels[rnd.Next(0, levels.Count - 1)].Replace("ctf_", "");
+                    option3 = levels[rnd.Next(0, levels.Count - 1)];
                     optionCount = 3;
                     break;
             }
@@ -270,24 +270,24 @@ namespace MCForge
             {
                 if (voted1 > voted2)
                 {
-                    if (Level.Find("ctf_" + option1) == null)
+                    if (Level.Find(option1) == null)
                     {
-                        newLevel = Level.Load("ctf_" + option1);
+                        newLevel = Level.Load(option1);
                     }
                     else
                     {
-                        newLevel = Level.Find("ctf_" + option1);
+                        newLevel = Level.Find(option1);
                     }
                 }
                 else if (voted2 > voted1)
                 {
-                    if (Level.Find("ctf_" + option2) == null)
+                    if (Level.Find(option2) == null)
                     {
-                        newLevel = Level.Load("ctf_" + option2);
+                        newLevel = Level.Load(option2);
                     }
                     else
                     {
-                        newLevel = Level.Find("ctf_" + option2);
+                        newLevel = Level.Find(option2);
                     }
                 }
             }
@@ -295,35 +295,35 @@ namespace MCForge
             {
                 if (voted1 > voted2 && voted1 > voted3)
                 {
-                    if (Level.Find("ctf_" + option1) == null)
+                    if (Level.Find(option1) == null)
                     {
-                        newLevel = Level.Load("ctf_" + option1);
+                        newLevel = Level.Load(option1);
                     }
                     else
                     {
-                        newLevel = Level.Find("ctf_" + option1);
+                        newLevel = Level.Find(option1);
                     }
                 }
                 else if (voted2 > voted1 && voted2 > voted3)
                 {
-                    if (Level.Find("ctf_" + option2) == null)
+                    if (Level.Find(option2) == null)
                     {
-                        newLevel = Level.Load("ctf_" + option2);
+                        newLevel = Level.Load(option2);
                     }
                     else
                     {
-                        newLevel = Level.Find("ctf_" + option2);
+                        newLevel = Level.Find(option2);
                     }
                 }
                 else if (voted3 > voted1 && voted3 > voted2)
                 {
-                    if (Level.Find("ctf_" + option3) == null)
+                    if (Level.Find(option3) == null)
                     {
-                        newLevel = Level.Load("ctf_" + option3);
+                        newLevel = Level.Load(option3);
                     }
                     else
                     {
-                        newLevel = Level.Find("ctf_" + option3);
+                        newLevel = Level.Find(option3);
                     }
                 }
             }

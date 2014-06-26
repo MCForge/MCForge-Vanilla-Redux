@@ -20,7 +20,7 @@ namespace MCForge.Commands
     public class CmdDemote : Command
     {
         public override string name { get { return "demote"; } }
-        public override string shortcut { get { return "de"; } }
+        public override string shortcut { get { return  "de"; } }
         public override string type { get { return "mod"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }

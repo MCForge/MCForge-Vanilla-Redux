@@ -20,7 +20,7 @@ namespace MCForge.Commands
     public class CmdGcmods : Command
     {
         public override string name { get { return "gcmods"; } }
-        public override string shortcut { get { return "gcmod"; } }
+        public override string shortcut { get { return  "gcmod"; } }
         public override string type { get { return "information"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }

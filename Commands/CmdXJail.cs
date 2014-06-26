@@ -21,7 +21,7 @@ namespace MCForge.Commands
     public class CmdXJail : Command
     {
         public override string name { get { return "xjail"; } }
-        public override string shortcut { get { return "xj"; } }
+        public override string shortcut { get { return  "xj"; } }
         public override string type { get { return "other"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public override bool museumUsable { get { return true; } }

@@ -22,7 +22,7 @@ namespace MCForge.Commands
     public class CmdLine : Command
     {
         public override string name { get { return "line"; } }
-        public override string shortcut { get { return "l"; } }
+        public override string shortcut { get { return  "l"; } }
         public override string type { get { return "build"; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Builder; } }

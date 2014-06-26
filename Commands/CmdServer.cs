@@ -26,7 +26,7 @@ namespace MCForge.Commands
     public class CmdServer : Command
     {
         public override string name { get { return "server"; } }
-        public override string shortcut { get { return "serv"; } }
+        public override string shortcut { get { return  "serv"; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }

@@ -23,7 +23,7 @@ namespace MCForge.Commands
     public class CmdCuboid : Command
     {
         public override string name { get { return "cuboid"; } }
-        public override string shortcut { get { return "z"; } }
+        public override string shortcut { get { return  "z"; } }
         public override string type { get { return "build"; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Builder; } }

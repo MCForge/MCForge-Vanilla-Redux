@@ -25,7 +25,7 @@ namespace MCForge.Commands {
     /// </summary>
     public class CmdEconomy : Command {
         public override string name { get { return "economy"; } }
-        public override string shortcut { get { return "eco"; } }
+        public override string shortcut { get { return  "eco"; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }

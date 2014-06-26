@@ -23,7 +23,7 @@ namespace MCForge.Commands
 	public class CmdTntWars : Command
 	{
 		public override string name { get { return "tntwars"; } }
-		public override string shortcut { get { return "tw"; } }
+		public override string shortcut { get { return  "tw"; } }
 		public override string type { get { return "game"; } }
 		public override bool museumUsable { get { return false; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }

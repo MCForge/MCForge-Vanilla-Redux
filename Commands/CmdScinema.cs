@@ -26,7 +26,7 @@ namespace MCForge.Commands
         String Filepath = "";
 
         public override string name { get { return "scinema"; } }
-        public override string shortcut { get { return "sc"; } }
+        public override string shortcut { get { return  "sc"; } }
         public override string type { get { return "other"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }

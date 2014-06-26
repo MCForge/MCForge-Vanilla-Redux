@@ -21,7 +21,7 @@ namespace MCForge.Commands
     public class CmdLevels : Command
     {
         public override string name { get { return "levels"; } }
-        public override string shortcut { get { return "maps"; } }
+        public override string shortcut { get { return  "maps"; } }
         public override string type { get { return "information"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }

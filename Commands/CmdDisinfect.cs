@@ -24,7 +24,7 @@ namespace MCForge.Commands
     public class CmdDisInfect : Command
     {
         public override string name { get { return "disinfect"; } }
-        public override string shortcut { get { return "di"; } }
+        public override string shortcut { get { return  "di"; } }
         public override string type { get { return "game"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }

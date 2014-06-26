@@ -20,7 +20,7 @@ namespace MCForge.Commands
     public class CmdOZone : Command
     {
         public override string name { get { return "ozone"; } }
-        public override string shortcut { get { return "oz"; } }
+        public override string shortcut { get { return  "oz"; } }
         public override string type { get { return "mod"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public override bool museumUsable { get { return false; } }

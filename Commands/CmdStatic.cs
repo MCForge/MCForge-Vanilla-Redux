@@ -20,7 +20,7 @@ namespace MCForge.Commands
     public class CmdStatic : Command
     {
         public override string name { get { return "static"; } }
-        public override string shortcut { get { return "t"; } }
+        public override string shortcut { get { return  "t"; } }
         public override string type { get { return "build"; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }

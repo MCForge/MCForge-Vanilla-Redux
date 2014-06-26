@@ -21,7 +21,7 @@ namespace MCForge.Commands
     public class CmdCmdBind : Command
     {
         public override string name { get { return "cmdbind"; } }
-        public override string shortcut { get { return "cb"; } }
+        public override string shortcut { get { return  "cb"; } }
         public override string type { get { return "build"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Builder; } }

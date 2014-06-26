@@ -23,7 +23,7 @@ namespace MCForge.Commands
     public class CmdXmute : Command
     {
         public override string name { get { return "xmute"; } }
-        public override string shortcut { get { return ""; } }
+        public override string shortcut { get { return  ""; } }
         public override string type { get { return "mod"; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }

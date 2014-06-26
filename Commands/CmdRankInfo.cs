@@ -22,7 +22,7 @@ namespace MCForge.Commands
     public class CmdRankInfo : Command
     {
         public override string name { get { return "rankinfo"; } }
-        public override string shortcut { get { return "ri"; } }
+        public override string shortcut { get { return  "ri"; } }
         public override string type { get { return "mod"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }

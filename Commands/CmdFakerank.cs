@@ -20,7 +20,7 @@ namespace MCForge.Commands
    public class CmdFakeRank : Command
    {
       public override string name { get { return "fakerank"; } }
-      public override string shortcut { get { return "frk"; } } 
+      public override string shortcut { get { return  "frk"; } } 
       public override string type { get { return "other"; } }
       public override bool museumUsable { get { return true; } }
       public override void Help(Player p)

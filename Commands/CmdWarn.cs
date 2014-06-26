@@ -20,7 +20,7 @@ namespace MCForge.Commands
     public class CmdWarn : Command
     {
         public override string name { get { return "warn"; } }
-        public override string shortcut { get { return ""; } }
+        public override string shortcut { get { return  ""; } }
         public override string type { get { return "mod"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Builder; } }

@@ -21,7 +21,7 @@ namespace MCForge.Commands
     public class CmdFixGrass : Command
     {
         public override string name { get { return "fixgrass"; } }
-        public override string shortcut { get { return "fg"; } }
+        public override string shortcut { get { return  "fg"; } }
         public override string type { get { return "moderation"; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }

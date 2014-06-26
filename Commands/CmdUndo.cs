@@ -23,7 +23,7 @@ namespace MCForge.Commands
     public class CmdUndo : Command
     {
         public override string name { get { return "undo"; } }
-        public override string shortcut { get { return "u"; } }
+        public override string shortcut { get { return  "u"; } }
         public override string type { get { return "build"; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
