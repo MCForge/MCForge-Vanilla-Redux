@@ -31,6 +31,7 @@ namespace MCForge.Commands
                     return;
                 }
                 model = message.Split(' ')[1].Trim();
+                targetPlayer.model = model;
             }
             else
             {
@@ -41,6 +42,7 @@ namespace MCForge.Commands
                 }
                 targetPlayer = p;
                 model = message;
+                p.model = model;
             }
 
             foreach (Player pl in Player.players)

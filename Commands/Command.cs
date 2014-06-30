@@ -33,7 +33,9 @@ namespace MCForge
 		public int intervalInMinutes;
 		public DateTime nextExecution;
 		public Player intervalUsingPlayer;
-
+        public virtual void Init()
+        {
+        }
 		public static CommandList all = new CommandList();
 		public static CommandList core = new CommandList();
 		public static void InitAll()
@@ -150,12 +152,14 @@ namespace MCForge
             all.Add(new CmdInfectmessage());
 			all.Add(new CmdJail());
 			all.Add(new CmdJoker());
+            all.Add(new CmdJoin());
 			all.Add(new CmdKick());
 			all.Add(new CmdKickban());
 			all.Add(new CmdKill());
 			all.Add(new CmdKillPhysics());
 			all.Add(new CmdLastCmd());
 			all.Add(new CmdLavaSurvival());
+            all.Add(new CmdLeave());
 			all.Add(new CmdLevels());
 			all.Add(new CmdLimit());
 			all.Add(new CmdLine());
@@ -251,6 +255,7 @@ namespace MCForge
 			all.Add(new CmdSave());
 			all.Add(new CmdSay());
 			all.Add(new CmdSCinema());
+            all.Add(new CmdScores());
 			all.Add(new CmdSearch());
 			all.Add(new CmdSeen());
 			all.Add(new CmdSend());

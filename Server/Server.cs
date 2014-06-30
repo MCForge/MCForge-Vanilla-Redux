@@ -152,7 +152,7 @@ namespace MCForge
         public static List<string> gcaccepted = new List<string>();
         //public static List<levelID> allLevels = new List<levelID>();
         public struct levelID { public int ID; public string name; }
-
+        public static List<Game> games = new List<Game>();
         public static List<string> afkset = new List<string>();
         public static List<string> ircafkset = new List<string>();
         public static List<string> afkmessages = new List<string>();
@@ -934,7 +934,9 @@ namespace MCForge
                         {
                             try
                             {
+                            if (l.mapType != MapType.Game) {
                                 l.saveChanges();
+                            }
                             }
                             catch (Exception e)
                             {
@@ -1033,6 +1035,12 @@ namespace MCForge
 	  UseTextures = true;          
 #endif
                 Log("Finished setting up server");
+                ml.Queue(delegate
+                {
+                    Log("Adding games");
+                    Game.Initialize();
+                    Log("Finished setting up server");
+                });
                 ServerSetupFinished = true;
                 Checktimer.StartTimer();
                 Commands.CommandKeywords.SetKeyWords();

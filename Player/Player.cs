@@ -37,6 +37,7 @@ namespace MCForge
         private static readonly char[] UnicodeReplacements = " ☺☻♥♦♣♠•◘○\n♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼".ToCharArray();
 
         /// <summary> List of chat keywords, and emotes that they stand for. </summary>
+        public Dictionary<string, object> ExtraData = new Dictionary<string, object>();
         public static readonly Dictionary<string, char> EmoteKeywords = new Dictionary<string, char> {
             { "smile", '\u0001' },
 
@@ -265,6 +266,15 @@ namespace MCForge
         public bool hasreadrules = false;
         public bool canusereview = true;
         public int hackWarnings = 0;
+        public string model = "humanoid";
+        public Dictionary<Game, double> gamePoints = new Dictionary<Game, double>();
+        public bool inGame()
+        {
+            foreach (Game g in Server.games)
+                if (g.players.Contains(this))
+                    return true;
+            return false;
+        }
 
         //Gc checks
         public string lastmsg = "";
@@ -610,47 +620,6 @@ namespace MCForge
         public bool isProtected;
         public bool verifiedName;
 
-        //CPE
-        const string SelectionBoxExtName = "SelectionBoxExt";
-        const int SelectionBoxExtVersion = 1;
-        const string CustomBlocksExtName = "CustomBlocks";
-        const int CustomBlocksExtVersion = 1;
-        const byte CustomBlocksLevel = 1;
-        const string ClickDistanceExtName = "ClickDistance";
-        const int ClickDistanceExtVersion = 1;
-        const string EnvColorsExtName = "EnvColors";
-        const int EnvColorsExtVersion = 1;
-        const string ChangeModelExtName = "ChangeModel";
-        const int ChangeModelExtVersion = 1;
-        const string EnvMapAppearanceExtName = "EnvMapAppearance";
-        const int EnvMapAppearanceExtVersion = 1;
-        const string HeldBlockExtName = "HeldBlock";
-        const int HeldBlockExtVersion = 1;
-        const string ExtPlayerListExtName = "ExtPlayerList";
-        const int ExtPlayerListExtVersion = 1;
-        const string SelectionCuboidExtName = "SelectionCuboid";
-        const int SelectionCuboidExtVersion = 1;
-        const string MessageTypesExtName = "MessageTypes";
-        const int MessageTypesExtVersion = 1;
-        const string EnvWeatherTypeExtName = "EnvWeatherType";
-        const int EnvWeatherTypeExtVersion = 1;
-        const string HackControlExtName = "HackControl";
-        const int HackControlExtVersion = 1;
-
-        // Note: if more levels are added, change UsesCustomBlocks from bool to int
-        public bool SelectionBoxExt { get; set; }
-        public bool UsesCustomBlocks { get; set; }
-        public bool SupportsClickDistance = false;
-        public bool SupportsEnvColors = false;
-        public bool SupportsChangeModel = false;
-        public bool SupportsEnvMapAppearance = false;
-        public bool SupportsEnvWeatherType = false;
-        public bool SupportsHeldBlock = false;
-        public bool SupportsExtPlayerList = false;
-        public bool SupportsSelectionCuboid = false;
-        public bool SupportsMessageTypes = false;
-        public bool SupportsHackControl = false;
-        public static bool emotefix = false;
         public string appName;
         public int extensionCount;
         public List<string> extensions = new List<string>();
@@ -1560,6 +1529,14 @@ namespace MCForge
                 {
                     if (p.level == level && p != this && !p.hidden)
                         SendSpawn(p.id, p.color + p.name, p.pos[0], p.pos[1], p.pos[2], p.rot[0], p.rot[1]);
+                    if (HasExtension("ChangeModel"))
+                    {
+                        SendChangeModel(p.id, p.model);
+                    }
+                    if (p.HasExtension("ChangeModel"))
+                    {
+                        p.SendChangeModel(id, model);
+                    }
                 }
                 foreach (PlayerBot pB in PlayerBot.playerbots)
                 {
@@ -2007,6 +1984,18 @@ namespace MCForge
                 level.blockCache.Add(bP);
                 placeBlock(b, type, x, y, z);
             }
+        }
+
+        public void createTntAnimation(ushort[] start, out List<ushort[]> animation)
+        {
+            animation = new List<ushort[]>();
+            for (int i = -1; i <= 1; i++)
+                for (int x = -1; x <= 1; x++)
+                    for (int y = -1; y <= 1; y++)
+                    {
+                        animation.Add(new[] { (ushort)(start[0] - i), (ushort)(start[1] - x), (ushort)(start[2] - y) });
+                    }
+            animation.Remove(start);
         }
 
         public void HandlePortal(Player p, ushort x, ushort y, ushort z, ushort b)
@@ -3830,6 +3819,10 @@ return;
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
                 //Server.s.Log((DateTime.Now - start).TotalMilliseconds.ToString()); // We dont want random numbers showing up do we?
+            }
+            if (HasExtension("EnvWeatherType"))
+            {
+                SendSetMapWeather(level.weather);
             }
         }
         public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty)

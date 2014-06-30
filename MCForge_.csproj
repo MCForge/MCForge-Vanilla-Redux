@@ -121,11 +121,15 @@
     <Compile Include="Commands\CmdDefuse.cs" />
     <Compile Include="Commands\CmdDrop.cs" />
     <Compile Include="Commands\CmdInfectMessage.cs" />
+    <Compile Include="Commands\CmdJoin.cs" />
+    <Compile Include="Commands\CmdLeave.cs" />
     <Compile Include="Commands\CmdRedTeam.cs" />
+    <Compile Include="Commands\CmdScore.cs" />
     <Compile Include="Games\CTF.cs" />
     <Compile Include="Games\CTFTeam.cs" />
     <Compile Include="Games\SMP.cs" />
     <Compile Include="Games\SMP\Inventory.cs" />
+    <Compile Include="MiniGames\Game.cs" />
     <Compile Include="Player\Opcode.cs" />
     <Compile Include="Server\AutoSaver.cs" />
     <Compile Include="Server\Ban.cs" />

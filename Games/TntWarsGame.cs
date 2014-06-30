@@ -40,12 +40,12 @@ namespace MCForge
         public int GameNumber;
         public ushort[] RedSpawn = null;
         public ushort[] BlueSpawn = null;
-            //incase they don't want the default
+        //incase they don't want the default
         public int TntPerPlayerAtATime = Properties.DefaultTntPerPlayerAtATime;
         public bool GracePeriod = Properties.DefaultGracePeriodAtStart;
         public int GracePeriodSecs = Properties.DefaultGracePeriodSecs;
         public bool BalanceTeams = Properties.DefaultBalanceTeams;
-            //scores/streaks
+        //scores/streaks
         public int ScoreLimit = Properties.DefaultTDMmaxScore;
         public bool Streaks = true;
         public int MultiKillBonus = Properties.DefaultMultiKillBonus; //This is the amount of extra points per each player that is killed per 1 tnt (if playerskilledforthistnt > 1)
@@ -288,7 +288,7 @@ namespace MCForge
                             SendAllPlayersMessage("TNT Wars: " + c.teal + "1" + Server.DefaultColor + " second remaining!");
                             break;
                     }
-                                
+
                     Thread.Sleep(1000);
                     GracePeriodSecsRemaining -= 1;
                 }
@@ -563,7 +563,7 @@ namespace MCForge
             }
             if (minusfromscore != 0)
             {
-                ChangeScore(Killer, - minusfromscore);
+                ChangeScore(Killer, -minusfromscore);
                 Player.SendMessage(Killer, "TNT Wars: - " + minusfromscore.ToString() + " point(s) for team kill(s)!");
             }
         }
@@ -637,8 +637,8 @@ namespace MCForge
             }
 
         }
-        
-        public bool TeamKill (Player p1, Player p2)
+
+        public bool TeamKill(Player p1, Player p2)
         {
             return TeamKill(FindPlayer(p1), FindPlayer(p2));
         }

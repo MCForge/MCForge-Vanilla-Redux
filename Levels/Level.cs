@@ -54,6 +54,12 @@ namespace MCForge
         Other
     }
 
+    public enum MapType
+    {
+        General,
+        Game,
+    }
+
     public sealed class Level : IDisposable
     {
         #region Delegates
@@ -226,7 +232,7 @@ namespace MCForge
 
         public List<C4.C4s> C4list = new List<C4.C4s>();
 
-        public Level(string n, ushort x, ushort y, ushort z, string type, int seed = 0, bool useSeed = false)
+        public Level(string n, ushort x, ushort y, ushort z, string type, int seed = 0, bool useSeed = false, MapType mt = MapType.General)
         {
             //onLevelSave += null;
             width = x;
@@ -331,6 +337,8 @@ namespace MCForge
             spawnz = (ushort)(height / 2);
             rotx = 0;
             roty = 0;
+            redFlag = new ushort[3] { 0, (ushort)(depth / 2), 0 };
+            blueFlag = new ushort[3] { (ushort)(width - 1), (ushort)(depth / 2), (ushort)(height - 1) };
             textures = new LevelTextures(this);
             //season = new SeasonsCore(this);
         }
@@ -413,7 +421,7 @@ namespace MCForge
             Player.players.ForEach(
                 delegate(Player pl) { if (pl.level == this) Command.all.Find("goto").Use(pl, Server.mainLevel.name); });
 
-            if (changed && (!Server.ZombieModeOn || !Server.noLevelSaving) && !Server.CTF)
+            if (changed && (!Server.ZombieModeOn || !Server.noLevelSaving) && !Server.CTF && mapType != MapType.Game)
             {
                     if ((!Server.lava.active || !Server.lava.HasMap(name)) && save) Save(false, true);
                     saveChanges();
@@ -822,10 +830,12 @@ namespace MCForge
                                       ? PermissionToName(level.pervisitmax).ToLower()
                                       : PermissionToName(LevelPermission.Nobody)));
                     SW.WriteLine("Guns = " + level.guns.ToString());
+                    SW.WriteLine("Type = " + level.mapType.ToString());
                     SW.WriteLine("LoadOnGoto = " + level.loadOnGoto.ToString());
                     SW.WriteLine("LeafDecay = " + level.leafDecay.ToString());
                     SW.WriteLine("RandomFlow = " + level.randomFlow.ToString());
                     SW.WriteLine("GrowTrees = " + level.growTrees.ToString());
+                    SW.WriteLine("weather = " + level.weather.ToString());
                     SW.WriteLine("author = " + level.author);
                     SW.WriteLine("likes = " + level.likes);
                     SW.WriteLine("dislikes = " + level.dislikes);
@@ -1148,6 +1158,8 @@ namespace MCForge
             GC.WaitForPendingFinalizers();
         }
 
+        public MapType mapType;
+
         public int Backup(bool Forced = false, string backupName = "")
         {
             if (!backedup || Forced)
@@ -1442,6 +1454,9 @@ namespace MCForge
                                     case "guns":
                                         level.guns = bool.Parse(value);
                                         break;
+                                    case "type":
+                                        level.mapType = (MapType)Enum.Parse(typeof(MapType), value);
+                                        break;
                                     case "loadongoto":
                                         level.loadOnGoto = bool.Parse(value);
                                         break;
@@ -1454,6 +1469,7 @@ namespace MCForge
                                     case "growtrees":
                                         level.growTrees = bool.Parse(value);
                                         break;
+                                    case "weather": level.weather = byte.Parse(value); break;
                                     case "author": level.author = value; break;
                                     case "likes": level.likes = int.Parse(value); break;
                                     case "dislikes": level.dislikes = int.Parse(value); break;
@@ -5576,6 +5592,22 @@ namespace MCForge
                 case 38:
                 case 39:
                 case 40:
+                case 50:
+                case 51:
+                case 52:
+                case 53:
+                case 54:
+                case 55:
+                case 56:
+                case 57:
+                case 58:
+                case 59:
+                case 60:
+                case 61:
+                case 62:
+                case 63:
+                case 64:
+                case 65:
                     if (physics > 1) //Adv physics kills flowers and mushrooms in water
                     {
                         if (physics != 5)
@@ -5587,7 +5619,6 @@ namespace MCForge
                         }
                     }
                     break;
-
                 case 12: //sand
                 case 13: //gravel
                 case 110: //woodfloat
@@ -5636,6 +5667,22 @@ namespace MCForge
                 case 38:
                 case 39:
                 case 40:
+                case 50:
+                case 51:
+                case 52:
+                case 53:
+                case 54:
+                case 55:
+                case 56:
+                case 57:
+                case 58:
+                case 59:
+                case 60:
+                case 61:
+                case 62:
+                case 63:
+                case 64:
+                case 65:
                     if (physics > 1) //Adv physics kills flowers and mushrooms in water
                     {
                         if (physics != 5)
@@ -5712,6 +5759,22 @@ namespace MCForge
                 case 38:
                 case 39:
                 case 40:
+                case 50:
+                case 51:
+                case 52:
+                case 53:
+                case 54:
+                case 55:
+                case 56:
+                case 57:
+                case 58:
+                case 59:
+                case 60:
+                case 61:
+                case 62:
+                case 63:
+                case 64:
+                case 65:
                     if (physics > 1 && physics != 5) //Adv physics kills flowers and mushrooms plus wood in lava
                         if (!PhysSpongeCheck(b, true)) AddUpdate(b, 0);
                     break;
@@ -5774,6 +5837,22 @@ namespace MCForge
                 case 38:
                 case 39:
                 case 40:
+                case 50:
+                case 51:
+                case 52:
+                case 53:
+                case 54:
+                case 55:
+                case 56:
+                case 57:
+                case 58:
+                case 59:
+                case 60:
+                case 61:
+                case 62:
+                case 63:
+                case 64:
+                case 65:
                     if (physics > 1 && physics != 5) //Adv physics kills flowers and mushrooms plus wood in lava
                         if (!PhysSpongeCheck(b, true)) return true;
                     break;
