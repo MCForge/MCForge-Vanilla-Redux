@@ -27,7 +27,6 @@ namespace MCForge
 {
     static class Scripting
     {
-        private static CodeDomProvider compiler = CodeDomProvider.CreateProvider("CSharp");
         private static CompilerParameters parameters = new CompilerParameters();
         private static CompilerResults results;
         private static string sourcepath = "extra/commands/source/";
@@ -136,11 +135,14 @@ namespace MCForge
 
             parameters.MainClass = commandName;
             parameters.OutputAssembly = dllpath + "Cmd" + commandName + ".dll";
-
+            
             StringBuilder source = new StringBuilder(File.ReadAllText(sourcepath + "cmd" + commandName + ".cs"));
             source.Replace("namespace MCLawl", "namespace MCForge");
-
-            results = compiler.CompileAssemblyFromSource(parameters, source.ToString());
+            // Don't forget to dispose of the compiler.
+            using (CodeDomProvider compiler = CodeDomProvider.CreateProvider("CSharp"))
+            {
+                results = compiler.CompileAssemblyFromSource(parameters, source.ToString());
+            }
             if (results.Errors.Count == 0)
                 return true;
             else
