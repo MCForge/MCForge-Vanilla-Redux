@@ -22,7 +22,6 @@ using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Reflection;
-
 namespace Starter
 {
     class Program
@@ -105,7 +104,7 @@ namespace Starter
         }
         static void openServer(string[] args)
         {
-           MCForge_.Gui.Program.Main(args);
+            MCForge_.Gui.Program.Main(args);
         }
     }
 }
