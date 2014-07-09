@@ -3,8 +3,8 @@
 #Visual Studio files
 /bin
 /obj
-/Updater/bin
-/Updater/obj
+/updater/bin
+/updater/obj
 *.suo
 *.user
 *.[Cc]ache
