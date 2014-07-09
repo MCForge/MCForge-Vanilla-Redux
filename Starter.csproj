@@ -48,12 +48,15 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="MCForge_">
-      <HintPath>bin\Release\MCForge_.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="MCForge.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="MCForge_.csproj">
+      <Project>{12597db0-7c34-4de1-88ea-9250ff3372eb}</Project>
+      <Name>MCForge_</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
