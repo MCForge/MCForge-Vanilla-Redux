@@ -8,7 +8,7 @@ namespace MCForge
 {
     public class Game
     {
-        public virtual string name;
+        public string name;
         public Level level;
         public List<string> doneLevels = new List<string>();
         public List<Player> players = new List<Player>();

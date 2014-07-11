@@ -116,17 +116,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CmdStore.cs" />
-    <Compile Include="Commands\CmdBlueTeam.cs" />
+    <Compile Include="Commands\CmdBlue.cs" />
     <Compile Include="Commands\CmdConvertAll.cs" />
-    <Compile Include="Commands\CmdDefuse.cs" />
-    <Compile Include="Commands\CmdDrop.cs" />
+    <Compile Include="Commands\CmdGiveItem.cs" />
     <Compile Include="Commands\CmdInfectMessage.cs" />
     <Compile Include="Commands\CmdJoin.cs" />
     <Compile Include="Commands\CmdLeave.cs" />
-    <Compile Include="Commands\CmdRedTeam.cs" />
+    <Compile Include="Commands\CmdLeaveTeam.cs" />
+    <Compile Include="Commands\CmdPCTF.cs" />
     <Compile Include="Commands\CmdScore.cs" />
-    <Compile Include="Games\CTF.cs" />
-    <Compile Include="Games\CTFTeam.cs" />
+    <Compile Include="Commands\CmdTeamChat.cs" />
+    <Compile Include="Games\ProperCTFSetup.cs" />
     <Compile Include="Games\SMP.cs" />
     <Compile Include="Games\SMP\Inventory.cs" />
     <Compile Include="MiniGames\Game.cs" />
@@ -730,9 +730,7 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\TranslateService\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Plugins\OpenClassicEvents\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

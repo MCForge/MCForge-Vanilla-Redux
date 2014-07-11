@@ -23,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Timers;
 using System.Threading;
 using System.Windows.Forms;
 using MCForge.SQL;
@@ -79,7 +80,7 @@ namespace MCForge
         {
             get
             {
-                return Version.Major + "." + Version.Minor + "." + Version.Build;
+                return Version.Major + "." + Version.Minor + "." + Version.Build + "." + Version.Revision;
             }
         }
 
@@ -229,8 +230,21 @@ namespace MCForge
         // Lava Survival
         public static LavaSurvival lava;
 
-        //CTF
-        public static bool CTF = false;
+        //CTF  (new Caznowl style)
+        public static ProperCTFSetup pctf;
+        public static bool CTFModeOn = false;
+        public static bool ctfRound = false;
+        public static int ctfGameStatus = 0; //0 = not started, 1 = always on, 2 = one time, 3 = certain amount of rounds, 4 = stop game next round
+        public static bool CTFOnlyServer = true;
+        public static List<Player> killed = new List<Player>();
+        public static string currentLevel = "";
+        public static bool blueFlagDropped = false;
+        public static bool redFlagDropped = false;
+        public static bool blueFlagHeld = false;
+        public static bool redFlagHeld = false;
+        public static System.Timers.Timer redFlagTimer;
+        public static System.Timers.Timer blueFlagTimer;
+        public static int vulnerable = 1;
 
         // OmniBan
         public static OmniBan omniban;
@@ -329,7 +343,6 @@ namespace MCForge
         public static string GlobalChatNick = "MCF" + new Random().Next();
         public static string GlobalChatColor = "&6";
 
-
         public static int afkminutes = 10;
         public static int afkkick = 45;
         public static LevelPermission afkkickperm = LevelPermission.AdvBuilder;
@@ -402,6 +415,17 @@ namespace MCForge
                 ConsoleCommand(cmd, message);
             return cancelcommand;
         }
+
+        public void ReturnRedFlag(object sender, ElapsedEventArgs e)
+        {
+            pctf.resetFlag("red");
+        }
+
+        public void ReturnBlueFlag(object sender, ElapsedEventArgs e)
+        {
+            pctf.resetFlag("blue");
+        }
+
         public void Start()
         {
 
@@ -594,6 +618,7 @@ namespace MCForge
 
             zombie = new ZombieGame();
 
+            pctf = new ProperCTFSetup();
             LoadAllSettings();
 
             // OmniBan
@@ -617,7 +642,9 @@ namespace MCForge
                     //process.Kill();
                     return;
                 }
-                Database.executeQuery(string.Format("CREATE TABLE if not exists Players (ID INTEGER {0}AUTO{1}INCREMENT NOT NULL, Name TEXT, IP CHAR(15), FirstLogin DATETIME, LastLogin DATETIME, totalLogin MEDIUMINT, Title CHAR(20), TotalDeaths SMALLINT, Money MEDIUMINT UNSIGNED, totalBlocks BIGINT, totalCuboided BIGINT, totalKicked MEDIUMINT, TimeSpent VARCHAR(20), color VARCHAR(6), title_color VARCHAR(6){2});", (useMySQL ? "" : "PRIMARY KEY "), (useMySQL ? "_" : ""), (Server.useMySQL ? ", PRIMARY KEY (ID)" : "")));
+                Database.executeQuery(string.Format("CREATE TABLE if not exists Players (ID INTEGER {0}AUTO{1}INCREMENT NOT NULL, Name TEXT, IP CHAR(15), FirstLogin DATETIME, LastLogin DATETIME, totalLogin MEDIUMINT, Title CHAR(20), TotalDeaths SMALLINT, Money MEDIUMINT UNSIGNED, totalBlocks BIGINT, totalCuboided BIGINT, totalKicked MEDIUMINT, TimeSpent VARCHAR(20), color VARCHAR(6), lazer BIGINT, lightning BIGINT, trap BIGINT, line BIGINT, rocket BIGINT, grapple BIGINT, bigtnt BIGINT, title_color VARCHAR(6){2});", (useMySQL ? "" : "PRIMARY KEY "), (useMySQL ? "_" : ""), (Server.useMySQL ? ", PRIMARY KEY (ID)" : "")));
+                Database.executeQuery("CREATE TABLE if not exists Upgrades (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), lazer INT, lightning INT, trap BIGINT, rocket INT, tnt INT, pistol INT, mine INT, tripwire INT, knife INT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
+                Database.executeQuery("CREATE TABLE if not exists ExtraWeapons (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), tripwire INT, knife INT, jetpack INT, freezeray INT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
                 Database.executeQuery(string.Format("CREATE TABLE if not exists Opstats (ID INTEGER {0}AUTO{1}INCREMENT NOT NULL, Time DATETIME, Name TEXT, Cmd VARCHAR(40), Cmdmsg VARCHAR(40){2});", (useMySQL ? "" : "PRIMARY KEY "), (useMySQL ? "_" : ""), (Server.useMySQL ? ", PRIMARY KEY (ID)" : "")));
                 if (!File.Exists("extra/alter.txt") && Server.useMySQL) {
                 	Database.executeQuery("ALTER TABLE Players MODIFY Name TEXT");
@@ -670,6 +697,47 @@ namespace MCForge
                     if (totalCuboided.Rows.Count == 0)
                         MySQL.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks");
                     totalCuboided.Dispose();
+                    DataTable lazer = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='lazer'");
+
+                    if (lazer.Rows.Count == 0)
+                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN lazer BIGINT AFTER totalBlocks"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks");
+                    lazer.Dispose();
+
+                    DataTable lightning = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='lightning'");
+
+                    if (lightning.Rows.Count == 0)
+                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN lightning BIGINT AFTER lazer"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks");
+                    lightning.Dispose();
+
+                    DataTable trap = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='trap'");
+
+                    if (trap.Rows.Count == 0)
+                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN trap BIGINT AFTER lightning"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks");
+                    trap.Dispose();
+
+                    DataTable line = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='line'");
+
+                    if (line.Rows.Count == 0)
+                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN line BIGINT AFTER trap"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks");
+                    line.Dispose();
+
+                    DataTable rocket = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='rocket'");
+
+                    if (rocket.Rows.Count == 0)
+                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN rocket BIGINT AFTER line"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks");
+                    rocket.Dispose();
+
+                    DataTable grapple = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='grapple'");
+
+                    if (grapple.Rows.Count == 0)
+                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN grapple BIGINT AFTER rocket"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks");
+                    grapple.Dispose();
+
+                    DataTable bigtnt = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='bigtnt'");
+
+                    if (bigtnt.Rows.Count == 0)
+                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN bigtnt BIGINT AFTER grapple");
+                    bigtnt.Dispose();
                 }
             }
 
@@ -764,12 +832,6 @@ namespace MCForge
                     foreach (string gcmod in GCmods) {
                         Extensions.DeleteExactLineWord("ranks/muted.txt", gcmod);
                     }
-                }
-                if (CTF)
-                {
-                    MCForge.CTF.redTeam = new CTFTeam("&c", Block.red);
-                    MCForge.CTF.blueTeam = new CTFTeam("&9", Block.deepblue);
-                    MCForge.CTF.Setup(Server.mainLevel, true);
                 }
             });
 
@@ -963,6 +1025,11 @@ namespace MCForge
                     checkPosThread.Start();
                 });
 
+                redFlagTimer = new System.Timers.Timer(45000);
+                redFlagTimer.Elapsed += new ElapsedEventHandler(ReturnRedFlag);
+
+                blueFlagTimer = new System.Timers.Timer(45000);
+                blueFlagTimer.Elapsed += new ElapsedEventHandler(ReturnBlueFlag);
 
                 locationChecker = new Thread(new ThreadStart(delegate
                 {
@@ -978,8 +1045,9 @@ namespace MCForge
                             {
                                 p = Player.players[i];
 
-                                if (p.frozen)
+                                if (p.frozen || p.hasBeenTrapped)
                                 {
+                                    if (p.hasBeenTrapped) Thread.Sleep(1500);
                                     unchecked { p.SendPos((byte)-1, p.pos[0], p.pos[1], p.pos[2], p.rot[0], p.rot[1]); } continue;
                                 }
                                 else if (p.following != "")
@@ -1050,6 +1118,7 @@ namespace MCForge
                         Server.lava.Start();
                     if (Server.startZombieModeOnStartup)
                         Server.zombie.StartGame(1, 0);
+                    if (Server.CTFOnlyServer) Server.pctf.StartGame(1, 0);
                 }
                 catch (Exception e) { Server.ErrorLog(e); }
                 BlockQueue.Start();

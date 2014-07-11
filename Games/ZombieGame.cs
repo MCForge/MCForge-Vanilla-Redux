@@ -190,23 +190,16 @@ namespace MCForge
 
 			infectd.Clear ();
 				foreach (Player pl in Player.players) {
-					if (player.level == pl.level && pl.HasExtension ("ChangeModel")) {
-						pl.SendChangeModel (pl.id, "steve");
+					if (pl.level.name == currentLevelName) {
+                        pl.model = "steve";
 					}
 				}
 			if (Server.queZombie == true) {
 				infectd.Add (Player.Find (Server.nextZombie));
-				foreach (Player pl in Player.players) {
-					if (pl.level == Player.Find (Server.nextZombie).level && pl.HasExtension ("ChangeModel")) {
-						pl.SendChangeModel (Player.Find (Server.nextZombie).id, "zombie");
-					}
-				}
-			} else
+                Player.Find (Server.nextZombie).model = "zombie";
+			} else {
 				infectd.Add (player);
-			foreach (Player pl in Player.players) {
-				if (pl.level == player.level && pl.HasExtension ("ChangeModel")) {
-					pl.SendChangeModel (player.id, "zombie");
-				}
+                player.model = "zombie";
 			}
             aliveCount = alive.Count;
 
@@ -239,11 +232,8 @@ namespace MCForge
                                     {
                                         player2.infected = true;
                                         infectd.Add(player2);
-				foreach (Player people in Player.players) {
-					if (people.level == player2.level && people.HasExtension ("ChangeModel")) {
-						people.SendChangeModel(player2.id, "zombie");
-					}
-											}
+                                        player2.model = "zombie";
+                                    }
                                         alive.Remove(player2);
                                         players.Remove(player2);
                                         player2.blockCount = 25;
@@ -288,7 +278,6 @@ namespace MCForge
                                     }
                                 }
                             }
-                        }
                     });
                 });
                 Thread.Sleep(500);
@@ -394,8 +383,8 @@ namespace MCForge
             }
             try { alive.Clear(); infectd.Clear(); 
 				foreach (Player pl in Player.players) {
-					if (pl.level == pl.level && pl.HasExtension ("ChangeModel")) {
-						pl.SendChangeModel (pl.id, "steve");
+					if (pl.level == Level.Find(currentLevelName)) {
+						pl.model = "steve";
 					}
 				}
 			}
@@ -420,12 +409,14 @@ namespace MCForge
 
         public void ChangeLevel()
         {
+            Server.s.Log("test");
             if (Server.queLevel == true)
             {
                 ChangeLevel(Server.nextLevel, Server.ZombieOnlyServer);
             }
             try
             {
+                Server.s.Log("Test");
                 if (Server.ChangeLevels)
                 {
                     ArrayList al = new ArrayList();
@@ -435,13 +426,15 @@ namespace MCForge
                     {
                         al.Add(fil.Name.Split('.')[0]);
                     }
-
+                    Server.s.Log("Test");
                     if (al.Count <= 2 && !Server.UseLevelList) { Server.s.Log("You must have more than 2 levels to change levels in Zombie Survival"); return; }
 
                     if (Server.LevelList.Count < 2 && Server.UseLevelList) { Server.s.Log("You must have more than 2 levels in your level list to change levels in Zombie Survival"); return; }
 
                     string selectedLevel1 = "";
                     string selectedLevel2 = "";
+                    Server.s.Log("test");
+                    goto LevelChoice;
 
                 LevelChoice:
                     Random r = new Random();
@@ -542,11 +535,7 @@ namespace MCForge
 				Player.GlobalDie (alive [firstinfect], false);
 				Player.GlobalSpawn (alive [firstinfect], alive [firstinfect].pos [0], alive [firstinfect].pos [1], alive [firstinfect].pos [2], alive [firstinfect].rot [0], alive [firstinfect].rot [1], false);
 				infectd.Add (alive [firstinfect]);
-				foreach (Player pl in Player.players) {
-					if (pl.level == alive [firstinfect].level && pl.HasExtension ("ChangeModel")) {
-						pl.SendChangeModel (alive [firstinfect].id, "zombie");
-					}
-							}
+                alive [firstinfect].model = "zombie";
 					alive.Remove (alive [firstinfect]);
 					return;
 				}
@@ -557,18 +546,19 @@ namespace MCForge
 
         public bool InfectedPlayerLogin(Player p)
         {
-            if (p == null) return false;
-            if (p.level.name != Server.zombie.currentLevelName) return false;
-            if (Server.gameStatus == 0) return false;
-            if (!Server.zombieRound) alive.Add(p);  return false;
-            p.SendMessage(Player.MessageType.Status1, "You have joined in the middle of a round. You are now infected!", true);
-            p.blockCount = 50;
-            try
+            if (p != null && p.level.name == Server.zombie.currentLevelName && Server.gameStatus != 0)
             {
-                Server.zombie.InfectPlayer(p);
+                p.blockCount = 50;
+                try
+                {
+                    p.SendMessage(Player.MessageType.Status1, "You have joined in the middle of a round. You are now infected!", true);
+                    Server.zombie.InfectPlayer(p);
+                }
+                catch { }
+                return true;
             }
-            catch { }
-            return true;
+            if (Server.ZombieModeOn && p.level.name == Server.zombie.currentLevelName) alive.Add(p);
+            return false;
         }
 
         public int ZombieStatus()
@@ -588,12 +578,7 @@ namespace MCForge
 			if (p == null)
 				return;
 			infectd.Add(p);
-            Server.s.Log("Added to infectd");
-			foreach (Player pl in Player.players) {
-				if (pl.level == p.level && pl.HasExtension ("ChangeModel")) {
-					pl.SendChangeModel (p.id, "zombie");
-				}
-			}
+            p.model = "zombie";
             alive.Remove(p);
             p.infected = true;
             p.color = c.red;
@@ -607,11 +592,7 @@ namespace MCForge
             if (Server.zombieRound == false) return;
             if (p == null) return;
             infectd.Remove(p);
-				foreach (Player pl in Player.players) {
-					if (p.level == pl.level && pl.HasExtension ("ChangeModel")) {
-						pl.SendChangeModel (p.id, "steve");
-					}
-				}
+            p.model = "steve";
             alive.Add(p);
             p.infected = false;
             p.color = p.group.color;
@@ -627,6 +608,7 @@ namespace MCForge
             Server.queLevel = false;
             Server.nextLevel = "";
             Command.all.Find("load").Use(null, next.ToLower() + " 4");
+            Level.Find(next).mapType = MapType.Game;
             Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status2, "The next map has been chosen - " + c.red + next.ToLower());
             Player.GlobalMessageLevel(Level.Find(currentLevelName), Player.MessageType.Status3, "Please wait while you are transfered.");
             String oldLevel = Server.mainLevel.name;

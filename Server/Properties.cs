@@ -695,6 +695,16 @@ namespace MCForge {
                                     try { Server.mono = bool.Parse(value); }
                                     catch { Server.s.Log("Invalid " + key + ". Using default."); }
                                     break;*/
+                                                            case "ctf":
+                                                                try
+                                                                {
+                                                                    Server.CTFOnlyServer = bool.Parse(value);
+                                                                }
+                                                                catch
+                                                                {
+                                                                    Server.s.Log("Invalid " + key + ". Using default.");
+                                                                }
+                                                                break;
                                                             case "restart-on-error":
                                                                 try
                                                                 {
@@ -1505,54 +1515,6 @@ namespace MCForge {
                                                                         break;
                                                                 }
                                                                 break;
-                                                            case "ctf":
-                                                                Server.CTF = (value.ToLower() == "true") ? true : false;
-                                                                break;
-                                                            case "ctf-level":
-                                                                CTF.mainLevel = value;
-                                                                break;
-                                                            case "score-limit":
-                                                                CTF.scoreLimit = int.Parse(value);
-                                                                break;
-                                                            case "return-time":
-                                                                CTF.returnTime = int.Parse(value);
-                                                                break;
-                                                            case "vote-time":
-                                                                CTF.voteTime = int.Parse(value);
-                                                                break;
-                                                            case "drown-time":
-                                                                CTF.drownTime = int.Parse(value);
-                                                                break;
-                                                            case "mine-activation-time":
-                                                                CTF.mineActivationTime = int.Parse(value);
-                                                                break;
-                                                            case "take-flag-reward":
-                                                                CTF.takeFlagReward = int.Parse(value);
-                                                                break;
-                                                            case "capture-flag-reward":
-                                                                CTF.captureFlagReward = int.Parse(value);
-                                                                break;
-                                                            case "return-flag-reward":
-                                                                CTF.returnFlagReward = int.Parse(value);
-                                                                break;
-                                                            case "kill-player-reward":
-                                                                CTF.killPlayerReward = int.Parse(value);
-                                                                break;
-                                                            case "mine-blast-radius":
-                                                                CTF.mineBlastRadius = int.Parse(value);
-                                                                break;
-                                                            case "tnt-blast-radius":
-                                                                CTF.tntBlastRadius = int.Parse(value);
-                                                                break;
-                                                            case "mine-destroy-blocks":
-                                                                CTF.mineDestroyBlocks = bool.Parse(value);
-                                                                break;
-                                                            case "tnt-destroy-blocks":
-                                                                CTF.tntDestroyBlocks = bool.Parse(value);
-                                                                break;
-                                                            case "allow-ophax":
-                                                                CTF.allowOpHax = bool.Parse(value);
-                                                                break;
                                                         }
 												}
 										}
@@ -1764,23 +1726,8 @@ namespace MCForge {
 			w.WriteLine("defaultColor = " + Server.DefaultColor);
 			w.WriteLine("irc-color = " + Server.IRCColour);
 			w.WriteLine();
-            w.WriteLine("# CTF options:");
-            w.WriteLine("ctf = " + Server.CTF);
-            w.WriteLine("Main-Level = " + CTF.mainLevel);
-            w.WriteLine("Score-Limit = " + CTF.scoreLimit);
-            w.WriteLine("Return-Time = " + CTF.returnTime);
-            w.WriteLine("Vote-Time = " + CTF.voteTime);
-            w.WriteLine("Drown-Time = " + CTF.drownTime);
-            w.WriteLine("Mine-Activation-Time = " + CTF.mineActivationTime);
-            w.WriteLine("Take-Flag-Reward = " + CTF.takeFlagReward);
-            w.WriteLine("Capture-Flag-Reward = " + CTF.captureFlagReward);
-            w.WriteLine("Return-Flag-Reward = " + CTF.returnFlagReward);
-            w.WriteLine("Kill-Player-Reward = " + CTF.killPlayerReward);
-            w.WriteLine("Mine-Blast-Radius = " + CTF.mineBlastRadius);
-            w.WriteLine("Tnt-Blast-Radius = " + CTF.tntBlastRadius);
-            w.WriteLine("Mine-Destroy-Blocks = " + CTF.mineDestroyBlocks.ToString());
-            w.WriteLine("Tnt-Destroy-Blocks = " + CTF.tntDestroyBlocks.ToString());
-            w.WriteLine("Allow-Ophax = " + CTF.allowOpHax.ToString());
+            w.WriteLine("#CTF");
+            w.WriteLine("CTF = " + Server.CTFOnlyServer);
 			/*w.WriteLine("#Running on mono?");
 			w.WriteLine("mono = " + Server.mono);
 			w.WriteLine();*/

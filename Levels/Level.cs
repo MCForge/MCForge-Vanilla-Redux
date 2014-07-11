@@ -421,7 +421,7 @@ namespace MCForge
             Player.players.ForEach(
                 delegate(Player pl) { if (pl.level == this) Command.all.Find("goto").Use(pl, Server.mainLevel.name); });
 
-            if (changed && (!Server.ZombieModeOn || !Server.noLevelSaving) && !Server.CTF && mapType != MapType.Game)
+            if (changed && (!Server.ZombieModeOn || !Server.noLevelSaving) && mapType != MapType.Game)
             {
                     if ((!Server.lava.active || !Server.lava.HasMap(name)) && save) Save(false, true);
                     saveChanges();
@@ -1004,7 +1004,7 @@ namespace MCForge
 
         public void Save(bool Override = false, bool clearPhysics = false)
         {
-            if(Server.CTF || (Server.noLevelSaving && Server.ZombieModeOn))
+            if(mapType == MapType.Game || (Server.noLevelSaving && Server.ZombieModeOn))
             {
                 return;
             }
@@ -6569,6 +6569,723 @@ namespace MCForge
                         }
                     }
             //Server.s.Log("Explosion: " + (DateTime.Now - start).TotalMilliseconds.ToString());
+        }
+
+        public void MakeExplosion(string name, ushort x, ushort y, ushort z, int size, bool bigtnt, bool nuke, bool tnt)
+        {
+            //DateTime start = DateTime.Now;
+            Player p = Player.Find(name);
+            Server.killed.Clear();
+            int xx, yy, zz; Random rand = new Random(); ushort b;
+
+            ushort bc = GetTile((ushort)x, (ushort)y, (ushort)z);
+            if (!Block.OPBlocks(bc) && bc != Block.blueflag && bc != Block.redflag)
+            {
+                AddUpdate(PosToInt(x, y, z), Block.tntexplosion, true);
+            }
+
+            if (p.tntUpgrade > 1 && !bigtnt && !nuke)
+            {
+                for (xx = (x - (size + 4)); xx <= (x + (size + 4)); ++xx)
+                    for (yy = (y - (size + 4)); yy <= (y + (size + 4)); ++yy)
+                        for (zz = (z - (size + 4)); zz <= (z + (size + 4)); ++zz)
+                        {
+                            b = GetTile((ushort)xx, (ushort)yy, (ushort)zz);
+                            if (Block.Convert(b) != Block.tnt)
+                            {
+                                p.killingPeople = true;
+                                Player pl = Server.pctf.killedPlayer(p, (ushort)xx, (ushort)yy, (ushort)zz, tnt, "tnt");
+                                if (pl != null) Server.killed.Add(pl);
+                                if (!Block.OPBlocks(b) && b != Block.blueflag && b != Block.redflag && b != Block.air)
+                                {
+                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.air, true);
+                                }
+                            }
+                            if (b == Block.tnt)
+                            {
+                                AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.smalltnt);
+                            }
+                            else if (b == Block.smalltnt || b == Block.bigtnt || b == Block.nuketnt)
+                            {
+                                AddCheck(PosToInt((ushort)xx, (ushort)yy, (ushort)zz));
+                            }
+                        }
+            }
+            else if (p.tntUpgrade > 0 && !bigtnt && !nuke)
+            {
+                for (xx = (x - (size + 3)); xx <= (x + (size + 3)); ++xx)
+                    for (yy = (y - (size + 3)); yy <= (y + (size + 3)); ++yy)
+                        for (zz = (z - (size + 3)); zz <= (z + (size + 3)); ++zz)
+                        {
+                            b = GetTile((ushort)xx, (ushort)yy, (ushort)zz);
+                            if (Block.Convert(b) != Block.tnt)
+                            {
+                                p.killingPeople = true;
+                                Player pl = Server.pctf.killedPlayer(p, (ushort)xx, (ushort)yy, (ushort)zz, tnt, "tnt");
+                                if (pl != null) Server.killed.Add(pl);
+                                if (!Block.OPBlocks(b) && b != Block.blueflag && b != Block.redflag && b != Block.air)
+                                {
+                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.air, true);
+                                }
+                            }
+                            if (b == Block.tnt)
+                            {
+                                AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.smalltnt);
+                            }
+                            else if (b == Block.smalltnt || b == Block.bigtnt || b == Block.nuketnt)
+                            {
+                                AddCheck(PosToInt((ushort)xx, (ushort)yy, (ushort)zz));
+                            }
+                        }
+            }
+            else if (!bigtnt && !nuke)
+            {
+                for (xx = (x - (size + 2)); xx <= (x + (size + 2)); ++xx)
+                    for (yy = (y - (size + 2)); yy <= (y + (size + 2)); ++yy)
+                        for (zz = (z - (size + 2)); zz <= (z + (size + 2)); ++zz)
+                        {
+                            b = GetTile((ushort)xx, (ushort)yy, (ushort)zz);
+                            if (Block.Convert(b) != Block.tnt)
+                            {
+                                p.killingPeople = true;
+                                Player pl = Server.pctf.killedPlayer(p, (ushort)xx, (ushort)yy, (ushort)zz, tnt, "tnt");
+                                if (pl != null) Server.killed.Add(pl);
+                                if (!Block.OPBlocks(b) && b != Block.blueflag && b != Block.redflag && b != Block.air)
+                                {
+                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.air, true);
+                                }
+                            }
+                            if (b == Block.tnt)
+                            {
+                                AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.smalltnt);
+                            }
+                            else if (b == Block.smalltnt || b == Block.bigtnt || b == Block.nuketnt)
+                            {
+                                AddCheck(PosToInt((ushort)xx, (ushort)yy, (ushort)zz));
+                            }
+                        }
+            }
+
+            if (bigtnt)
+            {
+                for (xx = (x - (size + 5)); xx <= (x + (size + 5)); ++xx)
+                    for (yy = (y - (size + 5)); yy <= (y + (size + 5)); ++yy)
+                        for (zz = (z - (size + 5)); zz <= (z + (size + 5)); ++zz)
+                        {
+                            b = GetTile((ushort)xx, (ushort)yy, (ushort)zz);
+                            if (Block.Convert(b) != Block.tnt)
+                            {
+                                p.killingPeople = true;
+                                Player pl = Server.pctf.killedPlayer(p, (ushort)xx, (ushort)yy, (ushort)zz, tnt, "tnt");
+                                if (pl != null) Server.killed.Add(pl);
+                                if (!Block.OPBlocks(b) && b != Block.blueflag && b != Block.redflag && b != Block.air)
+                                {
+                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.air, true);
+                                }
+                            }
+                            if (b == Block.tnt)
+                            {
+                                AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.smalltnt);
+                            }
+                            else if (b == Block.smalltnt || b == Block.bigtnt || b == Block.nuketnt)
+                            {
+                                AddCheck(PosToInt((ushort)xx, (ushort)yy, (ushort)zz));
+                            }
+                        }
+            }
+
+            if (nuke)
+            {
+                for (xx = (x - (size + 10)); xx <= (x + (size + 10)); ++xx)
+                    for (yy = (y - (size + 10)); yy <= (y + (size + 10)); ++yy)
+                        for (zz = (z - (size + 10)); zz <= (z + (size + 10)); ++zz)
+                        {
+                            b = GetTile((ushort)xx, (ushort)yy, (ushort)zz);
+                            if (Block.Convert(b) != Block.tnt)
+                            {
+                                p.killingPeople = true;
+                                Player pl = Server.pctf.killedPlayer(p, (ushort)xx, (ushort)yy, (ushort)zz, tnt, "tnt");
+                                if (pl != null) Server.killed.Add(pl);
+                                if (!Block.OPBlocks(b) && b != Block.blueflag && b != Block.redflag && b != Block.air)
+                                {
+                                    AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.air, true);
+                                }
+                            }
+                            if (b == Block.tnt)
+                            {
+                                AddUpdate(PosToInt((ushort)xx, (ushort)yy, (ushort)zz), Block.smalltnt);
+                            }
+                            else if (b == Block.smalltnt || b == Block.bigtnt || b == Block.nuketnt)
+                            {
+                                AddCheck(PosToInt((ushort)xx, (ushort)yy, (ushort)zz));
+                            }
+                        }
+            }
+            p.killingPeople = false;
+            //p.amountKilled = 0;
+            //Server.s.Log("Explosion: " + (DateTime.Now - start).TotalMilliseconds.ToString());
+        }
+
+        public void placeBlock(ushort x, ushort y, ushort z, ushort b)
+        {
+            AddUpdate(PosToInt((ushort)x, (ushort)y, (ushort)z), b, true);
+            AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)z));
+        }
+
+        public void makeLinesplosion(string name, ushort x, ushort y, ushort z, int width, bool lazer)
+        {
+            Player p = Player.Find(name);
+            Server.killed.Clear();
+            ushort b; int length = 0; int length2 = 0;
+            length = p.level.width;
+            length2 = p.level.width - p.level.width - p.level.width;
+
+            int num = p.rot[0];
+            int rot360 = (int)Math.Round(p.rot[0] * 1.40625f);
+            if (rot360 >= 218 && rot360 <= 319)
+            {
+                //north
+                for (int xx = x; xx >= length2; xx--)
+                {
+                    if (p.pistolUpgrade > 2)
+                    {
+                        if (!lazer && xx == x - 30) { AddCheck(PosToInt((ushort)xx, (ushort)y, (ushort)z)); break; }
+                    }
+                    else if (p.pistolUpgrade > 0)
+                    {
+                        if (!lazer && xx == x - 20) { AddCheck(PosToInt((ushort)xx, (ushort)y, (ushort)z)); break; }
+                    }
+                    else
+                    {
+                        if (!lazer && xx == x - 10) { AddCheck(PosToInt((ushort)xx, (ushort)y, (ushort)z)); break; }
+                    }
+                    b = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                    if ((Block.Convert(b) == Block.air && !lazer) || (!lazer && p.pistolUpgrade > 1 && !Block.OPBlocks(b)))
+                    {
+                        p.killingPeople = true;
+                        Player pl = Server.pctf.killedPlayer(p, (ushort)xx, (ushort)y, (ushort)z, false, "pistol");
+                        if (pl != null) Server.killed.Add(pl);
+                        ushort bb = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)xx, (ushort)y, (ushort)z), Block.tntexplosion, lazer);
+                        }
+                    }
+                    else if (lazer && p.lazerUpgrade > 1)
+                    {
+                        p.killingPeople = true;
+                        Player pl = Server.pctf.killedPlayer(p, (ushort)xx, (ushort)y, (ushort)z, false, "lazer");
+                        if (pl != null) Server.killed.Add(pl);
+                        ushort bb = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)xx, (ushort)y, (ushort)z), Block.tntexplosion, lazer);
+                        }
+                    }
+                    else if (lazer && !Block.OPBlocks(b))
+                    {
+                        p.killingPeople = true;
+                        Player pl = Server.pctf.killedPlayer(p, (ushort)xx, (ushort)y, (ushort)z, false, "lazer");
+                        if (pl != null) Server.killed.Add(pl);
+                        ushort bb = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)xx, (ushort)y, (ushort)z), Block.tntexplosion, lazer);
+                        }
+                    }
+                    else
+                    {
+                        AddCheck(PosToInt((ushort)xx, (ushort)y, (ushort)z));
+                        break;
+                    }
+                }
+                p.killingPeople = false;
+            }
+            else if ((rot360 >= 320 && rot360 <= 360) || (rot360 >= 0 && rot360 <= 47))
+            {
+                //east
+                for (int zz = z; zz >= length2; zz--)
+                {
+                    if (p.pistolUpgrade > 2)
+                    {
+                        if (!lazer && zz == z - 30) { AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)zz)); break; }
+                    }
+                    else if (p.pistolUpgrade > 0)
+                    {
+                        if (!lazer && zz == z - 20) { AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)zz)); break; }
+                    }
+                    else
+                    {
+                        if (!lazer && zz == z - 10) { AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)zz)); break; }
+                    }
+                    b = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                    if ((Block.Convert(b) == Block.air && !lazer) || (!lazer && p.pistolUpgrade > 1 && !Block.OPBlocks(b)))
+                    {
+                        p.killingPeople = true;
+                        Player pl = Server.pctf.killedPlayer(p, (ushort)x, (ushort)y, (ushort)zz, false, "pistol");
+                        if (pl != null) Server.killed.Add(pl);
+                        ushort bb = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)x, (ushort)y, (ushort)zz), Block.tntexplosion, lazer);
+                        }
+                    }
+                    else if (lazer && p.lazerUpgrade > 1)
+                    {
+                        p.killingPeople = true;
+                        Player pl = Server.pctf.killedPlayer(p, (ushort)x, (ushort)y, (ushort)zz, false, "lazer");
+                        if (pl != null) Server.killed.Add(pl);
+                        ushort bb = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)x, (ushort)y, (ushort)zz), Block.tntexplosion, lazer);
+                        }
+                    }
+                    else if (lazer && !Block.OPBlocks(b))
+                    {
+                        p.killingPeople = true;
+                        Player pl = Server.pctf.killedPlayer(p, (ushort)x, (ushort)y, (ushort)zz, false, "lazer");
+                        if (pl != null) Server.killed.Add(pl);
+                        ushort bb = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)x, (ushort)y, (ushort)zz), Block.tntexplosion, lazer);
+                        }
+                    }
+                    else
+                    {
+                        AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)zz));
+                        break;
+                    }
+                }
+                p.killingPeople = false;
+            }
+            else if (rot360 >= 48 && rot360 <= 142)
+            {
+                for (int xx = x; xx < length; xx++)
+                {
+                    if (p.pistolUpgrade > 2)
+                    {
+                        if (!lazer && xx == x - 30) { AddCheck(PosToInt((ushort)xx, (ushort)y, (ushort)z)); break; }
+                    }
+                    else if (p.pistolUpgrade > 0)
+                    {
+                        if (!lazer && xx == x + 20) { AddCheck(PosToInt((ushort)xx, (ushort)y, (ushort)z)); break; }
+                    }
+                    else
+                    {
+                        if (!lazer && xx == x + 10) { AddCheck(PosToInt((ushort)xx, (ushort)y, (ushort)z)); break; }
+                    }
+                    b = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                    if ((Block.Convert(b) == Block.air && !lazer) || (!lazer && p.pistolUpgrade > 1 && !Block.OPBlocks(b)))
+                    {
+                        p.killingPeople = true;
+                        Player pl = Server.pctf.killedPlayer(p, (ushort)xx, (ushort)y, (ushort)z, false, "pistol");
+                        if (pl != null) Server.killed.Add(pl);
+                        ushort bb = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)xx, (ushort)y, (ushort)z), Block.tntexplosion, lazer);
+                        }
+                    }
+                    else if (lazer && p.lazerUpgrade > 1)
+                    {
+                        p.killingPeople = true;
+                        Player pl = Server.pctf.killedPlayer(p, (ushort)xx, (ushort)y, (ushort)z, false, "lazer");
+                        if (pl != null) Server.killed.Add(pl);
+                        ushort bb = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)xx, (ushort)y, (ushort)z), Block.tntexplosion, lazer);
+                        }
+                    }
+                    else if (lazer && !Block.OPBlocks(b))
+                    {
+                        p.killingPeople = true;
+                        Player pl = Server.pctf.killedPlayer(p, (ushort)xx, (ushort)y, (ushort)z, false, "lazer");
+                        if (pl != null) Server.killed.Add(pl);
+                        ushort bb = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)xx, (ushort)y, (ushort)z), Block.tntexplosion, lazer);
+                        }
+                    }
+                    else if (lazer && xx == length)
+                    {
+                        AddCheck(PosToInt((ushort)xx, (ushort)y, (ushort)z));
+                        break;
+                    }
+                    else
+                    {
+                        AddCheck(PosToInt((ushort)xx, (ushort)y, (ushort)z));
+                        break;
+                    }
+                }
+                p.killingPeople = false;
+            }
+            else if (rot360 >= 141 && rot360 <= 217)
+            {
+                for (int zz = z; zz <= length; zz++)
+                {
+                    if (p.pistolUpgrade > 2)
+                    {
+                        if (!lazer && zz == z + 30) { AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)zz)); break; }
+                    }
+                    else if (p.pistolUpgrade > 0)
+                    {
+                        if (!lazer && zz == z + 20) { AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)zz)); break; }
+                    }
+                    else
+                    {
+                        if (!lazer && zz == z + 10) { AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)zz)); break; }
+                    }
+                    b = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                    if ((Block.Convert(b) == Block.air && !lazer) || (!lazer && p.pistolUpgrade > 1 && !Block.OPBlocks(b)))
+                    {
+                        p.killingPeople = true;
+                        Player pl = Server.pctf.killedPlayer(p, (ushort)x, (ushort)y, (ushort)zz, false, "pistol");
+                        if (pl != null) Server.killed.Add(pl);
+                        ushort bb = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)x, (ushort)y, (ushort)zz), Block.tntexplosion, lazer);
+                        }
+                    }
+                    else if (lazer && p.lazerUpgrade > 1)
+                    {
+                        p.killingPeople = true;
+                        Player pl = Server.pctf.killedPlayer(p, (ushort)x, (ushort)y, (ushort)zz, false, "lazer");
+                        if (pl != null) Server.killed.Add(pl);
+                        ushort bb = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)x, (ushort)y, (ushort)zz), Block.tntexplosion, lazer);
+                        }
+                    }
+                    else if (lazer && !Block.OPBlocks(b))
+                    {
+                        p.killingPeople = true;
+                        Player pl = Server.pctf.killedPlayer(p, (ushort)x, (ushort)y, (ushort)zz, false, "lazer");
+                        if (pl != null) Server.killed.Add(pl);
+                        ushort bb = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)x, (ushort)y, (ushort)zz), Block.tntexplosion, lazer);
+                        }
+                    }
+                    else
+                    {
+                        AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)zz));
+                        break;
+                    }
+                }
+                p.killingPeople = false;
+                // p.amountKilled = 0;
+            }
+        }
+
+        public void makeFreezeRay(string name, ushort x, ushort y, ushort z, int width)
+        {
+            Player p = Player.Find(name);
+            Server.killed.Clear();
+            ushort b; int length = 0; int length2 = 0;
+            length = p.level.width;
+            length2 = p.level.width - p.level.width - p.level.width;
+
+            int num = p.rot[0];
+            int rot360 = (int)Math.Round(p.rot[0] * 1.40625f);
+            if (rot360 >= 218 && rot360 <= 319)
+            {
+                //north
+                for (int xx = x; xx >= length2; xx--)
+                {
+                    b = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                    if (Block.Convert(b) == Block.air)
+                    {
+                        p.killingPeople = true;
+                        p.freezePlayer((ushort)xx, (ushort)y, (ushort)z);
+                        ushort bb = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)xx, (ushort)y, (ushort)z), Block.WaterFaucet, false);
+                        }
+                    }
+                    else
+                    {
+                        AddCheck(PosToInt((ushort)xx, (ushort)y, (ushort)z));
+                        break;
+                    }
+                }
+                p.killingPeople = false;
+            }
+            else if ((rot360 >= 320 && rot360 <= 360) || (rot360 >= 0 && rot360 <= 47))
+            {
+                //east
+                for (int zz = z; zz >= length2; zz--)
+                {
+                    b = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                    if (Block.Convert(b) == Block.air)
+                    {
+                        p.killingPeople = true;
+                        p.freezePlayer((ushort)x, (ushort)y, (ushort)zz);
+                        ushort bb = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)x, (ushort)y, (ushort)zz), Block.WaterFaucet, false);
+                        }
+                    }
+                    else
+                    {
+                        AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)zz));
+                        break;
+                    }
+                }
+                p.killingPeople = false;
+            }
+            else if (rot360 >= 48 && rot360 <= 142)
+            {
+                for (int xx = x; xx < length; xx++)
+                {
+                    b = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                    if (Block.Convert(b) == Block.air)
+                    {
+                        p.killingPeople = true;
+                        p.freezePlayer((ushort)xx, (ushort)y, (ushort)z);
+                        ushort bb = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)xx, (ushort)y, (ushort)z), Block.WaterFaucet, false);
+                        }
+                    }
+                    else if (xx == length)
+                    {
+                        AddCheck(PosToInt((ushort)xx, (ushort)y, (ushort)z));
+                        break;
+                    }
+                    else
+                    {
+                        AddCheck(PosToInt((ushort)xx, (ushort)y, (ushort)z));
+                        break;
+                    }
+                }
+                p.killingPeople = false;
+            }
+            else if (rot360 >= 141 && rot360 <= 217)
+            {
+                for (int zz = z; zz <= length; zz++)
+                {
+                    b = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                    if (Block.Convert(b) == Block.air)
+                    {
+                        p.killingPeople = true;
+                        p.freezePlayer((ushort)x, (ushort)y, (ushort)zz);
+                        ushort bb = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)x, (ushort)y, (ushort)zz), Block.WaterFaucet, false);
+                        }
+                    }
+                    else
+                    {
+                        AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)zz));
+                        break;
+                    }
+                }
+                p.killingPeople = false;
+                // p.amountKilled = 0;
+            }
+        }
+
+        public void makeLine(string name, ushort x, ushort y, ushort z, int width, bool lazer)
+        {
+            Player p = Player.Find(name);
+            Server.killed.Clear();
+            ushort b; int length = 0; int length2 = 0;
+            length = p.level.width;
+            length2 = p.level.width - p.level.width - p.level.width;
+            lazer = false;
+
+            int num = p.rot[0];
+            int rot360 = (int)Math.Round(p.rot[0] * 1.40625f);
+            if (rot360 >= 218 && rot360 <= 319)
+            {
+                //north
+                for (int xx = x; xx >= length2; xx--)
+                {
+                    b = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                    if (Block.Convert(b) == Block.air && !lazer)
+                    {
+                        ushort bb = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)xx, (ushort)y, (ushort)z), Block.stone, lazer);
+                        }
+                    }
+                    else if (lazer && !Block.OPBlocks(b))
+                    {
+                        ushort bb = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)xx, (ushort)y, (ushort)z), Block.stone, lazer);
+                        }
+                    }
+                    else
+                    {
+                        AddCheck(PosToInt((ushort)xx, (ushort)y, (ushort)z));
+                        break;
+                    }
+                }
+            }
+            else if ((rot360 >= 320 && rot360 <= 360) || (rot360 >= 0 && rot360 <= 47))
+            {
+                //east
+                for (int zz = z; zz >= length2; zz--)
+                {
+                    b = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                    if (Block.Convert(b) == Block.air && !lazer)
+                    {
+                        ushort bb = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)x, (ushort)y, (ushort)zz), Block.stone, lazer);
+                        }
+                    }
+                    else if (lazer && !Block.OPBlocks(b))
+                    {
+                        ushort bb = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)x, (ushort)y, (ushort)zz), Block.stone, lazer);
+                        }
+                    }
+                    else
+                    {
+                        AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)zz));
+                        break;
+                    }
+                }
+            }
+            else if (rot360 >= 48 && rot360 <= 142)
+            {
+                for (int xx = x; xx < length; xx++)
+                {
+                    b = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                    if (Block.Convert(b) == Block.air && !lazer)
+                    {
+                        ushort bb = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)xx, (ushort)y, (ushort)z), Block.stone, lazer);
+                        }
+                    }
+                    else if (lazer && !Block.OPBlocks(b))
+                    {
+                        ushort bb = GetTile((ushort)xx, (ushort)y, (ushort)z);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)xx, (ushort)y, (ushort)z), Block.stone, lazer);
+                        }
+                    }
+                    else if (lazer && xx == length)
+                    {
+                        AddCheck(PosToInt((ushort)xx, (ushort)y, (ushort)z));
+                        break;
+                    }
+                    else
+                    {
+                        AddCheck(PosToInt((ushort)xx, (ushort)y, (ushort)z));
+                        break;
+                    }
+                }
+            }
+            else if (rot360 >= 141 && rot360 <= 217)
+            {
+                for (int zz = z; zz <= length; zz++)
+                {
+                    b = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                    if (Block.Convert(b) == Block.air && !lazer)
+                    {
+                        ushort bb = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)x, (ushort)y, (ushort)zz), Block.stone, lazer);
+                        }
+                    }
+                    else if (lazer && !Block.OPBlocks(b))
+                    {
+                        ushort bb = GetTile((ushort)x, (ushort)y, (ushort)zz);
+                        if (!Block.OPBlocks(bb))
+                        {
+                            AddUpdate(PosToInt((ushort)x, (ushort)y, (ushort)zz), Block.stone, lazer);
+                        }
+                    }
+                    else
+                    {
+                        AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)zz));
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void makeLightningsplosion(string name, ushort x, ushort y, ushort z, int width)
+        {
+            Player p = Player.Find(name);
+            Server.killed.Clear();
+            ushort b; int length2 = 0;
+            length2 = p.level.width - p.level.width - p.level.width;
+
+            for (int yy = y; yy >= length2; yy++)
+            {
+                b = GetTile((ushort)x, (ushort)yy, (ushort)z);
+                if (!Block.OPBlocks(b))
+                {
+                    p.killingPeople = true;
+                    Player pl = Server.pctf.killedPlayer(p, (ushort)x, (ushort)yy, (ushort)z, false, "lightning");
+                    if (pl != null) Server.killed.Add(pl);
+                    ushort bb = GetTile((ushort)x, (ushort)yy, (ushort)z);
+                    if (!Block.OPBlocks(bb))
+                    {
+                        AddUpdate(PosToInt((ushort)x, (ushort)yy, (ushort)z), Block.tntexplosion, true);
+                    }
+                }
+                else
+                {
+                    AddCheck(PosToInt((ushort)x, (ushort)yy, (ushort)z));
+                    break;
+                }
+            }
+            p.killingPeople = false;
+        }
+
+        public void makeUpsideDownLightning(string name, ushort x, ushort y, ushort z, int width)
+        {
+            Player p = Player.Find(name);
+            Server.killed.Clear();
+            ushort b; int length2 = 0;
+            length2 = 0;
+
+            for (int yy = y; yy >= length2; yy--)
+            {
+                b = GetTile((ushort)x, (ushort)yy, (ushort)z);
+                if (!Block.OPBlocks(b))
+                {
+                    p.killingPeople = true;
+                    Player pl = Server.pctf.killedPlayer(p, (ushort)x, (ushort)yy, (ushort)z, false, "lightning");
+                    if (pl != null) Server.killed.Add(pl);
+                    ushort bb = GetTile((ushort)x, (ushort)yy, (ushort)z);
+                    if (!Block.OPBlocks(bb))
+                    {
+                        AddUpdate(PosToInt((ushort)x, (ushort)yy, (ushort)z), Block.tntexplosion, true);
+                    }
+                }
+                else
+                {
+                    AddCheck(PosToInt((ushort)x, (ushort)yy, (ushort)z));
+                    break;
+                }
+            }
+            p.killingPeople = false;
         }
 
         public void Firework(ushort x, ushort y, ushort z, int size)

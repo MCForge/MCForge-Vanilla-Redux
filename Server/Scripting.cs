@@ -131,6 +131,8 @@ namespace MCForge
             parameters.ReferencedAssemblies.Add("MCForge_.dll");
             parameters.ReferencedAssemblies.Add("System.dll");
             parameters.ReferencedAssemblies.Add("System.Core.dll");
+            parameters.ReferencedAssemblies.Add("System.Data.dll");
+            parameters.ReferencedAssemblies.Add("System.Xml.dll");
             StreamReader sr = new StreamReader(sourcepath + "cmd" + commandName + ".cs");
             results = compiler.CompileAssemblyFromSource(parameters, sr.ReadToEnd().Replace("namespace MCLawl", "namespace MCForge"));
             sr.Dispose();
@@ -254,6 +256,14 @@ namespace MCForge
                         {
                             instance = Activator.CreateInstance(t);
                             Command.all.Add((Command)instance);
+                            try
+                            {
+                                ((Command)instance).Init();
+                            }
+                            catch (Exception ex)
+                            {
+                                Server.ErrorLog(ex);
+                            }
                         }
                     }
                 }

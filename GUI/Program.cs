@@ -375,7 +375,7 @@ namespace MCForge_.Gui
                 	else if (raw.EndsWith("b") && Server.DownloadBeta)
                 		raw = raw.Substring(0, raw.Length - 1);
                     Version availableUpdateVersion = new Version(raw);
-                    if (availableUpdateVersion > Server.Version || availableUpdateVersion > AssemblyName.GetAssemblyName(parent).Version)
+                    if (availableUpdateVersion > Server.Version)
                     {
                         if (Server.autoupdate == true || p != null)
                         {

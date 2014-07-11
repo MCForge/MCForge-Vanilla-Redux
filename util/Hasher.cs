@@ -55,7 +55,7 @@ namespace MCForge.Util {
             byte[] doubleHashedSaltBuffer = Encoding.UTF8.GetBytes(Encoding.UTF8.GetString(Compute(salt, plainText)));
 
             if ( !File.Exists(string.Format(FILE_LOCATION, salt)) )
-                using ( var disp = File.Create(string.Format(FILE_LOCATION, salt)) ) ;
+                using ( var disp = File.Create(string.Format(FILE_LOCATION, salt)) ) 
 
             using ( var Writer = File.OpenWrite(string.Format(FILE_LOCATION, salt)) ) {
                 Writer.Write(doubleHashedSaltBuffer, 0, doubleHashedSaltBuffer.Length);

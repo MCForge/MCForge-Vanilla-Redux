@@ -24,7 +24,7 @@ namespace MCForge
     public class Block
     {
 
-		public const int maxblocks = 256;
+		public const int maxblocks = 261;
 
 		public const ushort air = (ushort)0;
         public const ushort rock = (ushort)1;
@@ -305,6 +305,10 @@ namespace MCForge
 		public const ushort door_gold_air = (ushort)254;
         // Block.Zero is 255
         public const ushort finiteLavaFaucet = (ushort)256;
+        public const ushort redflag = (ushort)257;
+        public const ushort blueflag = (ushort)258;
+        public const ushort mine = (ushort)259;
+        public const ushort trap = (ushort)260;
 
         public static List<Blocks> BlockList = new List<Blocks>();
         public class Blocks
@@ -398,6 +402,10 @@ namespace MCForge
                     case snake:
                     case snaketail:
                     case flagbase:
+                    case redflag:
+                    case blueflag:
+                    case mine:
+                    case trap:
 
                         b.lowestRank = LevelPermission.Operator;
                         break;
@@ -770,6 +778,11 @@ namespace MCForge
                 case Block.MsgWhite:
                 case Block.MsgBlack:
 
+                case Block.blueflag:
+                case Block.redflag:
+                case Block.mine:
+                case Block.trap:
+
                 case Block.door:
                 case Block.door2:
                 case Block.door3:
@@ -855,6 +868,10 @@ namespace MCForge
         {
             switch (type)
             {
+                case Block.redflag:
+                case Block.blueflag:
+                case Block.mine:
+                case Block.trap:
                 case Block.blackrock:
                 case Block.op_air:
                 case Block.op_brick:
@@ -1448,6 +1465,11 @@ namespace MCForge
                 case fishsponge: return "sea_sponge";
                 case fishlavashark: return "lava_shark";
 
+                case blueflag: return "blueflag";
+                case redflag: return "redflag";
+                case mine: return "mine";
+                case trap: return "trap";
+
                 default: return "unknown";
             }
         }
@@ -1763,6 +1785,10 @@ namespace MCForge
         {
             switch (b)
             {
+                case redflag: return red;
+                case blueflag: return blue;
+                case mine: return darkgrey;
+                case trap: return mushroom;
                 case flagbase: return mushroom; //CTF Flagbase
                 case 100: return (ushort)20; //Op_glass
                 case 101: return (ushort)49; //Opsidian
