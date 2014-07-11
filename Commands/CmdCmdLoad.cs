@@ -38,9 +38,9 @@ namespace MCForge.Commands
             string name = "Cmd" + param[0];
 
 
-            if (param.Length == 1)
+            if (param.Length == 1) // CSharp
             {
-                string error = Scripting.Load(name);
+                string error = Scripting.CSharpProvider.Load(name);
                 if (error != null)
                 {
                     Player.SendMessage(p, error);
@@ -52,8 +52,7 @@ namespace MCForge.Commands
             }
             if (param[1] == "vb")
             {
-
-                string error = ScriptingVB.Load(name);
+                string error = Scripting.VBProvider.Load(name);
                 if (error != null)
                 {
                     Player.SendMessage(p, error);

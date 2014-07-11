@@ -5,6 +5,8 @@
 /obj
 /updater/bin
 /updater/obj
+/Updater/bin
+/Updater/obj
 *.suo
 *.user
 *.[Cc]ache

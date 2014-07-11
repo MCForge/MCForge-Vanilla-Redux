@@ -41,7 +41,7 @@ namespace MCForge.Commands
                 {
                     try
                     {
-                        success = Scripting.Compile(message);
+                        success = Scripting.CSharpProvider.Compile(message);
                     }
                     catch (Exception e)
                     {
@@ -71,7 +71,8 @@ namespace MCForge.Commands
                 {
                     try
                     {
-                        success = ScriptingVB.Compile(name);
+                        //success = ScriptingVB.Compile(name);
+                        success = Scripting.VBProvider.Compile(name);
                     }
                     catch (Exception e)
                     {

@@ -44,7 +44,7 @@ namespace MCForge.Commands
                 if (File.Exists("extra/commands/source/Cmd" + message + ".cs")) { p.SendMessage("File Cmd" + message + ".cs already exists.  Choose another name."); return; }
                 try
                 {
-                    Scripting.CreateNew(message);
+                    Scripting.CSharpProvider.CreateNew(message);
                 }
                 catch (Exception e)
                 {
@@ -61,7 +61,8 @@ namespace MCForge.Commands
                 if (File.Exists("extra/commands/source/Cmd" + name[0] + ".vb")) { p.SendMessage("File Cmd" + name[0] + ".vb already exists.  Choose another name."); return; }
                 try
                 {
-                    ScriptingVB.CreateNew(name[0]);
+                    //ScriptingVB.CreateNew(name[0]);
+                    Scripting.VBProvider.CreateNew(name[0]);
                 }
                 catch (Exception e)
                 {

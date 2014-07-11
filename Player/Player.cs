@@ -3419,8 +3419,8 @@ try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.waterstill); } catch { }
                 {
                     if (Server.lava.AddVote(this, text.ToLower()))
                     {
-                        SendMessage("Your vote for &5" + text.ToLower().Capitalize() + Server.DefaultColor + " has been placed. Thanks!");
-                        Server.lava.map.ChatLevelOps(name + " voted for &5" + text.ToLower().Capitalize() + Server.DefaultColor + ".");
+                        SendMessage("Your vote for &5" + text.ToLower().UppercaseFirst() + Server.DefaultColor + " has been placed. Thanks!");
+                        Server.lava.map.ChatLevelOps(name + " voted for &5" + text.ToLower().UppercaseFirst() + Server.DefaultColor + ".");
                         return;
                     }
                     else
@@ -4691,8 +4691,8 @@ changed |= 4;*/
             {
                 if (Server.lava.AddVote(from, message.ToLower()))
                 {
-                    SendMessage(from, "Your vote for &5" + message.ToLower().Capitalize() + Server.DefaultColor + " has been placed. Thanks!");
-                    Server.lava.map.ChatLevelOps(from.name + " voted for &5" + message.ToLower().Capitalize() + Server.DefaultColor + ".");
+                    SendMessage(from, "Your vote for &5" + message.ToLower().UppercaseFirst() + Server.DefaultColor + " has been placed. Thanks!");
+                    Server.lava.map.ChatLevelOps(from.name + " voted for &5" + message.ToLower().UppercaseFirst() + Server.DefaultColor + ".");
                     return;
                 }
                 else

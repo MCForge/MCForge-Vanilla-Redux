@@ -334,7 +334,7 @@ namespace MCForge
             all.Add(new CmdTeamChat());
 
 			core.commands = new List<Command>(all.commands);
-			Scripting.Autoload();
+			Scripting.AutoLoad();
 		}
 		/// <summary>
 		/// Add a command to the server

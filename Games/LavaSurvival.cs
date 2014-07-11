@@ -288,7 +288,7 @@ namespace MCForge
                 mapData = GenerateMapData(mapSettings);
 
                 map.setPhysics(mapData.destroy ? 2 : 1);
-                map.motd = "Lava Survival: " + map.name.Capitalize();
+                map.motd = "Lava Survival: " + map.name.UppercaseFirst();
                 map.overload = 1000000;
                 map.unload = false;
                 map.loadOnGoto = false;
@@ -335,7 +335,7 @@ namespace MCForge
                 if (!votes.ContainsKey(opt) && opt != map.name)
                 {
                     votes.Add(opt, 0);
-                    str += Server.DefaultColor + ", &5" + opt.Capitalize();
+                    str += Server.DefaultColor + ", &5" + opt.UppercaseFirst();
                     i++;
                 }
             }
@@ -370,14 +370,14 @@ namespace MCForge
             foreach (KeyValuePair<string, int> kvp in votes)
             {
                 if (kvp.Value > most.Value) most = kvp;
-                map.ChatLevelOps("&5" + kvp.Key.Capitalize() + "&f: &a" + kvp.Value);
+                map.ChatLevelOps("&5" + kvp.Key.UppercaseFirst() + "&f: &a" + kvp.Value);
             }
             votes.Clear();
             voted.Clear();
 
             if (OnVoteEnd != null)
                 OnVoteEnd(most.Key);
-            map.ChatLevel("The vote has ended! &5" + most.Key.Capitalize() + Server.DefaultColor + " won with &a" + most.Value + Server.DefaultColor + " vote" + (most.Value == 1 ? "" : "s") + ".");
+            map.ChatLevel("The vote has ended! &5" + most.Key.UppercaseFirst() + Server.DefaultColor + " won with &a" + most.Value + Server.DefaultColor + " vote" + (most.Value == 1 ? "" : "s") + ".");
             map.ChatLevel("You will be transferred in 5 seconds...");
             transferTimer = new Timer(5000);
             transferTimer.AutoReset = false;
@@ -656,7 +656,7 @@ namespace MCForge
                 {
                     StringBuilder sb = new StringBuilder();
                     foreach (KeyValuePair<string, int> kvp in votes)
-                        sb.AppendFormat("{0}, &5{1}", Server.DefaultColor, kvp.Key.Capitalize());
+                        sb.AppendFormat("{0}, &5{1}", Server.DefaultColor, kvp.Key.UppercaseFirst());
                     sb.Remove(0, 4);
                     return sb.ToString();
                 }
