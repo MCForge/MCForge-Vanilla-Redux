@@ -135,7 +135,7 @@ namespace MCForge.Commands
 								settings.safeZone = new LavaSurvival.Pos[] { new LavaSurvival.Pos((ushort)(x - 3), y, (ushort)(z - 3)), new LavaSurvival.Pos((ushort)(x + 3), (ushort)(y + 4), (ushort)(z + 3)) };
 								Server.lava.SaveMapSettings(settings);
 
-								foundLevel.motd = "Lava Survival: " + foundLevel.name.Capitalize();
+                                foundLevel.motd = "Lava Survival: " + foundLevel.name.UppercaseFirst();
 								foundLevel.overload = 1000000;
 								foundLevel.unload = false;
 								foundLevel.loadOnGoto = false;

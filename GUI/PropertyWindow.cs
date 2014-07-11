@@ -1604,7 +1604,7 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
                 settings.safeZone = new LavaSurvival.Pos[] { new LavaSurvival.Pos((ushort)( x - 3 ), y, (ushort)( z - 3 )), new LavaSurvival.Pos((ushort)( x + 3 ), (ushort)( y + 4 ), (ushort)( z + 3 )) };
                 Server.lava.SaveMapSettings(settings);
 
-                level.motd = "Lava Survival: " + level.name.Capitalize();
+                level.motd = "Lava Survival: " + level.name.UppercaseFirst();
                 level.overload = 1000000;
                 level.unload = false;
                 level.loadOnGoto = false;

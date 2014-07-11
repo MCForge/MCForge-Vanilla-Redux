@@ -210,6 +210,8 @@
     <Compile Include="Plugins\ServerEvents\OnServerErrorEvent.cs" />
     <Compile Include="Plugins\ServerEvents\OnServerLogEvent.cs" />
     <Compile Include="Plugins\Utils\Priority.cs" />
+    <Compile Include="Server\Scripting\ScriptingCSharp.cs" />
+    <Compile Include="Server\Scripting\ScriptingEngine.cs" />
     <Compile Include="Server\Translate.cs" />
     <Compile Include="Commands\CmdAscend.cs" />
     <Compile Include="Commands\CmdBanEdit.cs" />
@@ -364,7 +366,7 @@
     <Compile Include="Plugins\Utils\Events.cs" />
     <Compile Include="Plugins\Manager\Plugin_Manager.cs" />
     <Compile Include="Plugins\Manager\Plugin_Simple.cs" />
-    <Compile Include="Server\ScriptingVB.cs" />
+    <Compile Include="Server\Scripting\ScriptingVB.cs" />
     <Compile Include="Player\Checktimer.cs" />
     <Compile Include="Service References\TranslateService\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -549,7 +551,7 @@
     <Compile Include="GUI\Window.Designer.cs">
       <DependentUpon>Window.cs</DependentUpon>
     </Compile>
-    <Compile Include="Server\Scripting.cs" />
+    <Compile Include="Server\Scripting\Scripting.cs" />
     <Compile Include="Server\Server.cs" />
     <Compile Include="Server\ServerSettings.cs" />
     <Compile Include="Server\Updater.cs" />

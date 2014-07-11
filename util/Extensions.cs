@@ -100,7 +100,12 @@ namespace MCForge
             
             return tmp.ToArray();
         }
-        public static string Capitalize(this string str)
+        /// <summary>
+        /// Makes the first letter of a string uppercase.
+        /// </summary>
+        /// <param name="str">String to apply this to</param>
+        /// <returns>String with its first letter uppercase</returns>
+        public static string UppercaseFirst(this string str)
         {
             if (String.IsNullOrEmpty(str))
                 return String.Empty;
