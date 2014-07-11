@@ -54,7 +54,7 @@ namespace MCForge.Commands
             {
                 string blocks = "";
                 bool mode = true;
-                for (byte i = 0; i < Block.maxblocks; i++)
+                for (ushort i = 0; i < Block.maxblocks; i++)
                 {
                     if (Block.Name(i).ToLower() != "unknown")
                     {
