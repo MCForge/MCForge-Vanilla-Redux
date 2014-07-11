@@ -94,7 +94,26 @@ namespace MCForge
                     "}");
             }
         }
-
+        private static readonly string divider = new string('-', 25);
+        private static readonly string compilerLogFilename = "logs/error/compiler.log";
+        /// <summary>
+        /// Writes errors to the compiler log
+        /// Every String given will be a different line
+        /// </summary>
+        /// <param name="errorMessage">Variable String error messages</param>
+        private static void WriteErrors(params string[] errorMessage)
+        {
+            if (!File.Exists("logs/errors/compiler.log"))
+            {
+                File.WriteAllLines(compilerLogFilename, errorMessage);
+            }
+            // File exists. Append
+            else
+            {
+                File.AppendAllText(compilerLogFilename, divider + "\n");
+                File.WriteAllLines(compilerLogFilename, errorMessage);
+            }
+        }
         /// <summary>
         /// Compiles a written function from source into a DLL.
         /// </summary>
@@ -102,91 +121,37 @@ namespace MCForge
         /// <returns>True on successful compile, false on failure.</returns>
         public static bool Compile(string commandName)
         {
-            if (!File.Exists("logs/errors/compiler.log"))
-            {
-                File.Create("logs/errors/compiler.log");
-            }
-            string divider = new string('-', 25);
             if (!File.Exists(sourcepath + "Cmd" + commandName + ".cs"))
             {
-                bool check = File.Exists("logs/errors/compiler.log");
-                StreamWriter errlog = new StreamWriter("logs/errors/compiler.log", check);
-                if (check)
-                {
-                    errlog.WriteLine();
-                    errlog.WriteLine(divider);
-                    errlog.WriteLine();
-                }
-                errlog.WriteLine("File not found: Cmd" + commandName + ".cs");
-                errlog.Dispose();
+                WriteErrors("File not found: Cmd" + commandName + ".cs");
                 return false;
             }
             if (!Directory.Exists(dllpath))
-            {
                 Directory.CreateDirectory(dllpath);
-            }
+
             parameters.GenerateExecutable = false;
-            parameters.MainClass = commandName;
-            parameters.OutputAssembly = dllpath + "Cmd" + commandName + ".dll";
             parameters.ReferencedAssemblies.Add("MCForge_.dll");
             parameters.ReferencedAssemblies.Add("System.dll");
             parameters.ReferencedAssemblies.Add("System.Core.dll");
-            parameters.ReferencedAssemblies.Add("System.Data.dll");
-            parameters.ReferencedAssemblies.Add("System.Xml.dll");
-            StreamReader sr = new StreamReader(sourcepath + "cmd" + commandName + ".cs");
-            results = compiler.CompileAssemblyFromSource(parameters, sr.ReadToEnd().Replace("namespace MCLawl", "namespace MCForge"));
-            sr.Dispose();
-            switch (results.Errors.Count)
+
+            parameters.MainClass = commandName;
+            parameters.OutputAssembly = dllpath + "Cmd" + commandName + ".dll";
+
+            StringBuilder source = new StringBuilder(File.ReadAllText(sourcepath + "cmd" + commandName + ".cs"));
+            source.Replace("namespace MCLawl", "namespace MCForge");
+
+            results = compiler.CompileAssemblyFromSource(parameters, source.ToString());
+            if (results.Errors.Count == 0)
+                return true;
+            else
             {
-                case 0:
-                    return true;
-                case 1:
-                    CompilerError error = results.Errors[0];
-                    bool exists = (File.Exists("logs/errors/compiler.log"));
-                    StringBuilder sb = new StringBuilder();
-                    if (exists)
-                    {
-                        sb.AppendLine();
-                        sb.AppendLine(divider);
-                        sb.AppendLine();
-                    }
-                    sb.AppendLine("Error " + error.ErrorNumber);
-                    sb.AppendLine("Message: " + error.ErrorText);
-                    sb.AppendLine("Line: " + error.Line);
-                    StreamWriter sw = new StreamWriter("logs/errors/compiler.log", exists);
-                    sw.Write(sb.ToString());
-                    sw.Dispose();
-                    return false;
-                default:
-                    exists = (File.Exists("logs/errors/compiler.log"));
-                    sb = new StringBuilder();
-                    bool start = true;
-                    if(exists)
-                    {
-                        sb.AppendLine();
-                        sb.AppendLine(divider);
-                        sb.AppendLine();
-                    }
-                    foreach (CompilerError err in results.Errors)
-                    {
-                        if (!start)
-                        {
-                            sb.AppendLine();
-                            sb.AppendLine(divider);
-                            sb.AppendLine();
-                        }
-                        sb.AppendLine("Error #" + err.ErrorNumber);
-                        sb.AppendLine("Message: " + err.ErrorText);
-                        sb.AppendLine("Line: " + err.Line);
-                        if (start)
-                        {
-                            start = false;
-                        }
-                    }
-                    sw = new StreamWriter("logs/errors/compiler.log", exists);
-                    sw.Write(sb.ToString());
-                    sw.Dispose();
-                    return false;
+                foreach (CompilerError error in results.Errors)
+                {
+                    WriteErrors("Error: " + error.ErrorNumber,
+                                "Message: " + error.ErrorText,
+                                "Line: " + error.Line);
+                }
+                return false;
             }
         }
 
@@ -256,14 +221,6 @@ namespace MCForge
                         {
                             instance = Activator.CreateInstance(t);
                             Command.all.Add((Command)instance);
-                            try
-                            {
-                                ((Command)instance).Init();
-                            }
-                            catch (Exception ex)
-                            {
-                                Server.ErrorLog(ex);
-                            }
                         }
                     }
                 }
@@ -284,7 +241,7 @@ namespace MCForge
                     }
                 }
                 //Type type = asm.GetTypes()[0];*/
-                
+
             }
             catch (FileNotFoundException e)
             {
