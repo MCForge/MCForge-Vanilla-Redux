@@ -884,6 +884,9 @@ namespace MCForge
 
 		public bool HasExtension (string extName)
 		{
+            if (!extension)
+                return false;
+
 			return ExtEntry.FindAll (cpe => cpe.name == extName) != null;
 		}
 
@@ -1659,10 +1662,6 @@ namespace MCForge
                     if (HasExtension("ChangeModel"))
                     {
                         SendChangeModel(p.id, p.model);
-                    }
-                    if (p.HasExtension("ChangeModel"))
-                    {
-                        p.SendChangeModel(id, model);
                     }
                 }
                 foreach (PlayerBot pB in PlayerBot.playerbots)

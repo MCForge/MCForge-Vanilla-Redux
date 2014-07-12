@@ -17,7 +17,7 @@ namespace MCForge
             if (p == null) { Player.SendMessage(p, "This command can only be used in-game!"); return; }
             if (Server.pctf.CTFStatus() == 0) { Player.SendMessage(p, "There is no CTF game currently in progress."); return; }
             if (!Server.ctfRound) { p.SendMessage("The current ctf round hasn't started yet!"); return; }
-            Command.all.Find("goto").Use(p, Server.mainLevel.ToString());
+            Command.all.Find("goto").Use(p, Server.level);
         }
         public override void Help(Player p)
         {
