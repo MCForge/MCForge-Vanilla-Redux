@@ -495,12 +495,10 @@ namespace MCForge
 
         public void ChangeLevel()
         {
-            Server.s.Log("test");
             if (Server.queLevel == true)
             {
                 ChangeLevel(Server.nextLevel, Server.CTFOnlyServer, true);
             }
-            Server.s.Log("test");
             try
             {
                 ArrayList al = new ArrayList();
@@ -510,7 +508,6 @@ namespace MCForge
                 {
                     al.Add(fil.Name.Split('.')[0]);
                 }
-                Server.s.Log("test");
 
                 if (al.Count <= 2 && !Server.UseLevelList) { Server.s.Log("You must have more than 2 levels to change levels in CTF"); return; }
 
@@ -518,7 +515,6 @@ namespace MCForge
 
                 string selectedLevel1 = "";
                 string selectedLevel2 = "";
-                Server.s.Log("test");
 
             LevelChoice:
                 Random r = new Random();
@@ -795,6 +791,7 @@ namespace MCForge
                 p.color = c.blue;
                 Command.all.Find("goto").Use(p, currentLevelName);
                 blu.Add(p);
+                sendToTeamSpawn(p);
             }
             else
             {
@@ -803,6 +800,7 @@ namespace MCForge
                 p.color = c.red;
                 Command.all.Find("goto").Use(p, currentLevelName);
                 red.Add(p);
+                sendToTeamSpawn(p);
             }
         }
 

@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -235,7 +236,7 @@ namespace MCForge
         public static bool CTFModeOn = false;
         public static bool ctfRound = false;
         public static int ctfGameStatus = 0; //0 = not started, 1 = always on, 2 = one time, 3 = certain amount of rounds, 4 = stop game next round
-        public static bool CTFOnlyServer = true;
+        public static bool CTFOnlyServer = false;
         public static List<Player> killed = new List<Player>();
         public static string currentLevel = "";
         public static bool blueFlagDropped = false;
@@ -425,6 +426,9 @@ namespace MCForge
         {
             pctf.resetFlag("blue");
         }
+
+        public string table = "Players";
+        public string column = "bigtnt";
 
         public void Start()
         {
@@ -644,7 +648,7 @@ namespace MCForge
                 }
                 Database.executeQuery(string.Format("CREATE TABLE if not exists Players (ID INTEGER {0}AUTO{1}INCREMENT NOT NULL, Name TEXT, IP CHAR(15), FirstLogin DATETIME, LastLogin DATETIME, totalLogin MEDIUMINT, Title CHAR(20), TotalDeaths SMALLINT, Money MEDIUMINT UNSIGNED, totalBlocks BIGINT, totalCuboided BIGINT, totalKicked MEDIUMINT, TimeSpent VARCHAR(20), color VARCHAR(6), lazer BIGINT, lightning BIGINT, trap BIGINT, line BIGINT, rocket BIGINT, grapple BIGINT, bigtnt BIGINT, title_color VARCHAR(6){2});", (useMySQL ? "" : "PRIMARY KEY "), (useMySQL ? "_" : ""), (Server.useMySQL ? ", PRIMARY KEY (ID)" : "")));
                 Database.executeQuery("CREATE TABLE if not exists Upgrades (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), lazer INT, lightning INT, trap BIGINT, rocket INT, tnt INT, pistol INT, mine INT, tripwire INT, knife INT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
-                Database.executeQuery("CREATE TABLE if not exists ExtraWeapons (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), tripwire INT, knife INT, jetpack INT, freezeray INT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
+                Database.executeQuery("CREATE TABLE if not exists ExtraWeapons (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), knife INT, jetpack INT, freezeray INT, lazer INT, lightning INT, trap BIGINT, line BIGINT, rocket INT, tnt INT, pistol INT, mine INT, tripwire INT, grapple BIGINT, bigtnt BIGINT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
                 Database.executeQuery(string.Format("CREATE TABLE if not exists Opstats (ID INTEGER {0}AUTO{1}INCREMENT NOT NULL, Time DATETIME, Name TEXT, Cmd VARCHAR(40), Cmdmsg VARCHAR(40){2});", (useMySQL ? "" : "PRIMARY KEY "), (useMySQL ? "_" : ""), (Server.useMySQL ? ", PRIMARY KEY (ID)" : "")));
                 if (!File.Exists("extra/alter.txt") && Server.useMySQL) {
                 	Database.executeQuery("ALTER TABLE Players MODIFY Name TEXT");
@@ -697,48 +701,8 @@ namespace MCForge
                     if (totalCuboided.Rows.Count == 0)
                         MySQL.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks");
                     totalCuboided.Dispose();
-                    DataTable lazer = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='lazer'");
-
-                    if (lazer.Rows.Count == 0)
-                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN lazer BIGINT AFTER totalBlocks"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks");
-                    lazer.Dispose();
-
-                    DataTable lightning = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='lightning'");
-
-                    if (lightning.Rows.Count == 0)
-                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN lightning BIGINT AFTER lazer"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks");
-                    lightning.Dispose();
-
-                    DataTable trap = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='trap'");
-
-                    if (trap.Rows.Count == 0)
-                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN trap BIGINT AFTER lightning"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks");
-                    trap.Dispose();
-
-                    DataTable line = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='line'");
-
-                    if (line.Rows.Count == 0)
-                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN line BIGINT AFTER trap"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks");
-                    line.Dispose();
-
-                    DataTable rocket = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='rocket'");
-
-                    if (rocket.Rows.Count == 0)
-                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN rocket BIGINT AFTER line"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks");
-                    rocket.Dispose();
-
-                    DataTable grapple = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='grapple'");
-
-                    if (grapple.Rows.Count == 0)
-                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN grapple BIGINT AFTER rocket"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks");
-                    grapple.Dispose();
-
-                    DataTable bigtnt = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='bigtnt'");
-
-                    if (bigtnt.Rows.Count == 0)
-                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN bigtnt BIGINT AFTER grapple");
-                    bigtnt.Dispose();
                 }
+
             }
 
             Economy.LoadDatabase();
@@ -1008,22 +972,6 @@ namespace MCForge
                     }
                 }));
                 blockThread.Start();
-
-                ml.Queue(delegate
-                {
-                    checkPosThread = new Thread(new ThreadStart(delegate
-                    {
-                        while (true)
-                        {
-                            Player.players.ForEach(delegate(Player p)
-                            {
-                                p.CheckPosition();
-                            });
-                            Thread.Sleep(250);
-                        }
-                    }));
-                    checkPosThread.Start();
-                });
 
                 redFlagTimer = new System.Timers.Timer(45000);
                 redFlagTimer.Elapsed += new ElapsedEventHandler(ReturnRedFlag);

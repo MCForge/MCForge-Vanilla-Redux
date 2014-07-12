@@ -328,6 +328,7 @@ namespace MCForge
 			all.Add(new CmdZz());
 
             //CTF
+            all.Add(new CmdDisarm());
             all.Add(new CmdPCTF());
             all.Add(new CmdLeaveTeam());
             all.Add(new CmdGiveItem());

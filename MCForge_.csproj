@@ -118,6 +118,7 @@
     <Compile Include="CmdStore.cs" />
     <Compile Include="Commands\CmdBlue.cs" />
     <Compile Include="Commands\CmdConvertAll.cs" />
+    <Compile Include="Commands\CmdDisarm.cs" />
     <Compile Include="Commands\CmdGiveItem.cs" />
     <Compile Include="Commands\CmdInfectMessage.cs" />
     <Compile Include="Commands\CmdJoin.cs" />

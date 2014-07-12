@@ -85,6 +85,25 @@ namespace MCForge
                     conn.Close();
                 }
             }
+            public static bool SqliteColumnExists(this SQLiteCommand cmd, string table, string column)
+            {
+                lock (cmd.Connection)
+                {
+                    // make sure table exists
+                    cmd.CommandText = string.Format("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = '{0}'", table);
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        //does column exists?
+                        bool hascol = reader.GetString(0).Contains(String.Format("\"{0}\"", column));
+                        reader.Close();
+                        return hascol;
+                    }
+                    reader.Close();
+                    return false;
+                }
+            }
         }
     }
 }

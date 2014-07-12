@@ -830,10 +830,6 @@ namespace MCForge
                     catch { }
                     if (Server.lava.active) SendMessage("There is a &aLava Survival " + Server.DefaultColor + "game active! Join it by typing /ls go");
                     extraTimer.Dispose();
-                    if (Server.CTFOnlyServer)
-                    {
-                        Command.all.Find("goto").Use(this, Server.pctf.currentLevelName);
-                    }
                 };
 
                 afkTimer.Elapsed += delegate
@@ -903,14 +899,7 @@ namespace MCForge
                 ", totalBlocks=" + overallBlocks + " + " + loginBlocks +
                 ", totalKicked=" + totalKicked +
                 ", TimeSpent='" + time +
-                "', lazer=" + lazers +
-                ", lightning=" + lightnings +
-                ", trap=" + traps +
-                ", line=" + lines +
-                ", rocket=" + rockets +
-                ", grapple=" + grapple +
-                ", bigtnt=" + bigtnt +
-                " WHERE Name='" + name + "'";
+                "' WHERE Name='" + name + "'";
             if (MySQLSave != null)
                 MySQLSave(this, commandString);
             OnMySQLSaveEvent.Call(this, commandString);
@@ -952,6 +941,13 @@ namespace MCForge
                 ", knife=" + knife +
                 ", jetpack=" + jetpack +
                 ", freezeray=" + freeze +
+                ", lazer=" + lazers +
+                ", lightning=" + lightnings +
+                ", trap=" + traps +
+                ", line=" + lines +
+                ", rocket=" + rockets +
+                ", grapple=" + grapple +
+                ", bigtnt=" + bigtnt +
                 " WHERE Name='" + name + "'";
             if (MySQLSave != null)
             {
@@ -1551,6 +1547,63 @@ namespace MCForge
             }
             SetPrefix();
             playerDb.Dispose();
+            #region Weapon Upgrade Loading
+
+            DataTable achievementsDb = Server.useMySQL ? MySQL.fillData("SELECT * FROM Upgrades WHERE Name='" + name + "'") : SQLite.fillData("SELECT * FROM Upgrades WHERE Name='" + name + "'");
+
+            if (achievementsDb.Rows.Count == 0)
+            {
+                if (Server.useMySQL)
+                    MySQL.executeQuery("INSERT INTO Upgrades (Name, lazer, lightning, trap, rocket, tnt, pistol, mine, tripwire, knife)" +
+                        "VALUES ('" + name + "', " + lazerUpgrade + ", " + lightningUpgrade + ", " + trapUpgrade + ", " + rocketUpgrade + ", " + tntUpgrade + ", " + pistolUpgrade + ", '" + mineUpgrade + "', " + tripwireUpgrade + ", " + knifeUpgrade + ")");
+                else
+                    SQLite.executeQuery("INSERT INTO Upgrades (Name, lazer, lightning, trap, rocket, tnt, pistol, mine, tripwire, knife)" +
+                        "VALUES ('" + name + "', " + lazerUpgrade + ", " + lightningUpgrade + ", " + trapUpgrade + ", " + rocketUpgrade + ", " + tntUpgrade + ", " + pistolUpgrade + ", '" + mineUpgrade + "', " + tripwireUpgrade + ", " + knifeUpgrade + ")");
+            }
+            else
+            {
+                lazerUpgrade = int.Parse(achievementsDb.Rows[0]["lazer"].ToString());
+                lightningUpgrade = int.Parse(achievementsDb.Rows[0]["lightning"].ToString());
+                trapUpgrade = int.Parse(achievementsDb.Rows[0]["trap"].ToString());
+                rocketUpgrade = int.Parse(achievementsDb.Rows[0]["rocket"].ToString());
+                tntUpgrade = int.Parse(achievementsDb.Rows[0]["tnt"].ToString());
+                pistolUpgrade = int.Parse(achievementsDb.Rows[0]["pistol"].ToString());
+                mineUpgrade = int.Parse(achievementsDb.Rows[0]["mine"].ToString());
+                tripwireUpgrade = int.Parse(achievementsDb.Rows[0]["tripwire"].ToString());
+                knifeUpgrade = int.Parse(achievementsDb.Rows[0]["knife"].ToString());
+            }
+            achievementsDb.Dispose();
+            #endregion
+
+            #region Weapon Upgrade Loading
+
+            DataTable extraWeapons = Server.useMySQL ? MySQL.fillData("SELECT * FROM ExtraWeapons WHERE Name='" + name + "'") : SQLite.fillData("SELECT * FROM ExtraWeapons WHERE Name='" + name + "'");
+
+            if (extraWeapons.Rows.Count == 0)
+            {
+                if (Server.useMySQL)
+                    MySQL.executeQuery("INSERT INTO ExtraWeapons (Name, tripwire, knife, jetpack, freezeray, lazer, lightning, trap, line, rocket, grapple, bigtnt)" +
+                        "VALUES ('" + name + "', " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", '" + 0 + "')");
+                else
+                    SQLite.executeQuery("INSERT INTO ExtraWeapons (Name, tripwire, knife, jetpack, freezeray, lazer, lightning, trap, line, rocket, grapple, bigtnt)" +
+                        "VALUES ('" + name + "', " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", '" + 0 + "')");
+            }
+            else
+            {
+                jetpack = int.Parse(extraWeapons.Rows[0]["jetpack"].ToString());
+                tripwire = int.Parse(extraWeapons.Rows[0]["tripwire"].ToString());
+                knife = int.Parse(extraWeapons.Rows[0]["knife"].ToString());
+                freeze = int.Parse(extraWeapons.Rows[0]["freezeray"].ToString());
+                lazers = int.Parse(extraWeapons.Rows[0]["lazer"].ToString());
+                lightnings = int.Parse(extraWeapons.Rows[0]["lightning"].ToString());
+                traps = int.Parse(extraWeapons.Rows[0]["trap"].ToString());
+                lines = int.Parse(extraWeapons.Rows[0]["line"].ToString());
+                rockets = int.Parse(extraWeapons.Rows[0]["rocket"].ToString());
+                grapple = int.Parse(extraWeapons.Rows[0]["grapple"].ToString());
+                bigtnt = int.Parse(extraWeapons.Rows[0]["bigtnt"].ToString());
+            }
+            extraWeapons.Dispose();
+            #endregion
             if (PlayerConnect != null)
                 PlayerConnect(this);
             OnPlayerConnectEvent.Call(this);
@@ -2936,77 +2989,6 @@ namespace MCForge
             }
         }
 
-        public void CheckPosition()
-        {
-            ushort x = (ushort)(pos[0] / 32);
-            ushort y;
-            ushort yh = (ushort)((pos[1] / 32)); // gets head pos
-            try
-            {
-                y = (ushort)((pos[1] / 32) - 1); // gets foot pos
-            }
-            catch
-            {
-                y = yh;
-            }
-            ushort z = (ushort)(pos[2] / 32);
-            try
-            {
-                int xx, yy, zz; Random rand = new Random(); int size = 0;
-                Player.players.ForEach(delegate(Player player)
-                {
-                    #region Traps
-                    for (xx = ((x / 32) - (size + 1 + player.trapUpgrade)); xx <= ((x / 32) + (size + 1 + player.trapUpgrade)); ++xx)
-                        for (yy = ((y / 32) - (size + 1 + player.trapUpgrade)); yy <= ((y / 32) + (size + 1 + player.trapUpgrade)); ++yy)
-                            for (zz = ((z / 32) - (size + 1 + player.trapUpgrade)); zz <= ((z / 32) + (size + 1 + player.trapUpgrade)); ++zz)
-                            {
-                                if ((this.level.GetTile(Convert.ToUInt16((int)xx), Convert.ToUInt16((int)yy), Convert.ToUInt16((int)zz)) == 53))
-                                {
-                                    if (player.trapsPlaced >= 1)
-                                    {
-                                        if (xx == (player.trapPlacement[0] / 32) && zz == (player.trapPlacement[2] / 32) && yy == (player.trapPlacement[1] / 32) && Server.pctf.getTeam(player) != Server.pctf.getTeam(this))
-                                        {
-                                            player.SendMessage(c.gray + " - " + Server.DefaultColor + "Your trap has been activated!" + c.gray + " - ");
-                                            Level level = player.level;
-                                            if (!hasBeenTrapped)
-                                            {
-                                                hasBeenTrapped = true;
-                                                Player.SendMessage(this, c.gray + " - " + Server.DefaultColor + "You have been trapped! To get out break the mushroom" + c.gray + " - ");
-                                            }
-                                            return;
-                                        }
-                                    }
-                                }
-                            }
-                    #endregion
-
-                    #region Mines
-                    for (xx = ((x / 32) - (size + 1 + (player.mineUpgrade - 1))); xx <= ((x / 32) + (size + 1 + (player.mineUpgrade - 1))); ++xx)
-                        for (yy = ((y / 32) - (size + 2)); yy <= ((y / 32) + (size + 2)); ++yy)
-                            for (zz = ((z / 32) - (size + 1 + (player.mineUpgrade - 1))); zz <= ((z / 32) + (size + 1 + (player.mineUpgrade - 1))); ++zz)
-                            {
-                                if ((this.level.GetTile(Convert.ToUInt16((int)xx), Convert.ToUInt16((int)yy), Convert.ToUInt16((int)zz)) == 52))
-                                {
-                                    if (player.minesPlaced >= 1)
-                                    {
-                                        if (xx == (player.minePlacement[0] / 32) && zz == (player.minePlacement[2] / 32) && yy == (player.minePlacement[1] / 32) && Server.pctf.getTeam(player) != Server.pctf.getTeam(this))
-                                        {
-                                            Level level = player.level;
-                                            player.SendMessage(c.gray + " - " + Server.DefaultColor + "Your mine has been activated!" + c.gray + " - ");
-                                            player.minePlacement[0] = 0; player.minePlacement[1] = 0; player.minePlacement[2] = 0;
-                                            player.minesPlaced = player.minesPlaced - 1;
-                                            level.MakeExplosion(player.name, Convert.ToUInt16((int)(x / 32)), Convert.ToUInt16((int)(y / 32) - 1), Convert.ToUInt16((int)(z / 32)), 0, false, false, false);
-                                            level.placeBlock(Convert.ToUInt16((int)xx), Convert.ToUInt16((int)yy), Convert.ToUInt16((int)zz), Block.air);
-                                        }
-                                    }
-                                }
-                            }
-                    #endregion
-                });
-            }
-            catch { }
-        }
-
         void HandleInput(object m)
         {
             if (!loggedIn || trainGrab || following != "" || frozen)
@@ -3061,6 +3043,61 @@ return;
                         return;
                     }
                 }
+                try
+                {
+                    int xx, yy, zz; Random rand = new Random(); int size = 0;
+                    Player.players.ForEach(delegate(Player player)
+                    {
+                        #region Traps
+                        for (xx = ((x / 32) - (size + 1 + player.trapUpgrade)); xx <= ((x / 32) + (size + 1 + player.trapUpgrade)); ++xx)
+                            for (yy = ((y / 32) - (size + 1 + player.trapUpgrade)); yy <= ((y / 32) + (size + 1 + player.trapUpgrade)); ++yy)
+                                for (zz = ((z / 32) - (size + 1 + player.trapUpgrade)); zz <= ((z / 32) + (size + 1 + player.trapUpgrade)); ++zz)
+                                {
+                                    if ((this.level.GetTile(Convert.ToUInt16((int)xx), Convert.ToUInt16((int)yy), Convert.ToUInt16((int)zz)) == 260))
+                                    {
+                                        if (player.trapsPlaced >= 1)
+                                        {
+                                            if (xx == (player.trapPlacement[0] / 32) && zz == (player.trapPlacement[2] / 32) && yy == (player.trapPlacement[1] / 32) && Server.pctf.getTeam(player) != Server.pctf.getTeam(this))
+                                            {
+                                                player.SendMessage(c.gray + " - " + Server.DefaultColor + "Your trap has been activated!" + c.gray + " - ");
+                                                Level level = player.level;
+                                                if (!hasBeenTrapped)
+                                                {
+                                                    hasBeenTrapped = true;
+                                                    Player.SendMessage(this, c.gray + " - " + Server.DefaultColor + "You have been trapped! To get out break the mushroom" + c.gray + " - ");
+                                                }
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                        #endregion
+
+                        #region Mines
+                        for (xx = ((x / 32) - (size + 1 + (player.mineUpgrade + 1))); xx <= ((x / 32) + (size + 1 + (player.mineUpgrade + 1))); ++xx)
+                            for (yy = ((y / 32) - (size + 2)); yy <= ((y / 32) + (size + 2)); ++yy)
+                                for (zz = ((z / 32) - (size + 1 + (player.mineUpgrade + 1))); zz <= ((z / 32) + (size + 1 + (player.mineUpgrade + 1))); ++zz)
+                                {
+                                    if ((this.level.GetTile(Convert.ToUInt16((int)xx), Convert.ToUInt16((int)yy), Convert.ToUInt16((int)zz)) == 259))
+                                    {
+                                        if (player.minesPlaced >= 1)
+                                        {
+                                            if (xx == (player.minePlacement[0] / 32) && zz == (player.minePlacement[2] / 32) && yy == (player.minePlacement[1] / 32) && Server.pctf.getTeam(player) != Server.pctf.getTeam(this))
+                                            {
+                                                Level level = player.level;
+                                                player.SendMessage(c.gray + " - " + Server.DefaultColor + "Your mine has been activated!" + c.gray + " - ");
+                                                player.minePlacement[0] = 0; player.minePlacement[1] = 0; player.minePlacement[2] = 0;
+                                                player.minesPlaced = player.minesPlaced - 1;
+                                                level.MakeExplosion(player.name, Convert.ToUInt16((int)(x / 32)), Convert.ToUInt16((int)(y / 32) - 1), Convert.ToUInt16((int)(z / 32)), 0, false, false, false);
+                                                level.placeBlock(Convert.ToUInt16((int)xx), Convert.ToUInt16((int)yy), Convert.ToUInt16((int)zz), Block.air);
+                                            }
+                                        }
+                                    }
+                                }
+                        #endregion
+                    });
+                }
+                catch { }
                 if (OnMove != null)
                     OnMove(this, x, y, z);
                 if (PlayerMove != null)
@@ -3179,6 +3216,10 @@ cliprot = rot;
             ushort x = (ushort)(pos[0] / 32);
             ushort y = (ushort)(pos[1] / 32);
             ushort z = (ushort)(pos[2] / 32);
+            ushort y1 = Convert.ToUInt16((int)pos[1] / 32 - 1);
+            ushort xx = pos[0];
+            ushort yy = pos[1];
+            ushort zz = pos[2];
             if (OnDeath != null)
                 OnDeath(this, b);
             if (PlayerDeath != null)
@@ -3222,6 +3263,7 @@ cliprot = rot;
                             if (explode) level.MakeExplosion(x, y, z, 1);
                             GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
                             break;
+                            Server.pctf.dropFlag(this, x, y1, z, xx, yy, zz);
                     }
                     if (CountdownGame.playersleftlist.Contains(this))
                     {
