@@ -654,10 +654,10 @@ namespace MCForge.Gui {
                 }
             }
             catch { }
-            foreach ( TextBox txtBox in ( from TabPage tP in tabControl1.TabPages from Control ctrl in tP.Controls select ctrl ).OfType<TextBox>() ) {
+            foreach ( TextBox txtBox in ( from TabPage tP in tcMain.TabPages from Control ctrl in tP.Controls select ctrl ).OfType<TextBox>() ) {
                 txtBox.Update();
             }
-            tabControl1.Update();
+            tcMain.Update();
         }
 
         private void Restart_Click(object sender, EventArgs e) {
@@ -1809,12 +1809,12 @@ namespace MCForge.Gui {
         }
         #endregion
 
-        private void tabPage8_Click(object sender, EventArgs e)
-        {
-
+        private void button1_Click_1( object sender, EventArgs e ) {
+            try {
+                System.Diagnostics.Process.Start( txtUrl.Text );
+            } catch {
+                MessageBox.Show( "Failed to open browser.", "MCForge Redux" );
+            }
         }
-
-
-
     }
 }

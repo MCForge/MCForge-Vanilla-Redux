@@ -56,8 +56,10 @@ namespace MCForge
         /// </summary>
         public static void AutoLoad()
         {
-            CSharpProvider.AutoLoad(File.ReadAllLines(autoLoadFilenameCSharp));
-            VBProvider.AutoLoad(File.ReadAllLines(autoLoadFilenameVB));
+            try {
+                CSharpProvider.AutoLoad( File.ReadAllLines( autoLoadFilenameCSharp ) );
+                VBProvider.AutoLoad( File.ReadAllLines( autoLoadFilenameVB ) );
+            } catch { }
         }
     }
 }
