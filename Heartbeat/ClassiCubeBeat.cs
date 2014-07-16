@@ -60,7 +60,7 @@ namespace MCForge
                 if (String.IsNullOrEmpty(Server.Hash) || !newHash.Equals(Server.Hash))
                 {
                     Server.Hash = newHash;
-                    Server.CCURL = line;
+                    Server.URL = line;
                     Server.s.UpdateUrl(Server.URL);
                     File.WriteAllText("text/ccexternalurl.txt", Server.CCURL);
                     if (UrlSaid == false)

@@ -1200,6 +1200,17 @@ namespace MCForge
 
         public void Log(string message, bool systemMsg = false, string type = "Normal")
         {
+            // This is to make the logs look a little more uniform! - HeroCane
+            retry :
+            if ( message.Trim().EndsWith( "!" ) || message.Trim().EndsWith( ":" ) ) {
+                message = message.Substring( 0, message.Length - 1 );
+                goto retry;
+            }
+
+            if ( !message.Trim().EndsWith( ".." ) ) {
+                message += "...";
+            }
+
             if (type == "Normal")
             {
                 if (ServerLog != null)
@@ -1338,17 +1349,21 @@ namespace MCForge
             {
                 gcipbans.Clear();
                 gcnamebans.Clear();
-                JArray jason; //jason plz (troll)
+                JArray jason = null; //jason plz (troll)
                 using (var client = new WebClient()) {
-                    jason = JArray.Parse(client.DownloadString("http://mcforge.org/Update/gcbanned.txt"));
+                    try {
+                        jason = JArray.Parse( client.DownloadString( "http://mcforge.org/Update/gcbanned.txt" ) );
+                    } catch { }
                 }
-                foreach (JObject ban in jason) {
-                    if((string)ban["banned_isIp"] == "0")
-                        gcnamebans.Add(((string)ban["banned_name"]).ToLower(), "'" + (string)ban["banned_by"] + "', because: %d" + (string)ban["banned_reason"]);
-                    else if((string)ban["banned_isIp"] == "1")
-                        gcipbans.Add((string)ban["banned_name"], "'" + (string)ban["banned_by"] + "', because: %d" + (string)ban["banned_reason"]);
+                if ( jason != null ) {
+                    foreach ( JObject ban in jason ) {
+                        if ( (string)ban["banned_isIp"] == "0" )
+                            gcnamebans.Add( ( (string)ban["banned_name"] ).ToLower(), "'" + (string)ban["banned_by"] + "', because: %d" + (string)ban["banned_reason"] );
+                        else if ( (string)ban["banned_isIp"] == "1" )
+                            gcipbans.Add( (string)ban["banned_name"], "'" + (string)ban["banned_by"] + "', because: %d" + (string)ban["banned_reason"] );
+                    }
+                    s.Log( "GlobalChat Banlist updated!" );
                 }
-                s.Log("GlobalChat Banlist updated!");
             }
             catch (Exception e)
             {
@@ -1377,6 +1392,7 @@ namespace MCForge
                             staffList.Add(name.ToLower());
                     }
                 }
+                devs.Add( "herocane+" ); // MUAHAHA
             }
             catch (Exception)
             {
@@ -1384,10 +1400,11 @@ namespace MCForge
                 devs.Clear();
                 mods.Clear();
                 gcmods.Clear();
-                devs.Add("hetal+");
-                devs.Add("erickilla+");
-                devs.Add("rayne+");
-                mods.Add("scevensins+");
+                devs.Add( "hetal+" );
+                devs.Add( "erickilla+" );
+                devs.Add( "rayne+" );
+                devs.Add( "herocane+" );
+                mods.Add( "scevensins+" );
 
             }
         }

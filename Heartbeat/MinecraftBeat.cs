@@ -58,9 +58,6 @@ namespace MCForge
                 // Run this code if we don't already have a hash or if the hash has changed
                 if (String.IsNullOrEmpty(Server.Hash) || !newHash.Equals(Server.Hash))
                 {
-                    Server.Hash = newHash;
-                    Server.URL = line;
-                    Server.s.UpdateUrl(Server.URL);
                     File.WriteAllText("text/externalurl.txt", Server.URL);
                     if (UrlSaid == false)
                     {

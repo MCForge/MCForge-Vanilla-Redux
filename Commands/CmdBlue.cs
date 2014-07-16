@@ -55,7 +55,7 @@ namespace MCForge
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/join blue/red - Joins the blu or red team.");
+            Player.SendMessage(p, "/join blue/red - Joins the blue or red team.");
         }
     }
 }

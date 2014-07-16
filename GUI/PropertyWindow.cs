@@ -282,8 +282,8 @@ namespace MCForge.Gui {
                             else txtMOTD.Text = "Welcome to my server!";
                             break;
                         case "port":
-                            try { txtPort.Text = Convert.ToInt32(value).ToString(); }
-                            catch { txtPort.Text = "25565"; }
+                            try { numPort.Text = Convert.ToInt32(value).ToString(); }
+                            catch { numPort.Text = "25565"; }
                             break;
                         case "verify-names":
                             chkVerify.Checked = ( value.ToLower() == "true" );
@@ -335,11 +335,11 @@ namespace MCForge.Gui {
                                 else if ( Convert.ToByte(value) < 1 ) {
                                     value = "1";
                                 }
-                                txtMaps.Text = value;
+                                numMaps.Text = value;
                             }
                             catch {
                                 Server.s.Log("max-maps invalid! setting to default.");
-                                txtMaps.Text = "5";
+                                numMaps.Text = "5";
                             }
                             break;
                         case "mcforge-protection-level":
@@ -352,7 +352,7 @@ namespace MCForge.Gui {
                             txtIRCServer.Text = value;
                             break;
                         case "irc-port":
-                            txtIRCPort.Text = value;
+                            numIRCPort.Text = value;
                             break;
                         case "irc-nick":
                             txtNick.Text = value;
@@ -373,7 +373,7 @@ namespace MCForge.Gui {
                             ChkTunnels.Checked = ( value.ToLower() == "true" );
                             break;
                         case "max-depth":
-                            txtDepth.Text = value;
+                            numDepth.Text = value;
                             break;
 
                         case "rplimit":
@@ -490,9 +490,6 @@ namespace MCForge.Gui {
                             break;
                         case "check-updates":
                             chkUpdates.Checked = ( value.ToLower() == "true" );
-                            break;
-                        case "use-beta-version":
-                            usebeta.Checked = ( value.ToLower() == "true" );
                             break;
                         case "auto-update":
                             autoUpdate.Checked = ( value.ToLower() == "true" );
@@ -618,10 +615,10 @@ namespace MCForge.Gui {
                         case "sqlport":
                             try {
                                 int.Parse(value);
-                                txtSQLPort.Text = value;
+                                numMySQLPort.Text = value;
                             }
                             catch {
-                                txtSQLPort.Text = "3306";
+                                numMySQLPort.Text = "3306";
                             }
                             break;
                         case "mute-on-spam":
@@ -739,12 +736,12 @@ namespace MCForge.Gui {
 
             Server.name = txtName.Text;
             Server.motd = txtMOTD.Text;
-            Server.port = int.Parse(txtPort.Text);
+            Server.port = int.Parse(numPort.Text);
             Server.verify = chkVerify.Checked;
             Server.pub = chkPublic.Checked;
             Server.players = (byte)numPlayers.Value;
             Server.maxGuests = (byte)numGuests.Value;
-            Server.maps = byte.Parse(txtMaps.Text);
+            Server.maps = byte.Parse(numMaps.Text);
             Server.worldChat = chkWorld.Checked;
             Server.autonotify = chkNotifyOnJoinLeave.Checked;
             Server.AutoLoad = chkAutoload.Checked;
@@ -758,13 +755,13 @@ namespace MCForge.Gui {
             Server.ircServer = txtIRCServer.Text;
             Server.ircChannel = txtChannel.Text;
             Server.ircOpChannel = txtOpChannel.Text;
-            Server.ircPort = int.Parse(txtIRCPort.Text);
+            Server.ircPort = int.Parse(numIRCPort.Text);
             Server.ircIdentify = chkIrcId.Checked;
             Server.ircPassword = txtIrcId.Text;
             Server.forgeProtection = comboBoxProtection.SelectedItem.ToString() == "Dev" ? ForgeProtection.Dev : comboBoxProtection.SelectedItem.ToString() == "Mod" ? ForgeProtection.Mod : ForgeProtection.Off;
 
             Server.antiTunnel = ChkTunnels.Checked;
-            Server.maxDepth = byte.Parse(txtDepth.Text);
+            Server.maxDepth = byte.Parse(numDepth.Text);
             Server.rpLimit = int.Parse(txtRP.Text);
             Server.rpNormLimit = int.Parse(txtRP.Text);
             Server.physicsRestart = chkPhysicsRest.Checked;
@@ -813,7 +810,7 @@ namespace MCForge.Gui {
 
             Server.useMySQL = chkUseSQL.Checked;
             Server.MySQLHost = txtSQLHost.Text;
-            Server.MySQLPort = txtSQLPort.Text;
+            Server.MySQLPort = numMySQLPort.Text;
             Server.MySQLUsername = txtSQLUsername.Text;
             Server.MySQLPassword = txtSQLPassword.Text;
             Server.MySQLDatabaseName = txtSQLDatabase.Text;
@@ -842,8 +839,6 @@ namespace MCForge.Gui {
             Server.cheapMessageGiven = txtCheap.Text;
             Server.rankSuper = chkrankSuper.Checked;
             Server.defaultRank = cmbDefaultRank.SelectedItem.ToString();
-            
-            Server.DownloadBeta = usebeta.Checked;
 
             Server.hackrank_kick = hackrank_kick.Checked;
             Server.hackrank_kick_time = int.Parse(hackrank_kick_time.Text);
@@ -890,14 +885,6 @@ namespace MCForge.Gui {
         private void cmbIRCColour_SelectedIndexChanged(object sender, EventArgs e) {
             lblIRC.BackColor = Color.FromName(cmbIRCColour.Items[cmbIRCColour.SelectedIndex].ToString());
         }
-
-        void removeDigit(TextBox foundTxt) {
-        }
-
-        private void txtPort_TextChanged(object sender, EventArgs e) { removeDigit(txtPort); }
-        private void txtMaps_TextChanged(object sender, EventArgs e) { removeDigit(txtMaps); }
-        private void txtBackup_TextChanged(object sender, EventArgs e) { removeDigit(txtBackup); }
-        private void txtDepth_TextChanged(object sender, EventArgs e) { removeDigit(txtDepth); }
 
         private void btnSave_Click(object sender, EventArgs e) { saveStuff(); Dispose(); }
         private void btnApply_Click(object sender, EventArgs e) { saveStuff(); }
@@ -1465,28 +1452,6 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
             }*/
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e) {
-            try {
-                if ( !Directory.Exists("extra/images") )
-                    Directory.CreateDirectory("extra/images");
-                if ( !File.Exists( "extra/images/mcpony.png" ) ) {
-                    using ( WebClient WEB = new WebClient () ) {
-                        WEB.DownloadFileAsync ( new Uri ( "http://mcforge.org/Update/images/mcpony.png" ), "extra/images/mcpony.png" );
-                        WEB.DownloadFileCompleted += ( ea, args ) => {
-                                                         if ( File.Exists ( "extra/images/mcpony.png" ) ) {
-                                                             Image img = Image.FromFile ( "extra/images/mcpony.png" );
-                                                             pictureBox1.Image = img;
-                                                         }
-                                                     };
-                    }
-                } else {
-                    Image img = Image.FromFile( "extra/images/mcpony.png" );
-                    pictureBox1.Image = img;
-                }
-            }
-            catch { }
-        }
-
         private void cmbGlobalChatColor_SelectedIndexChanged(object sender, EventArgs e) {
             lblGlobalChatColor.BackColor = Color.FromName(cmbGlobalChatColor.Items[cmbGlobalChatColor.SelectedIndex].ToString());
         }
@@ -1692,18 +1657,6 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
 
         private void numCountReset_ValueChanged(object sender, EventArgs e) {
 
-        }
-
-        private void forceUpdateBtn_Click(object sender, EventArgs e) {
-            forceUpdateBtn.Enabled = false;
-            if ( MessageBox.Show("Would you like to force update MCForge now?", "Force Update", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK ) {
-                saveStuff();
-                MCForge_.Gui.Program.PerformUpdate();
-                Dispose();
-            }
-            else {
-                forceUpdateBtn.Enabled = true;
-            }
         }
 
         private int oldnumber;
@@ -2267,6 +2220,7 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
 
         private void TntWrsDltGame_Click(object sender, EventArgs e) {
             if ( TntWarsGame.GuiLoaded == null ) return;
+
             foreach ( TntWarsGame.player pl in TntWarsGame.GuiLoaded.Players ) {
                 pl.p.CurrentTntGameNumber = -1;
                 Player.SendMessage(pl.p, "TNT Wars: The TNT Wars game you are currently playing has been deleted!");
@@ -2274,6 +2228,7 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
                 pl.p.canBuild = true;
                 TntWarsGame.SetTitlesAndColor(pl, true);
             }
+
             TntWarsGame.GameList.Remove(TntWarsGame.GuiLoaded);
             TntWarsGame.GuiLoaded = null;
             LoadTNTWarsTab(sender, e);
@@ -2291,28 +2246,9 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
             msg += "Extreme (1 Hit to die, TNT has short delay, big explosion and team kills are on)";
             MessageBox.Show(msg, "Difficulty");
         }
+
         private void txechx_CheckedChanged(object sender, EventArgs e) {
             Server.UseTextures = txechx.Checked;
-        }
-
-        
-        void AutoUpdateCheckedChanged(object sender, EventArgs e)
-        {
-        	
-        }
-        
-        void UsebetaCheckedChanged(object sender, EventArgs e)
-        {
-        	
-        }
-        
-        void UsebetaClick(object sender, EventArgs e)
-        {
-        	if (usebeta.Checked) {
-        		DialogResult d = MessageBox.Show("Would you like to check for beta versions now?", "Check for updates.", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-        		if (d == DialogResult.Yes)
-        			MCForge_.Gui.Program.UpdateCheck();
-        	}
         }
 
         private void buttonEco_Click(object sender, EventArgs e) {
