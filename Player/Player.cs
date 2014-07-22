@@ -4271,7 +4271,10 @@ return;
                     string newLine = line;
                     if (newLine.TrimEnd(' ')[newLine.TrimEnd(' ').Length - 1] < '!')
                     {
-                        newLine += '\'';
+                        if (!HasExtension("EmoteFix"))
+                        {
+                            newLine += '\'';
+                        }
                     }
 
                     if (HasBadColorCodes(newLine))
@@ -5629,13 +5632,13 @@ changed |= 4;*/
                     try { save(); }
                     catch (Exception e) { Server.ErrorLog(e); }
                     players.Remove(this);
-                   /* players.ForEach(delegate(Player p)
+                    players.ForEach(delegate(Player p)
                     {
                         if (p != this && p.extension)
                         {
                             p.SendExtRemovePlayerName(this.id);
                         }
-                    });*/
+                    });
                     Server.s.PlayerListUpdate();
                     try
                     {

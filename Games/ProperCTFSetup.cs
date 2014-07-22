@@ -1042,7 +1042,7 @@ namespace MCForge
         public bool grabFlag(Player p, string color, ushort x, ushort y, ushort z)
         {
             bool returne = false;
-            //if (red.Count < 2 || blu.Count < 2) { p.SendMessage("There must be at least 2 players on both teams to grab a flag!"); return true; }
+            if (red.Count < 1 || blu.Count < 1) { p.SendMessage("There must be at least 2 players on both teams to grab a flag!"); return true; }
             if (getTeam(p) == color)
             {
                 if (getTeam(p) == "blue" && Server.blueFlagDropped && !Server.blueFlagHeld)

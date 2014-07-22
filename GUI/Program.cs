@@ -50,10 +50,10 @@ namespace MCForge_.Gui
         //private static string RevisionList = "http://mcforge.org/Update/revs.txt";
         //private static string HeartbeatAnnounce = "http://www.mcforge.org/hbannounce.php";
 
-        [DllImport("kernel32")]
+       /* [DllImport("kernel32")]
         public static extern IntPtr GetConsoleWindow();
         [DllImport("user32.dll")]
-        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);*/
         public static void GlobalExHandler(object sender, UnhandledExceptionEventArgs e)
         {
             Exception ex = (Exception)e.ExceptionObject;
@@ -113,7 +113,25 @@ namespace MCForge_.Gui
                 string[] foundView = File.ReadAllLines("Viewmode.cfg");
                 if (foundView[0][0] != '#') { skip = true; goto remake; }
 
-                if (foundView[4].Split(' ')[2].ToLower() == "true")
+                if (args.Length == 0)
+                {
+
+                    /*IntPtr hConsole = GetConsoleWindow();
+                    if (IntPtr.Zero != hConsole)
+                    {
+                        ShowWindow(hConsole, 0);
+                    }*/
+                    UpdateCheck(true);
+                    if (foundView[5].Split(' ')[2].ToLower() == "true")
+                    {
+                        Application.EnableVisualStyles();
+                        Application.SetCompatibleTextRenderingDefault(false);
+                    }
+
+                    updateTimer.Elapsed += delegate { UpdateCheck(); }; updateTimer.Start();
+                    Application.Run(new MCForge.Gui.Window());
+                }
+                if (args[0].Contains("cli"))
                 {
                     Server s = new Server();
                     s.OnLog += WriteToConsole;
@@ -125,26 +143,8 @@ namespace MCForge_.Gui
                     usingConsole = true;
                     handleComm();
 
-                    
+
                     //Application.Run();
-                }
-                else
-                {
-
-                    IntPtr hConsole = GetConsoleWindow();
-                    if (IntPtr.Zero != hConsole)
-                    {
-                        ShowWindow(hConsole, 0);
-                    }
-                    UpdateCheck(true);
-                    if (foundView[5].Split(' ')[2].ToLower() == "true")
-                    {
-                        Application.EnableVisualStyles();
-                        Application.SetCompatibleTextRenderingDefault(false);
-                    }
-
-                    updateTimer.Elapsed += delegate { UpdateCheck(); }; updateTimer.Start();
-                    Application.Run(new MCForge.Gui.Window());
                 }
                 WriteToConsole("Completed in " + (DateTime.Now - startTime).Milliseconds + "ms");
             }

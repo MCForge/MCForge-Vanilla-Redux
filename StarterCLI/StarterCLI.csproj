@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{63DCBB31-92CD-4464-A86C-A7E51A5FE9FE}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{F6866499-6E70-4FC0-A149-32A37D2233D8}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Starter</RootNamespace>
-    <AssemblyName>MCForge</AssemblyName>
+    <AssemblyName>MCForgeCLI</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -41,7 +41,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -69,7 +69,7 @@
     <Content Include="MCForge.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="MCForge_.csproj">
+    <ProjectReference Include="..\MCForge_.csproj">
       <Project>{12597db0-7c34-4de1-88ea-9250ff3372eb}</Project>
       <Name>MCForge_</Name>
     </ProjectReference>
