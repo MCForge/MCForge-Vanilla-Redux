@@ -88,12 +88,12 @@ namespace MCForge
                 if (Server.pctf.CTFStatus() == 0) { Player.SendMessage(p, "There is no CTF game currently in progress."); return; }
                 Server.s.Log("CTF ended forcefully by " + p.name);
                 ushort x, y, z; int xx, yy, zz;
-                x = Convert.ToUInt16((int)p.pos[0] / 32);
-                y = Convert.ToUInt16((int)p.pos[1] / 32 - 1);
-                z = Convert.ToUInt16((int)p.pos[2] / 32);
-                xx = p.pos[0];
-                yy = p.pos[1];
-                zz = p.pos[2];
+                x = (ushort)((int)p.pos[0] / 32);
+                y = (ushort)((int)p.pos[1] / 32 - 1);
+                z = (ushort)((int)p.pos[2] / 32);
+                xx = (int)p.pos[0];
+                yy = (int)p.pos[1];
+                zz = (int)p.pos[2];
                 Server.pctf.dropFlag(p, x, y, z, xx, yy, zz);
             }
         }

@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CmdStore.cs" />
+    <Compile Include="Commands\CmdAutoTNT.cs" />
     <Compile Include="Commands\CmdBlue.cs" />
     <Compile Include="Commands\CmdConvertAll.cs" />
     <Compile Include="Commands\CmdDisarm.cs" />
@@ -125,6 +126,8 @@
     <Compile Include="Commands\CmdLeave.cs" />
     <Compile Include="Commands\CmdLeaveTeam.cs" />
     <Compile Include="Commands\CmdPCTF.cs" />
+    <Compile Include="Commands\CmdGrapple.cs" />
+    <Compile Include="Commands\CmdRocket.cs" />
     <Compile Include="Commands\CmdScore.cs" />
     <Compile Include="Commands\CmdTeamChat.cs" />
     <Compile Include="Games\ProperCTFSetup.cs" />

@@ -1776,6 +1776,8 @@ namespace MCForge
                 case "shark": return fishshark;
                 case "sea_sponge": return fishsponge;
                 case "lava_shark": return fishlavashark;
+                case "redflag": return redflag;
+                case "blueflag": return blueflag;
 
                 default: return Zero;
             }

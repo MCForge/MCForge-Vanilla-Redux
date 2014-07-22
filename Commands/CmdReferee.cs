@@ -32,6 +32,11 @@ namespace MCForge.Commands
         public override void Use(Player p, string message)
         {
             if (p == null) { Player.SendMessage(p, "This command can only be used in-game!"); return; }
+            if(Server.CTFOnlyServer)
+            {
+                Player.SendMessage(p, "Ref is not available in CTF");
+                return;
+            }
             if (p.referee)
             {
                 p.referee = false;

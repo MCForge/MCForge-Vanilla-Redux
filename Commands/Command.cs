@@ -328,11 +328,14 @@ namespace MCForge
 			all.Add(new CmdZz());
 
             //CTF
+            all.Add(new CmdAutoTNT());
             all.Add(new CmdDisarm());
+            all.Add(new CmdGrapple());
             all.Add(new CmdPCTF());
             all.Add(new CmdLeaveTeam());
             all.Add(new CmdGiveItem());
             all.Add(new CmdTeamChat());
+            all.Add(new CmdRocket());
 
 			core.commands = new List<Command>(all.commands);
 			Scripting.AutoLoad();

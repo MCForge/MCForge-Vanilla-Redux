@@ -64,6 +64,15 @@ namespace MCForge.Commands
                             ushort y = (ushort)((1 + foundLevel.spawny) * 32);
                             ushort z = (ushort)((0.5 + foundLevel.spawnz) * 32);
 
+                            if (Server.pctf.CTFStatus() != 0 && message == Server.pctf.currentLevelName)
+                                unchecked { Server.pctf.sendToTeamSpawn(p); }
+                            else
+                            {
+                                Server.pctf.PlayerDC(p);
+                                if (!p.hidden) Player.GlobalSpawn(p, x, y, z, foundLevel.rotx, foundLevel.roty, true, "");
+                                else unchecked { p.SendPos((byte)-1, x, y, z, foundLevel.rotx, foundLevel.roty); }
+                            }
+
                             if (!p.hidden) Player.GlobalSpawn(p, x, y, z, foundLevel.rotx, foundLevel.roty, true, "");
                             else unchecked { p.SendPos((byte)-1, x, y, z, foundLevel.rotx, foundLevel.roty); }
 
@@ -143,7 +152,10 @@ namespace MCForge.Commands
                         if (foundLevel != null) Use(p, message);
                     }
                     else
-                        Player.SendMessage(p, "Level \"" + message + "\" cannot be loaded using /goto!");
+                        if (!Server.CTFOnlyServer)
+                        {
+                            Player.SendMessage(p, "Level \"" + message + "\" cannot be loaded using /goto!");
+                        }
                 }
                 else Player.SendMessage(p, "There is no level \"" + message + "\" loaded.");
 

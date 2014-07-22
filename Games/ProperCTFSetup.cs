@@ -169,8 +169,8 @@ namespace MCForge
         {
             Level level = Level.Find(currentLevelName);
             if (level == null) return;
-            level.placeBlock(Convert.ToUInt16((int)redFlag[0]), Convert.ToUInt16((int)redFlag[1]), Convert.ToUInt16((int)redFlag[2]), Block.redflag);
-            level.placeBlock(Convert.ToUInt16((int)blueFlag[0]), Convert.ToUInt16((int)blueFlag[1]), Convert.ToUInt16((int)blueFlag[2]), Block.blueflag);
+            level.placeBlock((ushort)((int)redFlag[0]), (ushort)((int)redFlag[1]), (ushort)((int)redFlag[2]), Block.redflag);
+            level.placeBlock((ushort)((int)blueFlag[0]), (ushort)((int)blueFlag[1]), (ushort)((int)blueFlag[2]), Block.blueflag);
             Server.ctfRound = true;
             Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "The round has started!" + c.gray + " - ");
 
@@ -344,7 +344,7 @@ namespace MCForge
                 int loop = 0;
                 while (loop < Server.vulnerable)
                 {
-                    levell.Blockchange(blueFlagblock.x, Convert.ToUInt16((blueFlagblock.y + loop)), blueFlagblock.z, Block.air);
+                    levell.Blockchange(blueFlagblock.x, (ushort)((blueFlagblock.y + loop)), blueFlagblock.z, Block.air);
                     loop++;
                 }
                 loop = 0;
@@ -353,8 +353,8 @@ namespace MCForge
 
                     blueFlagblock.type = levell.GetTile(x, y, z);
 
-                    if (levell.GetTile(x, Convert.ToUInt16(y + loop), z) == Block.air)
-                        levell.Blockchange(x, Convert.ToUInt16(y + loop), z, Block.red);
+                    if (levell.GetTile(x, (ushort)(y + loop), z) == Block.air)
+                        levell.Blockchange(x, (ushort)(y + loop), z, Block.red);
 
                     loop++;
                 }
@@ -375,7 +375,7 @@ namespace MCForge
                 int loop = 0;
                 while (loop < Server.vulnerable)
                 {
-                    levell.Blockchange(redFlagblock.x, Convert.ToUInt16((redFlagblock.y + loop)), redFlagblock.z, Block.air);
+                    levell.Blockchange(redFlagblock.x, (ushort)((redFlagblock.y + loop)), redFlagblock.z, Block.air);
                     loop++;
                 }
                 loop = 0;
@@ -383,8 +383,8 @@ namespace MCForge
                 {
                     redFlagblock.type = levell.GetTile(x, y, z);
 
-                    if (levell.GetTile(x, Convert.ToUInt16(y + loop), z) == Block.air)
-                        levell.Blockchange(x, Convert.ToUInt16(y + loop), z, Block.blue);
+                    if (levell.GetTile(x, (ushort)(y + loop), z) == Block.air)
+                        levell.Blockchange(x, (ushort)(y + loop), z, Block.blue);
 
                     loop++;
                 }
@@ -404,7 +404,7 @@ namespace MCForge
                 int loop = 0;
                 while (loop < Server.vulnerable)
                 {
-                    levell.Blockchange(blueFlagblock.x, Convert.ToUInt16((blueFlagblock.y + loop)), blueFlagblock.z, Block.air);
+                    levell.Blockchange(blueFlagblock.x, (ushort)((blueFlagblock.y + loop)), blueFlagblock.z, Block.air);
                     loop++;
                 }
             }
@@ -413,7 +413,7 @@ namespace MCForge
                 int loop = 0;
                 while (loop < Server.vulnerable)
                 {
-                    levell.Blockchange(redFlagblock.x, Convert.ToUInt16((redFlagblock.y + loop)), redFlagblock.z, Block.air);
+                    levell.Blockchange(redFlagblock.x, (ushort)((redFlagblock.y + loop)), redFlagblock.z, Block.air);
                     loop++;
                 }
             }
@@ -426,13 +426,13 @@ namespace MCForge
             int loop2 = 0;
             while (loop2 > Server.vulnerable)
             {
-                levell.Blockchange(redFlagblock.x, Convert.ToUInt16((redFlagblock.y + loop2)), redFlagblock.z, Block.air);
+                levell.Blockchange(redFlagblock.x, (ushort)((redFlagblock.y + loop2)), redFlagblock.z, Block.air);
                 loop2++;
             }
             int loop = 0;
             while (loop != Server.vulnerable)
             {
-                levell.Blockchange(blueFlagblock.x, Convert.ToUInt16((blueFlagblock.y + loop)), blueFlagblock.z, Block.air);
+                levell.Blockchange(blueFlagblock.x, (ushort)((blueFlagblock.y + loop)), blueFlagblock.z, Block.air);
                 loop++;
             }
         }
@@ -443,6 +443,7 @@ namespace MCForge
             Server.queLevel = false;
             Server.nextLevel = "";
             Command.all.Find("load").Use(null, next.ToLower() + " 1");
+            Level.Find(next).unload = false;
             Level.Find(next).mapType = MapType.Game;
             if (announce) Player.GlobalMessage("The next map has been chosen - " + c.red + next.ToLower());
             Server.currentLevel = next;
@@ -485,7 +486,7 @@ namespace MCForge
             {
                 if (player.level.name != next && player.level.name == currentLevelName)
                 {
-                    Command.all.Find("goto").Use(player, Server.mainLevel.ToString());
+                    Command.all.Find("goto").Use(player, Server.level);
                     while (player.Loading) { Thread.Sleep(890); }
                 }
             });
@@ -810,8 +811,8 @@ namespace MCForge
             if (getTeam(p) == null) return;
             Level level = Level.Find(currentLevelName);
             if (level == null) return;
-            level.placeBlock(Convert.ToUInt16((int)redFlag[0]), Convert.ToUInt16((int)redFlag[1]), Convert.ToUInt16((int)redFlag[2]), Block.redflag);
-            level.placeBlock(Convert.ToUInt16((int)blueFlag[0]), Convert.ToUInt16((int)blueFlag[1]), Convert.ToUInt16((int)blueFlag[2]), Block.blueflag);
+            level.placeBlock((ushort)((int)redFlag[0]), (ushort)((int)redFlag[1]), (ushort)((int)redFlag[2]), Block.redflag);
+            level.placeBlock((ushort)((int)blueFlag[0]), (ushort)((int)blueFlag[1]), (ushort)((int)blueFlag[2]), Block.blueflag);
             foreach (Player ppp in Player.players)
             {
                 ppp.isHoldingFlag = false;
@@ -837,7 +838,7 @@ namespace MCForge
                 if (getTeam(p) == "red") level.placeBlock(Convert.ToUInt16((int)redFlag[0]), Convert.ToUInt16((int)redFlag[1]), Convert.ToUInt16((int)redFlag[2]), Block.redflag);
                 else if (getTeam(p) == "blue") level.placeBlock(Convert.ToUInt16((int)blueFlag[0]), Convert.ToUInt16((int)blueFlag[1]), Convert.ToUInt16((int)blueFlag[2]), Block.blueflag);
                 if (getTeam(p) == "red" && Server.redFlagDropped) level.placeBlock(Convert.ToUInt16((int)redDroppedFlag[0] / 32), Convert.ToUInt16((int)redDroppedFlag[1] / 32 - 1), Convert.ToUInt16((int)redDroppedFlag[2] / 32), Block.air);
-                else if (getTeam(p) == "bluered" && Server.blueFlagDropped) level.placeBlock(Convert.ToUInt16((int)blueDroppedFlag[0] / 32), Convert.ToUInt16((int)blueDroppedFlag[1] / 32 - 1), Convert.ToUInt16((int)blueDroppedFlag[2] / 32), Block.air);
+                else if (getTeam(p) == "blue" && Server.blueFlagDropped) level.placeBlock(Convert.ToUInt16((int)blueDroppedFlag[0] / 32), Convert.ToUInt16((int)blueDroppedFlag[1] / 32 - 1), Convert.ToUInt16((int)blueDroppedFlag[2] / 32), Block.air);
                 removeTempFlagBlocks();
                 if (getTeam(p) == "blue") Server.blueFlagDropped = false;
                 else if (getTeam(p) == "red") Server.redFlagDropped = false;
@@ -865,27 +866,41 @@ namespace MCForge
             else if (str == "red") { Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "The red flag has been returned! " + c.gray + " - "); Server.redFlagTimer.Enabled = false; redDroppedFlag[0] = 0; redDroppedFlag[1] = 0; redDroppedFlag[2] = 0; }
         }
 
+        public void PlayerDC(Player p)
+        {
+            ushort x, y, z; int xx, yy, zz;
+            x = (ushort)((int)p.pos[0] / 32);
+            y = (ushort)((int)p.pos[1] / 32 - 1);
+            z = (ushort)((int)p.pos[2] / 32);
+            xx = p.pos[0];
+            yy = p.pos[1];
+            zz = p.pos[2];
+            dropFlag(p, x, y, z, xx, yy, zz);
+            if (Server.pctf.red.Contains(p)) { Server.pctf.red.Remove(p); p.pteam = 0; }
+            if (Server.pctf.blu.Contains(p)) { Server.pctf.blu.Remove(p); p.pteam = 0; }
+        }
+
         public void sendToTeamSpawn(Player p)
         {
             if (!GameInProgess()) return;
             ushort x, y, z; int xx, yy, zz;
-            x = Convert.ToUInt16((int)p.pos[0] / 32);
-            y = Convert.ToUInt16((int)p.pos[1] / 32 - 1);
-            z = Convert.ToUInt16((int)p.pos[2] / 32);
+            x = (ushort)((int)p.pos[0] / 32);
+            y = (ushort)((int)p.pos[1] / 32 - 1);
+            z = (ushort)((int)p.pos[2] / 32);
             xx = p.pos[0];
             yy = p.pos[1];
             zz = p.pos[2];
             if (p.pteam == 2)
             {
                 Player.GlobalDie(p, false);
-                if (!p.hidden) Player.GlobalSpawn(p, Convert.ToUInt16((int)redSpawn[0] * 32), Convert.ToUInt16((int)redSpawn[1] * 32), Convert.ToUInt16((int)redSpawn[2] * 32), p.rot[0], p.rot[1], true, "");
-                else unchecked { p.SendPos((byte)-1, Convert.ToUInt16((int)redSpawn[0] * 32), Convert.ToUInt16((int)redSpawn[1] * 32), Convert.ToUInt16((int)redSpawn[2] * 32), p.rot[0], 0); }
+                if (!p.hidden) Player.GlobalSpawn(p, (ushort)((int)redSpawn[0] * 32), (ushort)((int)redSpawn[1] * 32), (ushort)((int)redSpawn[2] * 32), p.rot[0], p.rot[1], true, "");
+                else unchecked { p.SendPos((byte)-1, (ushort)((int)redSpawn[0] * 32), (ushort)((int)redSpawn[1] * 32), (ushort)((int)redSpawn[2] * 32), p.rot[0], 0); }
             }
             else
             {
                 Player.GlobalDie(p, false);
-                if (!p.hidden) Player.GlobalSpawn(p, Convert.ToUInt16((int)blueSpawn[0] * 32), Convert.ToUInt16((int)blueSpawn[1] * 32), Convert.ToUInt16((int)blueSpawn[2] * 32), p.rot[0], p.rot[1], true, "");
-                else unchecked { p.SendPos((byte)-1, Convert.ToUInt16((int)blueSpawn[0] * 32), Convert.ToUInt16((int)blueSpawn[1] * 32), Convert.ToUInt16((int)blueSpawn[2] * 32), p.rot[0], 0); }
+                if (!p.hidden) Player.GlobalSpawn(p, (ushort)((int)blueSpawn[0] * 32), (ushort)((int)blueSpawn[1] * 32), (ushort)((int)blueSpawn[2] * 32), p.rot[0], p.rot[1], true, "");
+                else unchecked { p.SendPos((byte)-1, (ushort)((int)blueSpawn[0] * 32), (ushort)((int)blueSpawn[1] * 32), (ushort)((int)blueSpawn[2] * 32), p.rot[0], 0); }
             }
             Thread dropThread = new Thread(new ThreadStart(delegate
             {
