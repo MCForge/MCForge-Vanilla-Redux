@@ -433,13 +433,13 @@ namespace MCForge.Gui {
                     case '#':
                         text = text.Remove(0, 1);
                         Player.GlobalMessageOps(text);
-                        Server.s.Log("(OPs): Console: " + text, false, "Op");
+                        Server.s.Log("(OPs): Console: " + text, false, LogType.Op);
                         Server.IRC.Say("Console: " + text, true);
                         break;
                     case '+':
                         text = text.Remove(0, 1);
                         Player.GlobalMessageAdmins(text);
-                        Server.s.Log("(Admins): Console: " + text, false, "Admin");
+                        Server.s.Log("(Admins): Console: " + text, false, LogType.Admin);
                         Server.IRC.Say("Console: " + text, true);
                         break;
                     default:
@@ -1618,7 +1618,7 @@ namespace MCForge.Gui {
                 string optext = txtOpInput.Text.Trim();
                 string opnewtext = optext;
                 Player.GlobalMessageOps("To Ops &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + opnewtext);
-                Server.s.Log("(OPs): Console: " + opnewtext, false, "Op");
+                Server.s.Log("(OPs): Console: " + opnewtext, false, LogType.Op);
                 txtOpInput.Clear();
             }
 
@@ -1630,7 +1630,7 @@ namespace MCForge.Gui {
                 string admintext = txtAdminInput.Text.Trim();
                 string adminnewtext = admintext;
                 Player.GlobalMessageAdmins("To Admins &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + adminnewtext);
-                Server.s.Log("(Admins): Console: " + adminnewtext, false, "Admin");
+                Server.s.Log("(Admins): Console: " + adminnewtext, false, LogType.Admin);
                 txtAdminInput.Clear();
             }
         }

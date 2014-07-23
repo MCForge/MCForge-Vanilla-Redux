@@ -754,8 +754,11 @@ namespace MCForge
                                             if (p.amountKilled == 13) { money = money + 8; }
                                             if (p.amountKilled == 14) { money = money + 9; }
                                             if (p.amountKilled == 15) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " IS KILLING EVERYONE! 15-TUPLE KILL! " + c.gray + " - "); money = money + 10; }
-                                            if (p.amountKilled == 15) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " IS MAGIC! GEN-TUPLE KILL! " + c.gray + " - "); money = money + 12; }
-                                            if (p.amountKilled > 16) { money = money + 12; }
+                                            if (p.amountKilled == 16) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " IS MAGIC! GEN-TUPLE KILL! " + c.gray + " - "); money = money + 12; }
+                                            if (p.amountKilled > 16 && p.amountKilled < 100) { money = money + 12; }
+                                            if (p.amountKilled == 100) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " OWNS CTF! 100+ KILL STREAK! " + c.gray + " - "); money = money + 50; }
+                                            if (p.amountKilled > 100) { money = money + 50; } 
+                                            // TODO: Add events to when a player kills a player with a high kill streak
                                         }
                                         addMoney(p, money);
                                     }
