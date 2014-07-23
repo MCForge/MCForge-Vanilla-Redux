@@ -1060,7 +1060,7 @@ namespace MCForge
                 {
                     Log("Adding games");
                     Game.Initialize();
-                    Log("Finished setting up server");
+                    Log("Finished setting up games");
                 });
                 ServerSetupFinished = true;
                 Checktimer.StartTimer();

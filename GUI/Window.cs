@@ -115,7 +115,7 @@ namespace MCForge.Gui {
             }).Start();
 
 
-            notifyIcon1.Text = ( "MCForge Server: " + Server.name ).Truncate(64);
+            notifyIcon1.Text = ( "MCForge Server" ).Truncate(64);
 
             this.notifyIcon1.ContextMenuStrip = this.iconContext;
             this.notifyIcon1.Icon = this.Icon;
@@ -155,6 +155,7 @@ namespace MCForge.Gui {
 
             UpdateListTimer.Elapsed += delegate {
                 try {
+                    UpdateSettings();
                     UpdateClientList(Player.players);
                     UpdateMapList();
                 }
@@ -203,8 +204,8 @@ namespace MCForge.Gui {
                 this.Invoke(new VoidDelegate(SettingsUpdate));
             }
             else {
-                this.Text = Server.name + " - MCForge " + Server.VersionString;
-                notifyIcon1.Text = ( "MCForge Server: " + Server.name ).Truncate(64);
+                this.Text = "MCForge " + Server.VersionString;
+                notifyIcon1.Text = ("MCForge Server").Truncate(64);
             }
         }
 
@@ -336,6 +337,14 @@ namespace MCForge.Gui {
         }
 
         public delegate void UpdateList();
+
+        public void UpdateSettings() {
+            if (InvokeRequired) {
+                Invoke(new UpdateList(UpdateSettings));
+            } else {
+                txtServerrName.Text = Server.name;
+            }
+        }
 
         public void UpdateMapList() {
             if ( InvokeRequired )
