@@ -26,3 +26,10 @@ C:\Users\xeroj_000\Source\Repos\MCForge-Vanilla-Redux\bin\Release\Updater.pdb
 C:\Users\xeroj_000\Source\Repos\MCForge-Vanilla-Redux\updater\obj\x86\Release\Updater.csprojResolveAssemblyReference.cache
 C:\Users\xeroj_000\Source\Repos\MCForge-Vanilla-Redux\updater\obj\x86\Release\Updater.exe
 C:\Users\xeroj_000\Source\Repos\MCForge-Vanilla-Redux\updater\obj\x86\Release\Updater.pdb
+C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\updater\obj\x86\Release\Updater.csprojResolveAssemblyReference.cache
+C:\Projs\C#\MCForge-Vanilla-Redux-master\MCForge-Vanilla-Redux-master\bin\Release\Updater.exe.config
+C:\Projs\C#\MCForge-Vanilla-Redux-master\MCForge-Vanilla-Redux-master\bin\Release\Updater.exe
+C:\Projs\C#\MCForge-Vanilla-Redux-master\MCForge-Vanilla-Redux-master\bin\Release\Updater.pdb
+C:\Projs\C#\MCForge-Vanilla-Redux-master\MCForge-Vanilla-Redux-master\updater\obj\x86\Release\Updater.csprojResolveAssemblyReference.cache
+C:\Projs\C#\MCForge-Vanilla-Redux-master\MCForge-Vanilla-Redux-master\updater\obj\x86\Release\Updater.exe
+C:\Projs\C#\MCForge-Vanilla-Redux-master\MCForge-Vanilla-Redux-master\updater\obj\x86\Release\Updater.pdb

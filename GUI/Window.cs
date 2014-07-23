@@ -115,7 +115,7 @@ namespace MCForge.Gui {
             }).Start();
 
 
-            notifyIcon1.Text = ( "MCForge Server: " + Server.name ).Truncate(64);
+            notifyIcon1.Text = ( "MCForge Server" ).Truncate(64);
 
             this.notifyIcon1.ContextMenuStrip = this.iconContext;
             this.notifyIcon1.Icon = this.Icon;
@@ -155,6 +155,7 @@ namespace MCForge.Gui {
 
             UpdateListTimer.Elapsed += delegate {
                 try {
+                    UpdateSettings();
                     UpdateClientList(Player.players);
                     UpdateMapList();
                 }
@@ -203,8 +204,8 @@ namespace MCForge.Gui {
                 this.Invoke(new VoidDelegate(SettingsUpdate));
             }
             else {
-                this.Text = Server.name + " - MCForge " + Server.VersionString;
-                notifyIcon1.Text = ( "MCForge Server: " + Server.name ).Truncate(64);
+                this.Text = "MCForge " + Server.VersionString;
+                notifyIcon1.Text = ("MCForge Server").Truncate(64);
             }
         }
 
@@ -337,6 +338,14 @@ namespace MCForge.Gui {
 
         public delegate void UpdateList();
 
+        public void UpdateSettings() {
+            if (InvokeRequired) {
+                Invoke(new UpdateList(UpdateSettings));
+            } else {
+                txtServerrName.Text = Server.name;
+            }
+        }
+
         public void UpdateMapList() {
             if ( InvokeRequired )
                 Invoke(new UpdateList(UpdateMapList));
@@ -433,13 +442,13 @@ namespace MCForge.Gui {
                     case '#':
                         text = text.Remove(0, 1);
                         Player.GlobalMessageOps(text);
-                        Server.s.Log("(OPs): Console: " + text, false, "Op");
+                        Server.s.Log("(OPs): Console: " + text, false, LogType.Op);
                         Server.IRC.Say("Console: " + text, true);
                         break;
                     case '+':
                         text = text.Remove(0, 1);
                         Player.GlobalMessageAdmins(text);
-                        Server.s.Log("(Admins): Console: " + text, false, "Admin");
+                        Server.s.Log("(Admins): Console: " + text, false, LogType.Admin);
                         Server.IRC.Say("Console: " + text, true);
                         break;
                     default:
@@ -1618,7 +1627,7 @@ namespace MCForge.Gui {
                 string optext = txtOpInput.Text.Trim();
                 string opnewtext = optext;
                 Player.GlobalMessageOps("To Ops &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + opnewtext);
-                Server.s.Log("(OPs): Console: " + opnewtext, false, "Op");
+                Server.s.Log("(OPs): Console: " + opnewtext, false, LogType.Op);
                 txtOpInput.Clear();
             }
 
@@ -1630,7 +1639,7 @@ namespace MCForge.Gui {
                 string admintext = txtAdminInput.Text.Trim();
                 string adminnewtext = admintext;
                 Player.GlobalMessageAdmins("To Admins &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + adminnewtext);
-                Server.s.Log("(Admins): Console: " + adminnewtext, false, "Admin");
+                Server.s.Log("(Admins): Console: " + adminnewtext, false, LogType.Admin);
                 txtAdminInput.Clear();
             }
         }

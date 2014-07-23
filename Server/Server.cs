@@ -34,6 +34,7 @@ using Newtonsoft.Json.Linq;
 namespace MCForge
 {
     public enum ForgeProtection { Off = 0, Mod = 1, Dev = 2 }
+    public enum LogType { Process, Main, Op, Admin }
     public class Server
     {
         public static bool cancelcommand = false;
@@ -81,7 +82,8 @@ namespace MCForge
         {
             get
             {
-                return Version.Major + "." + Version.Minor + "." + Version.Build + "." + Version.Revision;
+                //return Version.Major + "." + Version.Minor + "." + Version.Build + "." + Version.Revision;
+                return Version.ToString(); //Lol....
             }
         }
 
@@ -1058,7 +1060,7 @@ namespace MCForge
                 {
                     Log("Adding games");
                     Game.Initialize();
-                    Log("Finished setting up server");
+                    Log("Finished setting up games");
                 });
                 ServerSetupFinished = true;
                 Checktimer.StartTimer();
@@ -1201,7 +1203,7 @@ namespace MCForge
             if (OnURLChange != null) OnURLChange(ccurl);
         }
 
-        public void Log(string message, bool systemMsg = false, string type = "Normal")
+        public void Log(string message, bool systemMsg = false, LogType type = LogType.Main)
         {
             // This is to make the logs look a little more uniform! - HeroCane
             retry :
@@ -1210,11 +1212,11 @@ namespace MCForge
                 goto retry;
             }
 
-            if ( !message.Trim().EndsWith( ".." ) ) {
+            if ( type == LogType.Process && !message.Trim().EndsWith( ".." ) ) {
                 message += "...";
-            }
+            } //Sorry, got annoyed with the dots xD...
 
-            if (type == "Normal")
+            if (type == LogType.Main)
             {
                 if (ServerLog != null)
                 {
@@ -1241,11 +1243,11 @@ namespace MCForge
 
                 Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
             }
-            if(type == "Op")
+            if(type == LogType.Op)
             {
                 if (ServerOpLog != null)
                 {
-                    Log(message, false, "Op");
+                    Log(message, false, LogType.Op);
                     if (canceloplog)
                     {
                         canceloplog = false;
@@ -1266,7 +1268,7 @@ namespace MCForge
 
                 Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
             }
-            if(type == "Admin")
+            if(type == LogType.Admin)
             {
                 if (ServerAdminLog != null)
                 {
