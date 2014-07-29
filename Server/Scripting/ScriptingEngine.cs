@@ -46,7 +46,7 @@ namespace MCForge.Core.Scripting
 
         #region Static Readonly Variables
         private static readonly string divider = new string('-', 25);
-        private static readonly string compilerLogFilename = "logs/error/compiler.log";
+        private static readonly string compilerLogFilename = "logs/errors/compiler.log";
         private static readonly string sourcePath = "extra/commands/source/";
         private static readonly string dllPath = "extra/commands/dll/";
         #endregion
@@ -73,7 +73,7 @@ namespace MCForge.Core.Scripting
         /// <param name="errorMessage">Variable String error messages</param>
         private static void WriteErrors(params string[] errorMessage)
         {
-            if (!File.Exists("logs/errors/compiler.log"))
+            if (!File.Exists(compilerLogFilename))
             {
                 File.WriteAllLines(compilerLogFilename, errorMessage);
             }
@@ -113,6 +113,8 @@ namespace MCForge.Core.Scripting
             parameters.ReferencedAssemblies.Add("MCForge_.dll");
             parameters.ReferencedAssemblies.Add("System.dll");
             parameters.ReferencedAssemblies.Add("System.Core.dll");
+            parameters.ReferencedAssemblies.Add("System.Xml.dll");
+            parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
 
             parameters.MainClass = commandName;
             parameters.OutputAssembly = dllPath + "Cmd" + commandName + ".dll";
@@ -160,6 +162,14 @@ namespace MCForge.Core.Scripting
                     {
                         var instance = Activator.CreateInstance(type);
                         Command.all.Add((Command)instance);
+                        try
+                        {
+                            ((Command)instance).Init();
+                        }
+                        catch (Exception ex)
+                        {
+                            Server.ErrorLog(ex);
+                        }
                     }
                 }
             }

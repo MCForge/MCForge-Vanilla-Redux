@@ -26,27 +26,32 @@ namespace MCForge
     {
         public Slot[] slots;
 
-        public Inventory()  {
+        public Inventory()
+        {
             slots = new Slot[65];
             Slot tmp;
-            for(int i = 1; i < 66; i++) {
+            for (int i = 1; i < slots.Length; ++i)
+            {
                 tmp.ID = (byte)i;
                 tmp.Amount = 0;
                 slots[i] = tmp;
             }
         }
 
-        public bool Add(byte id, int amount) {
-            if (amount < 1) return false;
-            if (slots[id].Amount + amount > uint.MaxValue)  {
+        public void Add(byte id, int amount)
+        {
+            if (amount < 1) return;
+            if (slots[id].Amount + amount > uint.MaxValue)
+            {
                 slots[id].Amount = uint.MaxValue;
-                return true;
+                return;
             }
             slots[id].Amount += (uint)amount;
-            return true;
+            return;
         }
 
-        public bool Remove(byte id, int amount) {
+        public bool Remove(byte id, int amount)
+        {
             if (amount > slots[id].Amount) { slots[id].Amount = 0; return false; }
             slots[id].Amount -= (uint)amount;
             return true;

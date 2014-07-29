@@ -73,8 +73,8 @@ namespace MCForge.Commands
                                 else unchecked { p.SendPos((byte)-1, x, y, z, foundLevel.rotx, foundLevel.roty); }
                             }
 
-                            if (!p.hidden) Player.GlobalSpawn(p, x, y, z, foundLevel.rotx, foundLevel.roty, true, "");
-                            else unchecked { p.SendPos((byte)-1, x, y, z, foundLevel.rotx, foundLevel.roty); }
+                            //if (!p.hidden) Player.GlobalSpawn(p, x, y, z, foundLevel.rotx, foundLevel.roty, true, "");
+                            //else unchecked { p.SendPos((byte)-1, x, y, z, foundLevel.rotx, foundLevel.roty); }
 
                             foreach (Player pl in Player.players)
                                 if (pl.level == p.level && p != pl && !pl.hidden)

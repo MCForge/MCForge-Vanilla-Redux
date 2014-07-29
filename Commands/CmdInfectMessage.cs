@@ -50,6 +50,10 @@ namespace MCForge.Commands
                 string t = message.Substring(0, pos);
                 string s = message.Substring(pos + 1);
                 Player target = Player.Find(t);
+                if(!Directory.Exists("text/infect"))
+                {
+                    Directory.CreateDirectory("text/infect");
+                }
                 if (target != null)
                 {
                     File.WriteAllText("text/infect/" + target.name + ".txt", s);

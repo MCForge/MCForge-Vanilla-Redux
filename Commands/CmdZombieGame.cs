@@ -88,6 +88,10 @@ namespace MCForge.Commands
                 Server.zombie.aliveCount = 0;
                 Server.gameStatus = 0; Server.gameStatus = 0; Server.zombie.limitRounds = 0; Server.zombie.initialChangeLevel = false; Server.ZombieModeOn = false; Server.zombieRound = false;
             }
+            else if (s[0] == "go")
+            {
+                if (Server.zombie.ZombieStatus() == 0) { Player.SendMessage(p, "There is no Zombie Survival game currently in progress."); return; } else { Command.all.Find("goto").Use(p, Server.zombie.currentLevelName); }
+            }
         }
         public override void Help(Player p)
         {

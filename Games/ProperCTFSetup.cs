@@ -173,10 +173,11 @@ namespace MCForge
             level.placeBlock((ushort)((int)blueFlag[0]), (ushort)((int)blueFlag[1]), (ushort)((int)blueFlag[2]), Block.blueflag);
             Server.ctfRound = true;
             Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "The round has started!" + c.gray + " - ");
-
+            Server.IRC.Say(c.gray + " - " + Server.DefaultColor + "The round has started!" + c.gray + " - ");
             Random random = new Random();
             int amountOfMinutes = random.Next(25, 40);
             Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "The round will last for " + amountOfMinutes + " minutes!" + c.gray + " - ");
+            Server.IRC.Say(c.gray + " - " + Server.DefaultColor + "The round will last for " + amountOfMinutes + " minutes!" + c.gray + " - ");
             amountOfMilliseconds = (60000 * amountOfMinutes);
 
             timer = new System.Timers.Timer(amountOfMilliseconds);
@@ -203,9 +204,9 @@ namespace MCForge
                                         bool two = false;
                                         if (player1.makeaura || player2.makeaura)
                                         {
-                                            if (player2.pos[0] / 32 == player1.pos[0] / 32 + 2 || player2.pos[0] / 32 == player1.pos[0] / 32 - 2)
-                                                if (player2.pos[1] / 32 == player1.pos[1] / 32 - 2 || player2.pos[1] / 32 == player1.pos[1] / 32 + 2)
-                                                    if (player2.pos[2] / 32 == player1.pos[2] / 32 + 2 || player2.pos[2] / 32 == player1.pos[2] / 32 - 2)
+                        if (player2.pos[0] / 32 == player1.pos[0] / 32 || player2.pos[0] / 32 == player1.pos[0] / 32 + 1 || player2.pos[0] / 32 == player1.pos[0] / 32 - 1)
+                            if (player2.pos[1] / 32 == player1.pos[1] / 32 || player2.pos[1] / 32 == player1.pos[1] / 32 - 1 || player2.pos[1] / 32 == player1.pos[1] / 32 + 1)
+                                if (player2.pos[2] / 32 == player1.pos[2] / 32 || player2.pos[2] / 32 == player1.pos[2] / 32 + 1 || player2.pos[2] / 32 == player1.pos[2] / 32 - 1)
                                                         if (!player2.referee && !player1.referee && player1 != player2 && player1.level.name == currentLevelName && player2.level.name == currentLevelName && !player1.untouchable && !player2.untouchable)
                                                         {
                                                             one = OnSide(player1, getTeam(player1));
@@ -274,9 +275,11 @@ namespace MCForge
         {
             if (!Server.ctfRound) goto lol;
             Server.ctfRound = false;
-            if (blueTeamCaptures > 4) Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "Congratulations to the blue team for winning with " + blueTeamCaptures + " captures!" + c.gray + " - ");
-            else if (redTeamCaptures > 4) Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "Congratulations to the red team for winning with " + redTeamCaptures + " captures!" + c.gray + " - ");
+            if (blueTeamCaptures > 4) { Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "Congratulations to the blue team for winning with " + blueTeamCaptures + " captures!" + c.gray + " - "); Server.IRC.Say(c.gray + " - " + Server.DefaultColor + "Congratulations to the blue team for winning with " + blueTeamCaptures + " captures!" + c.gray + " - "); }
+            else if (redTeamCaptures > 4) { Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "Congratulations to the red team for winning with " + redTeamCaptures + " captures!" + c.gray + " - "); Server.IRC.Say(c.gray + " - " + Server.DefaultColor + "Congratulations to the red team for winning with " + redTeamCaptures + " captures!" + c.gray + " - "); }
             else Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "No team managed to capture 5 flags! Good luck next time!" + c.gray + " - ");
+            Server.IRC.Say(c.gray + " - " + c.blue + "Blue: " + Server.DefaultColor + blueTeamCaptures + c.red + " Red: " + Server.DefaultColor + redTeamCaptures + c.gray + " - ");
+            Server.IRC.Say(c.gray + " - " + c.blue + "Blue kills: " + Server.DefaultColor + bluDeaths + c.red + " Red kills: " + Server.DefaultColor + redDeaths + c.gray + " - ");
             Player.GlobalMessage(c.gray + " - " + c.blue + "Blue: " + Server.DefaultColor + blueTeamCaptures + c.red + " Red: " + Server.DefaultColor + redTeamCaptures + c.gray + " - ");
             Player.GlobalMessage(c.gray + " - " + c.blue + "Blue kills: " + Server.DefaultColor + bluDeaths + c.red + " Red kills: " + Server.DefaultColor + redDeaths + c.gray + " - ");
 
@@ -292,9 +295,15 @@ namespace MCForge
                 if (loop >= 6)
                     break;
                 else if (loop == 1)
+                {
                     Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "Most Valued Player: " + z.name + " - " + z.overallKilled + ":" + z.overallDied + c.gray + " - ");
+                    Server.IRC.Say(c.gray + " - " + Server.DefaultColor + "Most Valued Player: " + z.name + " - " + z.overallKilled + ":" + z.overallDied + c.gray + " - ");
+                }
                 else
+                {
                     Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "#" + loop + ": " + z.name + " - " + z.overallKilled + ":" + z.overallDied + c.gray + " - ");
+                    Server.IRC.Say(c.gray + " - " + Server.DefaultColor + "#" + loop + ": " + z.name + " - " + z.overallKilled + ":" + z.overallDied + c.gray + " - ");
+                }
             }
         lol:
             removeTempFlagBlocks();
@@ -445,7 +454,7 @@ namespace MCForge
             Command.all.Find("load").Use(null, next.ToLower() + " 1");
             Level.Find(next).unload = false;
             Level.Find(next).mapType = MapType.Game;
-            if (announce) Player.GlobalMessage("The next map has been chosen - " + c.red + next.ToLower());
+            if (announce) { Player.GlobalMessage("The next map has been chosen - " + c.red + next.ToLower()); Server.IRC.Say("The next map has been chosen - " + c.red + next.ToLower()); }
             Server.currentLevel = next;
             try
             {
@@ -551,6 +560,7 @@ namespace MCForge
                 if (initialChangeLevel == true)
                 {
                     Server.votingforlevel = true;
+                    Server.IRC.Say(" " + c.black + "Level Vote: " + Server.DefaultColor + selectedLevel1 + ", " + selectedLevel2 + " or random " + "(" + c.lime + "1" + Server.DefaultColor + "/" + c.red + "2" + Server.DefaultColor + "/" + c.blue + "3" + Server.DefaultColor + ")");
                     Player.GlobalMessage(" " + c.black + "Level Vote: " + Server.DefaultColor + selectedLevel1 + ", " + selectedLevel2 + " or random " + "(" + c.lime + "1" + Server.DefaultColor + "/" + c.red + "2" + Server.DefaultColor + "/" + c.blue + "3" + Server.DefaultColor + ")");
                     System.Threading.Thread.Sleep(15000);
                     Server.votingforlevel = false;
@@ -639,6 +649,7 @@ namespace MCForge
                                     if (!firstblood)
                                     {
                                         firstblood = true;
+                                        Server.IRC.Say(c.gray + " - " + p.color + p.name + c.gray + " got " + c.red + "\"firsty bloody\"! " + c.gray + " - ");
                                         Player.GlobalMessage(c.gray + " - " + p.color + p.name + c.gray + " got " + c.red + "\"firsty bloody\"! " + c.gray + " - ");
                                         money += 20;
                                     }
@@ -648,27 +659,35 @@ namespace MCForge
                                         switch (type)
                                         {
                                             case "pistol":
+                                                Server.IRC.Say(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was killed by " + p.color + p.name + c.gray + "'s amazing pistol shot! - ");
                                                 Player.GlobalMessage(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was killed by " + p.color + p.name + c.gray + "'s amazing pistol shot! - ");
                                                 break;
                                             case "lazer":
+                                                Server.IRC.Say(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was lazered by " + p.color + p.name + c.gray + " - ");
                                                 Player.GlobalMessage(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was lazered by " + p.color + p.name + c.gray + " - ");
                                                 break;
                                             case "mine":
                                                 Player.GlobalMessage(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " didn't look where they were walking - ");
+                                                Server.IRC.Say(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " didn't look where they were walking - ");
                                                 break;
                                             case "lightning":
+                                                Server.IRC.Say(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " got struck down by Zeus (aka " + p.color + p.name + c.gray + ") - ");
                                                 Player.GlobalMessage(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " got struck down by Zeus (aka " + p.color + p.name + c.gray + ") - ");
                                                 break;
                                             case "gun":
+                                                Server.IRC.Say(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " got shot with a rocket fired by " + p.color + p.name + c.gray + " - ");
                                                 Player.GlobalMessage(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " got shot with a rocket fired by " + p.color + p.name + c.gray + " - ");
                                                 break;
                                             case "tnt":
+                                                Server.IRC.Say(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was exploded into bits by " + p.color + p.name + c.gray + " - ");
                                                 Player.GlobalMessage(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was exploded into bits by " + p.color + p.name + c.gray + " - ");
                                                 break;
                                             case "tag":
+                                                Server.IRC.Say(c.gray + " - " + p.color + p.name + Server.DefaultColor + " tagged " + ppp.color + ppp.name + c.gray + " - ");
                                                 Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " tagged " + ppp.color + ppp.name + c.gray + " - ");
                                                 break;
                                             default:
+                                                Server.IRC.Say(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was killed by " + p.color + p.name + c.gray + " - ");
                                                 Player.GlobalMessage(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was killed by " + p.color + p.name + c.gray + " - ");
                                                 break;
                                         }
@@ -678,34 +697,42 @@ namespace MCForge
                                         switch (type)
                                         {
                                             case "pistol":
+                                                Server.IRC.Say(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was killed by " + p.color + p.name + c.gray + "'s amazing pistol shot! - ");
                                                 Player.SendMessage(p, c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was killed by " + p.color + p.name + c.gray + "'s amazing pistol shot! - ");
                                                 Player.SendMessage(ppp, c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was killed by " + p.color + p.name + c.gray + "'s amazing pistol shot! - ");
                                                 break;
                                             case "lazer":
+                                                Server.IRC.Say(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was lazered by " + p.color + p.name + c.gray + " - ");
                                                 Player.SendMessage(p, c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was lazered by " + p.color + p.name + c.gray + " - ");
                                                 Player.SendMessage(ppp, c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was lazered by " + p.color + p.name + c.gray + " - ");
                                                 break;
                                             case "mine":
+                                                Server.IRC.Say(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " didn't look where they were walking - ");
                                                 Player.SendMessage(p, c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " didn't look where they were walking - ");
                                                 Player.SendMessage(ppp, c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " didn't look where they were walking - ");
                                                 break;
                                             case "lightning":
+                                                Server.IRC.Say(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " got struck down by Zeus (aka " + p.color + p.name + c.gray + ") - ");
                                                 Player.SendMessage(p, c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " got struck down by Zeus (aka " + p.color + p.name + c.gray + ") - ");
                                                 Player.SendMessage(ppp, c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " got struck down by Zeus (aka " + p.color + p.name + c.gray + ") - ");
                                                 break;
                                             case "gun":
+                                                Server.IRC.Say(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " got shot with a rocket fired by " + p.color + p.name + c.gray + " - ");
                                                 Player.SendMessage(p, c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " got shot with a rocket fired by " + p.color + p.name + c.gray + " - ");
                                                 Player.SendMessage(ppp, c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " got shot with a rocket fired by " + p.color + p.name + c.gray + " - ");
                                                 break;
                                             case "tnt":
+                                                Server.IRC.Say(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was exploded into bits by " + p.color + p.name + c.gray + " - ");
                                                 Player.SendMessage(p, c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was exploded into bits by " + p.color + p.name + c.gray + " - ");
                                                 Player.SendMessage(ppp, c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was exploded into bits by " + p.color + p.name + c.gray + " - ");
                                                 break;
                                             case "tag":
+                                                Server.IRC.Say(c.gray + " - " + p.color + p.name + Server.DefaultColor + " tagged " + ppp.color + ppp.name + c.gray + " - ");
                                                 Player.SendMessage(p, c.gray + " - " + p.color + p.name + Server.DefaultColor + " tagged " + ppp.color + ppp.name + c.gray + " - ");
                                                 Player.SendMessage(ppp, c.gray + " - " + p.color + p.name + Server.DefaultColor + " tagged " + ppp.color + ppp.name + c.gray + " - ");
                                                 break;
                                             default:
+                                                Server.IRC.Say(c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was killed by " + p.color + p.name + c.gray + " - ");
                                                 Player.SendMessage(p, c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was killed by " + p.color + p.name + c.gray + " - ");
                                                 Player.SendMessage(ppp, c.gray + " - " + ppp.color + ppp.name + Server.DefaultColor + " was killed by " + p.color + p.name + c.gray + " - ");
                                                 break;
@@ -741,20 +768,20 @@ namespace MCForge
                                     {
                                         if (p.amountKilled >= 3)
                                         {
-                                            if (p.amountKilled == 3) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " got a triple kill! " + c.gray + " - "); money = money + 1; }
-                                            if (p.amountKilled == 4) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " got a quadra kill! " + c.gray + " - "); money = money + 1; }
-                                            if (p.amountKilled == 5) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " got a penta kill! " + c.gray + " - "); money = money + 2; }
-                                            if (p.amountKilled == 6) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " is crazy! Sextuple kill!" + c.gray + " - "); money = money + 2; }
-                                            if (p.amountKilled == 7) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " is insane! Seputuple kill!" + c.gray + " - "); money = money + 3; }
-                                            if (p.amountKilled == 8) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " is amazing! Octuple kill!" + c.gray + " - "); money = money + 3; }
-                                            if (p.amountKilled == 9) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " is bonkers! Nonuple kill!" + c.gray + " - "); money = money + 3; }
-                                            if (p.amountKilled == 10) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " is nutty! Decuple kill!" + c.gray + " - "); money = money + 5; }
+                                            if (p.amountKilled == 3) { Server.IRC.Say(c.gray + " - " + p.color + p.name + Server.DefaultColor + " got a triple kill! " + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " got a triple kill! " + c.gray + " - "); money = money + 1; }
+                                            if (p.amountKilled == 4) { Server.IRC.Say(c.gray + " - " + p.color + p.name + Server.DefaultColor + " got a quadra kill! " + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " got a quadra kill! " + c.gray + " - "); money = money + 1; }
+                                            if (p.amountKilled == 5) { Server.IRC.Say(c.gray + " - " + p.color + p.name + Server.DefaultColor + " got a penta kill! " + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " got a penta kill! " + c.gray + " - "); money = money + 2; }
+                                            if (p.amountKilled == 6) { Server.IRC.Say(c.gray + " - " + p.color + p.name + Server.DefaultColor + " is crazy! Sextuple kill!" + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " is crazy! Sextuple kill!" + c.gray + " - "); money = money + 2; }
+                                            if (p.amountKilled == 7) { Server.IRC.Say(c.gray + " - " + p.color + p.name + Server.DefaultColor + " is insane! Seputuple kill!" + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " is insane! Seputuple kill!" + c.gray + " - "); money = money + 3; }
+                                            if (p.amountKilled == 8) { Server.IRC.Say(c.gray + " - " + p.color + p.name + Server.DefaultColor + " is amazing! Octuple kill!" + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " is amazing! Octuple kill!" + c.gray + " - "); money = money + 3; }
+                                            if (p.amountKilled == 9) { Server.IRC.Say(c.gray + " - " + p.color + p.name + Server.DefaultColor + " is bonkers! Nonuple kill!" + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " is bonkers! Nonuple kill!" + c.gray + " - "); money = money + 3; }
+                                            if (p.amountKilled == 10) { Server.IRC.Say(c.gray + " - " + p.color + p.name + Server.DefaultColor + " is nutty! Decuple kill!" + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " is nutty! Decuple kill!" + c.gray + " - "); money = money + 5; }
                                             if (p.amountKilled == 11) { money = money + 5; }
-                                            if (p.amountKilled == 12) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " IS LEGENDARY! DUODECUPLE KILL! " + c.gray + " - "); money = money + 7; }
+                                            if (p.amountKilled == 12) { Server.IRC.Say(c.gray + " - " + p.color + p.name + Server.DefaultColor + " IS LEGENDARY! DUODECUPLE KILL! " + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " IS LEGENDARY! DUODECUPLE KILL! " + c.gray + " - "); money = money + 7; }
                                             if (p.amountKilled == 13) { money = money + 8; }
                                             if (p.amountKilled == 14) { money = money + 9; }
-                                            if (p.amountKilled == 15) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " IS KILLING EVERYONE! 15-TUPLE KILL! " + c.gray + " - "); money = money + 10; }
-                                            if (p.amountKilled == 16) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " IS MAGIC! GEN-TUPLE KILL! " + c.gray + " - "); money = money + 12; }
+                                            if (p.amountKilled == 15) { Server.IRC.Say(c.gray + " - " + p.color + p.name + Server.DefaultColor + " IS KILLING EVERYONE! 15-TUPLE KILL! " + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " IS KILLING EVERYONE! 15-TUPLE KILL! " + c.gray + " - "); money = money + 10; }
+                                            if (p.amountKilled == 16) { Server.IRC.Say(c.gray + " - " + p.color + p.name + Server.DefaultColor + " IS MAGIC! GEN-TUPLE KILL! " + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " IS MAGIC! GEN-TUPLE KILL! " + c.gray + " - "); money = money + 12; }
                                             if (p.amountKilled > 16 && p.amountKilled < 100) { money = money + 12; }
                                             if (p.amountKilled == 100) { Player.GlobalMessage(c.gray + " - " + p.color + p.name + Server.DefaultColor + " OWNS CTF! 100+ KILL STREAK! " + c.gray + " - "); money = money + 50; }
                                             if (p.amountKilled > 100) { money = money + 50; } 
@@ -790,6 +817,7 @@ namespace MCForge
             if (p.pteam != 0) return;
             if (name == "blue")
             {
+                Server.IRC.Say(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " joined the " + c.blue + "blue " + Server.DefaultColor + "team!" + c.gray + " - ");
                 Player.GlobalMessage(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " joined the " + c.blue + "blue " + Server.DefaultColor + "team!" + c.gray + " - ");
                 p.pteam = 1;
                 p.color = c.blue;
@@ -799,6 +827,7 @@ namespace MCForge
             }
             else
             {
+                Server.IRC.Say(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " joined the " + c.red + "red " + Server.DefaultColor + "team!" + c.gray + " - ");
                 Player.GlobalMessage(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " joined the " + c.red + "red " + Server.DefaultColor + "team!" + c.gray + " - ");
                 p.pteam = 2;
                 p.color = c.red;
@@ -826,6 +855,7 @@ namespace MCForge
             Server.redFlagHeld = false;
             Server.blueFlagTimer.Enabled = false;
             Server.redFlagTimer.Enabled = false;
+            Server.IRC.Say(c.gray + " - " + Server.DefaultColor + "The flags have been reset! " + c.gray + " - ");
             Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "The flags have been reset! " + c.gray + " - ");
             removeTempFlagBlocks();
         }
@@ -847,8 +877,9 @@ namespace MCForge
                 else if (getTeam(p) == "red") Server.redFlagDropped = false;
                 if (getTeam(p) == "red") Server.blueFlagHeld = false;
                 else if (getTeam(p) == "blue") Server.redFlagHeld = false;
-                if (getTeam(p) == "blue") { Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "The blue flag has been returned! " + c.gray + " - "); Server.blueFlagTimer.Enabled = false; blueDroppedFlag[0] = 0; blueDroppedFlag[1] = 0; blueDroppedFlag[2] = 0; }
-                else if (getTeam(p) == "red") { Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "The red flag has been returned! " + c.gray + " - "); Server.redFlagTimer.Enabled = false; redDroppedFlag[0] = 0; redDroppedFlag[1] = 0; redDroppedFlag[2] = 0; }
+
+                if (getTeam(p) == "blue") { Server.IRC.Say(c.gray + " - " + Server.DefaultColor + "The blue flag has been returned! " + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "The blue flag has been returned! " + c.gray + " - "); Server.blueFlagTimer.Enabled = false; blueDroppedFlag[0] = 0; blueDroppedFlag[1] = 0; blueDroppedFlag[2] = 0; }
+                else if (getTeam(p) == "red") { Server.IRC.Say(c.gray + " - " + Server.DefaultColor + "The red flag has been returned! " + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "The red flag has been returned! " + c.gray + " - "); Server.redFlagTimer.Enabled = false; redDroppedFlag[0] = 0; redDroppedFlag[1] = 0; redDroppedFlag[2] = 0; }
             }
         }
 
@@ -865,8 +896,8 @@ namespace MCForge
             else if (str == "red") Server.redFlagDropped = false;
             if (str == "blue") Server.blueFlagHeld = false;
             else if (str == "red") Server.redFlagHeld = false;
-            if (str == "blue") { Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "The blue flag has been returned! " + c.gray + " - "); Server.blueFlagTimer.Enabled = false; blueDroppedFlag[0] = 0; blueDroppedFlag[1] = 0; blueDroppedFlag[2] = 0; }
-            else if (str == "red") { Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "The red flag has been returned! " + c.gray + " - "); Server.redFlagTimer.Enabled = false; redDroppedFlag[0] = 0; redDroppedFlag[1] = 0; redDroppedFlag[2] = 0; }
+            if (str == "blue") { Server.IRC.Say(c.gray + " - " + Server.DefaultColor + "The blue flag has been returned! " + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "The blue flag has been returned! " + c.gray + " - "); Server.blueFlagTimer.Enabled = false; blueDroppedFlag[0] = 0; blueDroppedFlag[1] = 0; blueDroppedFlag[2] = 0; }
+            else if (str == "red") { Server.IRC.Say(c.gray + " - " + Server.DefaultColor + "The red flag has been returned! " + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + Server.DefaultColor + "The red flag has been returned! " + c.gray + " - "); Server.redFlagTimer.Enabled = false; redDroppedFlag[0] = 0; redDroppedFlag[1] = 0; redDroppedFlag[2] = 0; }
         }
 
         public void PlayerDC(Player p)
@@ -921,6 +952,7 @@ namespace MCForge
             {
                 Server.blueFlagTimer.Enabled = false;
                 blueTeamCaptures++;
+                Server.IRC.Say(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " captured the " + c.red + "red " + Server.DefaultColor + "flag!" + c.gray + " - ");
                 Player.GlobalMessage(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " captured the " + c.red + "red " + Server.DefaultColor + "flag!" + c.gray + " - ");
                 addMoney(p, 50);
                 blu.ForEach(delegate(Player player1)
@@ -932,6 +964,7 @@ namespace MCForge
                 });
                 resetFlags(p);
                 if (blueTeamCaptures > 4) { HandOutRewards(); return; }
+                Server.IRC.Say(c.gray + " - " + c.blue + "Blue: " + Server.DefaultColor + blueTeamCaptures + c.red + " Red: " + Server.DefaultColor + redTeamCaptures);
                 Player.GlobalMessage(c.gray + " - " + c.blue + "Blue: " + Server.DefaultColor + blueTeamCaptures + c.red + " Red: " + Server.DefaultColor + redTeamCaptures);
                 removeTempFlagBlock("blue");
             }
@@ -939,6 +972,7 @@ namespace MCForge
             {
                 Server.redFlagTimer.Enabled = false;
                 redTeamCaptures++;
+                Server.IRC.Say(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " captured the " + c.blue + "blue " + Server.DefaultColor + "flag!" + c.gray + " - ");
                 Player.GlobalMessage(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " captured the " + c.blue + "blue " + Server.DefaultColor + "flag!" + c.gray + " - ");
                 addMoney(p, 50);
                 red.ForEach(delegate(Player player1)
@@ -950,6 +984,7 @@ namespace MCForge
                 });
                 resetFlags(p);
                 if (redTeamCaptures > 4) { HandOutRewards(); return; }
+                Server.IRC.Say(c.gray + " - " + c.blue + "Blue: " + Server.DefaultColor + blueTeamCaptures + c.red + " Red: " + Server.DefaultColor + redTeamCaptures);
                 Player.GlobalMessage(c.gray + " - " + c.blue + "Blue: " + Server.DefaultColor + blueTeamCaptures + c.red + " Red: " + Server.DefaultColor + redTeamCaptures);
                 removeTempFlagBlock("red");
             }
@@ -971,6 +1006,7 @@ namespace MCForge
                 if (getTeam(p) == "red") { Server.blueFlagHeld = false; removeTempFlagBlock("red"); Server.blueFlagTimer.Enabled = true; blueDroppedFlag[0] = xx; blueDroppedFlag[1] = yy; blueDroppedFlag[2] = zz; }
                 else if (getTeam(p) == "blue") { Server.redFlagHeld = false; removeTempFlagBlock("blue"); Server.redFlagTimer.Enabled = true; redDroppedFlag[0] = xx; redDroppedFlag[1] = yy; redDroppedFlag[2] = zz; }
                 p.isHoldingFlag = false;
+                Server.IRC.Say(c.gray + " - " + c.blue + p.name + Server.DefaultColor + " dropped the flag!" + c.gray + " - ");
                 Player.GlobalMessage(c.gray + " - " + c.blue + p.name + Server.DefaultColor + " dropped the flag!" + c.gray + " - ");
             }
         }
@@ -980,8 +1016,8 @@ namespace MCForge
             if (!GameInProgess()) return;
             if (getTeam(p) == null) return;
             resetFlag(p);
-            if (getTeam(p) == "red" && !Server.blueFlagHeld) Player.GlobalMessage(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " returned the " + c.red + "red " + Server.DefaultColor + "flag!" + c.gray + " - ");
-            if (getTeam(p) == "blue" && !Server.redFlagHeld) Player.GlobalMessage(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " returned the " + c.blue + "blue " + Server.DefaultColor + "flag!" + c.gray + " - ");
+            if (getTeam(p) == "red" && !Server.blueFlagHeld) { Server.IRC.Say(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " returned the " + c.red + "red " + Server.DefaultColor + "flag!" + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " returned the " + c.red + "red " + Server.DefaultColor + "flag!" + c.gray + " - "); }
+            if (getTeam(p) == "blue" && !Server.redFlagHeld) { Server.IRC.Say(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " returned the " + c.blue + "blue " + Server.DefaultColor + "flag!" + c.gray + " - "); Player.GlobalMessage(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " returned the " + c.blue + "blue " + Server.DefaultColor + "flag!" + c.gray + " - "); }
         }
 
         public bool pickupFlag(Player p)
@@ -995,6 +1031,7 @@ namespace MCForge
                 Server.redFlagHeld = true;
                 Server.redFlagDropped = false;
                 Server.redFlagTimer.Enabled = false;
+                Server.IRC.Say(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " grabbed the " + c.red + "red " + Server.DefaultColor + "flag!" + c.gray + " - ");
                 Player.GlobalMessage(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " grabbed the " + c.red + "red " + Server.DefaultColor + "flag!" + c.gray + " - ");
                 return false;
             }
@@ -1004,6 +1041,7 @@ namespace MCForge
                 Server.blueFlagHeld = true;
                 Server.blueFlagDropped = false;
                 Server.blueFlagTimer.Enabled = false;
+                Server.IRC.Say(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " grabbed the " + c.blue + "blue " + Server.DefaultColor + "flag!" + c.gray + " - ");
                 Player.GlobalMessage(c.gray + " - " + p.color + p.prefix + p.name + Server.DefaultColor + " grabbed the " + c.blue + "blue " + Server.DefaultColor + "flag!" + c.gray + " - ");
                 return false;
             }

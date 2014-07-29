@@ -54,7 +54,7 @@ namespace MCForge.Commands
                     Player.SendMessage(p, "Grass growing: " + FoundCheck(foundLevel, foundLevel.GrassGrow));
                     Player.SendMessage(p, "Tree growing: " + FoundCheck(foundLevel, foundLevel.growTrees));
                     Player.SendMessage(p, "Leaf decay: " + FoundCheck(foundLevel, foundLevel.leafDecay));
-                    Player.SendMessage(p, "Physics speed: &b" + foundLevel.speedPhysics);
+                    Player.SendMessage(p, "Physics speed: &b" + foundLevel.speedphysics);
                     Player.SendMessage(p, "Physics overload: &b" + foundLevel.overload);
                     Player.SendMessage(p, "Survival death: " + FoundCheck(foundLevel, foundLevel.Death) + "(Fall: " + foundLevel.fall + ", Drown: " + foundLevel.drown + ")");
                     Player.SendMessage(p, "Killer blocks: " + FoundCheck(foundLevel, foundLevel.Killer));
@@ -96,8 +96,8 @@ namespace MCForge.Commands
                     case "ps":
                     case "physicspeed":
                         if (int.Parse(message.Split(' ')[1]) < 10) { Player.SendMessage(p, "Cannot go below 10"); return; }
-                        foundLevel.speedPhysics = int.Parse(message.Split(' ')[1]);
-                        foundLevel.ChatLevel("Physics speed: &b" + foundLevel.speedPhysics);
+                        foundLevel.speedphysics = int.Parse(message.Split(' ')[1]);
+                        foundLevel.ChatLevel("Physics speed: &b" + foundLevel.speedphysics);
                         break;
                     case "overload":
                         if (int.Parse(message.Split(' ')[1]) < 500) { Player.SendMessage(p, "Cannot go below 500 (default is 1500)"); return; }

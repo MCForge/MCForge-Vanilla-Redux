@@ -73,7 +73,7 @@ namespace MCForge.Commands
                     {
                         File.Copy(@Server.backupLocation + "/" + lvl.name + "/" + text[0] + "/" + lvl.name + ".mcf", "levels/" + lvl.name + ".mcf", true);
                         Level temp = Level.Load(lvl.name);
-                        temp.StartPhysics();
+                        temp.physic.StartPhysics(lvl);
                         if (temp != null)
                         {
                             lvl.spawnx = temp.spawnx;
@@ -86,7 +86,7 @@ namespace MCForge.Commands
 
                             lvl.blocks = temp.blocks;
                             lvl.setPhysics(0);
-                            lvl.ClearPhysics();
+                            lvl.physic.ClearPhysics(lvl);
 
                             Command.all.Find("reveal").Use(null, "all " + text[1]);
                         }

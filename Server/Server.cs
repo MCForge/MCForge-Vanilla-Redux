@@ -99,7 +99,7 @@ namespace MCForge
         static System.Timers.Timer messageTimer = new System.Timers.Timer(60000 * 5); //Every 5 mins
         public static System.Timers.Timer cloneTimer = new System.Timers.Timer(5000);
 
-        //public static Thread physThread;
+        //public static Thread physic.physThread;
         //public static bool physPause;
         //public static DateTime physResume = DateTime.Now;
         //public static System.Timers.Timer physTimer = new System.Timers.Timer(1000);
@@ -198,9 +198,8 @@ namespace MCForge
         public static Char[] ColourCodesNoPercent = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
         //Zombie
-        public static string maxrank = "TechnoKid";
         public static ZombieGame zombie;
-        public static bool limitedblocks = false;
+        public static bool limitedblocks = true;
         public static bool ZombieModeOn = false;
         public static bool startZombieModeOnStartup = false;
         public static bool noRespawn = true;
@@ -248,6 +247,9 @@ namespace MCForge
         public static System.Timers.Timer redFlagTimer;
         public static System.Timers.Timer blueFlagTimer;
         public static int vulnerable = 1;
+
+        //SMP
+        public static bool SMPMode = false;
 
         // OmniBan
         public static OmniBan omniban;
@@ -654,6 +656,7 @@ namespace MCForge
                 //CTF
                 Database.executeQuery("CREATE TABLE if not exists Upgrades (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), lazer INT, lightning INT, trap BIGINT, rocket INT, tnt INT, pistol INT, mine INT, tripwire INT, knife INT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
                 Database.executeQuery("CREATE TABLE if not exists ExtraWeapons (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), knife INT, jetpack INT, freezeray INT, lazer INT, lightning INT, trap BIGINT, line BIGINT, rocket INT, tnt INT, pistol INT, mine INT, tripwire INT, grapple BIGINT, bigtnt BIGINT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
+                Database.executeQuery("CREATE TABLE if not exists CTFStats (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), shots INT, explodes INT, mines BIGINT, tags INT, captures INT, games INT, wins INT, losses INT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
 
                 if (!File.Exists("extra/alter.txt") && Server.useMySQL) {
                 	Database.executeQuery("ALTER TABLE Players MODIFY Name TEXT");
@@ -768,8 +771,8 @@ namespace MCForge
                     addLevel(mainLevel);
 
                     // fenderrock - Make sure the level does have a physics thread
-                    if (mainLevel.physThread == null)
-                        mainLevel.StartPhysics();
+                    if (mainLevel.physic.physThread == null)
+                        mainLevel.physic.StartPhysics(mainLevel);
                 }
                 catch (Exception e) { ErrorLog(e); }
             });
@@ -1088,6 +1091,7 @@ namespace MCForge
             Block.SetBlocks();
             Awards.Load();
             Economy.Load();
+            EXPLevel.Load();
             Warp.LOAD();
             CommandOtherPerms.Load();
             ProfanityFilter.Init();

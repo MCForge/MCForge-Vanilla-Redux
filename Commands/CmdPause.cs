@@ -84,36 +84,36 @@ namespace MCForge.Commands
 
             try
             {
-                if (foundLevel.physPause)
+                if (foundLevel.physic.physPause)
                 {
                     foundLevel.PhysicsEnabled = true;
-                    foundLevel.physResume = DateTime.Now;
-                    foundLevel.physPause = false;
+                    foundLevel.physic.physResume = DateTime.Now;
+                    foundLevel.physic.physPause = false;
                     Player.GlobalMessage("Physics on " + foundLevel.name + " were re-enabled.");
                 }
                 else
                 {
                     foundLevel.PhysicsEnabled  = false;
-                    foundLevel.physResume = DateTime.Now.AddSeconds(foundNum);
-                    foundLevel.physPause = true;
+                    foundLevel.physic.physResume = DateTime.Now.AddSeconds(foundNum);
+                    foundLevel.physic.physPause = true;
                     Player.GlobalMessage("Physics on " + foundLevel.name + " were temporarily disabled.");
 
-                    foundLevel.physTimer.Elapsed += delegate
+                    foundLevel.physic.physTimer.Elapsed += delegate
                     {
-                        if (DateTime.Now > foundLevel.physResume)
+                        if (DateTime.Now > foundLevel.physic.physResume)
                         {
-                            foundLevel.physPause = false;
+                            foundLevel.physic.physPause = false;
                             try
                             {
                                 foundLevel.PhysicsEnabled = true;
                             }
                             catch (Exception e) { Server.ErrorLog(e); }
                             Player.GlobalMessage("Physics on " + foundLevel.name + " were re-enabled.");
-                            foundLevel.physTimer.Stop();
-                            foundLevel.physTimer.Dispose();
+                            foundLevel.physic.physTimer.Stop();
+                            foundLevel.physic.physTimer.Dispose();
                         }
                     };
-                    foundLevel.physTimer.Start();
+                    foundLevel.physic.physTimer.Start();
                 }
             }
             catch (Exception e)

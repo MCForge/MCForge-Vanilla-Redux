@@ -340,6 +340,65 @@ namespace MCForge
                 }
             }
 
+            string playersString = "";
+            foreach (Player player in Player.players)
+            {
+
+                Random random2 = new Random();
+                int randomInt = 1;
+                if (player.NoClipcount == 0)
+                {
+                    if (lifeNum > 0)
+                    {
+                        if (!player.ironmanFailed && player.ironmanActivated)
+                            randomInt = random2.Next(15, 18);
+                        else if (player.ironmanFailed && !player.ironmanActivated)
+                            randomInt = 0;
+                        else if (mapData.destroy)
+                            randomInt = random2.Next(8, 10);
+                        else if (mapData.water)
+                            randomInt = random2.Next(2, 7);
+                        else
+                            randomInt = random2.Next(1, 5);
+                        Player.SendMessage(player, c.gold + "You gained " + randomInt + " " + Server.moneys);
+                        player.money = player.money + randomInt;
+
+                        if (!player.ironmanFailed && player.ironmanActivated)
+                            playersString += c.lime + "[IRONMAN] " + player.group.color + player.name + c.white + ", ";
+                        else if (player.ironmanFailed && !player.ironmanActivated)
+                            playersString += c.lime + "[IRONMAN FAILED] " + player.group.color + player.name + c.white + ", ";
+                        else
+                            playersString += player.group.color + player.name + c.white + ", ";
+                    }
+                    else
+                    {
+                        Player.SendMessage(player, "You didn't survive! Good luck next time!");
+                    }
+                }
+                else
+                {
+                    Player.SendMessage(player, "Next time don't hide in a block, or hide at spawn!");
+
+                    if (!player.ironmanFailed && player.ironmanActivated)
+                        playersString += c.lime + "[IRONMAN] " + player.group.color + player.name + c.white + ", ";
+                    else if (player.ironmanFailed && !player.ironmanActivated)
+                        playersString += c.lime + "[IRONMAN FAILED] " + player.group.color + player.name + c.white + ", ";
+                    else
+                        playersString += player.group.color + player.name + c.white + ", ";
+                }
+
+                player.ironmanActivated = false;
+                player.ironmanFailed = false;
+            }
+            if (playersString == "")
+            {
+                map.ChatLevel(c.lime + "No-one survived this round. Better luck next time!");
+            }
+            else
+            {
+                map.ChatLevel(c.lime + "Congratulations to our survivors!");
+            }
+
             if (OnVoteStart != null)
                 OnVoteStart(votes.Keys.ToList().ToArray());
             map.ChatLevel("Vote for the next map! The vote ends in " + voteTime + " minute" + (voteTime == 1 ? "" : "s") +".");

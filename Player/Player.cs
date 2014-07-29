@@ -316,7 +316,7 @@ namespace MCForge
         public bool ignoreglobal = false;
 
         public string storedMessage = "";
-
+        
         public bool trainGrab = false;
         public bool onTrain = false;
         public bool allowTnt = true;
@@ -330,6 +330,7 @@ namespace MCForge
         public bool canBuild = true;
 
         public int money = 0;
+        public int points = 0;
         public long overallBlocks = 0;
 
         public int loginBlocks = 0;
@@ -394,6 +395,10 @@ namespace MCForge
         public ushort[] tripwire1 = { 0, 0, 0 };
         public ushort[] tripwire2 = { 0, 0, 0 };
         public int tripwiresPlaced = 0;
+        public int tags = 0;
+        public int games = 0;
+        public int losses = 0;
+        public int wins = 0;
 
         public void resetDeathTimer(object sender, ElapsedEventArgs e)
         {
@@ -441,6 +446,8 @@ namespace MCForge
         public static System.Timers.Timer makeauraTimer;
         public static System.Timers.Timer invincibleTimer;
 
+        public EXPLevel explevel;
+
         //Countdown
         public bool playerofcountdown = false;
         public bool incountdown = false;
@@ -463,6 +470,17 @@ namespace MCForge
         public bool flipHead = true;
         public int playersInfected = 0;
         public int NoClipcount = 0;
+
+        //LAVA extra
+        public int spongesLeft = 0;
+        public bool ironmanActivated = false;
+        public bool ironmanFailed = false;
+        //public int lives = 1;
+        //public int countOfTimes = 0;
+        public bool gotInvite = false;
+        public bool sentInvite = false;
+        public string sentInvitePlayer = "";
+        public string goToPlayer = "";
 
         //SMP Mode
         public bool InSMP = false;
@@ -962,6 +980,7 @@ namespace MCForge
                 }
             }
             if (Server.useMySQL) MySQL.executeQuery(commandString); else SQLite.executeQuery(commandString);
+            EXPDB.Save(this);
 
             try
             {
@@ -1548,6 +1567,7 @@ namespace MCForge
                     GlobalMessage(name + " is still muted from the last time they went offline.");
                 }
             }
+            EXPDB.Load(this);
             SetPrefix();
             playerDb.Dispose();
             #region Weapon Upgrade Loading
@@ -2133,6 +2153,17 @@ namespace MCForge
             }
 
             ushort b = level.GetTile(x, y, z);
+            if (type != 0 && type <= 65 && Server.SMPMode && InSMP && inventory.Remove((byte)type, 1) == false)
+            {
+                SendMessage("You do not have this block.");
+                SendBlockchange(x, y, z, b);
+                return;
+            }
+            if (type == 0 && Server.SMPMode && InSMP)
+            {
+                inventory.Add((byte)type, 1);
+                return;
+            }
             if (b == Block.Zero) { return; }
             if (jailed || !agreed) { SendBlockchange(x, y, z, b); return; }
             if (level.name.Contains("Museum " + Server.DefaultColor) && Blockchange == null)
@@ -2186,11 +2217,27 @@ namespace MCForge
                 }
             }
 
-            if (Server.lava.active && Server.lava.HasPlayer(this) && Server.lava.IsPlayerDead(this))
+            if (Server.lava.active)
             {
-                SendMessage("You are out of the round, and cannot build.");
-                SendBlockchange(x, y, z, b);
-                return;
+
+                if (Server.lava.HasPlayer(this) && Server.lava.IsPlayerDead(this))
+                {
+                    SendMessage("You are out of the round, and cannot build.");
+                    SendBlockchange(x, y, z, b);
+                    return;
+                }
+
+                if (this.spongesLeft == 0 && type == Block.sponge && (action == 1 || (action == 0 && this.painting)))
+                {
+                    SendMessage(c.green + "You need to purchase more sponges at the /store!");
+                    SendBlockchange(x, y, z, b); return;
+                }
+                else if (this.spongesLeft >= 0 && type == Block.sponge && (action == 1 || (action == 0 && this.painting)))
+                {
+                    this.spongesLeft = this.spongesLeft - 1;
+                    Player.SendMessage(this, c.lime + "You have " + c.red + spongesLeft + c.lime + " sponges left!");
+                    type = Block.lava_sponge;
+                }
             }
 
             Level.BlockPos bP;
@@ -2330,6 +2377,8 @@ namespace MCForge
                     {
                         if (action == 1 && tntPlaced == 0)
                         {
+                            if (tntUpgrade < 3 || Block.BuildIn(b))
+                                SendBlockchange(x, y, z, Block.tnt);
                             DateTime dft = DateTime.Now;
                             int sec = (dft.Hour * 60 * 60) + (dft.Minute * 60) + dft.Second;
                             {
@@ -2352,6 +2401,42 @@ namespace MCForge
                                 }
                             });
                         }
+                    }
+                }
+
+
+                if (type == Block.darkgrey || b == Block.mine)
+                {
+                    if (action == 1)
+                    {
+                        if (Server.pctf.getTeam(this) == null) { SendBlockchange(x, y, z, b); return; }
+                        if (minesPlaced == 1) { SendBlockchange(x, y, z, Block.air); return; }
+                        this.minesPlaced = this.minesPlaced + 1;
+                        minePlacement[0] = Convert.ToUInt16((int)x * 32); minePlacement[1] = Convert.ToUInt16((int)y * 32); minePlacement[2] = Convert.ToUInt16((int)z * 32);
+                        SendMessage("Your mine has been placed, arming it in 2 seconds");
+                        Thread.Sleep(2000);
+                        Player.SendMessage(this, c.gray + " - " + Server.DefaultColor + "Your mine has been armed!" + c.gray + " - ");
+                        bP.deleted = false;
+                        bP.type = Block.mine;
+                        level.blockCache.Add(bP);
+                        placeBlock(b, Block.mine, x, y, z);
+                        return;
+                    }
+                    else if (action == 0)
+                    {
+                        Player.players.ForEach(delegate(Player player)
+                        {
+                            if (player.minesPlaced >= 1)
+                            {
+                                if (x == (player.minePlacement[0] / 32) && z == (player.minePlacement[2] / 32) && (y == (player.minePlacement[1] / 32) || y == (player.minePlacement[1] / 32)))
+                                {
+                                    GlobalMessage(player.color + player.name + "'s &0mine has been disarmed by " + this.color + this.name);
+                                    player.SendMessage(c.gray + " - " + Server.DefaultColor + "Your mine has been disarmed!" + c.gray + " - ");
+                                    player.minePlacement[0] = 0; player.minePlacement[1] = 0; player.minePlacement[2] = 0;
+                                    player.minesPlaced = player.minesPlaced - 1;
+                                }
+                            }
+                        });
                     }
                 }
 
@@ -2395,41 +2480,6 @@ namespace MCForge
                         tntPlacement[0] = 0; tntPlacement[1] = 0; tntPlacement[2] = 0;
                         SendBlockchange(x, y, z, b);
                         return;
-                    }
-                }
-
-                if (type == Block.darkgrey || b == Block.mine)
-                {
-                    if (action == 1)
-                    {
-                        if (Server.pctf.getTeam(this) == null) { SendBlockchange(x, y, z, b); return; }
-                        if (minesPlaced == 1) { SendBlockchange(x, y, z, Block.air); return; }
-                        this.minesPlaced = this.minesPlaced + 1;
-                        minePlacement[0] = Convert.ToUInt16((int)x * 32); minePlacement[1] = Convert.ToUInt16((int)y * 32); minePlacement[2] = Convert.ToUInt16((int)z * 32);
-                        SendMessage("Your mine has been placed, arming it in 2 seconds");
-                        Thread.Sleep(2000);
-                        Player.SendMessage(this, c.gray + " - " + Server.DefaultColor + "Your mine has been armed!" + c.gray + " - ");
-                        bP.deleted = false;
-                        bP.type = Block.mine;
-                        level.blockCache.Add(bP);
-                        placeBlock(b, Block.mine, x, y, z);
-                        return;
-                    }
-                    else if (action == 0)
-                    {
-                        Player.players.ForEach(delegate(Player player)
-                        {
-                            if (player.minesPlaced >= 1)
-                            {
-                                if (x == (player.minePlacement[0] / 32) && z == (player.minePlacement[2] / 32) && (y == (player.minePlacement[1] / 32) || y == (player.minePlacement[1] / 32)))
-                                {
-                                    GlobalMessage(player.color + player.name + "'s &0mine has been disarmed by " + this.color + this.name);
-                                    player.SendMessage(c.gray + " - " + Server.DefaultColor + "Your mine has been disarmed!" + c.gray + " - ");
-                                    player.minePlacement[0] = 0; player.minePlacement[1] = 0; player.minePlacement[2] = 0;
-                                    player.minesPlaced = player.minesPlaced - 1;
-                                }
-                            }
-                        });
                     }
                 }
 
@@ -2927,7 +2977,7 @@ namespace MCForge
                     break;
 
                 case Block.c4det:
-                    Level.C4.BlowUp(new ushort[] { x, y, z }, level);
+                    C4.BlowUp(new ushort[] { x, y, z }, level);
                     level.Blockchange(x, y, z, Block.air);
                     break;
 
@@ -2937,11 +2987,10 @@ namespace MCForge
             }
             if ((level.physics == 0 || level.physics == 5) && level.GetTile(x, (ushort)(y - 1), z) == 3) level.Blockchange(this, x, (ushort)(y - 1), z, 2);
         }
-
+        public Inventory inventory = new Inventory();
         public void placeBlock(ushort b, ushort type, ushort x, ushort y, ushort z)
         {
             if (Block.odoor(b) != Block.Zero) { SendMessage("oDoor here!"); return; }
-
             switch (blockAction)
             {
                 case 0: //normal
@@ -3221,12 +3270,14 @@ cliprot = rot;
             else if (Block.Death(b)) HandleDeath(b); else if (Block.Death(b1)) HandleDeath(b1);
         }
 
+        public LavaSurvival lavasurvival;
+
         public void HandleDeath(ushort b, string customMessage = "", bool explode = false)
         {
-            ushort x = (ushort)(pos[0] / 32);
+            ushort x = (ushort)(pos[0] / (ushort)32);
             ushort y = (ushort)(pos[1] / 32);
             ushort z = (ushort)(pos[2] / 32);
-            ushort y1 = Convert.ToUInt16((int)pos[1] / 32 - 1);
+            ushort y1 = (ushort)((int)pos[1] / 32 - 1);
             ushort xx = pos[0];
             ushort yy = pos[1];
             ushort zz = pos[2];
@@ -3273,6 +3324,21 @@ cliprot = rot;
                             if (explode) level.MakeExplosion(x, y, z, 1);
                             GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
                             break;
+                    }
+                    if (ironmanActivated)
+                    {
+                        Player.GlobalMessage(this.group.color + name + " " + c.lime + "failed the IRONMAN challenge!");
+                        ironmanFailed = true;
+                        ironmanActivated = false;
+                        if (lavasurvival.lifeNum <= 2)
+                            lavasurvival.lifeNum = 0;
+                        else
+                            lavasurvival.lifeNum = lavasurvival.lifeNum / 2;
+
+                        if (money <= 2)
+                            money = 0;
+                        else
+                            money = (int)Math.Round(money / 1.2);
                     }
                     if(pteam != 0)
                     {
@@ -3615,7 +3681,7 @@ try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.waterstill); } catch { }
                     return;
                 }
 
-                if (text[0] == '^' || teamchat)
+                if ((text[0] == '^' || teamchat) && Server.CTFModeOn)
                 {
                     string newtext = text;
                     if (text[0] == '^') newtext = text.Remove(0, 1).Trim();
@@ -4271,7 +4337,8 @@ return;
                     string newLine = line;
                     if (newLine.TrimEnd(' ')[newLine.TrimEnd(' ').Length - 1] < '!')
                     {
-                        if (!HasExtension("EmoteFix"))
+                        //For some reason, this did the opposite
+                        if (HasExtension("EmoteFix"))
                         {
                             newLine += '\'';
                         }
@@ -4587,6 +4654,7 @@ rot = new byte[2] { rotx, roty };*/
         }
         public void SendChangeModel(byte id, string model)
         {
+            if (!HasExtension("ChangeModel")) { return; }
             byte[] buffer = new byte[65];
             buffer[0] = id;
             StringFormat(model, 64).CopyTo(buffer, 1);
@@ -4869,9 +4937,17 @@ changed |= 4;*/
             if (showname)
             {
                 String referee = "";
+                if (Server.gameStatus != 0)
+                {
+                    referee = "&f(" + from.explevel.levelID + ") ";
+                }
                 if (from.referee)
                 {
-                    referee = c.green + "[Referee] ";
+                    referee = "&f(" + from.explevel.levelID + ") " + c.green + "[Referee] ";
+                }
+                if (from.ironmanActivated)
+                {
+                    referee = c.lime + "[IRONMAN] ";
                 }
                 if (!from.isHoldingFlag)
                 {
@@ -4887,6 +4963,14 @@ changed |= 4;*/
                 if (from.isHoldingFlag)
                 {
                     referee = c.maroon + "<" + c.red + "F" + c.gold + "l" + c.yellow + "a" + c.lime + "g " + c.green + "C" + c.aqua + "a" + c.blue + "r" + c.navy + "r" + c.purple + "i" + c.silver + "e" + c.gray + "r" + c.black + "> " + referee;
+                }
+                if (ZombieGame.infectd.Contains(from))
+                {
+                    referee = "&f(" + from.explevel.levelID + ") " + c.red + " [Z]";
+                }
+                if (ZombieGame.alive.Contains(from))
+                {
+                    referee = "&f(" + from.explevel.levelID + ") " + c.green + " [H]";
                 }
                 message = referee + from.color + from.voicestring + from.color + from.prefix + from.name + ": &f" + message;
             }
@@ -5678,8 +5762,14 @@ level.Unload();
                 {
                     try
                     {
-                        ZombieGame.infectd.Remove(this);
-                        ZombieGame.alive.Remove(this);
+                        if (ZombieGame.infectd.Contains(this))
+                        {
+                            ZombieGame.infectd.Remove(this);
+                        }
+                        if (ZombieGame.alive.Contains(this))
+                        {
+                            ZombieGame.alive.Remove(this);
+                        }
                     }
                     catch { }
                 }

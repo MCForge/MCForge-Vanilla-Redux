@@ -64,7 +64,7 @@ namespace MCForge.Commands
                     switch (temp)
                     {
                         case 0:
-                            level.ClearPhysics();
+                            level.physic.ClearPhysics(level);
                             Player.GlobalMessage("Physics are now &cOFF" + Server.DefaultColor + " on &b" + level.name + Server.DefaultColor + ".");
                             Server.s.Log("Physics are now OFF on " + level.name + ".");
                             //IRCBot.Say("Physics are now OFF on " + level.name + ".");

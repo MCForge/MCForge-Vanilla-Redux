@@ -32,8 +32,8 @@ namespace MCForge.Commands
             {
                 if (p.level.physics >= 1 && p.level.physics < 5)
                 {
-                    sbyte numb = Level.C4.NextCircuit(p.level);
-                    Level.C4.C4s c4 = new Level.C4.C4s(numb);
+                    sbyte numb = C4.NextCircuit(p.level);
+                    C4.C4s c4 = new C4.C4s(numb);
                     p.level.C4list.Add(c4);
                     p.c4circuitNumber = numb;
                     Player.SendMessage(p, "Place any block for c4 and place a " + c.red + "red" + Server.DefaultColor + " block for the detonator!");
