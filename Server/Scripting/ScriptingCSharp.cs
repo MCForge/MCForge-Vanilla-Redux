@@ -47,7 +47,7 @@ namespace MCForge.Core.Scripting
                     "\t\tpublic override string shortcut { get { return \"\"; } }" + Environment.NewLine +
                     Environment.NewLine +
                     "\t\t// Determines which submenu the command displays in under /help." + Environment.NewLine +
-                    "\t\tpublic override string type { get { return \"other\"}; } }" + Environment.NewLine +
+                    "\t\tpublic override string type { get { return \"other\"; } }" + Environment.NewLine +
                     Environment.NewLine +
                     "\t\t// Determines whether or not this command can be used in a museum.  Block/map altering commands should be made false to avoid errors." + Environment.NewLine +
                     "\t\tpublic override bool museumUsable { get { return false; } }" + Environment.NewLine +
