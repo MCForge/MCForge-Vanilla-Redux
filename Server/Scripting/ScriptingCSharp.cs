@@ -41,10 +41,10 @@ namespace MCForge.Core.Scripting
                     "\tpublic class " + cmdName.UppercaseFirst() + " : Command" + Environment.NewLine +
                     "\t{" + Environment.NewLine +
                     "\t\t// The command's name, in all lowercase.  What you'll be putting behind the slash when using it." + Environment.NewLine +
-                    "\t\tpublic override string name { get { return \"" + cmdName.ToLower() + "\"}; } }" + Environment.NewLine +
+                    "\t\tpublic override string name { get { return \"" + cmdName.ToLower() + "\"; } }" + Environment.NewLine +
                     Environment.NewLine +
                     "\t\t// Command's shortcut (please take care not to use an existing one, or you may have issues." + Environment.NewLine +
-                    "\t\tpublic override string shortcut { get { return  {  \"\"}; } }" + Environment.NewLine +
+                    "\t\tpublic override string shortcut { get { return \"\"; } }" + Environment.NewLine +
                     Environment.NewLine +
                     "\t\t// Determines which submenu the command displays in under /help." + Environment.NewLine +
                     "\t\tpublic override string type { get { return \"other\"}; } }" + Environment.NewLine +
