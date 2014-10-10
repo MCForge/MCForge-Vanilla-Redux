@@ -1041,21 +1041,20 @@ namespace MCForge
                             var level = new byte[blocks.Length * 2];
                             for (int i = 0; i < blocks.Length; ++i)
                             {
+                            	ushort blockVal = 0;
                                 if (blocks[i] < 57)
                                 //CHANGED THIS TO INCOPARATE SOME MORE SPACE THAT I NEEDED FOR THE door_orange_air ETC.
                                 {
                                     if(blocks[i] != Block.air)
-                                        BitConverter.GetBytes((ushort)blocks[i]).CopyTo(level, (i * 2));
-                                    else
-                                        BitConverter.GetBytes((ushort)0).CopyTo(level, (i * 2));
+                                        blockVal = (ushort)blocks[i];
                                 }
                                 else
                                 {
                                     if (Block.SaveConvert(blocks[i]) != Block.air)
-                                        BitConverter.GetBytes((ushort)Block.SaveConvert(blocks[i])).CopyTo(level, (i * 2));
-                                    else
-                                        BitConverter.GetBytes((ushort)0).CopyTo(level, (i * 2));
+                                        blockVal = (ushort)Block.SaveConvert(blocks[i]);
                                 }
+                                level[i*2] = (byte)blockVal;
+                                level[i*2 + 1] = (byte)(blockVal >> 8);
                             }
                             gs.Write(level, 0, level.Length);
                             gs.Close();
