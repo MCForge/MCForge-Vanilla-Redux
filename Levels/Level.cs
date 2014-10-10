@@ -1018,11 +1018,14 @@ namespace MCForge
                     {
                         physic.ClearPhysics(this);
                     }
-                    using (FileStream fs = File.Create(string.Format("{0}.back", path)))
+                    
+                    string backFile = string.Format("{0}.back", path);
+                    string backupFile = string.Format("{0}.backup", path);
+                    
+                    using (FileStream fs = File.OpenWrite(backFile))
                     {
                         using (GZipStream gs = new GZipStream(fs, CompressionMode.Compress))
                         {
-
                             var header = new byte[16];
                             BitConverter.GetBytes(1874).CopyTo(header, 0);
                             gs.Write(header, 0, 2);
@@ -1030,6 +1033,7 @@ namespace MCForge
                             BitConverter.GetBytes(width).CopyTo(header, 0);
                             BitConverter.GetBytes(height).CopyTo(header, 2);
                             BitConverter.GetBytes(depth).CopyTo(header, 4);
+                    	    changed = false;
                             BitConverter.GetBytes(spawnx).CopyTo(header, 6);
                             BitConverter.GetBytes(spawnz).CopyTo(header, 8);
                             BitConverter.GetBytes(spawny).CopyTo(header, 10);
@@ -1057,22 +1061,24 @@ namespace MCForge
                                 level[i*2 + 1] = (byte)(blockVal >> 8);
                             }
                             gs.Write(level, 0, level.Length);
-                            gs.Close();
-                            File.Delete(string.Format("{0}.backup", path));
-                            File.Copy(string.Format("{0}.back", path), path + ".backup");
-                            File.Delete(path);
-                            File.Move(string.Format("{0}.back", path), path);
-
-                            SaveSettings(this);
-
-                            Server.s.Log(string.Format("SAVED: Level \"{0}\". ({1}/{2}/{3})", name, players.Count,
-                                                       Player.players.Count, Server.players));
-                            changed = false;
-
-                            gs.Dispose();
-                            fs.Dispose();
                         }
                     }
+
+					// Safely replace the original file (if it exists) after making a backup.
+                    if (File.Exists(path))
+                    {
+                    	File.Delete(backupFile);
+                    	File.Replace(backFile, path, backupFile);
+                    }
+                    else
+                    {
+                    	File.Move(backFile, path);
+                    }
+
+                    SaveSettings(this);
+
+                    Server.s.Log(string.Format("SAVED: Level \"{0}\". ({1}/{2}/{3})", name, players.Count,
+                                               Player.players.Count, Server.players));
 
                     // UNCOMPRESSED LEVEL SAVING! DO NOT USE!
                     /*using (FileStream fs = File.Create(path + ".wtf"))
