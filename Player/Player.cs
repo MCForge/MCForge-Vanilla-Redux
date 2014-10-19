@@ -245,6 +245,7 @@ namespace MCForge
         public bool disconnected = false;
         public string time;
         public string name;
+		public string DisplayName;
         public bool identified = false;
         public bool UsingID = false;
         public int ID = 0;
@@ -1185,6 +1186,7 @@ namespace MCForge
                     return;
                 byte version = message[0];
                 name = enc.GetString(message, 1, 64).Trim();
+				DisplayName = name;
                 truename = name;
                 if (Server.omniban.CheckPlayer(this)) { Kick(Server.omniban.kickMsg); return; } //deprecated
                 if (name.Split('@').Length > 1)
@@ -1566,6 +1568,10 @@ namespace MCForge
                     GlobalMessage(name + " is still muted from the last time they went offline.");
                 }
             }
+			if(!Directory.Exists("players"))
+			   {
+				Directory.CreateDirectory ("players");
+			}
             EXPDB.Load(this);
             SetPrefix();
             playerDb.Dispose();
@@ -4963,7 +4969,7 @@ changed |= 4;*/
                 {
                     referee = "&f(" + from.explevel.levelID + ") " + c.green + " [H]";
                 }
-                message = referee + from.color + from.voicestring + from.color + from.prefix + from.name + ": &f" + message;
+                message = referee + from.color + from.voicestring + from.color + from.prefix + from.DisplayName + ": &f" + message;
             }
             players.ForEach(delegate(Player p)
             {

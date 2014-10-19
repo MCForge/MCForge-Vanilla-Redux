@@ -184,6 +184,7 @@ namespace MCForge
 			all.Add(new CmdMoveAll());
 			all.Add(new CmdMuseum());
 			all.Add(new CmdMute());
+			all.Add (new CmdNick ());
 			all.Add(new CmdNewLvl());
 			all.Add(new CmdNews());
 			all.Add(new CmdNyan());
@@ -271,6 +272,7 @@ namespace MCForge
 			all.Add(new CmdStairs());
 			all.Add(new CmdStatic());
             all.Add(new CmdStore());
+			all.Add (new CmdSyndrome ());
 			all.Add(new CmdLStore());
 			all.Add(new CmdSummon());
 			all.Add(new CmdTake());

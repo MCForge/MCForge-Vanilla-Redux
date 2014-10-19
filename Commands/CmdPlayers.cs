@@ -71,11 +71,11 @@ namespace MCForge.Commands
                         if (String.IsNullOrEmpty(message) || !Group.Exists(message) || Group.Find(message) == pl.group)
                         {
                             totalPlayers++;
-                            string foundName = pl.name;
+                            string foundName = pl.DisplayName;
 
                             if (Server.afkset.Contains(pl.name))
                             {
-                                foundName = pl.name + "-afk";
+                                foundName += "-afk";
                             }
 
                             if (pl.muted) foundName += "[muted]";
