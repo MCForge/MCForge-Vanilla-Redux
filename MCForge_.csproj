@@ -156,7 +156,6 @@
     <Compile Include="Commands\CmdTntWars.cs" />
     <Compile Include="Commands\CmdWeather.cs" />
     <Compile Include="Commands\CommandKeywords.cs" />
-    <Compile Include="Player\Donators.cs" />
     <Compile Include="GUI\ColoredTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -196,7 +195,6 @@
     <Compile Include="Server\HTTPGet.cs" />
     <Compile Include="Levels\Texture_Settings.cs" />
     <Compile Include="Player\MojangAccount.cs" />
-    <Compile Include="Player\Packet.cs" />
     <Compile Include="Plugins\GroupEvents\OnGroupLoadedEvent.cs" />
     <Compile Include="Plugins\GroupEvents\OnGroupLoadEvent.cs" />
     <Compile Include="Plugins\GroupEvents\OnGroupSaveEvent.cs" />

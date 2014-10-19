@@ -1283,7 +1283,10 @@ namespace MCForge
                     gs.Read(blocks, 0, blocks.Length);
                     if(!bite)
                         for (int i = 0; i < (blocks.Length / 2); ++i)
+                        {
+                            level.blocks[i] = (ushort)(blocks[i * 2] + (blocks[(i * 2) + 1] << 8));
                             level.blocks[i] = BitConverter.ToUInt16(new byte[] { blocks[i * 2], blocks[(i * 2) + 1] }, 0);
+                        }
                     else
                         for (int i = 0; i < blocks.Length; ++i)
                             level.blocks[i] = (ushort)blocks[i];

@@ -16,3 +16,15 @@ C:\Projs\C#\MCForge-Vanilla-Redux-master\MCForge-Vanilla-Redux-master\StarterCLI
 C:\Projs\C#\MCForge-Vanilla-Redux-master\MCForge-Vanilla-Redux-master\StarterCLI\obj\x86\Debug\StarterCLI.csprojResolveAssemblyReference.cache
 C:\Projs\C#\MCForge-Vanilla-Redux-master\MCForge-Vanilla-Redux-master\StarterCLI\obj\x86\Debug\MCForgeCLI.exe
 C:\Projs\C#\MCForge-Vanilla-Redux-master\MCForge-Vanilla-Redux-master\StarterCLI\obj\x86\Debug\MCForgeCLI.pdb
+C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\StarterCLI\bin\Debug\mcf.sh
+C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\StarterCLI\bin\Debug\Changelog.txt
+C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\StarterCLI\bin\Debug\LICENSE.txt
+C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\StarterCLI\bin\Debug\sqlite3.dll
+C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\StarterCLI\bin\Debug\README.md
+C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\StarterCLI\bin\Debug\MCForgeCLI.exe.config
+C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\StarterCLI\bin\Debug\MCForgeCLI.exe
+C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\StarterCLI\bin\Debug\MCForgeCLI.pdb
+C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\StarterCLI\bin\Debug\MCForge_.dll
+C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\StarterCLI\obj\x86\Debug\StarterCLI.csprojResolveAssemblyReference.cache
+C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\StarterCLI\obj\x86\Debug\MCForgeCLI.exe
+C:\Users\Dhruv\Documents\GitHub\MCForge-Vanilla-Redux\StarterCLI\obj\x86\Debug\MCForgeCLI.pdb
