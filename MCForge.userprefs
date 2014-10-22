@@ -1,50 +1,34 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MCForge.userprefs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Levels/Level.cs">
     <Files>
       <File FileName="Player/Economy.cs" Line="1" Column="1" />
-      <File FileName="Physics/Physics.cs" Line="1" Column="1" />
-      <File FileName="Player/Player.cs" Line="1" Column="1" />
-      <File FileName="Command.cs" Line="43" Column="20" />
-      <File FileName="CommandKeywords.cs" Line="1" Column="1" />
+      <File FileName="Physics/Physics.cs" Line="3768" Column="16" />
+      <File FileName="Player/Player.cs" Line="1167" Column="14" />
       <File FileName="Server/Server.cs" Line="1" Column="1" />
-      <File FileName="Commands_/Commands/CmdSearch.cs" Line="1" Column="1" />
-      <File FileName="Commands_/Commands/CmdServer.cs" Line="490" Column="30" />
-      <File FileName="Commands_/Commands/CmdAbout.cs" Line="1" Column="1" />
-      <File FileName="Commands_/Commands/CmdSetPass.cs" Line="1" Column="1" />
       <File FileName="Player/FindReference.cs" Line="1" Column="1" />
-      <File FileName="Commands_/Commands/CmdTopTen.cs" Line="1" Column="1" />
       <File FileName="Database/Database.cs" Line="1" Column="1" />
       <File FileName="util/Hasher.cs" Line="1" Column="1" />
-      <File FileName="Commands_/Commands/CmdSetRank.cs" Line="1" Column="1" />
       <File FileName="Player/Group.cs" Line="1" Column="1" />
-      <File FileName="Commands_/Commands/CmdGlobal.cs" Line="1" Column="1" />
       <File FileName="Server/ProfanityFilter.cs" Line="1" Column="1" />
-      <File FileName="Commands_/Commands/CmdPass.cs" Line="1" Column="1" />
-      <File FileName="Commands_/Commands/CmdSave.cs" Line="1" Column="1" />
       <File FileName="sharkbite.thresher/Identd.cs" Line="1" Column="1" />
       <File FileName="Server/Heart.cs" Line="1" Column="1" />
-      <File FileName="Levels/Level.cs" Line="1" Column="1" />
-      <File FileName="LoadAllDLLs.cs" Line="43" Column="18" />
-      <File FileName="Commands_/Commands/CmdAwardMod.cs" Line="1" Column="1" />
-      <File FileName="Commands_/Commands/CmdCopyLVL.cs" Line="1" Column="1" />
-      <File FileName="Commands_/Commands/CmdCopy.cs" Line="304" Column="11" />
-      <File FileName="MCForge.userprefs" Line="1" Column="1" />
+      <File FileName="Levels/Level.cs" Line="4594" Column="10" />
+      <File FileName="Commands/CmdSyndrome.cs" Line="1" Column="1" />
+      <File FileName="Games/EXPDB.cs" Line="1" Column="1" />
+      <File FileName="Commands/CmdNick.cs" Line="1" Column="1" />
+      <File FileName="Commands/CmdPlayers.cs" Line="1" Column="1" />
+      <File FileName="Commands/Command.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="Commands_" expanded="True">
-            <Node name="Commands" expanded="True">
-              <Node name="CmdCompload.cs" selected="True" />
-            </Node>
-          </Node>
           <Node name="MCForge_" expanded="True">
-            <Node name="Database" expanded="True" />
-            <Node name="Levels" expanded="True" />
+            <Node name="Levels" expanded="True">
+              <Node name="Level.cs" selected="True" />
+            </Node>
             <Node name="Physics" expanded="True" />
             <Node name="Player" expanded="True" />
-            <Node name="Server" expanded="True" />
             <Node name="sharkbite.thresher" expanded="True" />
             <Node name="util" expanded="True" />
           </Node>

@@ -900,12 +900,15 @@ namespace MCForge
         }
 
 
-		public bool HasExtension (string extName)
+		public bool HasExtension (string extName, byte version = 1)
 		{
-            if (!extension)
-                return false;
-
-			return ExtEntry.FindAll (cpe => cpe.name == extName) != null;
+			if (!extension) {
+				return false;
+			}
+			if (extName.Contains ("List")) {
+				Server.s.Log ((ExtEntry.FindAll (cpe => cpe.name == extName).Count > 0).ToString());
+			}
+			return ExtEntry.FindAll (cpe => cpe.name == extName).Count > 0;
 		}
 
         public void save()
@@ -1439,9 +1442,12 @@ namespace MCForge
                     SendExtEntry("HackControl", 1);
                     SendExtEntry("EmoteFix", 1);
                     SendExtEntry("MessageTypes", 1);
-
-                    SendCustomBlockSupportLevel(1);
                 }
+
+				if(HasExtension("CustomBlocks"))
+				{
+					SendCustomBlockSupportLevel(1);
+				}
 
                 try { left.Remove(name.ToLower()); }
                 catch { }
@@ -1688,11 +1694,11 @@ namespace MCForge
                 }
                 Player.players.ForEach(delegate(Player p)
                 {
-                    if (p != this && p.HasExtension("ExtPlayerList"))
+                    if (p != this && p.HasExtension("ExtPlayeraList"))
                     {
                         p.SendExtAddPlayerName(id, name, group, color + name);
                     }
-                    if (HasExtension("ExtPlayerList"))
+                    if (HasExtension("ExtPlayeraList"))
                     {
                         SendExtAddPlayerName(p.id, p.name, p.group, p.color + p.name);
                     }
@@ -4546,11 +4552,14 @@ rot = new byte[2] { rotx, roty };*/
             HTNO(count).CopyTo(buffer, 64);
             SendRaw(OpCode.ExtInfo, buffer);
         }
-        public void SendExtEntry(string name, short version)
+        public void SendExtEntry(string name, int version)
         {
+			byte[] version_ = BitConverter.GetBytes(version);
+			if (BitConverter.IsLittleEndian)
+				Array.Reverse(version_);
             byte[] buffer = new byte[68];
             StringFormat(name, 64).CopyTo(buffer, 0);
-            HTNO(version).CopyTo(buffer, 64);
+			version_.CopyTo(buffer, 64);
             SendRaw(OpCode.ExtEntry, buffer);
         }
         public void SendClickDistance(short distance)
