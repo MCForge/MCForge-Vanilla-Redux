@@ -72,8 +72,6 @@ namespace MCForge.Commands {
                     try { File.Delete("levels/level properties/" + message + ".properties"); } catch { }
                     try { File.Delete("levels/level properties/" + message); } catch { }
 
-                    //safe against SQL injections because the levelname (message) is first being checked if it exists
-                    Database.executeQuery("DROP TABLE Portals" + message + ", Zone" + message + "");
 
                     Player.GlobalMessage("Level " + message + " was deleted.");
                 } else {

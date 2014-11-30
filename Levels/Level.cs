@@ -1178,8 +1178,8 @@ namespace MCForge
 
         public static void CreateLeveldb(string givenName)
         {
-            Database.executeQuery("CREATE TABLE if not exists `Portals" + givenName +
-                                  "` (EntryX SMALLINT UNSIGNED, EntryY SMALLINT UNSIGNED, EntryZ SMALLINT UNSIGNED, ExitMap CHAR(20), ExitX SMALLINT UNSIGNED, ExitY SMALLINT UNSIGNED, ExitZ SMALLINT UNSIGNED)");
+          //  Database.executeQuery("CREATE TABLE if not exists `Portals" + givenName +
+          //                        "` (EntryX SMALLINT UNSIGNED, EntryY SMALLINT UNSIGNED, EntryZ SMALLINT UNSIGNED, ExitMap CHAR(20), ExitX SMALLINT UNSIGNED, ExitY SMALLINT UNSIGNED, ExitZ SMALLINT UNSIGNED)");
             Database.executeQuery("CREATE TABLE if not exists `Zone" + givenName +
                                   "` (SmallX SMALLINT UNSIGNED, SmallY SMALLINT UNSIGNED, SmallZ SMALLINT UNSIGNED, BigX SMALLINT UNSIGNED, BigY SMALLINT UNSIGNED, BigZ SMALLINT UNSIGNED, Owner VARCHAR(20));");
         }
@@ -1308,28 +1308,6 @@ namespace MCForge
                     //};
                     //level.physChecker.Start();
                     //level.season = new SeasonsCore(level);
-                    try
-                    {
-                        DataTable foundDB = Database.fillData("SELECT * FROM `Portals" + givenName + "`");
-
-                        for (int i = 0; i < foundDB.Rows.Count; ++i)
-                        {
-                            if (
-                                !Block.portal(level.GetTile(ushort.Parse(foundDB.Rows[i]["EntryX"].ToString()),
-                                                            ushort.Parse(foundDB.Rows[i]["EntryY"].ToString()),
-                                                            ushort.Parse(foundDB.Rows[i]["EntryZ"].ToString()))))
-                            {
-                                Database.executeQuery("DELETE FROM `Portals" + givenName + "` WHERE EntryX=" +
-                                                      foundDB.Rows[i]["EntryX"] + " AND EntryY=" +
-                                                      foundDB.Rows[i]["EntryY"] + " AND EntryZ=" +
-                                                      foundDB.Rows[i]["EntryZ"]);
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Server.ErrorLog(e);
-                    }
 
                     try
                     {

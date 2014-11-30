@@ -2785,38 +2785,22 @@ namespace MCForge
         {
             try
             {
-                //safe against SQL injections because no user input is given here
-                DataTable Portals = Database.fillData("SELECT * FROM `Portals" + level.name + "` WHERE EntryX=" + (int)x + " AND EntryY=" + (int)y + " AND EntryZ=" + (int)z);
+				foreach ( Portal po in PortalDB.portals ) {
+					if ( po.entrance.ToLower() == p.level.name.ToLower() && po.x1 == x && po.y1 == y && po.z1 == z ) {
+						if ( po.entrance != po.exit ) {
+							ignorePermission = true;
+							Command.all.Find( "goto" ).Use( p, po.exit );
+							ignorePermission = false;
+						}
 
-                int LastPortal = Portals.Rows.Count - 1;
-                if (LastPortal > -1)
-                {
-                    if (level.name != Portals.Rows[LastPortal]["ExitMap"].ToString())
-                    {
-                        if (level.permissionvisit > this.group.Permission)
-                        {
-                            Player.SendMessage(this, "You do not have the adequate rank to visit this map!");
-                            return;
-                        }
-                        ignorePermission = true;
-                        Level thisLevel = level;
-                        Command.all.Find("goto").Use(this, Portals.Rows[LastPortal]["ExitMap"].ToString());
-                        if (thisLevel == level) { Player.SendMessage(p, "The map the portal goes to isn't loaded."); return; }
-                        ignorePermission = false;
-                    }
-                    else SendBlockchange(x, y, z, b);
+						//Player.GlobalMessage( color + name + Server.DefaultColor + " used the portal &a" + po.name );
 
-                    while (p.Loading) { } //Wait for player to spawn in new map
-                    Command.all.Find("move").Use(this, this.name + " " + Portals.Rows[LastPortal]["ExitX"].ToString() + " " + Portals.Rows[LastPortal]["ExitY"].ToString() + " " + Portals.Rows[LastPortal]["ExitZ"].ToString());
-                }
-                else
-                {
-                    Blockchange(this, x, y, z, (byte)0);
-                }
-                Portals.Dispose();
-            }
-            catch { Player.SendMessage(p, "Portal had no exit."); return; }
-        }
+						Command.all.Find( "move" ).Use( p, p.name + " " + po.x2 + " " + po.y2 + " " + po.z2 );
+						Thread.Sleep( 1000 );
+					}
+				}
+			}
+			catch { Player.SendMessage( p, "Portal had no exit." ); return; } }
 
 
 		public void HandleMsgBlock( Player p, ushort x, ushort y, ushort z, ushort b ) {
