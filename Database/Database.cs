@@ -237,9 +237,6 @@ namespace MCForge
             /// <param name="param">The value of the parameter</param>
             public static void AddParams(string name, object param)
             {
-                if (Server.useMySQL)
-                    MySQL.AddParams(name, param);
-                else
                     SQLite.AddParams(name, param);
             }
 
@@ -248,11 +245,6 @@ namespace MCForge
                 int totalCount = 0;
             retry: try
                 {
-                    if (Server.useMySQL)
-                    {
-                        MySQL.execute(queryString, createDB);
-                    }
-                    else
                     {
                         if (!createDB) // Databases do not need to be created in SQLite.
                             SQLite.execute(queryString);
@@ -280,9 +272,6 @@ namespace MCForge
                 }
                 finally
                 {
-                    if (Server.useMySQL)
-                        MySQL.ClearParams();
-                    else
                         SQLite.ClearParams();
                 }
             }
@@ -294,11 +283,6 @@ namespace MCForge
                 {
                 retry: try
                     {
-                        if (Server.useMySQL)
-                        {
-                            MySQL.fill(queryString, toReturn);
-                        }
-                        else
                         {
                             SQLite.fill(queryString, toReturn);
                         }
@@ -319,9 +303,7 @@ namespace MCForge
                     }
                     finally
                     {
-                        if (Server.useMySQL)
-                            MySQL.ClearParams();
-                        else
+
                             SQLite.ClearParams();
                     }
                     return toReturn;

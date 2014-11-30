@@ -65,7 +65,6 @@ namespace MCForge.Commands
             new CommandKeywords((new CmdChain()), "grab block mushroom brown");
             new CommandKeywords((new CmdChangeLog()), "mcforge change log");
             new CommandKeywords((new CmdChatRoom()), "chat room join leave del add remove");
-            new CommandKeywords((new CmdClearBlockChanges()), "about block change remove del");
             new CommandKeywords((new CmdClick()), "block use");
             new CommandKeywords((new CmdClones()), "clone ip player info");
             new CommandKeywords((new CmdCmdBind()), "bind cmd command shortcut");

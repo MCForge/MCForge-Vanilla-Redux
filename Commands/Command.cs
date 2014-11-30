@@ -72,7 +72,6 @@ namespace MCForge
 			all.Add(new CmdChain());
 			all.Add(new CmdChangeLog());
 			all.Add(new CmdChatRoom());
-			all.Add(new CmdClearBlockChanges());
 			all.Add(new CmdClick());
 			all.Add(new CmdClones());
 			all.Add(new CmdCmdBind());

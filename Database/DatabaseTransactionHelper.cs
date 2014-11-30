@@ -25,11 +25,6 @@ namespace MCForge
 
             public static DatabaseTransactionHelper Create()
             {
-                if (Server.useMySQL)
-                {
-                    return MySQLTransactionHelper.Create();
-                }
-                else
                 {
                     return SQLiteTransactionHelper.Create();
                 }

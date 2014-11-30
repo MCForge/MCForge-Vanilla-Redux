@@ -93,7 +93,7 @@ namespace MCForge
         public List<Zone> ZoneList;
         public bool ai = true;
         public bool backedup;
-        public List<BlockPos> blockCache = new List<BlockPos>();
+        public List<Blockchange> blockCache = new List<Blockchange>();
         public ushort[] blocks;
         public Physics physic = new Physics();
         public bool cancelsave1;
@@ -453,23 +453,12 @@ namespace MCForge
         {
             //if (!Server.useMySQL) return;
             if (blockCache.Count == 0) return;
-            List<BlockPos> tempCache = blockCache;
-            blockCache = new List<BlockPos>();
-
-            string template = "INSERT INTO `Block" + name +
-                              "` (Username, TimePerformed, X, Y, Z, type, deleted) VALUES ('{0}', '{1}', {2}, {3}, {4}, {5}, {6})";
-            DatabaseTransactionHelper transaction = DatabaseTransactionHelper.Create();
-            using (transaction)
-            {
-                foreach (BlockPos bP in tempCache)
-                {
-                    int deleted = bP.deleted ? 1 : 0;
-                    transaction.Execute(String.Format(template, bP.name,
-                                                      bP.TimePerformed.ToString("yyyy-MM-dd HH:mm:ss"), (int)bP.x,
-                                                      (int)bP.y, (int)bP.z, bP.type, deleted));
-                }
-                transaction.Commit();
-            }
+            List<Blockchange> tempCache = blockCache;
+            blockCache = new List<Blockchange>();
+			tempCache.ForEach( delegate( Blockchange bP ) {
+				BlocksDB.blockchanges.Add( bP );
+				BlocksDB.Save();
+			} );
             tempCache.Clear();
         }
 
@@ -1189,9 +1178,6 @@ namespace MCForge
 
         public static void CreateLeveldb(string givenName)
         {
-            Database.executeQuery("CREATE TABLE if not exists `Block" + givenName +
-                                  "` (Username CHAR(20), TimePerformed DATETIME, X SMALLINT UNSIGNED, Y SMALLINT UNSIGNED, Z SMALLINT UNSIGNED, Type TINYINT UNSIGNED, Deleted " +
-                                  (Server.useMySQL ? "BOOL" : "INT") + ")");
             Database.executeQuery("CREATE TABLE if not exists `Portals" + givenName +
                                   "` (EntryX SMALLINT UNSIGNED, EntryY SMALLINT UNSIGNED, EntryZ SMALLINT UNSIGNED, ExitMap CHAR(20), ExitX SMALLINT UNSIGNED, ExitY SMALLINT UNSIGNED, ExitZ SMALLINT UNSIGNED)");
             Database.executeQuery("CREATE TABLE if not exists `Messages" + givenName +

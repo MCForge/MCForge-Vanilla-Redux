@@ -45,10 +45,10 @@ namespace MCForge
                         int count;
                         if (l.blockqueue.Count < blockupdates || l.players.Count == 0) count = l.blockqueue.Count;
                         else count = blockupdates;
-
+						var blockchange = new Blockchange();
                         for (int c = 0; c < count; c++)
                         {
-                            l.Blockchange(l.blockqueue[c].p, l.blockqueue[c].x, l.blockqueue[c].y, l.blockqueue[c].z, l.blockqueue[c].type);
+							l.blockqueue[c].p.manualChange(l.blockqueue[c].x, l.blockqueue[c].y, l.blockqueue[c].z, 1, l.blockqueue[c].type);
                         }
                         l.blockqueue.RemoveRange(0, count);
                     }

@@ -1,111 +1,94 @@
-/*
-	Copyright © 2009-2014 MCSharp team (Modified for use with MCZall/MCLawl/MCForge/MCForge-Redux)
-	
-	Dual-licensed under the	Educational Community License, Version 2.0 and
-	the GNU General Public License, Version 3 (the "Licenses"); you may
-	not use this file except in compliance with the Licenses. You may
-	obtain a copy of the Licenses at
-	
-	http://www.opensource.org/licenses/ecl2.php
-	http://www.gnu.org/licenses/gpl-3.0.html
-	
-	Unless required by applicable law or agreed to in writing,
-	software distributed under the Licenses are distributed on an "AS IS"
-	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-	or implied. See the Licenses for the specific language governing
-	permissions and limitations under the Licenses.
-*/
 using System;
-using System.Collections.Generic;
 using System.Data;
-using MCForge.SQL;
+using System.Collections.Generic;
+//using MySql.Data.MySqlClient;
+//using MySql.Data.Types;
 
-namespace MCForge.Commands
+namespace MCForge
 {
-    public class CmdAbout : Command
-    {
-        public override string name { get { return "about"; } }
-        public override string shortcut { get { return  "b"; } }
-        public override string type { get { return "information"; } }
-        public override bool museumUsable { get { return false; } }
-        public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
-        public CmdAbout() { }
+	public class CmdAbout : Command
+	{
+		public override string name { get { return "about"; } }
+		public override string shortcut { get { return "b"; } }
+		public override string type { get { return "information"; } }
+		public override bool museumUsable { get { return false; } }
+		public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
+		public CmdAbout() { }
 
-        public override void Use(Player p, string message)
-        {
-            if (p != null)
-            {
-                Player.SendMessage(p, "Break/build a block to display information.");
-                p.ClearBlockchange();
-                p.Blockchange += new Player.BlockchangeEventHandler(AboutBlockchange);
-                return;
-            }
-            Player.SendMessage(p, "This command can only be used in-game");
-            
-        }
-        public override void Help(Player p)
-        {
-            Player.SendMessage(p, "/about - Displays information about a block.");
-        }
+		public override void Use(Player p, string message)
+		{
+			Player.SendMessage(p, "Break/build a block to display information.");
+			p.ClearBlockchange();
+			p.Blockchange += new Player.BlockchangeEventHandler(AboutBlockchange);
+		}
+		public override void Help(Player p)
+		{
+			Player.SendMessage(p, "/about - Displays information about a block.");
+		}
 
-        public void AboutBlockchange(Player p, ushort x, ushort y, ushort z, ushort type)
-        {
-            if (!p.staticCommands) p.ClearBlockchange();
-            ushort b = p.level.GetTile(x, y, z);
-            if (b == Block.Zero) { Player.SendMessage(p, "Invalid Block(" + x + "," + y + "," + z + ")!"); return; }
-            p.SendBlockchange(x, y, z, b);
+		public void AboutBlockchange(Player p, ushort x, ushort y, ushort z, ushort type)
+		{
+			if (!p.staticCommands) p.ClearBlockchange();
+			ushort b = p.level.GetTile(x, y, z);
+			if (b == Block.Zero) { Player.SendMessage(p, "Invalid Block(" + x + "," + y + "," + z + ")!"); return; }
+			p.SendBlockchange(x, y, z, b);
 
-            string message = "Block (" + x + "," + y + "," + z + "): ";
-            message += "&f" + b + " = " + Block.Name(b);
-            Player.SendMessage(p, message + Server.DefaultColor + ".");
-            message = p.level.foundInfo(x, y, z);
-            if (message != "") Player.SendMessage(p, "Physics information: &a" + message);
+			string message = "Block (" + x + "," + y + "," + z + "): ";
+			message += "&f" + b + " = " + Block.Name(b);
+			Player.SendMessage(p, message + Server.DefaultColor + ".");
+			message = p.level.foundInfo(x, y, z);
+			if (message != "") Player.SendMessage(p, "Physics information: &a" + message);
 
-            //safe against SQL injections because no user input is given here
-            DataTable Blocks = Database.fillData("SELECT * FROM Block" + p.level.name + " WHERE X=" + (int)x + " AND Y=" + (int)y + " AND Z=" + (int)z);
+			string Username = "", TimePerformed = "", BlockUsed = "";
+			bool Deleted = false, foundOne = false;
 
-            string Username, TimePerformed, BlockUsed;
-            bool Deleted, foundOne = false;
-            for (int i = 0; i < Blocks.Rows.Count; i++)
-            {
-                foundOne = true;
-                Username = Blocks.Rows[i]["Username"].ToString();
-                TimePerformed = DateTime.Parse(Blocks.Rows[i]["TimePerformed"].ToString()).ToString("yyyy-MM-dd HH:mm:ss");
-                //Server.s.Log(Blocks.Rows[i]["Type"].ToString());
-                BlockUsed = Block.Name(Convert.ToByte(Blocks.Rows[i]["Type"])).ToString();
-                Deleted = Convert.ToBoolean(Blocks.Rows[i]["Deleted"]);
+		foreach (Blockchange bc in BlocksDB.blockchanges) {
+			if (bc.level == p.level.name && bc.x == x && bc.y == y && bc.z == z) {
+				foundOne = true;
+				Username = bc.username;
+				TimePerformed = bc.timePerformed.ToString ("HH:mm:ss (dd/MM/yy)");
+				BlockUsed = Block.Name (bc.type);
+				Deleted = bc.deleted;
+			}
+		}
 
-                if (!Deleted)
-                    Player.SendMessage(p, "&3Created by " + Server.FindColor(Username.Trim()) + Username.Trim() + Server.DefaultColor + ", using &3" + BlockUsed);
-                else
-                    Player.SendMessage(p, "&4Destroyed by " + Server.FindColor(Username.Trim()) + Username.Trim() + Server.DefaultColor + ", using &3" + BlockUsed);
-                Player.SendMessage(p, "Date and time modified: &2" + TimePerformed);
-            }
+			if ( foundOne ) {
+				if ( !Deleted ) {
+					Player.SendMessage( p, "&3Created by " + Server.FindColor( Username.Trim() ) + Username.Trim() + Server.DefaultColor + ", using &3" + BlockUsed );
+				} else {
+					Player.SendMessage( p, "&4Destroyed by " + Server.FindColor( Username.Trim() ) + Username.Trim() + Server.DefaultColor + ", using &3" + BlockUsed );
+				}
 
-            List<Level.BlockPos> inCache = p.level.blockCache.FindAll(bP => bP.x == x && bP.y == y && bP.z == z);
+				Player.SendMessage( p, "Date and time modified: &2" + TimePerformed );
+			} else {
 
-            for (int i = 0; i < inCache.Count; i++)
-            {
-                foundOne = true;
-                Deleted = inCache[i].deleted;
-                Username = inCache[i].name;
-                TimePerformed = inCache[i].TimePerformed.ToString("yyyy-MM-dd HH:mm:ss");
-                BlockUsed = Block.Name(inCache[i].type);
+				List<Blockchange> inCache = p.level.blockCache.FindAll( bP => bP.x == x && bP.y == y && bP.z == z );
 
-                if (!Deleted)
-                    Player.SendMessage(p, "&3Created by " + Server.FindColor(Username.Trim()) + Username.Trim() + Server.DefaultColor + ", using &3" + BlockUsed);
-                else
-                    Player.SendMessage(p, "&4Destroyed by " + Server.FindColor(Username.Trim()) + Username.Trim() + Server.DefaultColor + ", using &3" + BlockUsed);
-                Player.SendMessage(p, "Date and time modified: &2" + TimePerformed);
-            }
+				for ( int i = 0; i < inCache.Count; i++ ) {
+					foundOne = true;
+					Deleted = inCache[i].deleted;
+					Username = inCache[i].username;
+					TimePerformed = inCache[i].timePerformed.ToString( "HH:mm:ss (dd/MM/yy)" );
+					BlockUsed = Block.Name( inCache[i].type );
+				}
 
-            if (!foundOne)
-                Player.SendMessage(p, "This block has not been modified since the map was cleared.");
- 
-            Blocks.Dispose();
+				if ( foundOne ) {
+					if ( !Deleted ) {
+						Player.SendMessage( p, "&3Created by " + Server.FindColor( Username.Trim() ) + Username.Trim() + Server.DefaultColor + ", using &3" + BlockUsed );
+					} else {
+						Player.SendMessage( p, "&4Destroyed by " + Server.FindColor( Username.Trim() ) + Username.Trim() + Server.DefaultColor + ", using &3" + BlockUsed );
+					}
 
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-        }
-    }
+					Player.SendMessage( p, "Date and time modified: &2" + TimePerformed );
+				}
+			}
+
+			if ( !foundOne ) {
+				Player.SendMessage( p, "This block has not been modified since the map was cleared." );
+			}
+
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+		}
+	}
 }

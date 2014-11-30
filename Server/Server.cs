@@ -675,41 +675,6 @@ namespace MCForge
                 }
                 playercmds.Dispose(); opstats.Dispose();
 
-                // Here, since SQLite is a NEW thing from 5.3.0.0, we do not have to check for existing tables in SQLite.
-                if (useMySQL)
-                {
-                    // Check if the color column exists.
-                    DataTable colorExists = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='color'");
-
-                    if (colorExists.Rows.Count == 0)
-                    {
-                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN color VARCHAR(6) AFTER totalKicked");
-                        //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN color VARCHAR(6) AFTER totalKicked");
-                    }
-                    colorExists.Dispose();
-
-                    // Check if the title color column exists.
-                    DataTable tcolorExists = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='title_color'");
-
-                    if (tcolorExists.Rows.Count == 0)
-                    {
-                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN title_color VARCHAR(6) AFTER color");
-                        // else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN title_color VARCHAR(6) AFTER color");
-                    }
-                    tcolorExists.Dispose();
-
-                    DataTable timespent = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='TimeSpent'");
-
-                    if (timespent.Rows.Count == 0)
-                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN TimeSpent VARCHAR(20) AFTER totalKicked"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN TimeSpent VARCHAR(20) AFTER totalKicked");
-                    timespent.Dispose();
-
-                    DataTable totalCuboided = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='totalCuboided'");
-
-                    if (totalCuboided.Rows.Count == 0)
-                        MySQL.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks"); //else SQLite.executeQuery("ALTER TABLE Players ADD COLUMN totalCuboided BIGINT AFTER totalBlocks");
-                    totalCuboided.Dispose();
-                }
 
             }
 
@@ -940,7 +905,10 @@ namespace MCForge
 
 
                 // We always construct this to prevent errors...
+				if(Server.irc)
+				{
                 IRC = new ForgeBot(Server.ircChannel, Server.ircOpChannel, Server.ircNick, Server.ircServer);
+				}
                 GlobalChat = new GlobalChatBot(GlobalChatNick);
 
                 if (Server.irc) IRC.Connect();
@@ -1087,6 +1055,7 @@ namespace MCForge
             Updater.Load("properties/update.properties");
             Group.InitAll();
             Command.InitAll();
+			BlocksDB.Load ();
             GrpCommands.fillRanks();
             Block.SetBlocks();
             Awards.Load();

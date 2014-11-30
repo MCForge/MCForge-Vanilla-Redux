@@ -932,10 +932,10 @@ namespace MCForge
                 cancelmysql = false;
                 return;
             }
-            if (!Server.useMySQL)
+           // if (!Server.useMySQL)
                 SQLite.executeQuery(commandString);
-            else
-                MySQL.executeQuery(commandString);
+           // else
+          //      MySQL.executeQuery(commandString);
 
             commandString =
                 "UPDATE Upgrades SET lazer=" + lazerUpgrade +
@@ -958,7 +958,7 @@ namespace MCForge
                     return;
                 }
             }
-            if (Server.useMySQL) MySQL.executeQuery(commandString); else SQLite.executeQuery(commandString);
+            SQLite.executeQuery(commandString);
 
             commandString =
                 "UPDATE ExtraWeapons SET tripwire=" + tripwire +
@@ -982,7 +982,7 @@ namespace MCForge
                     return;
                 }
             }
-            if (Server.useMySQL) MySQL.executeQuery(commandString); else SQLite.executeQuery(commandString);
+            SQLite.executeQuery(commandString);
             EXPDB.Save(this);
 
             try
@@ -1523,12 +1523,6 @@ namespace MCForge
                 this.timeLogged = DateTime.Now;
                 SendMessage("Welcome " + name + "! This is your first visit.");
                 string query = "INSERT INTO Economy (player, money, total, purchase, payment, salary, fine) VALUES ('" + name + "', " + money + ", 0, '%cNone', '%cNone', '%cNone', '%cNone')";
-                if (Server.useMySQL)
-                {
-                    MySQL.executeQuery(String.Format("INSERT INTO Players (Name, IP, FirstLogin, LastLogin, totalLogin, Title, totalDeaths, Money, totalBlocks, totalKicked, TimeSpent) VALUES ('{0}', '{1}', '{2:yyyy-MM-dd HH:mm:ss}', '{3:yyyy-MM-dd HH:mm:ss}', {4}, '{5}', {6}, {7}, {8}, {9}, '{10}')", name, ip, firstLogin, DateTime.Now, totalLogins, prefix, overallDeath, money, loginBlocks, totalKicked, time));
-                    MySQL.executeQuery(query);
-                }
-                else
                 {
                     SQLite.executeQuery(String.Format("INSERT INTO Players (Name, IP, FirstLogin, LastLogin, totalLogin, Title, totalDeaths, Money, totalBlocks, totalKicked, TimeSpent) VALUES ('{0}', '{1}', '{2:yyyy-MM-dd HH:mm:ss}', '{3:yyyy-MM-dd HH:mm:ss}', {4}, '{5}', {6}, {7}, {8}, {9}, '{10}')", name, ip, firstLogin, DateTime.Now, totalLogins, prefix, overallDeath, money, loginBlocks, totalKicked, time));
                     SQLite.executeQuery(query);
@@ -1583,14 +1577,10 @@ namespace MCForge
             playerDb.Dispose();
             #region Weapon Upgrade Loading
 
-            DataTable achievementsDb = Server.useMySQL ? MySQL.fillData("SELECT * FROM Upgrades WHERE Name='" + name + "'") : SQLite.fillData("SELECT * FROM Upgrades WHERE Name='" + name + "'");
+            DataTable achievementsDb = SQLite.fillData("SELECT * FROM Upgrades WHERE Name='" + name + "'");
 
             if (achievementsDb.Rows.Count == 0)
             {
-                if (Server.useMySQL)
-                    MySQL.executeQuery("INSERT INTO Upgrades (Name, lazer, lightning, trap, rocket, tnt, pistol, mine, tripwire, knife)" +
-                        "VALUES ('" + name + "', " + lazerUpgrade + ", " + lightningUpgrade + ", " + trapUpgrade + ", " + rocketUpgrade + ", " + tntUpgrade + ", " + pistolUpgrade + ", '" + mineUpgrade + "', " + tripwireUpgrade + ", " + knifeUpgrade + ")");
-                else
                     SQLite.executeQuery("INSERT INTO Upgrades (Name, lazer, lightning, trap, rocket, tnt, pistol, mine, tripwire, knife)" +
                         "VALUES ('" + name + "', " + lazerUpgrade + ", " + lightningUpgrade + ", " + trapUpgrade + ", " + rocketUpgrade + ", " + tntUpgrade + ", " + pistolUpgrade + ", '" + mineUpgrade + "', " + tripwireUpgrade + ", " + knifeUpgrade + ")");
             }
@@ -1611,14 +1601,10 @@ namespace MCForge
 
             #region Weapon Upgrade Loading
 
-            DataTable extraWeapons = Server.useMySQL ? MySQL.fillData("SELECT * FROM ExtraWeapons WHERE Name='" + name + "'") : SQLite.fillData("SELECT * FROM ExtraWeapons WHERE Name='" + name + "'");
+            DataTable extraWeapons = SQLite.fillData("SELECT * FROM ExtraWeapons WHERE Name='" + name + "'");
 
             if (extraWeapons.Rows.Count == 0)
             {
-                if (Server.useMySQL)
-                    MySQL.executeQuery("INSERT INTO ExtraWeapons (Name, tripwire, knife, jetpack, freezeray, lazer, lightning, trap, line, rocket, grapple, bigtnt)" +
-                        "VALUES ('" + name + "', " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", '" + 0 + "')");
-                else
                     SQLite.executeQuery("INSERT INTO ExtraWeapons (Name, tripwire, knife, jetpack, freezeray, lazer, lightning, trap, line, rocket, grapple, bigtnt)" +
                         "VALUES ('" + name + "', " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", '" + 0 + "')");
             }
@@ -2243,9 +2229,10 @@ namespace MCForge
                 }
             }
 
-            Level.BlockPos bP;
-            bP.name = name;
-            bP.TimePerformed = DateTime.Now;
+            Blockchange bP = new Blockchange();
+            bP.username = name;
+			bP.level = level.name;
+            bP.timePerformed = DateTime.Now;
             bP.x = x; bP.y = y; bP.z = z;
             bP.type = type;
 

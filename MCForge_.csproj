@@ -365,7 +365,6 @@
     </Compile>
     <Compile Include="Games\LavaSurvival.cs" />
     <Compile Include="Levels\BlockQueue.cs" />
-    <Compile Include="Database\MySQLTransactionHelper.cs" />
     <Compile Include="Player\OmniBan.cs" />
     <Compile Include="Player\Player.Events.cs" />
     <Compile Include="Plugins\Utils\Events.cs" />
@@ -479,7 +478,6 @@
     <Compile Include="Commands\CmdTitle.cs" />
     <Compile Include="Commands\CmdOutline.cs" />
     <Compile Include="Commands\CmdLimit.cs" />
-    <Compile Include="Commands\CmdClearBlockChanges.cs" />
     <Compile Include="Commands\CmdReveal.cs" />
     <Compile Include="Commands\CmdClones.cs" />
     <Compile Include="Commands\CmdFreeze.cs" />
@@ -536,8 +534,9 @@
       <DependentUpon>UpdateWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Levels\Level.cs" />
-    <Compile Include="Levels\ConvertDAT.cs" />
-    <Compile Include="Database\MySQL.cs" />
+    <Compile Include="Levels\ConvertDAT.cs">
+      <DependentUpon>BlockQueue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Player\Group.cs" />
     <Compile Include="GUI\Program.cs" />
     <Compile Include="Levels\MapGenerator.cs" />
@@ -657,6 +656,7 @@
     <Compile Include="util\Serializer.cs" />
     <Compile Include="Commands\CmdSyndrome.cs" />
     <Compile Include="Commands\CmdNick.cs" />
+    <Compile Include="Database\BlockDB.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

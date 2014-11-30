@@ -111,7 +111,7 @@ namespace MCForge
 
         public void CalcPhysics(Level level)
         {
-            try
+            /*try
             {
                 if (level.physics == 5)
                 {
@@ -3766,7 +3766,7 @@ namespace MCForge
             {
                 Server.s.Log("Level level.physics error");
                 Server.ErrorLog(e);
-            }
+            }*/
         }
         public void ClearPhysics(Level level)
         {
