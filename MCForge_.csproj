@@ -657,6 +657,7 @@
     <Compile Include="Commands\CmdSyndrome.cs" />
     <Compile Include="Commands\CmdNick.cs" />
     <Compile Include="Database\BlockDB.cs" />
+    <Compile Include="Levels\MessageBlockDB.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

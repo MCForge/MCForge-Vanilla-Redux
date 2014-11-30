@@ -1056,6 +1056,7 @@ namespace MCForge
             Group.InitAll();
             Command.InitAll();
 			BlocksDB.Load ();
+			MessageBlockDB.Load ();
             GrpCommands.fillRanks();
             Block.SetBlocks();
             Awards.Load();

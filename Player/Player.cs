@@ -2819,42 +2819,41 @@ namespace MCForge
         }
 
 
-        public void HandleMsgBlock(Player p, ushort x, ushort y, ushort z, ushort b)
-        {
-            try
-            {
-                //safe against SQL injections because no user input is given here
-                DataTable Messages = Database.fillData("SELECT * FROM `Messages" + level.name + "` WHERE X=" + (int)x + " AND Y=" + (int)y + " AND Z=" + (int)z);
+		public void HandleMsgBlock( Player p, ushort x, ushort y, ushort z, ushort b ) {
+			try {
+					int foundMessages = 0;
 
-                int LastMsg = Messages.Rows.Count - 1;
-                if (LastMsg > -1)
-                {
-                    string message = Messages.Rows[LastMsg]["Message"].ToString().Trim();
-                    if (message != prevMsg || Server.repeatMessage)
-                    {
-                        if (message.StartsWith("/"))
-                        {
-                            List<string> Message = message.Remove(0, 1).Split(' ').ToList();
-                            string command = Message[0];
-                            Message.RemoveAt(0);
-                            string args = string.Join(" ", Message.ToArray());
-                            HandleCommand(command, args);
-                        }
-                        else
-                            Player.SendMessage(p, message);
+					foreach ( MessageBlock mb in MessageBlockDB.messageBlocks ) {
+						if ( mb.level == level.name && mb.x == x && mb.y == y && mb.z == z ) {
+							foundMessages++;
 
-                        prevMsg = message;
-                    }
-                    SendBlockchange(x, y, z, b);
-                }
-                else
-                {
-                    Blockchange(this, x, y, z, (byte)0);
-                }
-                Messages.Dispose();
-            }
-            catch { Player.SendMessage(p, "No message was stored."); return; }
-        }
+							if ( mb.message != prevMsg || Server.repeatMessage ) {
+								if ( mb.message.StartsWith( "/" ) ) {
+									mb.message = mb.message.Remove( 0, 1 );
+									int pos = mb.message.IndexOf( ' ' );
+									string cmd = mb.message.Trim();
+									string args = "";
+									try {
+										cmd = mb.message.Substring( 0, pos );
+										args = mb.message.Substring( pos + 1 );
+									} catch { }
+									HandleCommand( cmd, args );
+								} else {
+									Player.SendMessage( p, mb.message );
+								}
+								prevMsg = mb.message;
+							}
+
+							SendBlockchange( x, y, z, b );
+						}
+					}
+
+					if ( foundMessages < 1 ) {
+						level.Blockchange( this, x, y, z, Block.air );
+					}
+			} catch { Player.SendMessage( p, "No message was stored." ); return; }
+		}
+
 
         private bool checkOp()
         {

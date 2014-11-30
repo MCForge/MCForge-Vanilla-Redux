@@ -1180,8 +1180,6 @@ namespace MCForge
         {
             Database.executeQuery("CREATE TABLE if not exists `Portals" + givenName +
                                   "` (EntryX SMALLINT UNSIGNED, EntryY SMALLINT UNSIGNED, EntryZ SMALLINT UNSIGNED, ExitMap CHAR(20), ExitX SMALLINT UNSIGNED, ExitY SMALLINT UNSIGNED, ExitZ SMALLINT UNSIGNED)");
-            Database.executeQuery("CREATE TABLE if not exists `Messages" + givenName +
-                                  "` (X SMALLINT UNSIGNED, Y SMALLINT UNSIGNED, Z SMALLINT UNSIGNED, Message CHAR(255));");
             Database.executeQuery("CREATE TABLE if not exists `Zone" + givenName +
                                   "` (SmallX SMALLINT UNSIGNED, SmallY SMALLINT UNSIGNED, SmallZ SMALLINT UNSIGNED, BigX SMALLINT UNSIGNED, BigY SMALLINT UNSIGNED, BigZ SMALLINT UNSIGNED, Owner VARCHAR(20));");
         }
@@ -1327,22 +1325,6 @@ namespace MCForge
                                                       foundDB.Rows[i]["EntryZ"]);
                             }
                         }
-                        foundDB = Database.fillData("SELECT * FROM `Messages" + givenName + "`");
-
-                        for (int i = 0; i < foundDB.Rows.Count; ++i)
-                        {
-                            if (
-                                !Block.mb(level.GetTile(ushort.Parse(foundDB.Rows[i]["X"].ToString()),
-                                                        ushort.Parse(foundDB.Rows[i]["Y"].ToString()),
-                                                        ushort.Parse(foundDB.Rows[i]["Z"].ToString()))))
-                            {
-                                //givenName is safe against SQL injections, it gets checked in CmdLoad.cs
-                                Database.executeQuery("DELETE FROM `Messages" + givenName + "` WHERE X=" +
-                                                      foundDB.Rows[i]["X"] + " AND Y=" + foundDB.Rows[i]["Y"] +
-                                                      " AND Z=" + foundDB.Rows[i]["Z"]);
-                            }
-                        }
-                        foundDB.Dispose();
                     }
                     catch (Exception e)
                     {

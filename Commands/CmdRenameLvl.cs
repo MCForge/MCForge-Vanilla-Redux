@@ -99,7 +99,6 @@ namespace MCForge.Commands
                     using (DatabaseTransactionHelper helper = SQLiteTransactionHelper.Create()) { // ensures that it's either all work, or none work.
                         helper.Execute(String.Format("ALTER TABLE Block{0} RENAME TO Block{1}", foundLevel.name.ToLower(), newName.ToLower()));
                         helper.Execute(String.Format("ALTER TABLE Portals{0} RENAME TO Portals{1}", foundLevel.name.ToLower(), newName.ToLower()));
-                        helper.Execute(String.Format("ALTER TABLE Messages{0} RENAME TO Messages{1}", foundLevel.name.ToLower(), newName.ToLower()));
                         helper.Execute(String.Format("ALTER TABLE Zone{0} RENAME TO Zone{1}", foundLevel.name.ToLower(), newName.ToLower()));
                         helper.Commit();
                     }

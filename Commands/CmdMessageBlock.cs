@@ -46,7 +46,7 @@ namespace MCForge.Commands
                     case "lava": cpos.type = Block.MsgLava; break;
                     case "black": cpos.type = Block.MsgBlack; break;
                     case "white": cpos.type = Block.MsgWhite; break;
-                    case "show": showMBs(p); return;
+                  //  case "show": showMBs(p); return;
                     default: cpos.type = Block.MsgWhite; cpos.message = message; break;
                 }
             }
@@ -156,18 +156,20 @@ namespace MCForge.Commands
                     }
                 }
             }
-            //safe against SQL injections because no user input is given here
-            DataTable Messages = Database.fillData("SELECT * FROM `Messages" + p.level.name + "` WHERE X=" + (int)x + " AND Y=" + (int)y + " AND Z=" + (int)z);
-            Database.AddParams("@Message", cpos.message);
-            if (Messages.Rows.Count == 0)
-            {
-                Database.executeQuery("INSERT INTO `Messages" + p.level.name + "` (X, Y, Z, Message) VALUES (" + (int)x + ", " + (int)y + ", " + (int)z + ", @Message)");
-            }
-            else
-            {
-                Database.executeQuery("UPDATE `Messages" + p.level.name + "` SET Message=@Message WHERE X=" + (int)x + " AND Y=" + (int)y + " AND Z=" + (int)z);
-            }
-            Messages.Dispose();
+			MessageBlock foundMessageBlock = null;
+
+			foreach ( MessageBlock mb in MessageBlockDB.messageBlocks ) {
+				if ( mb.level == p.level.name && mb.x == x && mb.y == y && mb.z == z ) {
+					mb.message = cpos.message;
+					foundMessageBlock = mb;
+				}
+			}
+
+			if ( foundMessageBlock == null ) {
+				MessageBlock newMessageBlock = new MessageBlock( x, y, z, p.level.name, cpos.message );
+				MessageBlockDB.messageBlocks.Add( newMessageBlock );
+				MessageBlockDB.Save();
+			}
             Player.SendMessage(p, "Message block placed.");
             p.level.Blockchange(p, x, y, z, cpos.type);
             p.SendBlockchange(x, y, z, cpos.type);
@@ -177,34 +179,5 @@ namespace MCForge.Commands
 
         struct CatchPos { public string message; public ushort type; }
 
-        public void showMBs(Player p)
-        {
-            try
-            {
-                p.showMBs = !p.showMBs;
-                //safe against SQL injections because no user input is given here
-                using (DataTable Messages = Database.fillData("SELECT * FROM `Messages" + p.level.name + "`"))
-                {
-                    int i;
-
-                    if (p.showMBs)
-                    {
-                        for (i = 0; i < Messages.Rows.Count; i++)
-                            p.SendBlockchange(ushort.Parse(Messages.Rows[i]["X"].ToString()), ushort.Parse(Messages.Rows[i]["Y"].ToString()), ushort.Parse(Messages.Rows[i]["Z"].ToString()), Block.MsgWhite);
-                        Player.SendMessage(p, "Now showing &a" + i.ToString() + Server.DefaultColor + " MBs.");
-                    }
-                    else
-                    {
-                        for (i = 0; i < Messages.Rows.Count; i++)
-                            p.SendBlockchange(ushort.Parse(Messages.Rows[i]["X"].ToString()), ushort.Parse(Messages.Rows[i]["Y"].ToString()), ushort.Parse(Messages.Rows[i]["Z"].ToString()), p.level.GetTile(ushort.Parse(Messages.Rows[i]["X"].ToString()), ushort.Parse(Messages.Rows[i]["Y"].ToString()), ushort.Parse(Messages.Rows[i]["Z"].ToString())));
-                        Player.SendMessage(p, "Now hiding MBs.");
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Server.ErrorLog(e);
-            }
-        }
     }
 }
