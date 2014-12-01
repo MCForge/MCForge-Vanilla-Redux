@@ -53,12 +53,11 @@ namespace MCForge.Commands
 
 
             Player who = Player.Find(message.Split()[0]);
-            Economy.EcoStats ecos;
-            if (who == null)
-            { //player is offline
-                Player.OfflinePlayer off = Player.FindOffline(message.Split()[0]);
-                if (off.name == "") { Player.SendMessage(p, "%cThe player %f" + message.Split()[0] + Server.DefaultColor + "(offline)%c does not exist or has never logged on to this server"); return; }
-                ecos = Economy.RetrieveEcoStats(message.Split()[0]);
+           // Economy.EcoStats ecos;
+			if (who == null) {
+				Player.SendMessage (p, "%cThe player %f" + message.Split () [0] + Server.DefaultColor + "is offline");
+				return;
+		/*	ecos = Economy.RetrieveEcoStats(message.Split()[0]);
                 if (all || ecos.money - amountTaken < 0)
                 {
                     amountTaken = ecos.money;
@@ -69,28 +68,27 @@ namespace MCForge.Commands
                 ecos.fine = "%f" + amountTaken + " %3" + Server.moneys + " by " + user1 + "%3 on %f" + DateTime.Now.ToString(CultureInfo.InvariantCulture);
                 Economy.UpdateEcoStats(ecos);
                 Player.GlobalMessage(user2 + Server.DefaultColor + " took %f" + amountTaken + " %3" + Server.moneys + Server.DefaultColor + " from " + off.color + off.name + "%f(offline)");
-                return;
+                return;*/
             }
-            ecos = Economy.RetrieveEcoStats(who.name);
+       //     ecos = Economy.RetrieveEcoStats(who.name);
             if (who == p)
             {
                 Player.SendMessage(p, "%cYou can't take %3" + Server.moneys + "%c from yourself");
                 return;
             }
 
-            if (all || ecos.money - amountTaken < 0)
+            if (all || who.money - amountTaken < 0)
             {
                 amountTaken = who.money;
                 who.money = 0;
-                ecos.money = 0;
+                who.money = 0;
             }
             else
             {
                 who.money -= amountTaken;
-                ecos.money = who.money;
             }
-            ecos.fine = "%f" + amountTaken + " %3" + Server.moneys + " by " + user1 + "%3 on %f" + DateTime.Now.ToString(CultureInfo.InvariantCulture);
-            Economy.UpdateEcoStats(ecos);
+     //       ecos.fine = "%f" + amountTaken + " %3" + Server.moneys + " by " + user1 + "%3 on %f" + DateTime.Now.ToString(CultureInfo.InvariantCulture);
+      //      Economy.UpdateEcoStats(ecos);
             Player.GlobalMessage(user2 + Server.DefaultColor + " took %f" + amountTaken + " %3" + Server.moneys + Server.DefaultColor + " from " + who.prefix + who.name);
         }
         public override void Help(Player p)

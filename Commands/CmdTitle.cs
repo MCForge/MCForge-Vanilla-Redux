@@ -16,7 +16,7 @@ using System.Text.RegularExpressions;
 	or implied. See the Licenses for the specific language governing
 	permissions and limitations under the Licenses.
 */
-using MCForge.SQL;
+
 namespace MCForge.Commands
 {
     public class CmdTitle : Command
@@ -49,9 +49,6 @@ namespace MCForge.Commands
                 who.title = "";
                 who.SetPrefix();
                 Player.GlobalChat(who, who.color + who.name + Server.DefaultColor + " had their title removed.", false);
-                query = "UPDATE Players SET Title = '' WHERE Name = @Name";
-                Database.AddParams("@Name", who.name);
-                Database.executeQuery(query);
                 return;
             }
 
@@ -90,18 +87,6 @@ namespace MCForge.Commands
                 }
             }
 
-            if (newTitle == "")
-            {
-                query = "UPDATE Players SET Title = '' WHERE Name = @Name";
-                Database.AddParams("@Name", who.name);
-            }
-            else
-            {
-                query = "UPDATE Players SET Title = @Title WHERE Name = @Name";
-                Database.AddParams("@Title", newTitle);
-                Database.AddParams("@Name", who.name);
-            }
-            Database.executeQuery(query);
             who.title = newTitle;
             who.SetPrefix();
         }

@@ -17,7 +17,7 @@
 */
 using System;
 using System.IO;
-using MCForge.SQL;
+
 namespace MCForge.Commands {
     public class CmdDeleteLvl : Command {
         public override string name { get { return "deletelvl"; } }

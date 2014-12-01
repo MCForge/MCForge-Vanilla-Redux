@@ -29,7 +29,7 @@ using System.Text.RegularExpressions;
 using System.Timers;
 using System.Threading;
 using Newtonsoft.Json.Linq;
-using MCForge.SQL;
+
 
 namespace MCForge
 {
@@ -812,18 +812,6 @@ namespace MCForge
                 {
                     extraTimer.Stop();
 
-                    try
-                    {
-                        if (!Group.Find("Nobody").commands.Contains("inbox") && !Group.Find("Nobody").commands.Contains("send"))
-                        {
-                            //safe against SQL injections because no user input is given here
-                            DataTable Inbox = Database.fillData("SELECT * FROM `Inbox" + name + "`", true);
-
-                            SendMessage("&cYou have &f" + Inbox.Rows.Count + Server.DefaultColor + " &cmessages in /inbox");
-                            Inbox.Dispose();
-                        }
-                    }
-                    catch { }
                     if (Server.updateTimer.Interval > 1000) SendMessage("Lowlag mode is currently &aON.");
                     try
                     {
@@ -910,79 +898,10 @@ namespace MCForge
 			}
 			return ExtEntry.FindAll (cpe => cpe.name == extName).Count > 0;
 		}
-
+		public DateTime lastlogin;
         public void save()
-        {
-            //safe against SQL injects because no user input is provided
-            string commandString =
-                "UPDATE Players SET IP='" + ip + "'" +
-                ", LastLogin='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-                ", totalLogin=" + totalLogins +
-                ", totalDeaths=" + overallDeath +
-                ", Money=" + money +
-                ", totalBlocks=" + overallBlocks + " + " + loginBlocks +
-                ", totalKicked=" + totalKicked +
-                ", TimeSpent='" + time +
-                "' WHERE Name='" + name + "'";
-            if (MySQLSave != null)
-                MySQLSave(this, commandString);
-            OnMySQLSaveEvent.Call(this, commandString);
-            if (cancelmysql)
-            {
-                cancelmysql = false;
-                return;
-            }
-           // if (!Server.useMySQL)
-                SQLite.executeQuery(commandString);
-           // else
-          //      MySQL.executeQuery(commandString);
-
-            commandString =
-                "UPDATE Upgrades SET lazer=" + lazerUpgrade +
-                ", lightning=" + lightningUpgrade +
-                ", trap=" + trapUpgrade +
-                ", rocket=" + rocketUpgrade +
-                ", tnt=" + tntUpgrade +
-                ", pistol=" + pistolUpgrade +
-                ", mine=" + mineUpgrade +
-                ", tripwire=" + tripwireUpgrade +
-                ", knife=" + knifeUpgrade +
-                " WHERE Name='" + name + "'";
-
-            if (MySQLSave != null)
-            {
-                MySQLSave(this, commandString);
-                if (cancelmysql)
-                {
-                    cancelmysql = false;
-                    return;
-                }
-            }
-            SQLite.executeQuery(commandString);
-
-            commandString =
-                "UPDATE ExtraWeapons SET tripwire=" + tripwire +
-                ", knife=" + knife +
-                ", jetpack=" + jetpack +
-                ", freezeray=" + freeze +
-                ", lazer=" + lazers +
-                ", lightning=" + lightnings +
-                ", trap=" + traps +
-                ", line=" + lines +
-                ", rocket=" + rockets +
-                ", grapple=" + grapple +
-                ", bigtnt=" + bigtnt +
-                " WHERE Name='" + name + "'";
-            if (MySQLSave != null)
-            {
-                MySQLSave(this, commandString);
-                if (cancelmysql)
-                {
-                    cancelmysql = false;
-                    return;
-                }
-            }
-            SQLite.executeQuery(commandString);
+		{
+			PlayerDB.Save(this);
             EXPDB.Save(this);
 
             try
@@ -1273,18 +1192,10 @@ namespace MCForge
                     }
                     else
                     {
-                        // Verify Names is off. Gotta check the hard way.
-                        Database.AddParams("@IP", ip);
-                        DataTable ipQuery = Database.fillData("SELECT Name FROM Players WHERE IP = @IP");
-
-                        if (ipQuery.Rows.Count > 0)
-                        {
-                            if (ipQuery.Rows.Contains(name) && Server.whiteList.Contains(name))
-                            {
+                        if (Server.whiteList.Contains(name))
+						{
                                 onWhitelist = true;
-                            }
-                        }
-                        ipQuery.Dispose();
+						}
                     }
                     onWhitelist = isDev || isMod;
                     if (!onWhitelist) { Kick("This is a private server!"); return; } //i think someone forgot this?
@@ -1300,7 +1211,7 @@ namespace MCForge
                         {
                             try
                             {
-                                bool haspaid = Convert.ToBoolean(Client.DownloadString("http://www.minecraft.net/haspaid.jsp?user=" + name));
+                                bool haspaid = Convert.ToBoolean(Client.DownloadString("https://www.minecraft.net/haspaid.jsp?user=" + name));
                                 if (!haspaid)
                                     Kick("Sorry, this is a premium server only!");
                                 break;
@@ -1502,7 +1413,7 @@ namespace MCForge
             }
             //OpenClassic Client Check
             SendBlockchange(0, 0, 0, 0);
-            Database.AddParams("@Name", name);
+            /*Database.AddParams("@Name", name);
             DataTable playerDb = Database.fillData("SELECT * FROM Players WHERE Name=@Name");
 
 
@@ -1560,70 +1471,26 @@ namespace MCForge
                 overallBlocks = long.Parse(playerDb.Rows[0]["totalBlocks"].ToString().Trim());
                 money = int.Parse(playerDb.Rows[0]["Money"].ToString());
                 //money = Economy.RetrieveEcoStats(this.name).money;
-                totalKicked = int.Parse(playerDb.Rows[0]["totalKicked"].ToString());
-                SendMessage("Welcome back " + color + prefix + name + Server.DefaultColor + "! You've been here " + totalLogins + " times!");
+                totalKicked = int.Parse(playerDb.Rows[0]["totalKicked"].ToString());*/
+			if(!Directory.Exists("players"))
+			{
+				Directory.CreateDirectory ("players");
+			}
+			PlayerDB.Load (this);
+                SendMessage("Welcome back " + color + prefix + name + Server.DefaultColor + "! You've been here " + totalLogins + " times!"); {
                 if (Server.muted.Contains(name))
                 {
                     muted = true;
                     GlobalMessage(name + " is still muted from the last time they went offline.");
                 }
             }
-			if(!Directory.Exists("players"))
-			   {
-				Directory.CreateDirectory ("players");
+			if(!Directory.Exists("exp"))
+			{
+				Directory.CreateDirectory ("exp");
 			}
             EXPDB.Load(this);
             SetPrefix();
-            playerDb.Dispose();
-            #region Weapon Upgrade Loading
 
-            DataTable achievementsDb = SQLite.fillData("SELECT * FROM Upgrades WHERE Name='" + name + "'");
-
-            if (achievementsDb.Rows.Count == 0)
-            {
-                    SQLite.executeQuery("INSERT INTO Upgrades (Name, lazer, lightning, trap, rocket, tnt, pistol, mine, tripwire, knife)" +
-                        "VALUES ('" + name + "', " + lazerUpgrade + ", " + lightningUpgrade + ", " + trapUpgrade + ", " + rocketUpgrade + ", " + tntUpgrade + ", " + pistolUpgrade + ", '" + mineUpgrade + "', " + tripwireUpgrade + ", " + knifeUpgrade + ")");
-            }
-            else
-            {
-                lazerUpgrade = int.Parse(achievementsDb.Rows[0]["lazer"].ToString());
-                lightningUpgrade = int.Parse(achievementsDb.Rows[0]["lightning"].ToString());
-                trapUpgrade = int.Parse(achievementsDb.Rows[0]["trap"].ToString());
-                rocketUpgrade = int.Parse(achievementsDb.Rows[0]["rocket"].ToString());
-                tntUpgrade = int.Parse(achievementsDb.Rows[0]["tnt"].ToString());
-                pistolUpgrade = int.Parse(achievementsDb.Rows[0]["pistol"].ToString());
-                mineUpgrade = int.Parse(achievementsDb.Rows[0]["mine"].ToString());
-                tripwireUpgrade = int.Parse(achievementsDb.Rows[0]["tripwire"].ToString());
-                knifeUpgrade = int.Parse(achievementsDb.Rows[0]["knife"].ToString());
-            }
-            achievementsDb.Dispose();
-            #endregion
-
-            #region Weapon Upgrade Loading
-
-            DataTable extraWeapons = SQLite.fillData("SELECT * FROM ExtraWeapons WHERE Name='" + name + "'");
-
-            if (extraWeapons.Rows.Count == 0)
-            {
-                    SQLite.executeQuery("INSERT INTO ExtraWeapons (Name, tripwire, knife, jetpack, freezeray, lazer, lightning, trap, line, rocket, grapple, bigtnt)" +
-                        "VALUES ('" + name + "', " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", '" + 0 + "')");
-            }
-            else
-            {
-                jetpack = int.Parse(extraWeapons.Rows[0]["jetpack"].ToString());
-                tripwire = int.Parse(extraWeapons.Rows[0]["tripwire"].ToString());
-                knife = int.Parse(extraWeapons.Rows[0]["knife"].ToString());
-                freeze = int.Parse(extraWeapons.Rows[0]["freezeray"].ToString());
-                lazers = int.Parse(extraWeapons.Rows[0]["lazer"].ToString());
-                lightnings = int.Parse(extraWeapons.Rows[0]["lightning"].ToString());
-                traps = int.Parse(extraWeapons.Rows[0]["trap"].ToString());
-                lines = int.Parse(extraWeapons.Rows[0]["line"].ToString());
-                rockets = int.Parse(extraWeapons.Rows[0]["rocket"].ToString());
-                grapple = int.Parse(extraWeapons.Rows[0]["grapple"].ToString());
-                bigtnt = int.Parse(extraWeapons.Rows[0]["bigtnt"].ToString());
-            }
-            extraWeapons.Dispose();
-            #endregion
             if (PlayerConnect != null)
                 PlayerConnect(this);
             OnPlayerConnectEvent.Call(this);
@@ -1640,7 +1507,7 @@ namespace MCForge
                 }
                 SetPrefix();
             }
-            playerDb.Dispose();
+        //    playerDb.Dispose();
             //Re-implenting MCLawl-Era Dev recognition. Is harmless and does little, but is still nice. 
             if (isDev)
             {
@@ -1713,7 +1580,7 @@ namespace MCForge
             {
                 File.WriteAllText("text/login/" + this.name + ".txt", "joined the server.");
             }
-
+			lastlogin = DateTime.Now;
             //very very sloppy, yes I know.. but works for the time
             //^Perhaps we should update this? -EricKilla
             //which bit is this referring to? - HeroCane
@@ -1923,25 +1790,25 @@ namespace MCForge
             }
         }
 
-        public void MakeExplosion(string name, ushort x, ushort y, ushort z, int size, bool bigtnt, bool nuke, string levelname, ushort b, bool tnt)
+   /*     public void MakeExplosion(string name, ushort x, ushort y, ushort z, int size, bool bigtnt, bool nuke, string levelname, ushort b, bool tnt)
         {
             for (int xt = 0; xt <= 100; xt++)
             {
                 Thread.Sleep(10);
             }
-            Level level = Level.Find(levelname);
+            Level level = Level.Find(levelname);*/
             /*foreach (Player ppp in Player.players)
             {
                 ppp.killingPeople = false;
                 ppp.amountKilled = 0;
                 Server.killed.Clear();
-            }*/
+            }
             level.MakeExplosion(name, x, y, z, 0, bigtnt, nuke, tnt);
             Player that = Player.Find(name);
             that.SendBlockchange(x, y, z, b);
-        }
+        }*/
 
-        public void MakeInstantExplosion(string name, ushort x, ushort y, ushort z, int size, bool bigtnt, bool nuke, string levelname, ushort b)
+       /* public void MakeInstantExplosion(string name, ushort x, ushort y, ushort z, int size, bool bigtnt, bool nuke, string levelname, ushort b)
         {
             Level level = Level.Find(levelname);
             /*foreach (Player ppp in Player.players)
@@ -1950,12 +1817,12 @@ namespace MCForge
                 ppp.amountKilled = 0;
                 Server.killed.Clear();
             }*/
-            level.MakeExplosion(name, x, y, z, 0, bigtnt, nuke, true);
+          /*  level.MakeExplosion(name, x, y, z, 0, bigtnt, nuke, true);
             Player that = Player.Find(name);
             that.SendBlockchange(x, y, z, b);
         }
-
-        public void MakeLightningsplosion(string name, ushort x, ushort y, ushort z, int size, string levelname, ushort b)
+		*/
+    /*    public void MakeLightningsplosion(string name, ushort x, ushort y, ushort z, int size, string levelname, ushort b)
         {
             for (int xt = 0; xt <= 3; xt++)
             {
@@ -1968,7 +1835,7 @@ namespace MCForge
                 ppp.amountKilled = 0;
                 Server.killed.Clear();
             }*/
-            level.makeLightningsplosion(name, x, y, z, 0);
+      /*      level.makeLightningsplosion(name, x, y, z, 0);
             try
             {
                 if (lightningUpgrade > 0)
@@ -2014,13 +1881,13 @@ namespace MCForge
                 ppp.amountKilled = 0;
                 Server.killed.Clear();
             }*/
-            level.makeUpsideDownLightning(name, x, y, z, 0);
+          /*  level.makeUpsideDownLightning(name, x, y, z, 0);
 
             Player that = Player.Find(name);
             that.SendBlockchange(x, y, z, b);
         }
-
-        public void MakeLinesplosion(string name, ushort x, ushort y, ushort z, int size, bool lazer, string levelname, ushort b)
+	*/
+        /*public void MakeLinesplosion(string name, ushort x, ushort y, ushort z, int size, bool lazer, string levelname, ushort b)
         {
             for (int xt = 0; xt <= 3; xt++)
             {
@@ -2081,9 +1948,9 @@ namespace MCForge
 
             Player that = Player.Find(name);
             that.SendBlockchange(x, y, z, b);
-        }
+        }*/
 
-        public void freezePlayer(ushort x, ushort y, ushort z)
+       /* public void freezePlayer(ushort x, ushort y, ushort z)
         {
             foreach (Player ppp in Player.players)
             {
@@ -2128,10 +1995,10 @@ namespace MCForge
                 ppp.amountKilled = 0;
                 Server.killed.Clear();
             }*/
-            level.makeLine(name, x, y, z, 0, lazer);
+          /*  level.makeLine(name, x, y, z, 0, lazer);
             Player that = Player.Find(name);
             that.SendBlockchange(x, y, z, b);
-        }
+        }*/
 
         public void manualChange(ushort x, ushort y, ushort z, byte action, ushort type)
         {
@@ -2333,7 +2200,7 @@ namespace MCForge
                 return;
             }
 
-            if (level.name == Server.pctf.currentLevelName && Server.CTFModeOn && Server.ctfRound)
+         /*   if (level.name == Server.pctf.currentLevelName && Server.CTFModeOn && Server.ctfRound)
             {
                 if (type == Block.tnt)
                 {
@@ -2736,7 +2603,7 @@ namespace MCForge
                         }
                     }
                 }
-            }
+            }*/
 
             if (action > 1) { Kick("Unknown block action!"); }
 
@@ -3075,7 +2942,7 @@ return;
                     int xx, yy, zz; Random rand = new Random(); int size = 0;
                     Player.players.ForEach(delegate(Player player)
                     {
-                        #region Traps
+                    /*    #region Traps
                         for (xx = ((x / 32) - (size + 1 + player.trapUpgrade)); xx <= ((x / 32) + (size + 1 + player.trapUpgrade)); ++xx)
                             for (yy = ((y / 32) - (size + 1 + player.trapUpgrade)); yy <= ((y / 32) + (size + 1 + player.trapUpgrade)); ++yy)
                                 for (zz = ((z / 32) - (size + 1 + player.trapUpgrade)); zz <= ((z / 32) + (size + 1 + player.trapUpgrade)); ++zz)
@@ -3121,7 +2988,7 @@ return;
                                         }
                                     }
                                 }
-                        #endregion
+                        #endregion*/
                     });
                 }
                 catch { }
@@ -3313,10 +3180,10 @@ cliprot = rot;
                         else
                             money = (int)Math.Round(money / 1.2);
                     }
-                    if(pteam != 0)
+                  /*  if(pteam != 0)
                     {
                         Server.pctf.sendToTeamSpawn(this);
-                    }
+                    }*/
                     if (CountdownGame.playersleftlist.Contains(this))
                     {
                         CountdownGame.Death(this);
@@ -3654,20 +3521,20 @@ try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.waterstill); } catch { }
                     return;
                 }
 
-                if ((text[0] == '^' || teamchat) && Server.CTFModeOn)
+             /*   if ((text[0] == '^' || teamchat) && Server.CTFModeOn)
                 {
                     string newtext = text;
                     if (text[0] == '^') newtext = text.Remove(0, 1).Trim();
 
-                    if (Server.pctf.getTeam(this) != null)
-                        GlobalMessageTeam(color + name + "&f- " + newtext, Server.pctf.getTeam(this));  //to make it easy on remote
-                    else
+                 //   if (Server.pctf.getTeam(this) != null)
+                   //     GlobalMessageTeam(color + name + "&f- " + newtext, Server.pctf.getTeam(this));  //to make it easy on remote
+                    //else
                         Player.SendMessage(this, "You must be on a team to use team chat!");
                     Server.s.Log("(Team): " + name + ": " + newtext);
                     //IRCBot.Say(name + ": " + newtext, true);
                     Server.IRC.Say(name + ": " + newtext, false);
                     return;
-                }
+                }*/
 
                 if (InGlobalChat)
                 {
@@ -3961,14 +3828,14 @@ return;
 
                         try
                         { //opstats patch (since 5.5.11)
-                            if (Server.opstats.Contains(cmd.ToLower()) || (cmd.ToLower() == "review" && message.ToLower() == "next" && Server.reviewlist.Count > 0))
-                            {
-                                Database.AddParams("@Time", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                                Database.AddParams("@Name", name);
-                                Database.AddParams("@Cmd", cmd);
-                                Database.AddParams("@Cmdmsg", message);
-                                Database.executeQuery("INSERT INTO Opstats (Time, Name, Cmd, Cmdmsg) VALUES (@Time, @Name, @Cmd, @Cmdmsg)");
-                            }
+                   //         if (Server.opstats.Contains(cmd.ToLower()) || (cmd.ToLower() == "review" && message.ToLower() == "next" && Server.reviewlist.Count > 0))
+                    //        {
+                      //          Database.AddParams("@Time", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                  //              Database.AddParams("@Name", name);
+                  //              Database.AddParams("@Cmd", cmd);
+                 //               Database.AddParams("@Cmdmsg", message);
+                  //              Database.executeQuery("INSERT INTO Opstats (Time, Name, Cmd, Cmdmsg) VALUES (@Time, @Name, @Cmd, @Cmdmsg)");
+                           // }
                         }
                         catch { }
 
@@ -5412,7 +5279,7 @@ changed |= 4;*/
             catch { Server.s.Log("Error occured with Admin Chat"); }
         }
 
-        public static void GlobalMessageTeam(string message, string team)
+       /* public static void GlobalMessageTeam(string message, string team)
         {
             try
             {
@@ -5430,7 +5297,7 @@ changed |= 4;*/
 
             }
             catch { Server.s.Log("Error occured with Team Chat"); }
-        } 
+        } */
 
         public static void GlobalSpawn(Player from, ushort x, ushort y, ushort z, byte rotx, byte roty, bool self, string possession = "")
         {
@@ -5750,7 +5617,7 @@ level.Unload();
                     catch { }
                 }
                 Server.zombie.InfectedPlayerDC();
-                Server.pctf.PlayerDC(this);
+         //       Server.pctf.PlayerDC(this);
 
             }
             catch (Exception e) { Server.ErrorLog(e); }
@@ -5859,7 +5726,7 @@ catch { }*/
         {
             return GetGroup(name).color;
         }
-        public static OfflinePlayer FindOffline(string name)
+   /*     public static OfflinePlayer FindOffline(string name)
         {
             OfflinePlayer offPlayer = new OfflinePlayer("", "", "", "", 0);
             Database.AddParams("@Name", name);
@@ -5878,7 +5745,7 @@ catch { }*/
                 }
             }
             return offPlayer;
-        }
+        }*/
         #endregion
         #region == OTHER ==
         static byte FreeId()

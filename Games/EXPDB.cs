@@ -22,10 +22,6 @@ namespace MCForge
                                     p.points = int.Parse( value );
                                     section = key;
                                     break;	
-								case "nick":
-									p.DisplayName = value;
-									section = key;
-									break;
 							}
 
                             EXPLevel currLevel = null;
@@ -61,9 +57,8 @@ namespace MCForge
         }
 
         public static void Save( Player p ) {
-            StreamWriter sw = new StreamWriter( File.Create( "players/" + p.name + "DB.txt" ) );
+            StreamWriter sw = new StreamWriter( File.Create( "exp/" + p.name + "DB.txt" ) );
             sw.WriteLine( "Points = " + p.points );
-			sw.WriteLine ("Nick = " + p.DisplayName );
             sw.Flush();
             sw.Close();
             sw.Dispose();

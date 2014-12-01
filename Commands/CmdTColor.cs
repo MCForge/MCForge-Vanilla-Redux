@@ -15,7 +15,7 @@
 	or implied. See the Licenses for the specific language governing
 	permissions and limitations under the Licenses.
 */
-using MCForge.SQL;
+
 namespace MCForge.Commands
 {
     public class CmdTColor : Command
@@ -45,8 +45,6 @@ namespace MCForge.Commands
             {
                 who.titlecolor = "";
                 Player.GlobalChat(who, who.color + who.name + Server.DefaultColor + " had their title color removed.", false);
-                Database.AddParams("@Name", who.name);
-                Database.executeQuery("UPDATE Players SET title_color = '' WHERE Name = @Name");
                 who.SetPrefix();
                 return;
             }
@@ -57,9 +55,6 @@ namespace MCForge.Commands
                 else if (color == who.titlecolor) { Player.SendMessage(p, who.name + " already has that title color."); return; }
                 else
                 {
-                    Database.AddParams("@Color", c.Name(color));
-                    Database.AddParams("@Name", who.name);
-                    Database.executeQuery("UPDATE Players SET title_color = @Color WHERE Name = @Name");
                     Player.GlobalChat(who, who.color + who.name + Server.DefaultColor + " had their title color changed to " + color + c.Name(color) + Server.DefaultColor + ".", false);
                     who.titlecolor = color;
                     who.SetPrefix();

@@ -17,7 +17,7 @@
 */
 using System;
 using System.Collections.Generic;
-using MCForge.SQL;
+
 namespace MCForge.Commands
 {
     public class CmdZone : Command
@@ -82,8 +82,8 @@ namespace MCForge.Commands
                     for (int i = 0; i < p.level.ZoneList.Count; i++)
                     {
                         Zone Zn = p.level.ZoneList[i];
-                        Database.AddParams("@Owner", Zn.owner);
-                        Database.executeQuery("DELETE FROM `Zone" + p.level.name + "` WHERE Owner=@Owner AND SmallX='" + Zn.smallX + "' AND SMALLY='" + Zn.smallY + "' AND SMALLZ='" + Zn.smallZ + "' AND BIGX='" + Zn.bigX + "' AND BIGY='" + Zn.bigY + "' AND BIGZ='" + Zn.bigZ + "'");
+                    //    Database.AddParams("@Owner", Zn.owner);
+                     //   Database.executeQuery("DELETE FROM `Zone" + p.level.name + "` WHERE Owner=@Owner AND SmallX='" + Zn.smallX + "' AND SMALLY='" + Zn.smallY + "' AND SMALLZ='" + Zn.smallZ + "' AND BIGX='" + Zn.bigX + "' AND BIGY='" + Zn.bigY + "' AND BIGZ='" + Zn.bigZ + "'");
 
                         Player.SendMessage(p, "Zone deleted for &b" + Zn.owner);
                         p.level.ZoneList.Remove(p.level.ZoneList[i]);

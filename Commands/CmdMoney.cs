@@ -36,10 +36,8 @@ namespace MCForge.Commands
             {
                 Player who = Player.Find(message);
                 if (who == null)
-                { //player is offline
-                    Economy.EcoStats ecos = Economy.RetrieveEcoStats(message);
-                    Player.SendMessage(p, ecos.playerName + "(%foffline" + Server.DefaultColor + ") currently has %f" + ecos.money + " %3" + Server.moneys);
-                    return;
+                { 
+					p.SendMessage ("Player is offline");
                 }
                 //you can see everyone's stats with /eco stats [player]
                 /*if (who.group.Permission >= p.group.Permission) {

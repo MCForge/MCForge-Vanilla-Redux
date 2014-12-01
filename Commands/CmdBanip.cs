@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
-using MCForge.SQL;
+
 namespace MCForge.Commands {
     public class CmdBanip : Command {
         public override string name { get { return "banip"; } }
@@ -49,28 +49,7 @@ namespace MCForge.Commands {
                 Player who = Player.Find(message);
 
                 if (who == null) {
-                    DataTable ip;
-                    int tryCounter = 0;
-                rerun: try {
-                        Database.AddParams("@Name", message);
-                        ip = Database.fillData("SELECT IP FROM Players WHERE Name = @Name");
-                    } catch (Exception e) {
-                        tryCounter++;
-                        if (tryCounter < 10)
-                            goto rerun;
-                        else {
-                            Server.ErrorLog(e);
-                            return;
-                        }
-                    }
-                    if (ip.Rows.Count > 0) {
-                        name = message.ToLower();
-                        message = ip.Rows[0]["IP"].ToString();
-                    } else {
-                        Player.SendMessage(p, "Unable to find an IP address for that user.");
-                        return;
-                    }
-                    ip.Dispose();
+                        Player.SendMessage(p, "Unable to the user (offline?)");
                 } else {
                     name = who.name.ToLower();
                     message = who.ip;
@@ -98,13 +77,13 @@ namespace MCForge.Commands {
             // First get names of active ops+ with that ip
             List<string> opNamesWithThatIP = (from pl in Player.players where (pl.ip == message && pl.@group.Permission >= LevelPermission.Operator) select pl.name).ToList();
             // Next, add names from the database
-            Database.AddParams("@IP", message);
-            DataTable dbnames = Database.fillData("SELECT Name FROM Players WHERE IP = @IP");
+      //      Database.AddParams("@IP", message);
+      //      DataTable dbnames = Database.fillData("SELECT Name FROM Players WHERE IP = @IP");
 
-            foreach (DataRow row in dbnames.Rows) {
-                opNamesWithThatIP.Add(row[0].ToString());
-            }
-            dbnames.Dispose();
+          //  foreach (DataRow row in dbnames.Rows) {
+           //     opNamesWithThatIP.Add(row[0].ToString());
+           // }
+         //   dbnames.Dispose();
 
             if (opNamesWithThatIP != null && opNamesWithThatIP.Count > 0) {
                 // We have at least one op+ with a matching IP

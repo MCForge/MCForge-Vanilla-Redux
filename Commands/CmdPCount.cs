@@ -16,7 +16,8 @@
 	permissions and limitations under the Licenses.
 */
 using System.Data;
-using MCForge.SQL;
+using System.IO;
+
 namespace MCForge.Commands
 {
     public class CmdPCount : Command
@@ -32,10 +33,9 @@ namespace MCForge.Commands
         {
             int bancount = Group.findPerm(LevelPermission.Banned).playerList.All().Count;
 
-            DataTable count = Database.fillData("SELECT COUNT(id) FROM Players");
-            Player.SendMessage(p, "A total of " + count.Rows[0]["COUNT(id)"] + " unique players have visited this server.");
+			int count = Directory.GetFiles("players/", "*.txt", SearchOption.TopDirectoryOnly).Length;
+            Player.SendMessage(p, "A total of " + count + " unique players have visited this server.");
             Player.SendMessage(p, "Of these players, " + bancount + " have been banned.");
-            count.Dispose();
 
             int playerCount = 0;
             int hiddenCount = 0;

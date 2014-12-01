@@ -468,7 +468,7 @@ namespace MCForge
                 }
             }
             return;
-            }
+            }/*
             if(p.level.name == Server.pctf.currentLevelName && Server.CTFModeOn)
                 message.ToLower();
                 string[] msg = message.Split(' ');
@@ -836,7 +836,7 @@ namespace MCForge
                                 break;
                         }
                     }
-                }
+                }*/
         }
         public override void Help(Player p)
         {

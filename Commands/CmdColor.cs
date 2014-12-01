@@ -15,7 +15,7 @@
 	or implied. See the Licenses for the specific language governing
 	permissions and limitations under the Licenses.
 */
-using MCForge.SQL;
+
 namespace MCForge.Commands {
     public class CmdColor : Command {
         public override string name { get { return "color"; } }
@@ -36,8 +36,8 @@ namespace MCForge.Commands {
                 if ( who == null ) { Player.SendMessage(p, "There is no player \"" + message.Substring(0, pos) + "\"!"); return; }
 
                 if ( message.Substring(pos + 1) == "del" ) {
-                    Database.AddParams("@Name", who.name);
-                    Database.executeQuery("UPDATE Players SET color = '' WHERE name = @Name");
+                    //Database.AddParams("@Name", who.name);
+                    //Database.executeQuery("UPDATE Players SET color = '' WHERE name = @Name");
                     Player.GlobalChat(who, who.color + "*" + Name(who.name) + " color reverted to " + who.group.color + "their group's default" + Server.DefaultColor + ".", false);
                     who.color = who.group.color;
 
@@ -53,9 +53,9 @@ namespace MCForge.Commands {
                     //Player.GlobalChat(who, p.color + "*" + p.name + "&e changed " + who.color + Name(who.name) +
                     //                  " color to " + color +
                     //                  c.Name(color) + "&e.", false);
-                    Database.AddParams("@Color", c.Name(color));
-                    Database.AddParams("@Name", who.name);
-                    Database.executeQuery("UPDATE Players SET color = @Color WHERE name = @Name");
+                 //   Database.AddParams("@Color", c.Name(color));
+                   // Database.AddParams("@Name", who.name);
+                 //   Database.executeQuery("UPDATE Players SET color = @Color WHERE name = @Name");
 
                     Player.GlobalChat(who, who.color + "*" + Name(who.name) + " color changed to " + color + c.Name(color) + Server.DefaultColor + ".", false);
                     if ( p == null ) {
@@ -71,8 +71,8 @@ namespace MCForge.Commands {
             else {
                 if ( p != null ) {
                     if ( message == "del" ) {
-                        Database.AddParams("@Name", p.name);
-                        Database.executeQuery("UPDATE Players SET color = '' WHERE name = @Name");
+                //        Database.AddParams("@Name", p.name);
+                  //      Database.executeQuery("UPDATE Players SET color = '' WHERE name = @Name");
 
                         Player.GlobalChat(p, p.color + "*" + Name(p.name) + " color reverted to " + p.group.color + "their group's default" + Server.DefaultColor + ".", false);
                         p.color = p.group.color;
@@ -86,9 +86,9 @@ namespace MCForge.Commands {
                     if ( color == "" ) { Player.SendMessage(p, "There is no color \"" + message + "\"."); }
                     else if ( color == p.color ) { Player.SendMessage(p, "You already have that color."); }
                     else {
-                        Database.AddParams("@Color", c.Name(color));
-                        Database.AddParams("@Name", p.name);
-                        Database.executeQuery("UPDATE Players SET color = @Color WHERE name = @Name");
+                      //  Database.AddParams("@Color", c.Name(color));
+                        //Database.AddParams("@Name", p.name);
+                        //Database.executeQuery("UPDATE Players SET color = @Color WHERE name = @Name");
 
                         Player.GlobalChat(p, p.color + "*" + Name(p.name) + " color changed to " + color + c.Name(color) + Server.DefaultColor + ".", false);
                         p.color = color;

@@ -34,8 +34,6 @@ namespace MCForge.Commands
             if (message.Split(' ').Length != 2) { Help(p); return; }
 
             Player who = Player.Find(message.Split(' ')[0]);
-            Economy.EcoStats payer;
-            Economy.EcoStats receiver;
 
             int amountPaid;
             try { amountPaid = int.Parse(message.Split(' ')[1]); }
@@ -44,10 +42,10 @@ namespace MCForge.Commands
 
             if (who == null)
             { //player is offline
-                Player.OfflinePlayer off = Player.FindOffline(message.Split()[0]);
-                if (off.name == "") { Player.SendMessage(p, "%cThe player %f" + message.Split()[0] + Server.DefaultColor + "(offline)%c does not exist or has never logged on to this server"); return; }
+              //  Player.OfflinePlayer off = Player.FindOffline(message.Split()[0]);
+                Player.SendMessage(p, "%cThe player %f" + message.Split()[0] + Server.DefaultColor + "is offline"); return;
 
-                payer = Economy.RetrieveEcoStats(p.name);
+           /*    payer = Economy.RetrieveEcoStats(p.name);
                 receiver = Economy.RetrieveEcoStats(message.Split()[0]);
                 if (!IsLegalPayment(p, payer.money, receiver.money, amountPaid)) return;
 
@@ -63,25 +61,15 @@ namespace MCForge.Commands
                 Economy.UpdateEcoStats(receiver);
 
                 Player.GlobalMessage(p.prefix + p.name + Server.DefaultColor + " paid %f" + off.color + off.name + Server.DefaultColor + "(offline) %f" + amountPaid + " %3" + Server.moneys);
-                return;
+                return;*/
             }
             if (who == p) { Player.SendMessage(p, "%cYou can't pay yourself %3" + Server.moneys); return; }
 
-            payer = Economy.RetrieveEcoStats(p.name);
-            receiver = Economy.RetrieveEcoStats(who.name);
-            if (!IsLegalPayment(p, payer.money, receiver.money, amountPaid)) return;
+            if (!IsLegalPayment(p, p.money, who.money, amountPaid)) return;
 
             p.money -= amountPaid;
             who.money += amountPaid;
 
-            payer.money = p.money;
-            receiver.money = who.money;
-
-            payer.payment = "%f" + amountPaid + " %3" + Server.moneys + " to " + who.color + who.name + "%3 on %f" + DateTime.Now.ToString(CultureInfo.InvariantCulture);
-            receiver.salary = "%f" + amountPaid + " %3" + Server.moneys + " by " + p.color + p.name + "%3 on %f" + DateTime.Now.ToString(CultureInfo.InvariantCulture);
-
-            Economy.UpdateEcoStats(payer);
-            Economy.UpdateEcoStats(receiver);
             Player.GlobalMessage(p.prefix + p.name + Server.DefaultColor + " paid " + who.prefix + who.name + " %f" + amountPaid + " %3" + Server.moneys);
         }
         public override void Help(Player p)

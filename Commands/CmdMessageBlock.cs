@@ -18,7 +18,7 @@
 using System;
 using System.Data;
 using System.Text.RegularExpressions;
-using MCForge.SQL;
+
 namespace MCForge.Commands
 {
     public class CmdMessageBlock : Command

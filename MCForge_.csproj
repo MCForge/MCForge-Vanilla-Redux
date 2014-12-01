@@ -113,26 +113,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CmdStore.cs" />
-    <Compile Include="Commands\CmdAutoTNT.cs" />
-    <Compile Include="Commands\CmdBlue.cs" />
     <Compile Include="Commands\CmdConvertAll.cs" />
-    <Compile Include="Commands\CmdDisarm.cs" />
-    <Compile Include="Commands\CmdGiveItem.cs" />
     <Compile Include="Commands\CmdInfectMessage.cs" />
     <Compile Include="Commands\CmdInventory.cs" />
     <Compile Include="Commands\CmdIronMan.cs" />
     <Compile Include="Commands\CmdJoin.cs" />
     <Compile Include="Commands\CmdLeave.cs" />
-    <Compile Include="Commands\CmdLeaveTeam.cs" />
     <Compile Include="Commands\CmdMoreSponges.cs" />
-    <Compile Include="Commands\CmdPCTF.cs" />
-    <Compile Include="Commands\CmdGrapple.cs" />
-    <Compile Include="Commands\CmdRocket.cs" />
     <Compile Include="Commands\CmdScore.cs" />
     <Compile Include="Commands\CmdSponges.cs" />
-    <Compile Include="Commands\CmdTeamChat.cs" />
     <Compile Include="Games\EXPDB.cs" />
-    <Compile Include="Games\ProperCTFSetup.cs" />
     <Compile Include="Games\SMP.cs" />
     <Compile Include="Games\SMP\Inventory.cs" />
     <Compile Include="Physics\Physics.cs" />
@@ -157,18 +147,6 @@
     </Compile>
     <Compile Include="GUI\ColoredTextBox.Designer.cs">
       <DependentUpon>ColoredTextBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Eco\EcoLevelWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Eco\EcoLevelWindow.Designer.cs">
-      <DependentUpon>EcoLevelWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Eco\EconomyWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Eco\EconomyWindow.Designer.cs">
-      <DependentUpon>EconomyWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Games\TntWarsGame.cs" />
     <Compile Include="GUI\Isocat.cs" />
@@ -221,15 +199,12 @@
     <Compile Include="Commands\CmdAscend.cs" />
     <Compile Include="Commands\CmdBanEdit.cs" />
     <Compile Include="Commands\CmdDescend.cs" />
-    <Compile Include="Commands\CmdOpStats.cs" />
     <Compile Include="Commands\CmdPumpkin.cs" />
     <Compile Include="Commands\CmdRankInfo.cs" />
     <Compile Include="Commands\CmdReview.cs" />
     <Compile Include="Commands\CmdTranslate.cs" />
     <Compile Include="Commands\CmdVIP.cs" />
     <Compile Include="Commands\CmdBlockSpeed.cs" />
-    <Compile Include="Database\DatabaseTransactionHelper.cs" />
-    <Compile Include="Database\Database.cs" />
     <Compile Include="Commands\CmdServer.cs" />
     <Compile Include="Commands\CmdAdminChat.cs" />
     <Compile Include="Commands\CmdAgree.cs" />
@@ -249,7 +224,6 @@
     <Compile Include="Commands\CmdDisinfect.cs" />
     <Compile Include="Commands\CmdDraw.cs" />
     <Compile Include="Commands\CmdDurl.cs" />
-    <Compile Include="Commands\CmdEconomy.cs" />
     <Compile Include="Commands\CmdEllipse.cs" />
     <Compile Include="Commands\CmdEndRound.cs" />
     <Compile Include="Commands\CmdExplode.cs" />
@@ -300,7 +274,6 @@
     <Compile Include="Commands\CmdReload.cs" />
     <Compile Include="Commands\CmdRestoreSelection.cs" />
     <Compile Include="Commands\CmdScinema.cs" />
-    <Compile Include="Commands\CmdSeen.cs" />
     <Compile Include="Commands\CmdSendCmd.cs" />
     <Compile Include="Commands\CmdSetPass.cs" />
     <Compile Include="Commands\CmdShutdown.cs" />
@@ -320,7 +293,6 @@
     <Compile Include="Commands\CmdTempRank.cs" />
     <Compile Include="Commands\CmdTempRankInfo.cs" />
     <Compile Include="Commands\CmdTempRankList.cs" />
-    <Compile Include="Commands\CmdTopTen.cs" />
     <Compile Include="Commands\CmdTpZone.cs" />
     <Compile Include="Commands\CmdFlipHeads.cs" />
     <Compile Include="Commands\CmdFly.cs" />
@@ -355,7 +327,6 @@
     <Compile Include="Commands\CommandOtherPerms.cs" />
     <Compile Include="IRC\GlobalChatBot.cs" />
     <Compile Include="Games\CountdownGame.cs" />
-    <Compile Include="Player\Economy.cs" />
     <Compile Include="IRC\ForgeBot.cs" />
     <Compile Include="GUI\EditText.cs">
       <SubType>Form</SubType>
@@ -378,8 +349,6 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Server\UPnP.cs" />
-    <Compile Include="Database\SQLite.cs" />
-    <Compile Include="Database\SQLiteTransactionHelper.cs" />
     <Compile Include="Player\FindReference.cs" />
     <Compile Include="Server\Color.cs" />
     <Compile Include="Commands\CmdBotAdd.cs" />
@@ -459,7 +428,6 @@
     <Compile Include="Commands\CmdVoice.cs" />
     <Compile Include="Commands\CmdWhitelist.cs" />
     <Compile Include="Commands\CmdWhois.cs" />
-    <Compile Include="Commands\CmdWhowas.cs" />
     <Compile Include="Commands\CmdXhide.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandList.cs" />
@@ -472,14 +440,11 @@
     <Compile Include="Commands\CmdRestartPhysics.cs" />
     <Compile Include="Commands\CmdTimer.cs" />
     <Compile Include="Commands\CmdStatic.cs" />
-    <Compile Include="Commands\CmdSend.cs" />
-    <Compile Include="Commands\CmdInbox.cs" />
     <Compile Include="Commands\CmdStairs.cs" />
     <Compile Include="Commands\CmdTitle.cs" />
     <Compile Include="Commands\CmdOutline.cs" />
     <Compile Include="Commands\CmdLimit.cs" />
     <Compile Include="Commands\CmdReveal.cs" />
-    <Compile Include="Commands\CmdClones.cs" />
     <Compile Include="Commands\CmdFreeze.cs" />
     <Compile Include="Commands\CmdFollow.cs" />
     <Compile Include="Commands\CmdDelete.cs" />
@@ -501,7 +466,6 @@
     <Compile Include="Commands\CmdWhisper.cs" />
     <Compile Include="Commands\CmdRenameLvl.cs" />
     <Compile Include="Commands\CmdHollow.cs" />
-    <Compile Include="Commands\CmdWhoip.cs" />
     <Compile Include="Commands\CmdBlocks.cs" />
     <Compile Include="Commands\CmdBlockSet.cs" />
     <Compile Include="Commands\CmdCmdSet.cs" />
@@ -565,12 +529,6 @@
     <Compile Include="Player\VIP.cs" />
     <Compile Include="Player\Warp.cs" />
     <Compile Include="Games\ZombieGame.cs" />
-    <EmbeddedResource Include="GUI\Eco\EcoLevelWindow.resx">
-      <DependentUpon>EcoLevelWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Eco\EconomyWindow.resx">
-      <DependentUpon>EconomyWindow.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\EditText.resx">
       <DependentUpon>EditText.cs</DependentUpon>
     </EmbeddedResource>
@@ -660,6 +618,7 @@
     <Compile Include="Database\MessageBlockDB.cs" />
     <Compile Include="Database\PortalDB.cs" />
     <Compile Include="Database\ZoneDB.cs" />
+    <Compile Include="Database\PlayerDB.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

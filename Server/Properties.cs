@@ -297,36 +297,6 @@ namespace MCForge {
                                                             case "deathcount":
                                                                 Server.deathcount = (value.ToLower() == "true") ? true : false;
                                                                 break;
-
-                                                            case "usemysql":
-                                                                Server.useMySQL = (value.ToLower() == "true") ? true : false;
-                                                                break;
-                                                            case "host":
-                                                                Server.MySQLHost = value;
-                                                                break;
-                                                            case "sqlport":
-                                                                Server.MySQLPort = value;
-                                                                break;
-                                                            case "username":
-                                                                Server.MySQLUsername = value;
-                                                                break;
-                                                            case "password":
-                                                                Server.MySQLPassword = value;
-                                                                break;
-                                                            case "databasename":
-                                                                Server.MySQLDatabaseName = value;
-                                                                break;
-                                                            case "pooling":
-                                                                try
-                                                                {
-                                                                    Server.DatabasePooling = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                    break;
-                                                                }
-                                                                break;
                                                             case "defaultcolor":
                                                                 color = c.Parse(value);
                                                                 if (color == "")
@@ -695,7 +665,7 @@ namespace MCForge {
                                     try { Server.mono = bool.Parse(value); }
                                     catch { Server.s.Log("Invalid " + key + ". Using default."); }
                                     break;*/
-                                                            case "ctf":
+                                                       /*     case "ctf":
                                                                 try
                                                                 {
                                                                     Server.CTFOnlyServer = bool.Parse(value);
@@ -704,7 +674,7 @@ namespace MCForge {
                                                                 {
                                                                     Server.s.Log("Invalid " + key + ". Using default.");
                                                                 }
-                                                                break;
+                                                                break;*/
                                                             case "restart-on-error":
                                                                 try
                                                                 {
@@ -1595,13 +1565,6 @@ namespace MCForge {
             w.WriteLine("#   guest-join-notify\t\t\t= Shows when guests and lower ranks join server in chat and IRC. Default true");
             w.WriteLine("#   guest-leave-notify\t\t\t= Shows when guests and lower ranks leave server in chat and IRC. Default true");
 			w.WriteLine();
-            w.WriteLine("#   UseMySQL\t\t\t\t= Use MySQL (true) or use SQLite (false)");
-            w.WriteLine("#   Host\t\t\t\t= The host name for the database (usually 127.0.0.1)");
-            w.WriteLine("#   SQLPort\t\t\t\t= Port number to be used for MySQL.  Unless you manually changed the port, leave this alone.  Default 3306.");
-            w.WriteLine("#   Username\t\t\t\t= The username you used to create the database (usually root)");
-            w.WriteLine("#   Password\t\t\t\t= The password set while making the database");
-            w.WriteLine("#   DatabaseName\t\t\t= The name of the database stored (Default = MCZall)");
-			w.WriteLine();
             w.WriteLine("#   defaultColor\t\t\t= The color code of the default messages (Default = &e)");
 			w.WriteLine();
             w.WriteLine("#   Super-limit\t\t\t\t= The limit for building commands for SuperOPs");
@@ -1713,21 +1676,12 @@ namespace MCForge {
 			w.WriteLine("#Error logging");
 			w.WriteLine("report-back = " + Server.reportBack.ToString().ToLower());
 			w.WriteLine();
-			w.WriteLine("#MySQL information");
-			w.WriteLine("UseMySQL = " + Server.useMySQL);
-			w.WriteLine("Host = " + Server.MySQLHost);
-			w.WriteLine("SQLPort = " + Server.MySQLPort);
-			w.WriteLine("Username = " + Server.MySQLUsername);
-			w.WriteLine("Password = " + Server.MySQLPassword);
-			w.WriteLine("DatabaseName = " + Server.MySQLDatabaseName);
-			w.WriteLine("Pooling = " + Server.DatabasePooling);
-			w.WriteLine();
 			w.WriteLine("#Colors");
 			w.WriteLine("defaultColor = " + Server.DefaultColor);
 			w.WriteLine("irc-color = " + Server.IRCColour);
 			w.WriteLine();
-            w.WriteLine("#CTF");
-            w.WriteLine("CTF = " + Server.CTFOnlyServer);
+           // w.WriteLine("#CTF");
+          //  w.WriteLine("CTF = " + Server.CTFOnlyServer);
 			/*w.WriteLine("#Running on mono?");
 			w.WriteLine("mono = " + Server.mono);
 			w.WriteLine();*/

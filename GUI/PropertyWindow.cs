@@ -64,7 +64,7 @@ namespace MCForge.Gui {
             cmbGlobalChatColor.Items.AddRange(colors);
 
             grpIRC.BackColor = Server.irc ? Color.White : Color.LightGray;
-            grpSQL.BackColor = Server.useMySQL ? Color.White : Color.LightGray;
+            grpSQL.BackColor = Color.LightGray;
 
             string opchatperm = String.Empty;
             string adminchatperm = String.Empty;
@@ -808,12 +808,12 @@ namespace MCForge.Gui {
 
             //Server.reportBack = ;  //No setting for this?
 
-            Server.useMySQL = chkUseSQL.Checked;
+      /*      Server.useMySQL = chkUseSQL.Checked;
             Server.MySQLHost = txtSQLHost.Text;
             Server.MySQLPort = numMySQLPort.Text;
             Server.MySQLUsername = txtSQLUsername.Text;
             Server.MySQLPassword = txtSQLPassword.Text;
-            Server.MySQLDatabaseName = txtSQLDatabase.Text;
+            Server.MySQLDatabaseName = txtSQLDatabase.Text;*/
             //Server.MySQLPooling = ; // No setting for this?
 
 
@@ -2252,7 +2252,6 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
         }
 
         private void buttonEco_Click(object sender, EventArgs e) {
-            new GUI.Eco.EconomyWindow().ShowDialog();
         }
 
         

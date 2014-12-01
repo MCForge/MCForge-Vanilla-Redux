@@ -44,21 +44,10 @@ namespace MCForge.Commands
             if (amountGiven < 0) { Player.SendMessage(p, "%cCannot give negative %3" + Server.moneys); return; }
 
             Player who = Player.Find(message.Split(' ')[0]);
-            Economy.EcoStats ecos;
 
             if (who == null)
             { //player is offline
-                Player.OfflinePlayer off = Player.FindOffline(message.Split()[0]);
-                if (off.name == "") { Player.SendMessage(p, "%cThe player %f" + message.Split()[0] + Server.DefaultColor + "(offline)%c does not exist or has never logged on to this server"); return; }
-
-                ecos = Economy.RetrieveEcoStats(message.Split()[0]);
-                if (ReachedMax(p, ecos.money, amountGiven)) return;
-                ecos.money += amountGiven;
-                ecos.salary = "%f" + amountGiven + "%3 " + Server.moneys + " by " + user1 + "%3 on %f" + DateTime.Now.ToString(CultureInfo.InvariantCulture);
-                Economy.UpdateEcoStats(ecos);
-                //Player.GlobalMessage("%f" + ecos.playerName + Server.DefaultColor + "(offline) was given %f" + amountGiven + " %3" + Server.moneys + Server.DefaultColor + " by " + user2);
-                Player.GlobalMessage(user2 + Server.DefaultColor + " gave %f" + ecos.playerName + Server.DefaultColor + "(offline)" + " %f" + amountGiven + " %3" + Server.moneys);
-                return;
+              Player.SendMessage(p, "%cThe player %f" + message.Split()[0] + Server.DefaultColor + "is offline"); return; 
             }
 
             if (who == p /*&& p.name != Server.server_owner*/)
@@ -80,10 +69,10 @@ namespace MCForge.Commands
 
             if (ReachedMax(p, who.money, amountGiven)) return;
             who.money += amountGiven;
-            ecos = Economy.RetrieveEcoStats(who.name);
-            ecos.money = who.money;
-            ecos.salary = "%f" + amountGiven + "%3 " + Server.moneys + " by " + user1 + "%3 on %f" + DateTime.Now.ToString(CultureInfo.InvariantCulture);
-            Economy.UpdateEcoStats(ecos);
+      //      ecos = Economy.RetrieveEcoStats(who.name);
+     //       ecos.money = who.money;
+     //       ecos.salary = "%f" + amountGiven + "%3 " + Server.moneys + " by " + user1 + "%3 on %f" + DateTime.Now.ToString(CultureInfo.InvariantCulture);
+     //       Economy.UpdateEcoStats(ecos);
             Player.GlobalMessage(user2 + Server.DefaultColor + " gave " + who.prefix + who.name + " %f" + amountGiven + " %3" + Server.moneys);
             //Player.GlobalMessage(who.color + who.prefix + who.name + Server.DefaultColor + " was given %f" + amountGiven + " %3" + Server.moneys + Server.DefaultColor + " by " + user2);
         }

@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Packaging;
 using System.Threading;
-using MCForge.SQL;
 namespace MCForge.Commands
 {
     public class CmdServer : Command
@@ -88,43 +87,6 @@ namespace MCForge.Commands
                     Server.LoadAllSettings();
                     Player.SendMessage(p, "Settings reloaded!  You may need to restart the server, however.");
                     break;
-                case "backup":
-                case "backup all":
-                    // Backup Everything.
-                    //   Create SQL statements for this.  The SQL will assume the settings for the current configuration are correct.
-                    //   This means we use the currently defined port, database, user, password, and pooling.
-                    // Also important to save everything to a .zip file (Though we can rename the extention.)
-                    // When backing up, one option is to save all non-main program files.
-                    //    This means all folders, and files in these folders.
-                    Player.SendMessage(p, "Server backup (Everything): Started.\n\tPlease wait while backup finishes.");
-                    Save(true, p);
-                    break;
-                case "backup db":
-                    // Backup database only.
-                    //   Create SQL statements for this.  The SQL will assume the settings for the current configuration are correct.
-                    //   This means we use the currently defined port, database, user, password, and pooling.
-                    // Also important to save everything to a .zip file (Though we can rename the extention.)
-                    // When backing up, one option is to save all non-main program files.
-                    //    This means all folders, and files in these folders.
-                    Player.SendMessage(p, "Server backup (Database): Started.\n\tPlease wait while backup finishes.");
-                    Save(false, true, p);
-                    break;
-                case "backup allbutdb":
-                    // Important to save everything to a .zip file (Though we can rename the extention.)
-                    // When backing up, one option is to save all non-main program files.
-                    //    This means all folders, and files in these folders.
-                    Player.SendMessage(p, "Server backup (Everything but Database): Started.\n\tPlease wait while backup finishes.");
-                    Save(false, p);
-                    break;
-                case "restore":
-                    if (p != null && !Server.server_owner.ToLower().Equals(p.name.ToLower()) || Server.server_owner.Equals("Notch"))
-                    {
-                        p.SendMessage("Sorry.  You must be the defined Server Owner or Console to restore the server.");
-                        return;
-                    }
-                    Thread extract = new Thread(new ParameterizedThreadStart(ExtractPackage));
-                    extract.Start(p);
-                    break;
                 default:
                     Player.SendMessage(p, "/server " + message + " is not currently implemented.");
                     goto case "";
@@ -132,23 +94,6 @@ namespace MCForge.Commands
                 //    Help(p);
                 //    break;
             }
-        }
-
-        private void Save(bool withDB, Player p)
-        {
-            Save(true, withDB, p);
-        }
-
-        private void Save(bool withFiles, bool withDB, Player p)
-        {
-          //  ParameterizedThreadStart pts = new ParameterizedThreadStart(CreatePackage);
-            Thread doWork = new Thread(new ParameterizedThreadStart(CreatePackage));
-            List<object> param = new List<object>();
-            param.Add("MCForge.zip");
-            param.Add(withFiles);
-            param.Add(withDB);
-            param.Add(p);
-            doWork.Start(param);
         }
 
         private void setToDefault()
@@ -261,13 +206,6 @@ namespace MCForge.Commands
 
             Server.checkUpdates = true;
 
-            Server.useMySQL = false;
-            Server.MySQLHost = "127.0.0.1";
-            Server.MySQLPort = "3306";
-            Server.MySQLUsername = "root";
-            Server.MySQLPassword = "password";
-            Server.MySQLDatabaseName = "MCZallDB";
-            Server.DatabasePooling = true;
 
             Server.DefaultColor = "&e";
             Server.IRCColour = "&5";
@@ -343,79 +281,6 @@ namespace MCForge.Commands
             Player.SendMessage(p, "allbutdb - Backup everything BUT the database.");
         }
 
-        private static void CreatePackage(object par)
-        {
-            List<object> param = (List<object>)par;
-            CreatePackage((string)param[0], (bool)param[1], (bool)param[2], (Player)param[3]);
-        }
-
-        //  -------------------------- CreatePackage --------------------------
-        /// <summary>
-        ///   Creates a package zip file containing specified
-        ///   content and resource files.</summary>
-        private static void CreatePackage(string packagePath, bool withFiles, bool withDB, Player p)
-        {
-
-            // Create the Package
-            if (withDB)
-            {
-                Server.s.Log("Saving DB...");
-                SaveDatabase("SQL.sql");
-                Server.s.Log("Saved DB to SQL.sql");
-            }
-
-            Server.s.Log("Creating package...");
-            using (ZipPackage package = (ZipPackage)ZipPackage.Open(packagePath, FileMode.Create))
-            {
-
-                if (withFiles)
-                {
-                    Server.s.Log("Collecting Directory structure...");
-                    string currDir = Directory.GetCurrentDirectory() + "\\";
-                    List<Uri> partURIs = GetAllFiles(new DirectoryInfo("./"), new Uri(currDir));
-                    Server.s.Log("Structure complete");
-
-                    Server.s.Log("Saving data...");
-                    foreach (Uri loc in partURIs)
-                    {
-                        if (!Uri.UnescapeDataString(loc.ToString()).Contains(packagePath))
-                        {
-
-                            // Add the part to the Package
-
-                            ZipPackagePart packagePart =
-                                (ZipPackagePart)package.CreatePart(loc, "");
-
-                            // Copy the data to the Document Part
-                            using (FileStream fileStream = new FileStream(
-                                    "./" + Uri.UnescapeDataString(loc.ToString()), FileMode.Open, FileAccess.Read))
-                            {
-                                CopyStream(fileStream, packagePart.GetStream());
-                            }// end:using(fileStream) - Close and dispose fileStream.
-                        }
-                    }// end:foreach(Uri loc)
-                }
-                if (withDB)
-                { // If we don't want to back up database, we don't do this part.
-                    Server.s.Log("Compressing Database...");
-                    ZipPackagePart packagePart =
-                                (ZipPackagePart)package.CreatePart(new Uri("/SQL.sql", UriKind.Relative), "", CompressionOption.Normal);
-                    CopyStream(File.OpenRead("SQL.sql"), packagePart.GetStream());
-                    Server.s.Log("Database compressed.");
-                }// end:if(withFiles)
-                Server.s.Log("Data saved!");
-            }// end:using (Package package) - Close and dispose package.
-            Player.SendMessage(p, "Server backup (" + (withFiles ? "Everything" + (withDB ? "" : " but Database") : "Database") + "): Complete!");
-            Server.s.Log("Server backed up!");
-        }// end:CreatePackage()
-
-        private static void SaveDatabase(string filename)
-        {
-            using (StreamWriter sql = new StreamWriter(File.Create(filename)))
-            {
-                Database.CopyDatabase(sql);
-            }
-        }
 
         private static List<Uri> GetAllFiles(DirectoryInfo currDir, Uri baseUri)
         {
@@ -485,10 +350,6 @@ namespace MCForge.Commands
                     }
                     // To make life easier, we reload settings now, to maker it less likely to need restart
                     Command.all.Find("server").Use(null, "reload"); //Reload, as console
-                    if (item.Uri.ToString().ToLower().Contains("sql.sql"))
-                    { // If it's in there, they backed it up, meaning they want it restored
-                        Database.fillDatabase(item.GetStream());
-                    }
                 }
             }
             Player.SendMessage((Player)p, "Server restored" + (errors > 0 ? " with errors.  May be a partial restore" : "") + ".  Restart is reccommended, though not required.");

@@ -27,7 +27,7 @@ using System.Net.Sockets;
 using System.Timers;
 using System.Threading;
 using System.Windows.Forms;
-using MCForge.SQL;
+
 using MonoTorrent.Client;
 using Newtonsoft.Json.Linq;
 
@@ -232,8 +232,6 @@ namespace MCForge
         // Lava Survival
         public static LavaSurvival lava;
 
-        //CTF  (new Caznowl style)
-        public static ProperCTFSetup pctf;
         public static bool CTFModeOn = false;
         public static bool ctfRound = false;
         public static int ctfGameStatus = 0; //0 = not started, 1 = always on, 2 = one time, 3 = certain amount of rounds, 4 = stop game next round
@@ -333,14 +331,6 @@ namespace MCForge
 
         public static bool checkUpdates = true;
 
-        public static bool useMySQL = false;
-        public static string MySQLHost = "127.0.0.1";
-        public static string MySQLPort = "3306";
-        public static string MySQLUsername = "root";
-        public static string MySQLPassword = "password";
-        public static string MySQLDatabaseName = "MCZallDB";
-        public static bool DatabasePooling = true;
-
         public static string DefaultColor = "&e";
         public static string IRCColour = "&5";
 
@@ -421,7 +411,7 @@ namespace MCForge
             return cancelcommand;
         }
 
-        public void ReturnRedFlag(object sender, ElapsedEventArgs e)
+      /*  public void ReturnRedFlag(object sender, ElapsedEventArgs e)
         {
             pctf.resetFlag("red");
         }
@@ -429,7 +419,7 @@ namespace MCForge
         public void ReturnBlueFlag(object sender, ElapsedEventArgs e)
         {
             pctf.resetFlag("blue");
-        }
+        }*/
 
         public string table = "Players";
         public string column = "bigtnt";
@@ -626,7 +616,7 @@ namespace MCForge
 
             zombie = new ZombieGame();
 
-            pctf = new ProperCTFSetup();
+      //      pctf = new ProperCTFSetup();
             LoadAllSettings();
 
             // OmniBan
@@ -634,51 +624,33 @@ namespace MCForge
 
             timeOnline = DateTime.Now;
             {//MYSQL stuff
-                try
-                {
-                    Database.executeQuery("CREATE DATABASE if not exists `" + MySQLDatabaseName + "`", true); // works in both now, SQLite simply ignores this.
-                }
                 //catch (MySql.Data.MySqlClient.MySqlException e)
                 //{
                 //    Server.s.Log("MySQL settings have not been set! Many features will not be available if MySQL is not enabled");
                 //  //  Server.ErrorLog(e);
                 //}
-                catch (Exception e)
-                {
-                    ErrorLog(e);
-                    s.Log("MySQL settings have not been set! Please Setup using the properties window.");
-                    //process.Kill();
-                    return;
-                }
-                Database.executeQuery(string.Format("CREATE TABLE if not exists Players (ID INTEGER {0}AUTO{1}INCREMENT NOT NULL, Name TEXT, IP CHAR(15), FirstLogin DATETIME, LastLogin DATETIME, totalLogin MEDIUMINT, Title CHAR(20), TotalDeaths SMALLINT, Money MEDIUMINT UNSIGNED, totalBlocks BIGINT, totalCuboided BIGINT, totalKicked MEDIUMINT, TimeSpent VARCHAR(20), color VARCHAR(6), title_color VARCHAR(6){2});", (useMySQL ? "" : "PRIMARY KEY "), (useMySQL ? "_" : ""), (Server.useMySQL ? ", PRIMARY KEY (ID)" : "")));
-                Database.executeQuery(string.Format("CREATE TABLE if not exists Opstats (ID INTEGER {0}AUTO{1}INCREMENT NOT NULL, Time DATETIME, Name TEXT, Cmd VARCHAR(40), Cmdmsg VARCHAR(40){2});", (useMySQL ? "" : "PRIMARY KEY "), (useMySQL ? "_" : ""), (Server.useMySQL ? ", PRIMARY KEY (ID)" : "")));
+             //   Database.executeQuery(string.Format("CREATE TABLE if not exists Players (ID INTEGER {0}AUTO{1}INCREMENT NOT NULL, Name TEXT, IP CHAR(15), FirstLogin DATETIME, LastLogin DATETIME, totalLogin MEDIUMINT, Title CHAR(20), TotalDeaths SMALLINT, Money MEDIUMINT UNSIGNED, totalBlocks BIGINT, totalCuboided BIGINT, totalKicked MEDIUMINT, TimeSpent VARCHAR(20), color VARCHAR(6), title_color VARCHAR(6){2});", (useMySQL ? "" : "PRIMARY KEY "), (useMySQL ? "_" : ""), (Server.useMySQL ? ", PRIMARY KEY (ID)" : "")));
+            //   Database.executeQuery(string.Format("CREATE TABLE if not exists Opstats (ID INTEGER {0}AUTO{1}INCREMENT NOT NULL, Time DATETIME, Name TEXT, Cmd VARCHAR(40), Cmdmsg VARCHAR(40){2});", (useMySQL ? "" : "PRIMARY KEY "), (useMySQL ? "_" : ""), (Server.useMySQL ? ", PRIMARY KEY (ID)" : "")));
 
                 //CTF
-                Database.executeQuery("CREATE TABLE if not exists Upgrades (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), lazer INT, lightning INT, trap BIGINT, rocket INT, tnt INT, pistol INT, mine INT, tripwire INT, knife INT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
-                Database.executeQuery("CREATE TABLE if not exists ExtraWeapons (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), knife INT, jetpack INT, freezeray INT, lazer INT, lightning INT, trap BIGINT, line BIGINT, rocket INT, tnt INT, pistol INT, mine INT, tripwire INT, grapple BIGINT, bigtnt BIGINT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
-                Database.executeQuery("CREATE TABLE if not exists CTFStats (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), shots INT, explodes INT, mines BIGINT, tags INT, captures INT, games INT, wins INT, losses INT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
-
-                if (!File.Exists("extra/alter.txt") && Server.useMySQL) {
-                	Database.executeQuery("ALTER TABLE Players MODIFY Name TEXT");
-                	Database.executeQuery("ALTER TABLE Opstats MODIFY Name TEXT");
-                	File.Create("extra/alter.txt");
-                }
+              //  Database.executeQuery("CREATE TABLE if not exists Upgrades (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), lazer INT, lightning INT, trap BIGINT, rocket INT, tnt INT, pistol INT, mine INT, tripwire INT, knife INT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
+                //Database.executeQuery("CREATE TABLE if not exists ExtraWeapons (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), knife INT, jetpack INT, freezeray INT, lazer INT, lightning INT, trap BIGINT, line BIGINT, rocket INT, tnt INT, pistol INT, mine INT, tripwire INT, grapple BIGINT, bigtnt BIGINT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
+                //Database.executeQuery("CREATE TABLE if not exists CTFStats (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), shots INT, explodes INT, mines BIGINT, tags INT, captures INT, games INT, wins INT, losses INT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
                 //since 5.5.11 we are cleaning up the table Playercmds
-                string query = Server.useMySQL ? "SHOW TABLES LIKE 'Playercmds'" : "SELECT name FROM sqlite_master WHERE type='table' AND name='Playercmds';";
-                DataTable playercmds = Database.fillData(query); DataTable opstats = Database.fillData("SELECT * FROM Opstats");
+          //      string query = Server.useMySQL ? "SHOW TABLES LIKE 'Playercmds'" : "SELECT name FROM sqlite_master WHERE type='table' AND name='Playercmds';";
+          //      DataTable playercmds = Database.fillData(query); DataTable opstats = Database.fillData("SELECT * FROM Opstats");
                 //if Playercmds exists copy-filter to Ostats and remove Playercmds
-                if (playercmds.Rows.Count != 0) {
-                    foreach (string cmd in Server.Opstats)
-                        Database.executeQuery(string.Format("INSERT INTO Opstats (Time, Name, Cmd, Cmdmsg) SELECT Time, Name, Cmd, Cmdmsg FROM Playercmds WHERE cmd = '{0}';", cmd));
-                    Database.executeQuery("INSERT INTO Opstats (Time, Name, Cmd, Cmdmsg) SELECT Time, Name, Cmd, Cmdmsg FROM Playercmds WHERE cmd = 'review' AND cmdmsg = 'next';");
-                    Database.fillData("DROP TABLE Playercmds");
-                }
-                playercmds.Dispose(); opstats.Dispose();
+          //      if (playercmds.Rows.Count != 0) {
+          //          foreach (string cmd in Server.Opstats)
+            //            Database.executeQuery(string.Format("INSERT INTO Opstats (Time, Name, Cmd, Cmdmsg) SELECT Time, Name, Cmd, Cmdmsg FROM Playercmds WHERE cmd = '{0}';", cmd));
+              //      Database.executeQuery("INSERT INTO Opstats (Time, Name, Cmd, Cmdmsg) SELECT Time, Name, Cmd, Cmdmsg FROM Playercmds WHERE cmd = 'review' AND cmdmsg = 'next';");
+                //    Database.fillData("DROP TABLE Playercmds");
+               // }
+                //playercmds.Dispose(); opstats.Dispose();
 
 
             }
 
-            Economy.LoadDatabase();
             UpdateStaffList();
             Log("MCForge Staff Protection Level: " + forgeProtection);
 
@@ -949,11 +921,11 @@ namespace MCForge
                 }));
                 blockThread.Start();
 
-                redFlagTimer = new System.Timers.Timer(45000);
-                redFlagTimer.Elapsed += new ElapsedEventHandler(ReturnRedFlag);
+              //  redFlagTimer = new System.Timers.Timer(45000);
+              //  redFlagTimer.Elapsed += new ElapsedEventHandler(ReturnRedFlag);
 
-                blueFlagTimer = new System.Timers.Timer(45000);
-                blueFlagTimer.Elapsed += new ElapsedEventHandler(ReturnBlueFlag);
+            //    blueFlagTimer = new System.Timers.Timer(45000);
+           //    blueFlagTimer.Elapsed += new ElapsedEventHandler(ReturnBlueFlag);
 
                 locationChecker = new Thread(new ThreadStart(delegate
                 {
@@ -1042,7 +1014,7 @@ namespace MCForge
                         Server.lava.Start();
                     if (Server.startZombieModeOnStartup)
                         Server.zombie.StartGame(1, 0);
-                    if (Server.CTFOnlyServer) Server.pctf.StartGame(1, 0);
+                   // if (Server.CTFOnlyServer) Server.pctf.StartGame(1, 0);
                 }
                 catch (Exception e) { Server.ErrorLog(e); }
                 BlockQueue.Start();
@@ -1062,7 +1034,6 @@ namespace MCForge
             GrpCommands.fillRanks();
             Block.SetBlocks();
             Awards.Load();
-            Economy.Load();
             EXPLevel.Load();
             Warp.LOAD();
             CommandOtherPerms.Load();

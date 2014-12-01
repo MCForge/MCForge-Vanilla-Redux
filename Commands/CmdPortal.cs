@@ -17,7 +17,7 @@
 */
 using System.Collections.Generic;
 using System.Data;
-using MCForge.SQL;
+
 namespace MCForge.Commands
 {
     public class CmdPortal : Command

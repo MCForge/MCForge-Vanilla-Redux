@@ -66,7 +66,6 @@ namespace MCForge.Commands
             new CommandKeywords((new CmdChangeLog()), "mcforge change log");
             new CommandKeywords((new CmdChatRoom()), "chat room join leave del add remove");
             new CommandKeywords((new CmdClick()), "block use");
-            new CommandKeywords((new CmdClones()), "clone ip player info");
             new CommandKeywords((new CmdCmdBind()), "bind cmd command shortcut");
             new CommandKeywords((new CmdCmdCreate()), "new create command cmd");
             new CommandKeywords((new CmdCmdLoad()), "load command cmd custom");
@@ -94,7 +93,6 @@ namespace MCForge.Commands
             new CommandKeywords((new CmdDisInfect()), "infect player");
             new CommandKeywords((new CmdDraw()), "cone sphere pyramid create");
             new CommandKeywords((new CmdDrill()), "dig distance");
-            new CommandKeywords((new CmdEconomy()), "money cash " + Server.moneys);
             new CommandKeywords((new CmdEllipse()), "create art");
             new CommandKeywords((new CmdEmote()), "smiley emoticon");
             new CommandKeywords((new CmdEndRound()), "end round game");
@@ -130,7 +128,6 @@ namespace MCForge.Commands
             new CommandKeywords((new CmdImpersonate()), "possess player");
             new CommandKeywords((new CmdImport()), "dat imp extra");
             new CommandKeywords((new CmdImageprint()), "jpg bmp gif png image print");
-            new CommandKeywords((new CmdInbox()), "mail box");
             new CommandKeywords((new CmdInfect()), "virus inf");
             new CommandKeywords((new CmdInfected()), "infect player list");
             new CommandKeywords((new CmdInfo()), "server detail");
@@ -174,7 +171,7 @@ namespace MCForge.Commands
             new CommandKeywords((new CmdOHide()), "hide rank player invisible");
             new CommandKeywords((new CmdOpChat()), "private chat op");
             new CommandKeywords((new CmdOpRules()), "op rules info");
-            new CommandKeywords((new CmdOpStats()), "stats op info");
+     //       new CommandKeywords((new CmdOpStats()), "stats op info");
             new CommandKeywords((new CmdOutline()), "out line layer");
             new CommandKeywords((new CmdOverseer()), "over see map level lvl");
             new CommandKeywords((new CmdOZone()), "zone map lvl level entire");
@@ -236,8 +233,6 @@ namespace MCForge.Commands
             new CommandKeywords((new CmdSay()), "speak broad cast");
             new CommandKeywords((new CmdSCinema()), "cinema show");
             new CommandKeywords((new CmdSearch()), "find block command player rank");
-            new CommandKeywords((new CmdSeen()), "saw last user");
-            new CommandKeywords((new CmdSend()), "message inbox send msg user player");
             new CommandKeywords((new CmdSendCmd()), "send cmd command user player");
             new CommandKeywords((new CmdServerReport()), "report server");
             new CommandKeywords((new CmdServer()), "setting option");
@@ -266,7 +261,6 @@ namespace MCForge.Commands
             new CommandKeywords((new CmdTitle()), "set user");
             new CommandKeywords((new CmdTnt()), "c4 explo");
             new CommandKeywords((new CmdTntWars()), "tnt war c4 explo");
-            new CommandKeywords((new CmdTopTen()), "top ten user");
             new CommandKeywords((new CmdTp()), "teleport move player user");
             new CommandKeywords((new CmdTpZone()), "tp zone teleport");
             new CommandKeywords((new CmdTranslate()), "trans lang");
@@ -294,9 +288,8 @@ namespace MCForge.Commands
 			new CommandKeywords((new CmdWeather()), "snow sunny rain");
             new CommandKeywords((new CmdWhisper()), "tell private");
             new CommandKeywords((new CmdWhitelist()), "white list allow acces server");
-            new CommandKeywords((new CmdWhoip()), "who ip info");
+      //      new CommandKeywords((new CmdWhoip()), "who ip info");
             new CommandKeywords((new CmdWhois()), "who player info");
-            new CommandKeywords((new CmdWhowas()), "who player info");
             new CommandKeywords((new CmdWrite()), "block text");
             new CommandKeywords((new CmdXban()), "ban undo admin");
             new CommandKeywords((new CmdXhide()), "hide all extra");

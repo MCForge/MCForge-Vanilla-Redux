@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCForge.SQL;
 
 namespace MCForge.Commands
 {
@@ -15,7 +14,7 @@ namespace MCForge.Commands
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public override void Use(Player p, string message)
         {
-            if (message == "") { Help(p); }
+      /*      if (message == "") { Help(p); }
             else if (Player.Find(message) != null)
             {
                 Player who = Player.Find(message);
@@ -46,7 +45,7 @@ namespace MCForge.Commands
                         Player.SendMessage(p, string.Format(i + 1 + ".) " + dt.Rows[i]["Username"] + " - " + dt.Rows[i]["Points"]));
                     }
                 }
-            }*/
+            }
             else
             {
                 if (p == null)
@@ -68,7 +67,7 @@ namespace MCForge.Commands
                                 Player.SendMessage(p, g.name + " - " + dt.Rows[0]["Points"].ToString());
                         }
                     }
-            }
+            }*/
         }
         public override void Help(Player p)
         {

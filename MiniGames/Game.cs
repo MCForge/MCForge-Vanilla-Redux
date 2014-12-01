@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using MCForge.SQL;
 namespace MCForge
 {
     public class Game
@@ -19,7 +18,7 @@ namespace MCForge
         {
             if (players.Contains(p))
             {
-                SQLite.executeQuery("UPDATE `" + name + "Scores` SET Points=" + p.gamePoints[this] + " WHERE Username='" + p.name + "'");
+          //      SQLite.executeQuery("UPDATE `" + name + "Scores` SET Points=" + p.gamePoints[this] + " WHERE Username='" + p.name + "'");
             }
         }
         public static Game Find(string message)
@@ -41,17 +40,17 @@ namespace MCForge
         {
             try
             {
-                using (System.Data.DataTable dt = SQLite.fillData("SELECT * FROM `" + name + "Scores` WHERE Username='" + p.name + "'"))
-                {
-                    if (!p.gamePoints.ContainsKey(this))
-                        p.gamePoints.Add(this, (double)dt.Rows[0]["Points"]);
-                }
+           //     using (System.Data.DataTable dt = SQLite.fillData("SELECT * FROM `" + name + "Scores` WHERE Username='" + p.name + "'"))
+           //     {
+            //        if (!p.gamePoints.ContainsKey(this))
+              //          p.gamePoints.Add(this, (double)dt.Rows[0]["Points"]);
+                //}
             }
             catch
             {
                 if (!p.gamePoints.ContainsKey(this)) //check again
                     p.gamePoints.Add(this, 0.0);
-                SQLite.executeQuery("INSERT INTO `" + name + "Scores` (Username, Points) VALUES ('" + p.name + "', " + p.gamePoints[this] + ");");
+             //   SQLite.executeQuery("INSERT INTO `" + name + "Scores` (Username, Points) VALUES ('" + p.name + "', " + p.gamePoints[this] + ");");
             }
         }
         public static void Initialize()

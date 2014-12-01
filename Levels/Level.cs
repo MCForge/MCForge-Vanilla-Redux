@@ -29,7 +29,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 using MCForge.Levels.Textures;
-using MCForge.SQL;
+
 using Timer = System.Timers.Timer;
 //WARNING! DO NOT CHANGE THE WAY THE LEVEL IS SAVED/LOADED!
 //You MUST make it able to save and load as a new version other wise you will make old levels incompatible!
@@ -1181,8 +1181,8 @@ namespace MCForge
         {
           //  Database.executeQuery("CREATE TABLE if not exists `Portals" + givenName +
           //                        "` (EntryX SMALLINT UNSIGNED, EntryY SMALLINT UNSIGNED, EntryZ SMALLINT UNSIGNED, ExitMap CHAR(20), ExitX SMALLINT UNSIGNED, ExitY SMALLINT UNSIGNED, ExitZ SMALLINT UNSIGNED)");
-            Database.executeQuery("CREATE TABLE if not exists `Zone" + givenName +
-                                  "` (SmallX SMALLINT UNSIGNED, SmallY SMALLINT UNSIGNED, SmallZ SMALLINT UNSIGNED, BigX SMALLINT UNSIGNED, BigY SMALLINT UNSIGNED, BigZ SMALLINT UNSIGNED, Owner VARCHAR(20));");
+        //    Database.executeQuery("CREATE TABLE if not exists `Zone" + givenName +
+        //                          "` (SmallX SMALLINT UNSIGNED, SmallY SMALLINT UNSIGNED, SmallZ SMALLINT UNSIGNED, BigX SMALLINT UNSIGNED, BigY SMALLINT UNSIGNED, BigZ SMALLINT UNSIGNED, Owner VARCHAR(20));");
         }
 
         public static Level Load(string givenName)
@@ -1975,7 +1975,7 @@ namespace MCForge
             //Server.s.Log("Explosion: " + (DateTime.Now - start).TotalMilliseconds.ToString());
         }
 
-        public void MakeExplosion(string name, ushort x, ushort y, ushort z, int size, bool bigtnt, bool nuke, bool tnt)
+       /* public void MakeExplosion(string name, ushort x, ushort y, ushort z, int size, bool bigtnt, bool nuke, bool tnt)
         {
             //DateTime start = DateTime.Now;
             Player p = Player.Find(name);
@@ -2129,14 +2129,14 @@ namespace MCForge
             //p.amountKilled = 0;
             //Server.s.Log("Explosion: " + (DateTime.Now - start).TotalMilliseconds.ToString());
         }
-
+*/
         public void placeBlock(ushort x, ushort y, ushort z, ushort b)
         {
             AddUpdate(PosToInt((ushort)x, (ushort)y, (ushort)z), b, true);
             AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)z));
         }
 
-        public void makeLinesplosion(string name, ushort x, ushort y, ushort z, int width, bool lazer)
+   /*     public void makeLinesplosion(string name, ushort x, ushort y, ushort z, int width, bool lazer)
         {
             Player p = Player.Find(name);
             Server.killed.Clear();
@@ -2690,7 +2690,7 @@ namespace MCForge
                 }
             }
             p.killingPeople = false;
-        }
+        }*/
 
         public void Firework(ushort x, ushort y, ushort z, int size)
         {

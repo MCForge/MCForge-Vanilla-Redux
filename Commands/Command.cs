@@ -73,7 +73,7 @@ namespace MCForge
 			all.Add(new CmdChangeLog());
 			all.Add(new CmdChatRoom());
 			all.Add(new CmdClick());
-			all.Add(new CmdClones());
+		//	all.Add(new CmdClones());
 			all.Add(new CmdCmdBind());
 			all.Add(new CmdCmdCreate());
 			all.Add(new CmdCmdLoad());
@@ -101,7 +101,6 @@ namespace MCForge
 			all.Add(new CmdDisInfect());
 			all.Add(new CmdDraw());
 			all.Add(new CmdDrill());
-			all.Add(new CmdEconomy());
 			all.Add(new CmdEmote());
 			all.Add(new CmdEndRound());
 			all.Add(new CmdExplode());
@@ -140,7 +139,6 @@ namespace MCForge
 			all.Add(new CmdImpersonate());
 			all.Add(new CmdImport());
 			all.Add(new CmdImageprint());
-			all.Add(new CmdInbox());
 			all.Add(new CmdInfect());
 			all.Add(new CmdInfected());
 			all.Add(new CmdInfo());
@@ -190,7 +188,7 @@ namespace MCForge
 			all.Add(new CmdOHide());
 			all.Add(new CmdOpChat());
 			all.Add(new CmdOpRules());
-			all.Add(new CmdOpStats());
+		//	all.Add(new CmdOpStats());
 			all.Add(new CmdOutline());
 			all.Add(new CmdOverseer());
 			all.Add(new CmdOZone());
@@ -253,8 +251,6 @@ namespace MCForge
 			all.Add(new CmdSCinema());
             all.Add(new CmdScores());
 			all.Add(new CmdSearch());
-			all.Add(new CmdSeen());
-			all.Add(new CmdSend());
 			all.Add(new CmdSendCmd());
 			all.Add(new CmdServerReport());
 			all.Add(new CmdServer());
@@ -286,7 +282,6 @@ namespace MCForge
 			all.Add(new CmdTitle());
 			all.Add(new CmdTnt());
 			all.Add(new CmdTntWars());
-			all.Add(new CmdTopTen());
 			all.Add(new CmdTp());
 			all.Add(new CmdTpZone());
 			all.Add(new CmdTranslate());
@@ -314,9 +309,8 @@ namespace MCForge
 			all.Add(new CmdWeather());
 			all.Add(new CmdWhisper());
 			all.Add(new CmdWhitelist());
-			all.Add(new CmdWhoip());
+		//	all.Add(new CmdWhoip());
 			all.Add(new CmdWhois());
-			all.Add(new CmdWhowas());
 			all.Add(new CmdWrite());
 			all.Add(new CmdXban());
 			all.Add(new CmdXhide());
@@ -327,16 +321,7 @@ namespace MCForge
 			all.Add(new CmdZombieGame());
 			all.Add(new CmdZone());
 			all.Add(new CmdZz());
-
-            //CTF
-            all.Add(new CmdAutoTNT());
-            all.Add(new CmdDisarm());
-            all.Add(new CmdGrapple());
-            all.Add(new CmdPCTF());
-            all.Add(new CmdLeaveTeam());
-            all.Add(new CmdGiveItem());
-            all.Add(new CmdTeamChat());
-            all.Add(new CmdRocket());
+		
 
 			core.commands = new List<Command>(all.commands);
 			Scripting.AutoLoad();
