@@ -603,39 +603,40 @@ namespace MCForge
                                 if (p.zoneDel)
                                 {
                                     //DB
-                                    Database.executeQuery("DELETE FROM `Zone" + p.level.name + "` WHERE Owner='" +
-                                                          Zn.Owner + "' AND SmallX='" + Zn.smallX + "' AND SMALLY='" +
-                                                          Zn.smallY + "' AND SMALLZ='" + Zn.smallZ + "' AND BIGX='" +
-                                                          Zn.bigX + "' AND BIGY='" + Zn.bigY + "' AND BIGZ='" + Zn.bigZ +
-                                                          "'");
+									foreach ( MCForge.Zone zn in ZoneDB.zones ) {
+										if ( zn.level == p.level.name && zn.owner == Zn.owner && zn.smallX == Zn.smallX && zn.smallY == Zn.smallY && zn.smallZ == Zn.smallZ && zn.bigX == Zn.bigX && zn.bigY == Zn.bigY && zn.bigZ == Zn.bigZ ) {
+											ZoneDB.zones.Remove( zn );
+											ZoneDB.Save();
+										}
+									}
                                     toDel.Add(Zn);
 
                                     p.SendBlockchange(x, y, z, b);
-                                    Player.SendMessage(p, "Zone deleted for &b" + Zn.Owner);
+                                    Player.SendMessage(p, "Zone deleted for &b" + Zn.owner);
                                     foundDel = true;
                                 }
                                 else
                                 {
-                                    if (Zn.Owner.Substring(0, 3) == "grp")
+                                    if (Zn.owner.Substring(0, 3) == "grp")
                                     {
-                                        if (Group.Find(Zn.Owner.Substring(3)).Permission <= p.group.Permission &&
+                                        if (Group.Find(Zn.owner.Substring(3)).Permission <= p.group.Permission &&
                                             !p.ZoneCheck)
                                         {
                                             AllowBuild = true;
                                             break;
                                         }
                                         AllowBuild = false;
-                                        Owners += ", " + Zn.Owner.Substring(3);
+                                        Owners += ", " + Zn.owner.Substring(3);
                                     }
                                     else
                                     {
-                                        if (Zn.Owner.ToLower() == p.name.ToLower() && !p.ZoneCheck)
+                                        if (Zn.owner.ToLower() == p.name.ToLower() && !p.ZoneCheck)
                                         {
                                             AllowBuild = true;
                                             break;
                                         }
                                         AllowBuild = false;
-                                        Owners += ", " + Zn.Owner;
+                                        Owners += ", " + Zn.owner;
                                     }
                                 }
                             }
@@ -1279,21 +1280,11 @@ namespace MCForge
                     //level.textures = new LevelTextures(level);
                     level.backedup = true;
 
-                    using (DataTable ZoneDB = Database.fillData("SELECT * FROM `Zone" + givenName + "`"))
-                    {
-                        Zone Zn;
-                        for (int i = 0; i < ZoneDB.Rows.Count; ++i)
-                        {
-                            Zn.smallX = ushort.Parse(ZoneDB.Rows[i]["SmallX"].ToString());
-                            Zn.smallY = ushort.Parse(ZoneDB.Rows[i]["SmallY"].ToString());
-                            Zn.smallZ = ushort.Parse(ZoneDB.Rows[i]["SmallZ"].ToString());
-                            Zn.bigX = ushort.Parse(ZoneDB.Rows[i]["BigX"].ToString());
-                            Zn.bigY = ushort.Parse(ZoneDB.Rows[i]["BigY"].ToString());
-                            Zn.bigZ = ushort.Parse(ZoneDB.Rows[i]["BigZ"].ToString());
-                            Zn.Owner = ZoneDB.Rows[i]["Owner"].ToString();
-                            level.ZoneList.Add(Zn);
-                        }
-                    }
+					foreach ( Zone zn in ZoneDB.zones ) {
+						if ( zn.level.ToLower() == givenName.ToLower() ) {
+							level.ZoneList.Add( zn );
+						}
+					}
 
                     level.jailx = (ushort)(level.spawnx * 32);
                     level.jaily = (ushort)(level.spawny * 32);
@@ -2821,17 +2812,6 @@ namespace MCForge
             public ushort newType;
             public ushort oldType;
             public DateTime timePerformed;
-        }
-
-        #endregion
-
-        #region Nested type: Zone
-
-        public struct Zone
-        {
-            public string Owner;
-            public ushort bigX, bigY, bigZ;
-            public ushort smallX, smallY, smallZ;
         }
 
         #endregion

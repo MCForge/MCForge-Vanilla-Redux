@@ -81,11 +81,11 @@ namespace MCForge.Commands
                 {
                     for (int i = 0; i < p.level.ZoneList.Count; i++)
                     {
-                        Level.Zone Zn = p.level.ZoneList[i];
-                        Database.AddParams("@Owner", Zn.Owner);
+                        Zone Zn = p.level.ZoneList[i];
+                        Database.AddParams("@Owner", Zn.owner);
                         Database.executeQuery("DELETE FROM `Zone" + p.level.name + "` WHERE Owner=@Owner AND SmallX='" + Zn.smallX + "' AND SMALLY='" + Zn.smallY + "' AND SMALLZ='" + Zn.smallZ + "' AND BIGX='" + Zn.bigX + "' AND BIGY='" + Zn.bigY + "' AND BIGZ='" + Zn.bigZ + "'");
 
-                        Player.SendMessage(p, "Zone deleted for &b" + Zn.Owner);
+                        Player.SendMessage(p, "Zone deleted for &b" + Zn.owner);
                         p.level.ZoneList.Remove(p.level.ZoneList[i]);
                         if (i == p.level.ZoneList.Count) { Player.SendMessage(p, "Finished removing all zones"); return; }
                         i--;
@@ -147,7 +147,7 @@ namespace MCForge.Commands
             p.SendBlockchange(x, y, z, b);
             CatchPos cpos = (CatchPos)p.blockchangeObject;
 
-            Level.Zone Zn;
+            Zone Zn = new Zone();
 
             Zn.smallX = Math.Min(cpos.x, x);
             Zn.smallY = Math.Min(cpos.y, y);
@@ -155,15 +155,14 @@ namespace MCForge.Commands
             Zn.bigX = Math.Max(cpos.x, x);
             Zn.bigY = Math.Max(cpos.y, y);
             Zn.bigZ = Math.Max(cpos.z, z);
-            Zn.Owner = cpos.Owner;
+            Zn.owner = cpos.Owner;
+			Zn.level = p.level.name;
 
-            p.level.ZoneList.Add(Zn);
+			p.level.ZoneList.Add(Zn);
+			ZoneDB.zones.Add( Zn );
 
-            //DB
-            Database.AddParams("@Owner", Zn.Owner);
-            Database.executeQuery("INSERT INTO `Zone" + p.level.name + "` (SmallX, SmallY, SmallZ, BigX, BigY, BigZ, Owner) VALUES (" + Zn.smallX + ", " + Zn.smallY + ", " + Zn.smallZ + ", " + Zn.bigX + ", " + Zn.bigY + ", " + Zn.bigZ + ", @Owner)");
-            //DB
 
+			ZoneDB.Save();
             Player.SendMessage(p, "Added zone for &b" + cpos.Owner);
         }
 

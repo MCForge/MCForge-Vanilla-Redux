@@ -659,6 +659,7 @@
     <Compile Include="Database\BlockDB.cs" />
     <Compile Include="Database\MessageBlockDB.cs" />
     <Compile Include="Database\PortalDB.cs" />
+    <Compile Include="Database\ZoneDB.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
