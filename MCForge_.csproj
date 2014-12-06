@@ -619,6 +619,9 @@
     <Compile Include="Database\PortalDB.cs" />
     <Compile Include="Database\ZoneDB.cs" />
     <Compile Include="Database\PlayerDB.cs" />
+    <Compile Include="Commands\CmdWhoip.cs" />
+    <Compile Include="Commands\CmdClones.cs" />
+    <Compile Include="Commands\CmdWhowas.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

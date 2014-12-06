@@ -73,7 +73,7 @@ namespace MCForge
 			all.Add(new CmdChangeLog());
 			all.Add(new CmdChatRoom());
 			all.Add(new CmdClick());
-		//	all.Add(new CmdClones());
+			all.Add(new CmdClones());
 			all.Add(new CmdCmdBind());
 			all.Add(new CmdCmdCreate());
 			all.Add(new CmdCmdLoad());
@@ -309,8 +309,9 @@ namespace MCForge
 			all.Add(new CmdWeather());
 			all.Add(new CmdWhisper());
 			all.Add(new CmdWhitelist());
-		//	all.Add(new CmdWhoip());
+			all.Add(new CmdWhoip());
 			all.Add(new CmdWhois());
+			all.Add(new CmdWhowas());
 			all.Add(new CmdWrite());
 			all.Add(new CmdXban());
 			all.Add(new CmdXhide());

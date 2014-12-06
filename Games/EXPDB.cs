@@ -10,7 +10,7 @@ namespace MCForge
     {
         public static bool Load( Player p ) {
             if ( File.Exists( "players/" + p.name + "DB.txt" ) ) {
-                foreach ( string line in File.ReadAllLines( "players/" + p.name + "DB.txt" ) ) {
+                foreach ( string line in File.ReadAllLines( "players/" + p.name.ToLower() + "DB.txt" ) ) {
                     if ( !string.IsNullOrEmpty( line ) && !line.StartsWith( "#" ) ) {
                         string key = line.Split( '=' )[0].Trim();
                         string value = line.Split( '=' )[1].Trim();
@@ -57,7 +57,7 @@ namespace MCForge
         }
 
         public static void Save( Player p ) {
-            StreamWriter sw = new StreamWriter( File.Create( "exp/" + p.name + "DB.txt" ) );
+            StreamWriter sw = new StreamWriter( File.Create( "exp/" + p.name.ToLower() + "DB.txt" ) );
             sw.WriteLine( "Points = " + p.points );
             sw.Flush();
             sw.Close();

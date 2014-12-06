@@ -7,8 +7,8 @@ using System.IO;
 namespace MCForge {
 	public class PlayerDB {
 		public static bool Load( Player p ) {
-			if ( File.Exists( "players/" + p.name + "DB.txt" ) ) {
-				foreach ( string line in File.ReadAllLines( "players/" + p.name + "DB.txt" ) ) {
+			if ( File.Exists( "players/" + p.name.ToLower() + "DB.txt" ) ) {
+				foreach ( string line in File.ReadAllLines( "players/" + p.name.ToLower() + "DB.txt" ) ) {
 					if ( !string.IsNullOrEmpty( line ) && !line.StartsWith( "#" ) ) {
 						string key = line.Split( '=' )[0].Trim();
 						string value = line.Split( '=' )[1].Trim();
@@ -108,7 +108,7 @@ namespace MCForge {
 		}
 
 		public static void Save( Player p ) {
-			StreamWriter sw = new StreamWriter( File.Create( "players/" + p.name + "DB.txt" ) );
+			StreamWriter sw = new StreamWriter( File.Create( "players/" + p.name.ToLower() + "DB.txt" ) );
 			sw.WriteLine( "IP = " + p.ip);
 			sw.WriteLine( "TimeSpent = " + p.time);
 			sw.WriteLine( "Title = " + p.title);
