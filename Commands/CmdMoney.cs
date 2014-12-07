@@ -35,10 +35,10 @@ namespace MCForge.Commands
             else if (message.Split().Length == 1)
             {
                 Player who = Player.Find(message);
-                if (who == null)
-                { 
-					p.SendMessage ("Player is offline");
-                }
+				if (who == null) { 
+					Economy.EcoStats ecos = Economy.RetrieveEcoStats (message);
+					Player.SendMessage (p, ecos.playerName + "(%foffline" + Server.DefaultColor + ") currently has %f" + ecos.money + " %3" + Server.moneys);
+				}
                 //you can see everyone's stats with /eco stats [player]
                 /*if (who.group.Permission >= p.group.Permission) {
                     Player.SendMessage(p, "%cCannot see the money of someone of equal or greater rank.");

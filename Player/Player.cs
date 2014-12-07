@@ -1489,6 +1489,13 @@ namespace MCForge
 				Directory.CreateDirectory ("exp");
 			}
             EXPDB.Load(this);
+			if(!Directory.Exists("players/economy"))
+			{
+				Directory.CreateDirectory ("players/economy");
+			}
+			Economy.EcoStats es = new Economy.EcoStats();
+			es.playerName = this.name;
+			EconomyDB.Load(es);
             SetPrefix();
 
             if (PlayerConnect != null)

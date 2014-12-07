@@ -45,10 +45,22 @@ namespace MCForge.Commands
 
             Player who = Player.Find(message.Split(' ')[0]);
 
-            if (who == null)
-            { //player is offline
-              Player.SendMessage(p, "%cThe player %f" + message.Split()[0] + Server.DefaultColor + "is offline"); return; 
-            }
+			if (who == null) {
+				if (!System.IO.File.Exists("players/" + message.Split()[0])) {
+					Player.SendMessage (p, "%cThe player %f" + message.Split () [0] + Server.DefaultColor + "(offline)%c does not exist or has never logged on to this server");
+					return;
+				}
+				Economy.EcoStats ecos;
+				ecos = Economy.RetrieveEcoStats (message.Split () [0]);
+				if (ReachedMax (p, ecos.money, amountGiven))
+					return;
+				ecos.money += amountGiven;
+				ecos.salary = "%f" + amountGiven + "%3 " + Server.moneys + " by " + user1 + "%3 on %f" + DateTime.Now.ToString (CultureInfo.InvariantCulture);
+				Economy.UpdateEcoStats (ecos);
+				//Player.GlobalMessage("%f" + ecos.playerName + Server.DefaultColor + "(offline) was given %f" + amountGiven + " %3" + Server.moneys + Server.DefaultColor + " by " + user2);
+				Player.GlobalMessage (user2 + Server.DefaultColor + " gave %f" + ecos.playerName + Server.DefaultColor + "(offline)" + " %f" + amountGiven + " %3" + Server.moneys);
+				return;
+			}
 
             if (who == p /*&& p.name != Server.server_owner*/)
             {

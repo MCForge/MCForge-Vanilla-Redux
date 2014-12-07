@@ -1,22 +1,32 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Database/BlockDB.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Commands/CmdWhowas.cs">
     <Files>
       <File FileName="Physics/Physics.cs" Line="1" Column="1" />
       <File FileName="Player/Player.cs" Line="1" Column="1" />
-      <File FileName="Database/BlockDB.cs" Line="15" Column="35" />
+      <File FileName="Database/BlockDB.cs" Line="13" Column="3" />
       <File FileName="Levels/Level.cs" Line="1" Column="1" />
       <File FileName="Commands/CmdAbout.cs" Line="1" Column="1" />
       <File FileName="GUI/Program.cs" Line="1" Column="1" />
       <File FileName="Levels/Block.cs" Line="1" Column="1" />
+      <File FileName="Commands/CmdWhoip.cs" Line="44" Column="77" />
+      <File FileName="Commands/Command.cs" Line="314" Column="11" />
+      <File FileName="Commands/CommandList.cs" Line="17" Column="3" />
+      <File FileName="Commands/CmdWhois.cs" Line="28" Column="9" />
+      <File FileName="Commands/CmdClones.cs" Line="20" Column="38" />
+      <File FileName="Commands/CmdWhowas.cs" Line="102" Column="7" />
+      <File FileName="Database/PlayerDB.cs" Line="11" Column="78" />
+      <File FileName="Games/EXPDB.cs" Line="60" Column="87" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="MCForge_" expanded="True">
-            <Node name="Database" expanded="True">
-              <Node name="BlockDB.cs" selected="True" />
+            <Node name="Commands" expanded="True">
+              <Node name="CmdWhowas.cs" selected="True" />
             </Node>
+            <Node name="Database" expanded="True" />
+            <Node name="Games" expanded="True" />
             <Node name="GUI" expanded="True" />
             <Node name="Levels" expanded="True" />
             <Node name="Player" expanded="True" />

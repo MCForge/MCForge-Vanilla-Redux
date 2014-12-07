@@ -622,6 +622,9 @@
     <Compile Include="Commands\CmdWhoip.cs" />
     <Compile Include="Commands\CmdClones.cs" />
     <Compile Include="Commands\CmdWhowas.cs" />
+    <Compile Include="Server\Economy.cs" />
+    <Compile Include="Database\EconomyDB.cs" />
+    <Compile Include="Commands\CmdEconomy.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

@@ -101,6 +101,7 @@ namespace MCForge
 			all.Add(new CmdDisInfect());
 			all.Add(new CmdDraw());
 			all.Add(new CmdDrill());
+			all.Add(new CmdEconomy());
 			all.Add(new CmdEmote());
 			all.Add(new CmdEndRound());
 			all.Add(new CmdExplode());
