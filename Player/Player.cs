@@ -1094,7 +1094,6 @@ namespace MCForge
             CPE tmp; tmp.name = enc.GetString(msg, 0, 64);
             tmp.version = BitConverter.ToInt32(msg, 64);
             ExtEntry.Add(tmp);
-			Server.s.Log ("Added " + tmp);
         }
 
         public void HandleCustomBlockSupportLevel(byte[] message)
