@@ -125,7 +125,6 @@
     <Compile Include="Games\EXPDB.cs" />
     <Compile Include="Games\SMP.cs" />
     <Compile Include="Games\SMP\Inventory.cs" />
-    <Compile Include="Physics\Physics.cs" />
     <Compile Include="MiniGames\Game.cs" />
     <Compile Include="Player\Opcode.cs" />
     <Compile Include="Server\AutoSaver.cs" />
@@ -625,6 +624,7 @@
     <Compile Include="Server\Economy.cs" />
     <Compile Include="Database\EconomyDB.cs" />
     <Compile Include="Commands\CmdEconomy.cs" />
+    <Compile Include="Levels\Physics.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

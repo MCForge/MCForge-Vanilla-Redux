@@ -40,9 +40,9 @@ namespace MCForge
         /// <summary> List of chat keywords, and emotes that they stand for. </summary>
         public Dictionary<string, object> ExtraData = new Dictionary<string, object>();
         public static readonly Dictionary<string, char> EmoteKeywords = new Dictionary<string, char> {
-            { "smile", '\u0001' },
+            { "darksmile", '\u0001' },
 
-			{ "darksmile", '\u0002' }, // ☻
+			{ "smile", '\u0002' }, // ☻
 
             { "heart", '\u0003' }, // ♥
             { "hearts", '\u0003' },
@@ -570,6 +570,8 @@ namespace MCForge
         public int[] copyoffset = new int[3] { 0, 0, 0 };
         public ushort[] copystart = new ushort[3] { 0, 0, 0 };
 
+		public bool sentCustomBlockSupport = false;
+
         public bool Mojangaccount
         {
             get
@@ -893,10 +895,10 @@ namespace MCForge
 			if (!extension) {
 				return false;
 			}
-			if (extName.Contains ("List")) {
-				Server.s.Log ((ExtEntry.FindAll (cpe => cpe.name == extName).Count > 0).ToString());
-			}
-			return ExtEntry.FindAll (cpe => cpe.name == extName).Count > 0;
+			//Client is too slow for us
+			if (!loggedIn && extension)
+				return true;
+			return ExtEntry.FindAll (cpe => cpe.name.Contains(extName) == true).Count > 0;
 		}
 		public DateTime lastlogin;
         public void save()
@@ -1092,6 +1094,7 @@ namespace MCForge
             CPE tmp; tmp.name = enc.GetString(msg, 0, 64);
             tmp.version = BitConverter.ToInt32(msg, 64);
             ExtEntry.Add(tmp);
+			Server.s.Log ("Added " + tmp);
         }
 
         public void HandleCustomBlockSupportLevel(byte[] message)
@@ -1353,12 +1356,10 @@ namespace MCForge
                     SendExtEntry("HackControl", 1);
                     SendExtEntry("EmoteFix", 1);
                     SendExtEntry("MessageTypes", 1);
+					
+					SendCustomBlockSupportLevel(1);
                 }
 
-				if(HasExtension("CustomBlocks"))
-				{
-					SendCustomBlockSupportLevel(1);
-				}
 
                 try { left.Remove(name.ToLower()); }
                 catch { }
@@ -1380,7 +1381,6 @@ namespace MCForge
                 connections.Remove(this);
 
                 Server.s.PlayerListUpdate();
-
                 //Test code to show when people come back with different accounts on the same IP
                 string temp = name + " is lately known as:";
                 bool found = false;
