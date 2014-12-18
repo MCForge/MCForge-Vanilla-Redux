@@ -273,14 +273,6 @@ namespace MCForge
         public bool canusereview = true;
         public int hackWarnings = 0;
         public string model = "humanoid";
-        public Dictionary<Game, double> gamePoints = new Dictionary<Game, double>();
-        public bool inGame()
-        {
-            foreach (Game g in Server.games)
-                if (g.players.Contains(this))
-                    return true;
-            return false;
-        }
 
         //Gc checks
         public string lastmsg = "";
@@ -1371,7 +1363,6 @@ namespace MCForge
 
                 if (disconnected) return;
 
-                loggedIn = true;
                 this.id = FreeId();
 
                 lock (players)
@@ -1553,15 +1544,19 @@ namespace MCForge
                 }
                 Player.players.ForEach(delegate(Player p)
                 {
-                    if (p != this && p.HasExtension("ExtPlayeraList"))
+                    if (p != this && p.HasExtension("ExtPlayerList"))
                     {
                         p.SendExtAddPlayerName(id, name, group, color + name);
                     }
-                    if (HasExtension("ExtPlayeraList"))
+                    if (HasExtension("ExtPlayerList"))
                     {
                         SendExtAddPlayerName(p.id, p.name, p.group, p.color + p.name);
                     }
                 });
+				if (HasExtension("EnvMapAppearance"))
+				{
+					SendSetMapAppearance(Server.textureUrl, 7, 8, (short)(level.depth/2));
+				}
             } catch ( Exception e ) {
                 Server.ErrorLog( e );
                 Server.s.Log( "Error spawning player \"" + name + "\"" );
@@ -1586,6 +1581,7 @@ namespace MCForge
             {
                 File.WriteAllText("text/login/" + this.name + ".txt", "joined the server.");
             }
+			loggedIn = true;
 			lastlogin = DateTime.Now;
             //very very sloppy, yes I know.. but works for the time
             //^Perhaps we should update this? -EricKilla
@@ -4291,6 +4287,7 @@ return;
                 HTNO((short)level.width).CopyTo(buffer, 0);
                 HTNO((short)level.depth).CopyTo(buffer, 2);
                 HTNO((short)level.height).CopyTo(buffer, 4);
+
                 SendRaw(OpCode.MapEnd, buffer);
                 Loading = false;
 

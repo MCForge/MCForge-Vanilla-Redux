@@ -117,15 +117,11 @@
     <Compile Include="Commands\CmdInfectMessage.cs" />
     <Compile Include="Commands\CmdInventory.cs" />
     <Compile Include="Commands\CmdIronMan.cs" />
-    <Compile Include="Commands\CmdJoin.cs" />
-    <Compile Include="Commands\CmdLeave.cs" />
     <Compile Include="Commands\CmdMoreSponges.cs" />
-    <Compile Include="Commands\CmdScore.cs" />
     <Compile Include="Commands\CmdSponges.cs" />
     <Compile Include="Games\EXPDB.cs" />
     <Compile Include="Games\SMP.cs" />
     <Compile Include="Games\SMP\Inventory.cs" />
-    <Compile Include="MiniGames\Game.cs" />
     <Compile Include="Player\Opcode.cs" />
     <Compile Include="Server\AutoSaver.cs" />
     <Compile Include="Server\Ban.cs" />

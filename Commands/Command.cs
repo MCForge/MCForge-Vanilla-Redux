@@ -147,14 +147,12 @@ namespace MCForge
             all.Add(new CmdInfectmessage());
 			all.Add(new CmdJail());
 			all.Add(new CmdJoker());
-            all.Add(new CmdJoin());
 			all.Add(new CmdKick());
 			all.Add(new CmdKickban());
 			all.Add(new CmdKill());
 			all.Add(new CmdKillPhysics());
 			all.Add(new CmdLastCmd());
 			all.Add(new CmdLavaSurvival());
-            all.Add(new CmdLeave());
 			all.Add(new CmdLevels());
 			all.Add(new CmdLimit());
 			all.Add(new CmdLine());
@@ -250,7 +248,6 @@ namespace MCForge
 			all.Add(new CmdSave());
 			all.Add(new CmdSay());
 			all.Add(new CmdSCinema());
-            all.Add(new CmdScores());
 			all.Add(new CmdSearch());
 			all.Add(new CmdSendCmd());
 			all.Add(new CmdServerReport());

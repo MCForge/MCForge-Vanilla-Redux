@@ -661,6 +661,10 @@ namespace MCForge {
                                                                 if (value != "")
                                                                     Server.moneys = value;
                                                                 break;
+															case "texture-url":
+																if (value != "")
+																	Server.textureUrl = value;
+																break;
                                                             /*case "mono":
                                     try { Server.mono = bool.Parse(value); }
                                     catch { Server.s.Log("Invalid " + key + ". Using default."); }
@@ -1603,6 +1607,7 @@ namespace MCForge {
 			w.WriteLine("max-players = " + Server.players.ToString());
 			w.WriteLine("max-guests = " + Server.maxGuests.ToString());
 			w.WriteLine("max-maps = " + Server.maps.ToString());
+			w.WriteLine("texture-url = " + Server.textureUrl);
 			w.WriteLine("world-chat = " + Server.worldChat.ToString().ToLower());
 			w.WriteLine("check-updates = " + Server.checkUpdates.ToString().ToLower());
 			w.WriteLine("auto-update = " + Server.autoupdate.ToString().ToLower());

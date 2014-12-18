@@ -156,7 +156,6 @@ namespace MCForge
         public static List<string> gcaccepted = new List<string>();
         //public static List<levelID> allLevels = new List<levelID>();
         public struct levelID { public int ID; public string name; }
-        public static List<Game> games = new List<Game>();
         public static List<string> afkset = new List<string>();
         public static List<string> ircafkset = new List<string>();
         public static List<string> afkmessages = new List<string>();
@@ -261,6 +260,7 @@ namespace MCForge
 
         public static string name = "[MCForge] Default";
         public static string motd = "Welcome!";
+		public static string textureUrl = "";
         public static byte players = 12;
         //for the limiting no. of guests:
         public static byte maxGuests = 10;
@@ -999,12 +999,6 @@ namespace MCForge
 	  UseTextures = true;          
 #endif
                 Log("Finished setting up server");
-                ml.Queue(delegate
-                {
-                    Log("Adding games");
-                    Game.Initialize();
-                    Log("Finished setting up games");
-                });
                 ServerSetupFinished = true;
                 Checktimer.StartTimer();
                 Commands.CommandKeywords.SetKeyWords();
