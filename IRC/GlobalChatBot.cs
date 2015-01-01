@@ -1,5 +1,5 @@
 /*
-	Copyright © 2011-2014 MCForge-Redux
+	Copyright Â© 2011-2014 MCForge-Redux
 		
 	Dual-licensed under the	Educational Community License, Version 2.0 and
 	the GNU General Public License, Version 3 (the "Licenses"); you may
@@ -46,8 +46,8 @@ namespace MCForge
                 Server.s.Log("[GlobalChat] The IRC dll was not found!");
                 return;
             }*/
-            server = "irc.geekshed.net";
-            channel = "#MCForge";
+            server = "irc.uclcommander.net";
+            channel = "#mcforge";
             this.nick = nick.Replace(" ", "");
             connection = new Connection(new ConnectionArgs(nick, server), false, false);
 
@@ -78,7 +78,7 @@ namespace MCForge
                 return;
             }
             #region General rules
-            if (message.Contains("minecraft.net/classic/play/"))
+            if (message.Contains("minecraft.net/classic/play/") || message.Contains("classicube.net/server/play/"))
             {
                 Player.SendMessage(p, "No server links Mr whale!");
                 if (p == null)
