@@ -246,6 +246,7 @@ namespace MCForge
         public string time;
         public string name;
 		public string DisplayName;
+        public string SkinName;
         public bool identified = false;
         public bool UsingID = false;
         public int ID = 0;
@@ -476,7 +477,7 @@ namespace MCForge
         public string goToPlayer = "";
 
         //SMP Mode
-        public bool InSMP = false;
+        /*public bool InSMP = false;
 
         public uint rock = (uint)0;
         public uint grass = (uint)0;
@@ -542,7 +543,8 @@ namespace MCForge
         public uint magmablock = (uint)0;
         public uint pillar = (uint)0;
         public uint crate = (uint)0;
-        public uint stonebrick = (uint)0;
+        public uint stonebrick = (uint)0;*/
+        public bool spawned = false;
 
         //Tnt Wars
         public bool PlayingTntWars = false;
@@ -881,17 +883,6 @@ namespace MCForge
             catch (Exception e) { Kick("Login failed!"); Server.ErrorLog(e); }
         }
 
-
-		public bool HasExtension (string extName, byte version = 1)
-		{
-			if (!extension) {
-				return false;
-			}
-			//Client is too slow for us
-			if (!loggedIn && extension)
-				return true;
-			return ExtEntry.FindAll (cpe => cpe.name.Contains(extName) == true).Count > 0;
-		}
 		public DateTime lastlogin;
         public void save()
 		{
@@ -1083,10 +1074,16 @@ namespace MCForge
 	public List<CPE> ExtEntry = new List<CPE>();
 	void HandleExtEntry(byte[] msg)
         {
-            CPE tmp; tmp.name = enc.GetString(msg, 0, 64);
-            tmp.version = BitConverter.ToInt32(msg, 64);
-            ExtEntry.Add(tmp);
+            AddExtension(enc.GetString(msg, 0, 64).Trim(), NTHO_Int(msg, 64));
+            extensionCount--;
         }
+
+    public static int NTHO_Int(byte[] x, int offset)
+    {
+        byte[] y = new byte[4];
+        Buffer.BlockCopy(x, offset, y, 0, 4); Array.Reverse(y);
+        return BitConverter.ToInt32(y, 0);
+    }
 
         public void HandleCustomBlockSupportLevel(byte[] message)
         {
@@ -1102,7 +1099,8 @@ namespace MCForge
                     return;
                 byte version = message[0];
                 name = enc.GetString(message, 1, 64).Trim();
-				DisplayName = name;
+                DisplayName = name;
+                SkinName = name;
                 truename = name;
                 if (Server.omniban.CheckPlayer(this)) { Kick(Server.omniban.kickMsg); return; } //deprecated
                 if (name.Split('@').Length > 1)
@@ -1337,7 +1335,7 @@ namespace MCForge
                     SendExtEntry("CustomBlocks", 1);
                     SendExtEntry("HeldBlock", 1);
                     SendExtEntry("TextHotKey", 1);
-                    SendExtEntry("ExtPlayerList", 1);
+                    SendExtEntry("ExtPlayerList", 2);
                     SendExtEntry("EnvColors", 1);
                     SendExtEntry("SelectionCuboid", 1);
                     SendExtEntry("BlockPermissions", 1);
@@ -1347,8 +1345,7 @@ namespace MCForge
                     SendExtEntry("HackControl", 1);
                     SendExtEntry("EmoteFix", 1);
                     SendExtEntry("MessageTypes", 1);
-					
-					SendCustomBlockSupportLevel(1);
+					//SendCustomBlockSupportLevel(1);
                 }
 
 
@@ -1520,48 +1517,41 @@ namespace MCForge
                 Readgcrules = true; //Devs should know the rules. 
             }
 
-            try
+            if (!spawned)
             {
-                ushort x = (ushort)((0.5 + level.spawnx) * 32);
-                ushort y = (ushort)((1 + level.spawny) * 32);
-                ushort z = (ushort)((0.5 + level.spawnz) * 32);
-                pos = new ushort[3] { x, y, z }; rot = new byte[2] { level.rotx, level.roty };
+                try
+                {
+                    ushort x = (ushort)((0.5 + level.spawnx) * 32);
+                    ushort y = (ushort)((1 + level.spawny) * 32);
+                    ushort z = (ushort)((0.5 + level.spawnz) * 32);
+                    pos = new ushort[3] { x, y, z }; rot = new byte[2] { level.rotx, level.roty };
 
-                GlobalSpawn(this, x, y, z, rot[0], rot[1], true);
-                foreach (Player p in players)
-                {
-                    if (p.level == level && p != this && !p.hidden)
-                        SendSpawn(p.id, p.color + p.name, p.pos[0], p.pos[1], p.pos[2], p.rot[0], p.rot[1]);
-                    if (HasExtension("ChangeModel"))
+                    GlobalSpawn(this, x, y, z, rot[0], rot[1], true);
+                    foreach (Player p in players)
                     {
-                        SendChangeModel(p.id, p.model);
+                        if (p.level == level && p != this && !p.hidden)
+                            SendSpawn(p.id, p.color + p.name, p.pos[0], p.pos[1], p.pos[2], p.rot[0], p.rot[1], p.DisplayName, p.SkinName);
+                        if (HasExtension("ChangeModel"))
+                        {
+                            if (p == this)
+                                unchecked { SendChangeModel((byte)-1, model); }
+                            else SendChangeModel(p.id, p.model);
+                        }
                     }
+                    foreach (PlayerBot pB in PlayerBot.playerbots)
+                    {
+                        if (pB.level == level)
+                            SendSpawn(pB.id, pB.color + pB.name, pB.pos[0], pB.pos[1], pB.pos[2], pB.rot[0], pB.rot[1], pB.name, pB.name);
+                    }
+
                 }
-                foreach (PlayerBot pB in PlayerBot.playerbots)
+                catch (Exception e)
                 {
-                    if (pB.level == level)
-                        SendSpawn(pB.id, pB.color + pB.name, pB.pos[0], pB.pos[1], pB.pos[2], pB.rot[0], pB.rot[1]);
+                    Server.ErrorLog(e);
+                    Server.s.Log("Error spawning player \"" + name + "\"");
                 }
-                Player.players.ForEach(delegate(Player p)
-                {
-                    if (p != this && p.HasExtension("ExtPlayerList"))
-                    {
-                        p.SendExtAddPlayerName(id, name, group, color + name);
-                    }
-                    if (HasExtension("ExtPlayerList"))
-                    {
-                        SendExtAddPlayerName(p.id, p.name, p.group, p.color + p.name);
-                    }
-                });
-				if (HasExtension("EnvMapAppearance"))
-				{
-					SendSetMapAppearance(Server.textureUrl, 7, 8, (short)(level.depth/2));
-				}
-            } catch ( Exception e ) {
-                Server.ErrorLog( e );
-                Server.s.Log( "Error spawning player \"" + name + "\"" );
+                spawned = true;
             }
-
 
             Loading = false;
 
@@ -2011,7 +2001,7 @@ namespace MCForge
             }
 
             ushort b = level.GetTile(x, y, z);
-            if (type != 0 && type <= 65 && Server.SMPMode && InSMP && inventory.Remove((byte)type, 1) == false)
+            /*if (type != 0 && type <= 65 && Server.SMPMode && InSMP && inventory.Remove((byte)type, 1) == false)
             {
                 SendMessage("You do not have this block.");
                 SendBlockchange(x, y, z, b);
@@ -2021,7 +2011,7 @@ namespace MCForge
             {
                 inventory.Add((byte)type, 1);
                 return;
-            }
+            }*/
             if (b == Block.Zero) { return; }
             if (jailed || !agreed) { SendBlockchange(x, y, z, b); return; }
             if (level.name.Contains("Museum " + Server.DefaultColor) && Blockchange == null)
@@ -4313,18 +4303,49 @@ return;
                 SendSetMapWeather(level.weather);
             }
         }
-        public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty)
+        public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty, string displayName, string skinName)
         {
-            //pos = new ushort[3] { x, y, z }; // This could be remove and not effect the server :/
-            //rot = new byte[2] { rotx, roty };
-            name = name.TrimEnd('+');
-            byte[] buffer = new byte[73]; buffer[0] = id;
-            StringFormat(name, 64).CopyTo(buffer, 1);
-            HTNO(x).CopyTo(buffer, 65);
-            HTNO(y).CopyTo(buffer, 67);
-            HTNO(z).CopyTo(buffer, 69);
-            buffer[71] = rotx; buffer[72] = roty;
-            SendRaw(OpCode.AddEntity, buffer);
+            if (!HasExtension("ExtPlayerList", 2))
+            {
+                //pos = new ushort[3] { x, y, z }; // This could be remove and not effect the server :/
+                //rot = new byte[2] { rotx, roty };
+                name = name.TrimEnd('+');
+                byte[] buffer = new byte[73]; buffer[0] = id;
+                StringFormat(name, 64).CopyTo(buffer, 1);
+                HTNO(x).CopyTo(buffer, 65);
+                HTNO(y).CopyTo(buffer, 67);
+                HTNO(z).CopyTo(buffer, 69);
+                buffer[71] = rotx; buffer[72] = roty;
+                SendRaw(OpCode.AddEntity, buffer);
+            }
+            else
+            {
+                byte[] buffer = new byte[137];
+                buffer[0] = id;
+                StringFormat(displayName, 64).CopyTo(buffer, 1);
+                StringFormat(skinName, 64).CopyTo(buffer, 65);
+                HTNO(x).CopyTo(buffer, 129);
+                HTNO(y).CopyTo(buffer, 131);
+                HTNO(z).CopyTo(buffer, 133);
+                buffer[135] = rotx;
+                buffer[136] = roty;
+                SendRaw((OpCode)33, buffer);
+            }
+
+            if (HasExtension("ChangeModel"))
+            {
+                Player.players.ForEach(p =>
+                {
+                    if (p.level == this.level)
+                        if (p == this) unchecked { SendChangeModel((byte)-1, model); }
+                        else
+                        {
+                            SendChangeModel(p.id, p.model);
+                            if (p.HasExtension("ChangeModel"))
+                                p.SendChangeModel(this.id, model);
+                        }
+                });
+            }
         }
         public void SendPos(byte id, ushort x, ushort y, ushort z, byte rotx, byte roty)
         {
@@ -5315,9 +5336,9 @@ changed |= 4;*/
                         if (from.infected)
                         {
                             if (Server.ZombieName != "")
-                                p.SendSpawn(from.id, c.red + Server.ZombieName + possession, x, y, z, rotx, roty);
+                                p.SendSpawn(from.id, c.red + Server.ZombieName + possession, x, y, z, rotx, roty, from.DisplayName, from.SkinName);
                             else
-                                p.SendSpawn(from.id, c.red + from.name + possession, x, y, z, rotx, roty);
+                                p.SendSpawn(from.id, c.red + from.name + possession, x, y, z, rotx, roty, from.DisplayName, from.SkinName);
                             return;
                         }
                         else if (from.referee)
@@ -5326,13 +5347,13 @@ changed |= 4;*/
                         }
                         else
                         {
-                            p.SendSpawn(from.id, from.color + from.name + possession, x, y, z, rotx, roty);
+                            p.SendSpawn(from.id, from.color + from.name + possession, x, y, z, rotx, roty, from.DisplayName, from.SkinName);
                             return;
                         }
                     }
                     else
                     {
-                        p.SendSpawn(from.id, from.color + from.name + possession, x, y, z, rotx, roty);
+                        p.SendSpawn(from.id, from.color + from.name + possession, x, y, z, rotx, roty, from.DisplayName, from.SkinName);
                     }
                 }
                 else if (self)
@@ -5341,7 +5362,7 @@ changed |= 4;*/
                     {
                         p.pos = new ushort[3] { x, y, z }; p.rot = new byte[2] { rotx, roty };
                         p.oldpos = p.pos; p.oldrot = p.rot;
-                        unchecked { p.SendSpawn((byte)-1, from.color + from.name + possession, x, y, z, rotx, roty); }
+                        unchecked { p.SendSpawn((byte)-1, from.color + from.name + possession, x, y, z, rotx, roty, from.DisplayName, from.SkinName); }
                     }
                 }
             });

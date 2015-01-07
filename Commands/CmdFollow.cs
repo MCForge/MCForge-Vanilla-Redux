@@ -80,7 +80,7 @@ namespace MCForge.Commands
                     if (p.hidden)
                     {
                         if (who != null)
-                            p.SendSpawn(who.id, who.color + who.name, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1]);
+                            p.SendSpawn(who.id, who.color + who.name, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1], who.DisplayName, who.SkinName);
                         if (!stealth)
                         {
                             Command.all.Find("hide").Use(p, "");
@@ -110,7 +110,7 @@ namespace MCForge.Commands
                 if (p.following != "")
                 {
                     who = Player.Find(p.following);
-                    p.SendSpawn(who.id, who.color + who.name, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1]);
+                    p.SendSpawn(who.id, who.color + who.name, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1], who.DisplayName, who.SkinName);
                 }
                 who = Player.Find(message);
                 p.following = who.name;

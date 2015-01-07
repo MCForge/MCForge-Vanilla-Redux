@@ -122,7 +122,7 @@ namespace MCForge
                 }
                 unchecked
                 {
-                    player.SendSpawn((byte)-1, player.name, x1, y1, z1, (byte)0, (byte)0);
+                    player.SendSpawn((byte)-1, player.name, x1, y1, z1, (byte)0, (byte)0, player.DisplayName, player.SkinName);
                 }
             }
             {

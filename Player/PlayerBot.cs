@@ -28,6 +28,9 @@ namespace MCForge
         public bool hunt = false;
         public bool kill = false;
 
+        public string SkinName;
+        public string DisplayName;
+
         public string AIName = "";
         public string name;
         public byte id;
@@ -61,6 +64,8 @@ namespace MCForge
         {
             Server.s.Log("adding " + n + " bot");
             name = n;
+            DisplayName = n;
+            SkinName = n;
             color = "&1";
             id = FreeId();
 
@@ -76,6 +81,9 @@ namespace MCForge
             name = n;
             color = "&1";
             id = FreeId();
+
+            DisplayName = n;
+            SkinName = n;
 
             level = l;
             pos = new ushort[3] { x, y, z }; rot = new byte[2] { rotx, roty };
@@ -403,7 +411,7 @@ namespace MCForge
             Player.players.ForEach(delegate(Player p)   //bots dont need to be informed of other bots here
             {
                 if (p.level != level) { return; }
-                p.SendSpawn(id, color + name, pos[0], pos[1], pos[2], rot[0], rot[1]);
+                p.SendSpawn(id, color + name, pos[0], pos[1], pos[2], rot[0], rot[1], DisplayName, SkinName);
             });
         }
 

@@ -71,11 +71,11 @@ namespace MCForge.Commands
 
                 foreach (Player pl in Player.players)
                     if (pl.level == who.level && who != pl && !pl.hidden && !pl.referee)
-                        who.SendSpawn(pl.id, pl.color + pl.name, pl.pos[0], pl.pos[1], pl.pos[2], pl.rot[0], pl.rot[1]);
+                        who.SendSpawn(pl.id, pl.color + pl.name, pl.pos[0], pl.pos[1], pl.pos[2], pl.rot[0], pl.rot[1], pl.DisplayName, pl.SkinName);
 
                 foreach (PlayerBot b in PlayerBot.playerbots)
                     if (b.level == who.level)
-                        who.SendSpawn(b.id, b.color + b.name, b.pos[0], b.pos[1], b.pos[2], b.rot[0], b.rot[1]);
+                        who.SendSpawn(b.id, b.color + b.name, b.pos[0], b.pos[1], b.pos[2], b.rot[0], b.rot[1], b.DisplayName, b.SkinName);
 
                 who.Loading = false;
                 GC.Collect();
@@ -143,16 +143,16 @@ namespace MCForge.Commands
                     if (pl.level == who.level && who != pl && !pl.hidden && !pl.referee)
                         if (pl.infected)
                         {
-                            who.SendSpawn(pl.id, c.red + "Undeaad", x, y, z, pl.level.rotx, pl.level.roty);
+                            who.SendSpawn(pl.id, c.red + "Undeaad", x, y, z, pl.level.rotx, pl.level.roty, pl.DisplayName, pl.SkinName);
                         }
                         else
                         {
-                            who.SendSpawn(pl.id, pl.color + pl.name, x, y, z, pl.level.rotx, pl.level.roty);
+                            who.SendSpawn(pl.id, pl.color + pl.name, x, y, z, pl.level.rotx, pl.level.roty, pl.DisplayName, pl.SkinName);
                         }
 
                 foreach (PlayerBot b in PlayerBot.playerbots)
                     if (b.level == who.level)
-                        who.SendSpawn(b.id, b.color + b.name, b.pos[0], b.pos[1], b.pos[2], b.rot[0], b.rot[1]);
+                        who.SendSpawn(b.id, b.color + b.name, b.pos[0], b.pos[1], b.pos[2], b.rot[0], b.rot[1], b.DisplayName, b.SkinName);
 
                 who.Loading = false;
                 GC.Collect();
