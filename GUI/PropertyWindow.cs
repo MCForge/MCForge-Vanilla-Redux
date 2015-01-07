@@ -818,7 +818,7 @@ namespace MCForge.Gui {
 
 
             Server.DefaultColor = c.Parse(cmbDefaultColour.SelectedItem.ToString());
-            Server.IRCColour = cmbIRCColour.SelectedItem.ToString();
+            Server.IRCColour = c.Parse(cmbIRCColour.SelectedItem.ToString());
 
 
             //Server.mono = chkMono.Checked;
@@ -856,7 +856,7 @@ namespace MCForge.Gui {
 
             Server.UseGlobalChat = chkGlobalChat.Checked;
             Server.GlobalChatNick = txtGlobalChatNick.Text;
-            Server.GlobalChatColor = cmbGlobalChatColor.SelectedItem.ToString();
+            Server.GlobalChatColor = c.Parse(cmbGlobalChatColor.SelectedItem.ToString());
 
             Server.grieferStoneBan = chkGrieferStoneBan.Checked;
             Server.grieferStoneType = Block.Ushort(cmbGrieferStoneType.SelectedItem.ToString());
