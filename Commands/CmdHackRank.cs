@@ -59,7 +59,7 @@ namespace MCForge.Commands
                 Group newRank = Group.Find(msg[0]);
                 ranker(p, newRank);
             }
-            else { Player.SendMessage(p, "Invalid Rank!"); return; }
+            else { Player.SendMessage(p, "Rank not found!"); return; }
         }
 
         /// <summary>
