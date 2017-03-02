@@ -35,16 +35,16 @@ namespace MCForge.Commands
             }
             else
             {
-                Player.SendMessage(p, "This server's name is &b" + Server.name + Server.DefaultColor + ".");
+                Player.SendMessage(p, "The name of this server is &b" + Server.name + Server.DefaultColor + ".");
                 Player.SendMessage(p, "There are currently " + Player.number + " players on this server");
                 Player.SendMessage(p, "This server currently has $banned people that are &8banned" + Server.DefaultColor + ".");
                 Player.SendMessage(p, "This server currently has " + Server.levels.Count + " levels loaded.");
                 Player.SendMessage(p, "This server's currency is: " + Server.moneys);
-                Player.SendMessage(p, "This server runs on &bMCForge-Redux" + Server.DefaultColor + ", which is based on &bMCLawl" + Server.DefaultColor + ".");
+                Player.SendMessage(p, "This server runs on &bMCForge-Redux" + Server.DefaultColor + ", which is the new version of MCForge, based off MCLawl" + Server.DefaultColor + ".");
                 Player.SendMessage(p, "This server's version: &a" + Server.VersionString);
                 Command.all.Find("devs").Use(p, "");
                 TimeSpan up = DateTime.Now - Server.timeOnline;
-                string upTime = "Time online: &b";
+                string upTime = "Current server up time: &b";
                 if (up.Days == 1) upTime += up.Days + " day, ";
                 else if (up.Days > 0) upTime += up.Days + " days, ";
                 if (up.Hours == 1) upTime += up.Hours + " hour, ";
